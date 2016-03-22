@@ -10,11 +10,10 @@ QT       += printsupport
 
 CONFIG   += qwt
 
-#QWT_LOCATION = c:/qwt-6.1.0
-#INCLUDEPATH += ${QWT_LOCATION}/
-LIBS = -L${QWT_LOCATION}/lib
+INCLUDEPATH += c:/qwt-6.1.0/src
 
-#include (c:/qwt-6.1.0/qwt.prf)
+
+#include(c:/qwt-6.1.0/qwt.prf)
 #####include the qwt library for Mac compilation
 #####directory might be different for different machine settings
 
