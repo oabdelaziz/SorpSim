@@ -1,0 +1,133 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<root version="v1.0">
+    <CaseData>
+        <globalData ftol="1e-05" COP="0" tmax="500" tmin="-1.52588e-06" COPX="0" capacity="0" COPY="0" xtol="1e-08" fmax="125" globalcount="15" spnumber="45" pmax="400" maxfev="500" textCount="1">
+            <textItem0 xCoord="-392.635" italic="0" size="15" underline="0" text="Generator-absorber heat exchange, water-ammonia heat pump" yCoord="-482.835" bold="1" color="#008000"/>
+        </globalData>
+        <Unit1 ntum="1.59563e-303" wetness="1.29643e-284" idunit="21" le="0" ipinch="0" ht="1" nu="1" ntut="9.02092e-317" usp="6" nIter="0" insideMerged="F" ntu="0" devg="0" iht="1" htr="428.9" yCoord="399.844" ua="0" eff="0" devl="0" mrate="0" verticalFlip="1" xCoord="-465.252" ntua="3.85987e-309" rotation="0" icop="1" ipinchr="0" cat="32" humeff="0" lmtd="0" horizontalFlip="1">
+            <ResultCoord res2="-70,50" res3="-110,-60" res4="0,40" res5="10,-110" resComp="80,-50" res0="-55,-110" res1="50,10"/>
+            <StatePoint1 itfix="2" p="75.56" hr="62.47" t="41" tr="33.8" w="0.07636" icfix="2" ksub="2" ipfix="2" localInd="1" fr="0.881" ndum="1" iwfix="2" wr="0.11" c="99.75" iffix="2" f="1.157" pr="65.66" cr="99.815"/>
+            <StatePoint2 itfix="0" p="75.56" hr="553.13" t="50" tr="50" w="1" icfix="1" ksub="2" ipfix="2" localInd="2" fr="0.875" ndum="2" iwfix="0" wr="1" c="99.99" iffix="1" f="1.139" pr="65.66" cr="99.9838"/>
+            <StatePoint3 itfix="0" p="0" link="0" hr="-32.7" t="-1.52588e-06" tr="-1.52588e-06" w="0" icfix="0" ksub="3" ipfix="0" localInd="3" fr="0" ndum="3" iwfix="0" wr="0" c="0" iffix="0" f="0" pr="0" cr="0"/>
+            <StatePoint4 itfix="0" p="0" link="0" hr="-32.7" t="-1.52588e-06" tr="-1.52588e-06" w="0" icfix="0" ksub="3" ipfix="0" localInd="4" fr="0" ndum="4" iwfix="0" wr="0" c="0" iffix="0" f="0" pr="0" cr="0"/>
+            <StatePoint5 itfix="0" p="75.56" hr="-53.39" t="50" tr="50" w="0" icfix="1" ksub="2" ipfix="2" localInd="5" fr="0.006" ndum="5" iwfix="0" wr="0" c="83.78" iffix="1" f="0.01757" pr="65.66" cr="74.817"/>
+            <StatePoint6 itfix="2" p="75.56" link="0" hr="62.47" t="41" tr="33.8" w="0.07636" icfix="2" ksub="2" ipfix="2" localInd="6" fr="0.881" ndum="6" iwfix="2" wr="0.11" c="99.75" iffix="2" f="1.157" pr="65.66" cr="99.815"/>
+        </Unit1>
+        <Unit2 ntum="-4.16954e+304" wetness="-4.16954e+304" idunit="102" le="0" ipinch="0" ht="1" nu="2" ntut="-4.16954e+304" usp="7" nIter="0" insideMerged="T" ntu="0" devg="0" iht="1" htr="405.33" yCoord="-12.7843" ua="0" eff="0" devl="0" mrate="0" verticalFlip="-1" xCoord="536.939" ntua="-4.16954e+304" rotation="0" icop="0" ipinchr="-13736304" cat="32" humeff="0" lmtd="0" horizontalFlip="1">
+            <ResultCoord res2="80,30" res3="55,-85" res4="35,50" res5="-60,60" res6="-65,-30" resComp="80,-50" res0="0,-150" res1="-70,-110"/>
+            <StatePoint1 itfix="1" p="75.56" hr="67.65" t="172.6" tr="173" w="0" icfix="1" ksub="2" ipfix="2" localInd="1" fr="1.606" ndum="7" iwfix="0" wr="0" c="30.51" iffix="1" f="1.883" pr="65.66" cr="28.051"/>
+            <StatePoint2 itfix="1" p="75.56" hr="656.3" t="172.6" tr="173" w="1" icfix="1" ksub="2" ipfix="2" localInd="2" fr="0.386" ndum="8" iwfix="0" wr="1" c="94.43" iffix="1" f="0.5285" pr="65.66" cr="93.1546"/>
+            <StatePoint3 itfix="0" p="0" link="0" hr="-32.7" t="-1.52588e-06" tr="-1.52588e-06" w="0" icfix="0" ksub="3" ipfix="0" localInd="3" fr="0" ndum="9" iwfix="0" wr="0" c="0" iffix="0" f="0" pr="0" cr="0"/>
+            <StatePoint4 itfix="0" p="0" link="0" hr="-32.7" t="-1.52588e-06" tr="-1.52588e-06" w="0" icfix="0" ksub="3" ipfix="0" localInd="4" fr="0" ndum="10" iwfix="0" wr="0" c="0" iffix="0" f="0" pr="0" cr="0"/>
+            <StatePoint5 itfix="0" p="75.56" hr="-21.37" t="108" tr="108" w="0" icfix="5" ksub="2" ipfix="2" localInd="5" fr="2.101" ndum="11" iwfix="0" wr="0" c="48.54" iffix="5" f="2.51" pr="65.66" cr="46.192"/>
+            <StatePoint6 itfix="3" p="75.56" hr="573.05" t="93.74" tr="82.63" w="1" icfix="2" ksub="2" ipfix="2" localInd="6" fr="0.881" ndum="12" iwfix="0" wr="1" c="99.75" iffix="2" f="1.157" pr="65.66" cr="99.815"/>
+            <StatePoint7 itfix="1" p="75.56" link="0" hr="67.65" t="172.6" tr="173" w="0" icfix="1" ksub="2" ipfix="2" localInd="7" fr="1.606" ndum="7" iwfix="0" wr="0" c="30.51" iffix="1" f="1.883" pr="65.66" cr="28.051"/>
+        </Unit2>
+        <Unit3 ntum="-7.8174e+304" wetness="-7.8174e+304" idunit="23" le="0" ipinch="0" ht="575" nu="3" ntut="-7.8174e+304" usp="6" nIter="0" insideMerged="T" ntu="0.8" devg="0" iht="0" htr="575" yCoord="65.0954" ua="3.75" eff="0.524" devl="0" mrate="0" verticalFlip="-1" xCoord="41.3043" ntua="-7.8174e+304" rotation="0" icop="-1" ipinchr="-12812367" cat="149" humeff="0" lmtd="153.14" horizontalFlip="-1">
+            <ResultCoord res2="-110,30" res3="-110,-60" res4="-45,60" res5="30,-15" resComp="80,-50" res0="-55,-110" res1="40,-110"/>
+            <StatePoint1 itfix="1" p="277.4" hr="145.14" t="265.2" tr="254.16" w="0" icfix="1" ksub="2" ipfix="3" localInd="1" fr="1.851" ndum="13" iwfix="0" wr="0" c="31.57" iffix="1" f="1.962" pr="307.85" cr="36.5731"/>
+            <StatePoint2 itfix="1" p="277.4" hr="679.99" t="265.2" tr="254.16" w="1" icfix="1" ksub="2" ipfix="3" localInd="2" fr="0.631" ndum="14" iwfix="0" wr="1" c="89.54" iffix="1" f="0.6073" pr="307.85" cr="92.8394"/>
+            <StatePoint3 itfix="0" p="0" link="0" hr="487.79" t="500" tr="500" w="0" icfix="0" ksub="3" ipfix="0" localInd="3" fr="10" ndum="15" iwfix="0" wr="0" c="0" iffix="0" f="10" pr="0" cr="0"/>
+            <StatePoint4 itfix="1" p="0" link="0" hr="430.29" t="450.2" tr="450.2" w="0" icfix="0" ksub="3" ipfix="0" localInd="4" fr="10" ndum="16" iwfix="0" wr="0" c="0" iffix="0" f="10" pr="0" cr="0"/>
+            <StatePoint5 itfix="0" p="277.4" hr="339.77" t="383" tr="383" w="0" icfix="3" ksub="2" ipfix="3" localInd="5" fr="1.22" ndum="17" iwfix="0" wr="0" c="5.58" iffix="3" f="1.355" pr="307.85" cr="7.4791"/>
+            <StatePoint6 itfix="1" p="277.4" link="0" hr="145.14" t="265.2" tr="254.16" w="0" icfix="1" ksub="2" ipfix="3" localInd="6" fr="1.851" ndum="13" iwfix="0" wr="0" c="31.57" iffix="1" f="1.962" pr="307.85" cr="36.5731"/>
+        </Unit3>
+        <Unit4 ntum="0" wetness="0" idunit="41" le="0" ipinch="0" ht="1" nu="4" ntut="0" usp="5" nIter="0" insideMerged="F" ntu="0" devg="0" iht="1" htr="431.32" yCoord="-390.554" ua="0" eff="0" devl="-9" mrate="0" verticalFlip="1" xCoord="-243.388" ntua="0" rotation="0" icop="0" ipinchr="0" cat="32" humeff="0" lmtd="0" horizontalFlip="-1">
+            <ResultCoord res2="40,30" res3="40,-110" res4="-15,-100" resComp="80,-50" res0="-100,-40" res1="-55,50"/>
+            <StatePoint1 itfix="0" p="277.4" hr="575.93" t="149" tr="149" w="1" icfix="2" ksub="2" ipfix="3" localInd="1" fr="0.881" ndum="18" iwfix="0" wr="1" c="99.75" iffix="2" f="1.157" pr="307.85" cr="99.815"/>
+            <StatePoint2 itfix="0" p="277.4" hr="86.35" t="108" tr="108" w="0" icfix="2" ksub="2" ipfix="3" localInd="2" fr="0.881" ndum="19" iwfix="0" wr="0" c="99.75" iffix="2" f="1.157" pr="307.85" cr="99.815"/>
+            <StatePoint3 itfix="0" p="0" link="0" hr="-32.7" t="-1.52588e-06" tr="-1.52588e-06" w="0" icfix="0" ksub="3" ipfix="0" localInd="3" fr="0" ndum="20" iwfix="0" wr="0" c="0" iffix="0" f="0" pr="0" cr="0"/>
+            <StatePoint4 itfix="0" p="0" link="0" hr="-32.7" t="-1.52588e-06" tr="-1.52588e-06" w="0" icfix="0" ksub="3" ipfix="0" localInd="4" fr="0" ndum="21" iwfix="0" wr="0" c="0" iffix="0" f="0" pr="0" cr="0"/>
+            <StatePoint5 itfix="0" p="277.4" link="0" hr="575.93" t="149" tr="149" w="1" icfix="2" ksub="2" ipfix="3" localInd="5" fr="0.881" ndum="22" iwfix="0" wr="1" c="99.75" iffix="2" f="1.157" pr="307.85" cr="99.815"/>
+        </Unit4>
+        <Unit5 ntum="0" wetness="0" idunit="91" le="0" ipinch="0" ht="1" nu="5" ntut="0" usp="6" nIter="0" insideMerged="F" ntu="0" devg="0" iht="1" htr="54.28" yCoord="-345.914" ua="0" eff="0" devl="0" mrate="0" verticalFlip="1" xCoord="-77.1262" ntua="0" rotation="4" icop="0" ipinchr="0" cat="32" humeff="0" lmtd="0" horizontalFlip="-1">
+            <ResultCoord res2="-50,-110" res3="-110,10" res4="-55,60" res5="30,-25" resComp="80,-50" res0="40,70" res1="40,-110"/>
+            <StatePoint1 itfix="4" p="277.4" hr="620.17" t="200.4" tr="200.8" w="1" icfix="4" ksub="2" ipfix="3" localInd="1" fr="0.909" ndum="23" iwfix="0" wr="1" c="98.01" iffix="4" f="1.197" pr="307.85" cr="98.2976"/>
+            <StatePoint2 itfix="0" p="277.4" link="1" hr="575.93" t="149" tr="149" w="1" icfix="2" ksub="2" otherEndLocalSP="1" ipfix="3" localInd="2" fr="0.881" ndum="18" iwfix="0" otherEndUnit="4" wr="1" c="99.75" iffix="2" f="1.157" pr="307.85" cr="99.815"/>
+            <StatePoint3 itfix="0" p="0" link="0" hr="-32.7" t="-1.52588e-06" tr="-1.52588e-06" w="0" icfix="0" ksub="3" ipfix="0" localInd="3" fr="0" ndum="24" iwfix="0" wr="0" c="0" iffix="0" f="0" pr="0" cr="0"/>
+            <StatePoint4 itfix="0" p="0" link="0" hr="-32.7" t="-1.52588e-06" tr="-1.52588e-06" w="0" icfix="0" ksub="3" ipfix="0" localInd="4" fr="0" ndum="25" iwfix="0" wr="0" c="0" iffix="0" f="0" pr="0" cr="0"/>
+            <StatePoint5 itfix="1" p="277.4" hr="81.79" t="200.4" tr="200.8" w="0" icfix="1" ksub="2" ipfix="3" localInd="5" fr="0.028" ndum="26" iwfix="0" wr="0" c="48.66" iffix="1" f="0.04061" pr="307.85" cr="51.281"/>
+            <StatePoint6 itfix="4" p="277.4" link="0" hr="620.17" t="200.4" tr="200.8" w="1" icfix="4" ksub="2" ipfix="3" localInd="6" fr="0.909" ndum="27" iwfix="0" wr="1" c="98.01" iffix="4" f="1.197" pr="307.85" cr="98.2976"/>
+        </Unit5>
+        <Unit6 ntum="0" wetness="0" idunit="63" le="0" ipinch="0" ht="0" nu="6" ntut="0" usp="3" nIter="0" insideMerged="F" ntu="0" devg="9" iht="0" htr="0" yCoord="220.521" ua="0" eff="0" devl="35" mrate="0" verticalFlip="1" xCoord="-479.145" ntua="0" rotation="0" icop="0" ipinchr="0" cat="32" humeff="0" lmtd="0" horizontalFlip="1">
+            <ResultCoord res2="40,15" resComp="80,-50" res0="15,-110" res1="-40,40"/>
+            <StatePoint1 itfix="1" p="277.4" hr="62.47" t="77.1" tr="87.7" w="0" icfix="2" ksub="2" ipfix="3" localInd="1" fr="0.881" ndum="28" iwfix="0" wr="0" c="99.75" iffix="2" f="1.157" pr="307.85" cr="99.815"/>
+            <StatePoint2 itfix="2" p="75.56" link="1" hr="62.47" t="41" tr="33.8" w="0.07636" icfix="2" ksub="2" otherEndLocalSP="1" ipfix="2" localInd="2" fr="0.881" ndum="1" iwfix="2" otherEndUnit="1" wr="0.11" c="99.75" iffix="2" f="1.157" pr="65.66" cr="99.815"/>
+            <StatePoint3 itfix="0" p="75.56" link="0" hr="541.92" t="50" tr="50" w="0.9848" icfix="0" ksub="2" ipfix="0" localInd="3" fr="1.157" ndum="29" iwfix="0" wr="0.98" c="99.75" iffix="0" f="1.157" pr="75.56" cr="99.75"/>
+        </Unit6>
+        <Unit7 ntum="0" wetness="0" idunit="71" le="0" ipinch="0" ht="0" nu="7" ntut="0" usp="3" nIter="0" insideMerged="F" ntu="0" devg="0" iht="0" htr="0" yCoord="-286.62" ua="0" eff="0" devl="0" mrate="0" verticalFlip="1" xCoord="89.9247" ntua="0" rotation="0" icop="0" ipinchr="0" cat="32" humeff="0" lmtd="0" horizontalFlip="-1">
+            <ResultCoord res2="20,25" resComp="80,-50" res0="-50,20" res1="35,-95"/>
+            <StatePoint1 itfix="1" p="277.4" hr="23.51" t="203" tr="149.32" w="0" icfix="5" ksub="2" ipfix="3" localInd="1" fr="2.101" ndum="30" iwfix="0" wr="0" c="48.54" iffix="5" f="2.51" pr="307.85" cr="46.192"/>
+            <StatePoint2 itfix="1" p="277.4" link="1" hr="81.79" t="200.4" tr="200.8" w="0" icfix="1" ksub="2" otherEndLocalSP="5" ipfix="3" localInd="2" fr="0.028" ndum="26" iwfix="0" otherEndUnit="5" wr="0" c="48.66" iffix="1" f="0.04061" pr="307.85" cr="51.281"/>
+            <StatePoint3 itfix="1" p="277.4" hr="24.29" t="203" tr="150.05" w="0" icfix="1" ksub="2" ipfix="3" localInd="3" fr="2.13" ndum="31" iwfix="0" wr="0" c="48.94" iffix="1" f="2.552" pr="307.85" cr="46.2599"/>
+        </Unit7>
+        <Unit8 ntum="0" wetness="0" idunit="102" le="0" ipinch="0" ht="0.8" nu="8" ntut="0" usp="7" nIter="0" insideMerged="T" ntu="2.2" devg="0" iht="3" htr="207.17" yCoord="-13.6978" ua="5.17" eff="0.8" devl="0" mrate="0" verticalFlip="1" xCoord="342.56" ntua="0" rotation="3" icop="0" ipinchr="0" cat="54.56" humeff="0" lmtd="40.11" horizontalFlip="1">
+            <ResultCoord res2="80,30" res3="55,-85" res4="35,50" res5="-60,60" res6="-65,-30" resComp="80,-50" res0="0,-150" res1="-70,-110"/>
+            <StatePoint1 itfix="1" p="75.56" hr="143.42" t="227.1" tr="220.79" w="0" icfix="1" ksub="2" ipfix="2" localInd="1" fr="1.401" ndum="32" iwfix="0" wr="0" c="17.23" iffix="1" f="1.617" pr="65.66" cr="16.4307"/>
+            <StatePoint2 itfix="1" p="75.56" hr="763.18" t="227.1" tr="220.79" w="1" icfix="1" ksub="2" ipfix="2" localInd="2" fr="0.181" ndum="33" iwfix="0" wr="1" c="77.47" iffix="1" f="0.2619" pr="65.66" cr="76.7245"/>
+            <StatePoint3 itfix="0" p="75.56" link="1" hr="-21.37" t="108" tr="108" w="0" icfix="5" ksub="2" otherEndLocalSP="5" ipfix="2" localInd="3" fr="2.101" ndum="11" iwfix="0" otherEndUnit="2" wr="0" c="48.54" iffix="5" f="2.51" pr="65.66" cr="46.192"/>
+            <StatePoint4 itfix="1" p="75.56" hr="77.22" t="203" tr="198.23" w="0" icfix="5" ksub="2" ipfix="2" localInd="4" fr="2.101" ndum="34" iwfix="0" wr="0" c="48.54" iffix="5" f="2.51" pr="65.66" cr="46.192"/>
+            <StatePoint5 itfix="1" p="75.56" link="1" hr="67.65" t="172.6" tr="173" w="0" icfix="1" ksub="2" otherEndLocalSP="1" ipfix="2" localInd="5" fr="1.606" ndum="7" iwfix="0" otherEndUnit="2" wr="0" c="30.51" iffix="1" f="1.883" pr="65.66" cr="28.051"/>
+            <StatePoint6 itfix="1" p="75.56" link="1" hr="656.3" t="172.6" tr="173" w="1" icfix="1" ksub="2" otherEndLocalSP="2" ipfix="2" localInd="6" fr="0.386" ndum="8" iwfix="0" otherEndUnit="2" wr="1" c="94.43" iffix="1" f="0.5285" pr="65.66" cr="93.1546"/>
+            <StatePoint7 itfix="1" p="75.56" link="0" hr="143.42" t="227.1" tr="220.79" w="0" icfix="1" ksub="2" ipfix="2" localInd="7" fr="1.401" ndum="32" iwfix="0" wr="0" c="17.23" iffix="1" f="1.617" pr="65.66" cr="16.4307"/>
+        </Unit8>
+        <Unit9 ntum="0" wetness="0" idunit="72" le="0" ipinch="0" ht="0" nu="9" ntut="0" usp="3" nIter="0" insideMerged="F" ntu="0" devg="0" iht="0" htr="0" yCoord="384.266" ua="0" eff="0" devl="0" mrate="0" verticalFlip="-1" xCoord="-297.378" ntua="0" rotation="0" icop="0" ipinchr="0" cat="32" humeff="0" lmtd="0" horizontalFlip="1">
+            <ResultCoord res2="20,25" resComp="80,-50" res0="-55,20" res1="20,-80"/>
+            <StatePoint1 itfix="0" p="75.56" link="1" hr="553.13" t="50" tr="50" w="1" icfix="1" ksub="2" otherEndLocalSP="2" ipfix="2" localInd="1" fr="0.875" ndum="2" iwfix="0" otherEndUnit="1" wr="1" c="99.99" iffix="1" f="1.139" pr="65.66" cr="99.9838"/>
+            <StatePoint2 itfix="0" p="75.56" link="1" hr="-53.39" t="50" tr="50" w="0" icfix="1" ksub="2" otherEndLocalSP="5" ipfix="2" localInd="2" fr="0.006" ndum="5" iwfix="0" otherEndUnit="1" wr="0" c="83.78" iffix="1" f="0.01757" pr="65.66" cr="74.817"/>
+            <StatePoint3 itfix="0" p="75.56" hr="549.19" t="50" tr="50" w="0.9848" icfix="2" ksub="2" ipfix="2" localInd="3" fr="0.881" ndum="35" iwfix="1" wr="0.99" c="99.75" iffix="2" f="1.157" pr="65.66" cr="99.815"/>
+        </Unit9>
+        <Unit10 ntum="0" wetness="0" idunit="22" le="0" ipinch="0" ht="0" nu="10" ntut="0" usp="6" nIter="0" insideMerged="T" ntu="1" devg="0" iht="1" htr="21.03" yCoord="219.208" ua="0.68" eff="0.563" devl="0" mrate="0" verticalFlip="1" xCoord="-237.9" ntua="0" rotation="5" icop="0" ipinchr="0" cat="57.37" humeff="0" lmtd="31.13" horizontalFlip="-1">
+            <ResultCoord res2="-110,30" res3="-110,-70" res4="-55,60" res5="10,-110" resComp="80,-50" res0="-55,-110" res1="35,50"/>
+            <StatePoint1 itfix="0" p="75.56" link="1" hr="549.19" t="50" tr="50" w="0.9848" icfix="2" ksub="2" otherEndLocalSP="3" ipfix="2" localInd="1" fr="0.881" ndum="35" iwfix="1" otherEndUnit="9" wr="0.99" c="99.75" iffix="2" f="1.157" pr="65.66" cr="99.815"/>
+            <StatePoint2 itfix="3" p="75.56" hr="573.05" t="93.74" tr="82.63" w="1" icfix="1" ksub="2" ipfix="2" localInd="2" fr="0.881" ndum="36" iwfix="0" wr="1" c="99.75" iffix="1" f="1.157" pr="65.66" cr="99.815"/>
+            <StatePoint3 itfix="0" p="277.4" link="1" hr="86.35" t="108" tr="108" w="0" icfix="2" ksub="2" otherEndLocalSP="2" ipfix="3" localInd="3" fr="0.881" ndum="19" iwfix="0" otherEndUnit="4" wr="0" c="99.75" iffix="2" f="1.157" pr="307.85" cr="99.815"/>
+            <StatePoint4 itfix="1" p="277.4" link="1" hr="62.47" t="77.1" tr="87.7" w="0" icfix="2" ksub="2" otherEndLocalSP="1" ipfix="3" localInd="4" fr="0.881" ndum="28" iwfix="0" otherEndUnit="6" wr="0" c="99.75" iffix="2" f="1.157" pr="307.85" cr="99.815"/>
+            <StatePoint5 itfix="3" p="75.56" hr="-47.3" t="93.74" tr="82.63" w="0" icfix="1" ksub="2" ipfix="2" localInd="5" fr="0" ndum="37" iwfix="0" wr="0" c="54.04" iffix="1" f="2.265e-20" pr="65.66" cr="55.1989"/>
+            <StatePoint6 itfix="0" p="75.56" link="0" hr="549.19" t="50" tr="50" w="0.9848" icfix="2" ksub="2" ipfix="2" localInd="6" fr="0.881" ndum="35" iwfix="1" wr="0.99" c="99.75" iffix="2" f="1.157" pr="65.66" cr="99.815"/>
+        </Unit10>
+        <Unit11 ntum="0" wetness="0" idunit="72" le="0" ipinch="0" ht="0" nu="11" ntut="0" usp="3" nIter="0" insideMerged="F" ntu="0" devg="0" iht="0" htr="0" yCoord="205.084" ua="0" eff="0" devl="0" mrate="0" verticalFlip="1" xCoord="484.766" ntua="0" rotation="3" icop="0" ipinchr="0" cat="32" humeff="0" lmtd="0" horizontalFlip="1">
+            <ResultCoord res2="20,25" resComp="80,-50" res0="-55,20" res1="20,-80"/>
+            <StatePoint1 itfix="3" p="75.56" link="1" hr="573.05" t="93.74" tr="82.63" w="1" icfix="1" ksub="2" otherEndLocalSP="2" ipfix="2" localInd="1" fr="0.881" ndum="36" iwfix="0" otherEndUnit="10" wr="1" c="99.75" iffix="1" f="1.157" pr="65.66" cr="99.815"/>
+            <StatePoint2 itfix="3" p="75.56" link="1" hr="-47.3" t="93.74" tr="82.63" w="0" icfix="1" ksub="2" otherEndLocalSP="5" ipfix="2" localInd="2" fr="0" ndum="37" iwfix="0" otherEndUnit="10" wr="0" c="54.04" iffix="1" f="2.265e-20" pr="65.66" cr="55.1989"/>
+            <StatePoint3 itfix="3" p="75.56" link="1" hr="573.05" t="93.74" tr="82.63" w="1" icfix="2" ksub="2" otherEndLocalSP="6" ipfix="2" localInd="3" fr="0.881" ndum="12" iwfix="0" otherEndUnit="2" wr="1" c="99.75" iffix="2" f="1.157" pr="65.66" cr="99.815"/>
+        </Unit11>
+        <Unit12 ntum="0" wetness="0" idunit="101" le="0" ipinch="0" ht="0.8" nu="12" ntut="0" usp="7" nIter="0" insideMerged="T" ntu="1.8" devg="0" iht="3" htr="164.16" yCoord="-10.4715" ua="2.38" eff="0.8" devl="0" mrate="0" verticalFlip="1" xCoord="-74.1535" ntua="0" rotation="0" icop="0" ipinchr="0" cat="63.51" humeff="0" lmtd="69.12" horizontalFlip="1">
+            <ResultCoord res2="80,30" res3="55,-85" res4="35,50" res5="-60,60" res6="-65,-30" resComp="80,-50" res0="0,-150" res1="-70,-110"/>
+            <StatePoint1 itfix="1" p="277.4" hr="108.71" t="234.5" tr="225.44" w="0" icfix="1" ksub="2" ipfix="3" localInd="1" fr="2.073" ndum="38" iwfix="0" wr="0" c="39.25" iffix="1" f="2.175" pr="307.85" cr="44.097"/>
+            <StatePoint2 itfix="1" p="277.4" hr="644.81" t="234.5" tr="225.44" w="1" icfix="1" ksub="2" ipfix="3" localInd="2" fr="0.853" ndum="39" iwfix="0" wr="1" c="94.85" iffix="1" f="0.8204" pr="307.85" cr="96.4939"/>
+            <StatePoint3 itfix="0" p="277.4" link="1" hr="339.77" t="383" tr="383" w="0" icfix="3" ksub="2" otherEndLocalSP="5" ipfix="3" localInd="3" fr="1.22" ndum="17" iwfix="0" otherEndUnit="3" wr="0" c="5.58" iffix="3" f="1.355" pr="307.85" cr="7.4791"/>
+            <StatePoint4 itfix="1" p="277.4" hr="205.24" t="264.2" tr="256.95" w="0" icfix="3" ksub="2" ipfix="3" localInd="4" fr="1.22" ndum="40" iwfix="0" wr="0" c="5.58" iffix="3" f="1.355" pr="307.85" cr="7.4791"/>
+            <StatePoint5 itfix="1" p="277.4" link="1" hr="145.14" t="265.2" tr="254.16" w="0" icfix="1" ksub="2" otherEndLocalSP="1" ipfix="3" localInd="5" fr="1.851" ndum="13" iwfix="0" otherEndUnit="3" wr="0" c="31.57" iffix="1" f="1.962" pr="307.85" cr="36.5731"/>
+            <StatePoint6 itfix="1" p="277.4" link="1" hr="679.99" t="265.2" tr="254.16" w="1" icfix="1" ksub="2" otherEndLocalSP="2" ipfix="3" localInd="6" fr="0.631" ndum="14" iwfix="0" otherEndUnit="3" wr="1" c="89.54" iffix="1" f="0.6073" pr="307.85" cr="92.8394"/>
+            <StatePoint7 itfix="1" p="277.4" link="0" hr="108.71" t="234.5" tr="225.44" w="0" icfix="1" ksub="2" ipfix="3" localInd="7" fr="2.073" ndum="38" iwfix="0" wr="0" c="39.25" iffix="1" f="2.175" pr="307.85" cr="44.097"/>
+        </Unit12>
+        <Unit13 ntum="0" wetness="0" idunit="13" le="0" ipinch="0" ht="0.8" nu="13" ntut="0" usp="6" nIter="0" insideMerged="F" ntu="2.2" devg="0" iht="3" htr="187.72" yCoord="-11.0689" ua="10.65" eff="0.8" devl="0" mrate="0" verticalFlip="-1" xCoord="128.05" ntua="0" rotation="3" icop="0" ipinchr="0" cat="41.87" humeff="0" lmtd="17.63" horizontalFlip="1">
+            <ResultCoord res2="-70,30" res3="-110,-60" res4="-25,40" res5="25,-25" resComp="80,-50" res0="10,-110" res1="50,80"/>
+            <StatePoint1 itfix="1" p="277.4" link="1" hr="205.24" t="264.2" tr="256.95" w="0" icfix="3" ksub="2" otherEndLocalSP="4" ipfix="3" localInd="1" fr="1.22" ndum="40" iwfix="0" otherEndUnit="12" wr="0" c="5.58" iffix="3" f="1.355" pr="307.85" cr="7.4791"/>
+            <StatePoint2 itfix="1" p="75.56" link="1" hr="763.18" t="227.1" tr="220.79" w="1" icfix="1" ksub="2" otherEndLocalSP="2" ipfix="2" localInd="2" fr="0.181" ndum="33" iwfix="0" otherEndUnit="8" wr="1" c="77.47" iffix="1" f="0.2619" pr="65.66" cr="76.7245"/>
+            <StatePoint3 itfix="1" p="0" hr="179.08" t="215" tr="210.92" w="0" icfix="0" ksub="3" ipfix="0" localInd="3" fr="9" ndum="41" iwfix="0" wr="0" c="0" iffix="0" f="9" pr="0" cr="0"/>
+            <StatePoint4 itfix="1" p="0" hr="199.94" t="243.1" tr="231.6" w="0" icfix="0" ksub="3" ipfix="0" localInd="4" fr="9" ndum="42" iwfix="0" wr="0" c="0" iffix="0" f="9" pr="0" cr="0"/>
+            <StatePoint5 itfix="1" p="75.56" link="1" hr="143.42" t="227.1" tr="220.79" w="0" icfix="1" ksub="2" otherEndLocalSP="1" ipfix="2" localInd="5" fr="1.401" ndum="32" iwfix="0" otherEndUnit="8" wr="0" c="17.23" iffix="1" f="1.617" pr="65.66" cr="16.4307"/>
+            <StatePoint6 itfix="1" p="75.56" link="0" hr="207.48" t="275.5" tr="260.27" w="0" icfix="1" ksub="2" ipfix="2" localInd="6" fr="1.225" ndum="43" iwfix="0" wr="0" c="6.672" iffix="1" f="1.376" pr="65.66" cr="7.7569"/>
+        </Unit13>
+        <Unit14 ntum="0" wetness="0" idunit="101" le="0" ipinch="0" ht="0.8" nu="14" ntut="0" usp="7" nIter="0" insideMerged="F" ntu="3.1" devg="0" iht="3" htr="187.72" yCoord="-184.011" ua="23.53" eff="0.8" devl="0" mrate="0" verticalFlip="1" xCoord="-75.6286" ntua="0" rotation="0" icop="0" ipinchr="0" cat="38.16" humeff="0" lmtd="7.98" horizontalFlip="1">
+            <ResultCoord res2="80,30" res3="55,-85" res4="35,50" res5="-60,60" res6="-65,-30" resComp="80,-50" res0="0,-150" res1="-70,-110"/>
+            <StatePoint1 itfix="1" p="277.4" link="1" hr="24.29" t="203" tr="150.05" w="0" icfix="1" ksub="2" otherEndLocalSP="3" ipfix="3" localInd="1" fr="2.13" ndum="31" iwfix="0" otherEndUnit="7" wr="0" c="48.94" iffix="1" f="2.552" pr="307.85" cr="46.2599"/>
+            <StatePoint2 itfix="4" p="277.4" link="1" hr="620.17" t="200.4" tr="200.8" w="1" icfix="4" ksub="2" otherEndLocalSP="1" ipfix="3" localInd="2" fr="0.909" ndum="23" iwfix="0" otherEndUnit="5" wr="1" c="98.01" iffix="4" f="1.197" pr="307.85" cr="98.2976"/>
+            <StatePoint3 itfix="1" p="0" link="1" hr="199.94" t="243.1" tr="231.6" w="0" icfix="0" ksub="3" otherEndLocalSP="4" ipfix="0" localInd="3" fr="9" ndum="42" iwfix="0" otherEndUnit="13" wr="0" c="0" iffix="0" f="9" pr="0" cr="0"/>
+            <StatePoint4 itfix="1" p="0" link="1" hr="179.08" t="215" tr="210.92" w="0" icfix="0" ksub="3" otherEndLocalSP="3" ipfix="0" localInd="4" fr="9" ndum="41" iwfix="0" otherEndUnit="13" wr="0" c="0" iffix="0" f="9" pr="0" cr="0"/>
+            <StatePoint5 itfix="1" p="277.4" link="1" hr="108.71" t="234.5" tr="225.44" w="0" icfix="1" ksub="2" otherEndLocalSP="1" ipfix="3" localInd="5" fr="2.073" ndum="38" iwfix="0" otherEndUnit="12" wr="0" c="39.25" iffix="1" f="2.175" pr="307.85" cr="44.097"/>
+            <StatePoint6 itfix="1" p="277.4" link="1" hr="644.81" t="234.5" tr="225.44" w="1" icfix="1" ksub="2" otherEndLocalSP="2" ipfix="3" localInd="6" fr="0.853" ndum="39" iwfix="0" otherEndUnit="12" wr="1" c="94.85" iffix="1" f="0.8204" pr="307.85" cr="96.4939"/>
+            <StatePoint7 itfix="1" p="277.4" link="0" hr="81.79" t="200.4" tr="200.8" w="0" icfix="1" ksub="2" ipfix="3" localInd="7" fr="2.357" ndum="44" iwfix="0" wr="0" c="48.66" iffix="1" f="2.538" pr="307.85" cr="51.281"/>
+        </Unit14>
+        <Unit15 ntum="0" wetness="0" idunit="121" le="0" ipinch="0" ht="0" nu="15" ntut="0" usp="3" nIter="0" insideMerged="F" ntu="0" devg="0" iht="6" htr="0" yCoord="-238.896" ua="0" eff="0" devl="0" mrate="0" verticalFlip="1" xCoord="326.427" ntua="0" rotation="0" icop="0" ipinchr="0" cat="32" humeff="0" lmtd="0" horizontalFlip="1">
+            <ResultCoord res2="-50,10" resComp="80,-50" res0="25,30" res1="20,-100"/>
+            <StatePoint1 itfix="1" p="75.56" link="1" hr="77.22" t="203" tr="198.23" w="0" icfix="5" ksub="2" otherEndLocalSP="4" ipfix="2" localInd="1" fr="2.101" ndum="34" iwfix="0" otherEndUnit="8" wr="0" c="48.54" iffix="5" f="2.51" pr="65.66" cr="46.192"/>
+            <StatePoint2 itfix="1" p="277.4" link="1" hr="23.51" t="203" tr="149.32" w="0" icfix="5" ksub="2" otherEndLocalSP="1" ipfix="3" localInd="2" fr="2.101" ndum="30" iwfix="0" otherEndUnit="7" wr="0" c="48.54" iffix="5" f="2.51" pr="307.85" cr="46.192"/>
+            <StatePoint3 itfix="0" p="277.4" link="0" hr="-137.1" t="-1.52588e-06" tr="-1.52588e-06" w="0" icfix="5" ksub="2" ipfix="3" localInd="3" fr="2.101" ndum="45" iwfix="0" wr="0" c="48.54" iffix="5" f="2.51" pr="307.85" cr="46.192"/>
+        </Unit15>
+    </CaseData>
+    <TableData/>
+    <plotData/>
+</root>

@@ -1,0 +1,3313 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<root version="v1.0">
+    <CaseData>
+        <globalData pmax="14.504" COPX="0" textCount="8" maxfev="500" xtol="1e-05" fmax="1322.77" COP="0" COPY="0" capacity="0" tmax="212" spnumber="22" ftol="1e-05" globalcount="10" tmin="32">
+            <textItem0 color="#000000" yCoord="-225.463" italic="0" underline="0" bold="1" size="6" xCoord="-188.689" text="Dehumidifier"/>
+            <textItem1 color="#000000" yCoord="-139.116" italic="0" underline="0" bold="1" size="6" xCoord="-415.458" text="Pre-cooler"/>
+            <textItem2 color="#000000" yCoord="-225.307" italic="0" underline="0" bold="1" size="6" xCoord="140.539" text="Regenerator"/>
+            <textItem3 color="#000000" yCoord="-152.469" italic="0" underline="0" bold="1" size="6" xCoord="344.966" text="Pre-heater"/>
+            <textItem4 color="#000000" yCoord="-256.592" italic="0" underline="0" bold="1" size="6" xCoord="-28.2145" text="Air-air&#xa;Heat Exchanger"/>
+            <textItem5 color="#000000" yCoord="12.333" italic="0" underline="0" bold="1" size="6" xCoord="-15.2859" text="Solution-solution&#xa;Heat Exchanger"/>
+            <textItem6 color="#000000" yCoord="223.562" italic="0" underline="0" bold="1" size="6" xCoord="131.4" text="Controllable&#xa;Solution splitter"/>
+            <textItem7 color="#008000" yCoord="-303.913" italic="0" underline="0" bold="1" size="11" xCoord="-329.523" text="Liquid Deisscant System with Adiabatic Dehumidifier-Regenerator"/>
+        </globalData>
+        <Unit1 nu="1" yCoord="-109.498" ntu="0" ntua="1" horizontalFlip="1" insideMerged="F" idunit="164" rotation="0" le="1" ua="0" icop="0" nIter="100" htr="0" ht="2.25" usp="4" wetness="1" ntut="1" humeff="0.87023" ipinch="0" mrate="0.213104" ntum="1" xCoord="-172.071" eff="0" devl="0" devg="0" ipinchr="0" iht="2" verticalFlip="1" cat="32" lmtd="0">
+            <ResultCoord res0="35,-110" res3="-85,57" resComp="35,-23" res1="-93,-116" res2="29,61"/>
+            <StatePoint1 pr="0" wr="0" ipfix="0" fr="59.312" hr="56.84" icfix="2" ndum="1" cr="37.7182" c="37.72" f="59.3132" t="91.148" localInd="1" iffix="2" w="0" ksub="9" p="0" itfix="1" iwfix="0" tr="91.15"/>
+            <StatePoint2 pr="14.69" wr="1" ipfix="0" fr="21.164" hr="24.17" icfix="1" ndum="2" cr="0.0089" c="0.0089" f="21.1644" link="0" t="91.634" localInd="2" iffix="0" w="1" ksub="10" p="14.6926" itfix="1" iwfix="0" tr="91.63"/>
+            <StatePoint3 pr="0" wr="0" ipfix="0" fr="59.526" hr="60.08" icfix="1" ndum="3" cr="37.5798" c="37.58" f="59.5248" t="96.62" localInd="3" iffix="1" w="0" ksub="9" p="0" itfix="1" iwfix="0" tr="96.62"/>
+            <StatePoint4 pr="14.69" wr="1" ipfix="0" fr="21.164" hr="33.86" icfix="0" ndum="4" cr="0.019" c="0.019" f="21.1644" link="0" t="86" localInd="4" iffix="0" w="1" ksub="10" p="14.6926" itfix="0" iwfix="0" tr="86"/>
+        </Unit1>
+        <Unit2 nu="2" yCoord="-109.64" ntu="1.2" ntua="1" horizontalFlip="1" insideMerged="F" idunit="32" rotation="0" le="1" ua="41.01" icop="0" nIter="100" htr="225.81" ht="41.0713" usp="4" wetness="1" ntut="1" humeff="0" ipinch="0" mrate="0" ntum="1" xCoord="-312.483" eff="0.578" devl="0" devg="0" ipinchr="0" iht="1" verticalFlip="1" cat="37" lmtd="5.51">
+            <ResultCoord res0="-51,70" res3="152,-126" resComp="37,-33" res1="-67,-111" res2="35,50"/>
+            <StatePoint1 pr="0" wr="0" ipfix="0" fr="33.069" hr="53.15" icfix="0" ndum="5" cr="0" c="0" f="33.0693" link="0" t="85.1" localInd="1" iffix="0" w="0" ksub="3" p="0" itfix="0" iwfix="0" tr="85.1"/>
+            <StatePoint2 pr="0" wr="0" ipfix="0" fr="33.069" hr="59.97" icfix="0" ndum="6" cr="0" c="0" f="33.0693" link="0" t="91.94" localInd="2" iffix="0" w="0" ksub="3" p="0" itfix="1" iwfix="0" tr="91.94"/>
+            <StatePoint3 pr="0" wr="0" ipfix="0" fr="59.312" hr="60.65" icfix="2" ndum="7" cr="37.7182" c="37.72" f="59.3132" t="96.944" localInd="3" iffix="2" w="0" ksub="9" p="0" itfix="2" iwfix="0" tr="96.94"/>
+            <StatePoint4 pr="0" wr="0" ipfix="0" fr="59.312" hr="56.84" icfix="2" ndum="1" otherEndLocalSP="1" cr="37.7182" c="37.72" f="59.3132" link="1" t="91.148" localInd="4" iffix="2" otherEndUnit="1" w="0" ksub="9" p="0" itfix="1" iwfix="0" tr="91.15"/>
+        </Unit2>
+        <Unit3 nu="3" yCoord="-113.496" ntu="0" ntua="1" horizontalFlip="1" insideMerged="F" idunit="184" rotation="0" le="1" ua="0" icop="0" nIter="100" htr="0" ht="2.25" usp="4" wetness="1" ntut="1" humeff="0.776079" ipinch="0" mrate="0.213661" ntum="1" xCoord="152.917" eff="0" devl="0" devg="0" ipinchr="0" iht="2" verticalFlip="1" cat="32" lmtd="0">
+            <ResultCoord res0="35,-110" res3="-177,27" resComp="64,-22" res1="-131,-137" res2="35,67"/>
+            <StatePoint1 pr="0" wr="0" ipfix="0" fr="59.525" hr="92.08" icfix="3" ndum="8" cr="38.9303" c="38.93" f="59.5248" t="140.378" localInd="1" iffix="5" w="0" ksub="9" p="0" itfix="1" iwfix="0" tr="140.37"/>
+            <StatePoint2 pr="14.69" wr="1" ipfix="0" fr="21.164" hr="57.87" icfix="4" ndum="9" cr="0.0291" c="0.0291" f="21.1644" t="137.048" localInd="2" iffix="0" w="1" ksub="10" p="14.6926" itfix="1" iwfix="0" tr="137.05"/>
+            <StatePoint3 pr="0" wr="0" ipfix="0" fr="59.313" hr="87.26" icfix="1" ndum="10" cr="39.0703" c="39.07" f="59.3132" t="132.368" localInd="3" iffix="1" w="0" ksub="9" p="0" itfix="1" iwfix="0" tr="132.37"/>
+            <StatePoint4 pr="14.69" wr="1" ipfix="0" fr="21.164" hr="43.44" icfix="0" ndum="11" cr="0.019" c="0.019" f="21.1644" t="124.556" localInd="4" iffix="0" w="1" ksub="10" p="14.6926" itfix="1" iwfix="0" tr="124.55"/>
+        </Unit3>
+        <Unit4 nu="4" yCoord="-113.158" ntu="1.2" ntua="1" horizontalFlip="1" insideMerged="F" idunit="32" rotation="0" le="1" ua="41.16" icop="0" nIter="100" htr="325.76" ht="41.0713" usp="4" wetness="1" ntut="1" humeff="0" ipinch="0" mrate="0" ntum="1" xCoord="285.34" eff="0.576" devl="0" devg="0" ipinchr="0" iht="1" verticalFlip="1" cat="39.24" lmtd="7.91">
+            <ResultCoord res0="-72,62" res3="22,-111" resComp="33,-26" res1="-153,-108" res2="20,71"/>
+            <StatePoint1 pr="0" wr="0" ipfix="0" fr="59.525" hr="86.61" icfix="3" ndum="12" cr="38.9303" c="38.93" f="59.5248" t="131.918" localInd="1" iffix="5" w="0" ksub="9" p="0" itfix="3" iwfix="0" tr="131.91"/>
+            <StatePoint2 pr="0" wr="0" ipfix="0" fr="59.525" hr="92.08" icfix="3" ndum="8" otherEndLocalSP="1" cr="38.9303" c="38.93" f="59.5248" link="1" t="140.378" localInd="2" iffix="5" otherEndUnit="3" w="0" ksub="9" p="0" itfix="1" iwfix="0" tr="140.37"/>
+            <StatePoint3 pr="0" wr="0" ipfix="0" fr="33.069" hr="116.96" icfix="0" ndum="13" cr="0" c="0" f="33.0693" link="0" t="149" localInd="3" iffix="0" w="0" ksub="3" p="0" itfix="0" iwfix="0" tr="149"/>
+            <StatePoint4 pr="0" wr="0" ipfix="0" fr="33.069" hr="107.12" icfix="0" ndum="14" cr="0" c="0" f="33.0693" link="0" t="139.154" localInd="4" iffix="0" w="0" ksub="3" p="0" itfix="1" iwfix="0" tr="139.15"/>
+        </Unit4>
+        <Unit5 nu="5" yCoord="47.3003" ntu="0" ntua="1" horizontalFlip="1" insideMerged="F" idunit="72" rotation="0" le="1" ua="0" icop="0" nIter="100" htr="0" ht="0" usp="3" wetness="1" ntut="1" humeff="0" ipinch="0" mrate="0" ntum="1" xCoord="163.157" eff="0" devl="0" devg="0" ipinchr="0" iht="1" verticalFlip="1" cat="32" lmtd="0">
+            <ResultCoord res0="-55,20" resComp="41,-52" res1="20,-80" res2="17,27"/>
+            <StatePoint1 pr="0" wr="0" ipfix="0" fr="6.827" hr="80.9" icfix="2" ndum="15" cr="37.7182" c="37.72" f="6.82683" t="127.76" localInd="1" iffix="3" w="0" ksub="9" p="0" itfix="1" iwfix="0" tr="127.76"/>
+            <StatePoint2 pr="0" wr="0" ipfix="0" fr="59.313" hr="87.26" icfix="1" ndum="10" otherEndLocalSP="3" cr="39.0703" c="39.07" f="59.3132" link="1" t="132.368" localInd="2" iffix="1" otherEndUnit="3" w="0" ksub="9" p="0" itfix="1" iwfix="0" tr="132.37"/>
+            <StatePoint3 pr="0" wr="0" ipfix="0" fr="66.139" hr="86.61" icfix="3" ndum="16" cr="38.9303" c="38.93" f="66.1387" t="131.918" localInd="3" iffix="0" w="0" ksub="9" p="0" itfix="3" iwfix="0" tr="131.91"/>
+        </Unit5>
+        <Unit6 nu="6" yCoord="44.3235" ntu="0" ntua="1" horizontalFlip="-1" insideMerged="F" idunit="72" rotation="0" le="1" ua="0" icop="0" nIter="100" htr="0" ht="0" usp="3" wetness="1" ntut="1" humeff="0" ipinch="0" mrate="0" ntum="1" xCoord="-139.84" eff="0" devl="0" devg="0" ipinchr="0" iht="1" verticalFlip="1" cat="32" lmtd="0">
+            <ResultCoord res0="-55,20" resComp="99,-8" res1="20,-80" res2="64,69"/>
+            <StatePoint1 pr="0" wr="0" ipfix="0" fr="6.615" hr="65.7" icfix="3" ndum="17" cr="38.9303" c="38.93" f="6.61387" t="99.626" localInd="1" iffix="4" w="0" ksub="9" p="0" itfix="1" iwfix="0" tr="99.63"/>
+            <StatePoint2 pr="0" wr="0" ipfix="0" fr="59.526" hr="60.08" icfix="1" ndum="3" otherEndLocalSP="3" cr="37.5798" c="37.58" f="59.5248" link="1" t="96.62" localInd="2" iffix="1" otherEndUnit="1" w="0" ksub="9" p="0" itfix="1" iwfix="0" tr="96.62"/>
+            <StatePoint3 pr="0" wr="0" ipfix="0" fr="66.139" hr="60.65" icfix="2" ndum="18" cr="37.7182" c="37.72" f="66.1387" t="96.944" localInd="3" iffix="0" w="0" ksub="9" p="0" itfix="2" iwfix="0" tr="96.94"/>
+        </Unit6>
+        <Unit7 nu="7" yCoord="118.117" ntu="9.6" ntua="1" horizontalFlip="1" insideMerged="F" idunit="33" rotation="1" le="1" ua="41.06" icop="0" nIter="100" htr="138.22" ht="41.0713" usp="4" wetness="1" ntut="1" humeff="0" ipinch="0" mrate="0" ntum="1" xCoord="8.63119" eff="0.923" devl="0" devg="0" ipinchr="0" iht="1" verticalFlip="1" cat="34.68" lmtd="3.37">
+            <ResultCoord res0="-55,50" res3="-95,96" resComp="-86,59" res1="-99,-50" res2="40,-70"/>
+            <StatePoint1 pr="0" wr="0" ipfix="0" fr="6.827" hr="60.65" icfix="2" ndum="19" cr="37.7182" c="37.72" f="6.82683" t="96.944" localInd="1" iffix="3" w="0" ksub="9" p="0" itfix="2" iwfix="0" tr="96.94"/>
+            <StatePoint2 pr="0" wr="0" ipfix="0" fr="6.827" hr="80.9" icfix="2" ndum="15" otherEndLocalSP="1" cr="37.7182" c="37.72" f="6.82683" link="1" t="127.76" localInd="2" iffix="3" otherEndUnit="5" w="0" ksub="9" p="0" itfix="1" iwfix="0" tr="127.76"/>
+            <StatePoint3 pr="0" wr="0" ipfix="0" fr="6.615" hr="86.61" icfix="3" ndum="20" cr="38.9303" c="38.93" f="6.61387" t="131.918" localInd="3" iffix="4" w="0" ksub="9" p="0" itfix="3" iwfix="0" tr="131.91"/>
+            <StatePoint4 pr="0" wr="0" ipfix="0" fr="6.615" hr="65.7" icfix="3" ndum="17" otherEndLocalSP="1" cr="38.9303" c="38.93" f="6.61387" link="1" t="99.626" localInd="4" iffix="4" otherEndUnit="6" w="0" ksub="9" p="0" itfix="1" iwfix="0" tr="99.63"/>
+        </Unit7>
+        <Unit8 nu="8" yCoord="197.408" ntu="0" ntua="1" horizontalFlip="1" insideMerged="F" idunit="81" rotation="0" le="1" ua="0" icop="0" nIter="100" htr="0" ht="0" usp="3" wetness="1" ntut="1" humeff="0" ipinch="0" mrate="0" ntum="1" xCoord="-139.548" eff="0" devl="0" devg="0" ipinchr="0" iht="0" verticalFlip="1" cat="32" lmtd="0">
+            <ResultCoord res0="-149,-119" resComp="-129,14" res1="67,-24" res2="3,-114"/>
+            <StatePoint1 pr="0" wr="0" ipfix="0" fr="59.312" hr="60.65" icfix="2" ndum="7" otherEndLocalSP="3" cr="37.7182" c="37.72" f="59.3132" link="1" t="96.944" localInd="1" iffix="2" otherEndUnit="2" w="0" ksub="9" p="0" itfix="2" iwfix="0" tr="96.94"/>
+            <StatePoint2 pr="0" wr="0" ipfix="0" fr="6.827" hr="60.65" icfix="2" ndum="19" otherEndLocalSP="1" cr="37.7182" c="37.72" f="6.82683" link="1" t="96.944" localInd="2" iffix="3" otherEndUnit="7" w="0" ksub="9" p="0" itfix="2" iwfix="0" tr="96.94"/>
+            <StatePoint3 pr="0" wr="0" ipfix="0" fr="66.139" hr="60.65" icfix="2" ndum="18" otherEndLocalSP="3" cr="37.7182" c="37.72" f="66.1387" link="1" t="96.944" localInd="3" iffix="0" otherEndUnit="6" w="0" ksub="9" p="0" itfix="2" iwfix="0" tr="96.94"/>
+        </Unit8>
+        <Unit9 nu="9" yCoord="195.158" ntu="0" ntua="1" horizontalFlip="1" insideMerged="F" idunit="81" rotation="0" le="1" ua="0" icop="0" nIter="100" htr="0" ht="3.15933" usp="3" wetness="1" ntut="1" humeff="0" ipinch="0" mrate="0" ntum="1" xCoord="162.388" eff="0" devl="0" devg="0" ipinchr="0" iht="1" verticalFlip="1" cat="32" lmtd="0">
+            <ResultCoord res0="-106,-20" resComp="56,36" res1="110,-172" res2="-15,-117"/>
+            <StatePoint1 pr="0" wr="0" ipfix="0" fr="6.615" hr="86.61" icfix="3" ndum="20" otherEndLocalSP="3" cr="38.9303" c="38.93" f="6.61387" link="1" t="131.918" localInd="1" iffix="4" otherEndUnit="7" w="0" ksub="9" p="0" itfix="3" iwfix="0" tr="131.91"/>
+            <StatePoint2 pr="0" wr="0" ipfix="0" fr="59.525" hr="86.61" icfix="3" ndum="12" otherEndLocalSP="1" cr="38.9303" c="38.93" f="59.5248" link="1" t="131.918" localInd="2" iffix="5" otherEndUnit="4" w="0" ksub="9" p="0" itfix="3" iwfix="0" tr="131.91"/>
+            <StatePoint3 pr="0" wr="0" ipfix="0" fr="66.139" hr="86.61" icfix="3" ndum="16" otherEndLocalSP="3" cr="38.9303" c="38.93" f="66.1387" link="1" t="131.918" localInd="3" iffix="0" otherEndUnit="5" w="0" ksub="9" p="0" itfix="3" iwfix="0" tr="131.91"/>
+        </Unit9>
+        <Unit10 nu="10" yCoord="-156.514" ntu="3" ntua="1" horizontalFlip="1" insideMerged="F" idunit="33" rotation="1" le="1" ua="15.81" icop="0" nIter="100" htr="202.86" ht="15.7967" usp="4" wetness="1" ntut="1" humeff="0" ipinch="0" mrate="0" ntum="1" xCoord="-8.48955" eff="0.755" devl="0" devg="0" ipinchr="0" iht="1" verticalFlip="-1" cat="44.5" lmtd="12.83">
+            <ResultCoord res0="-26,74" res3="106,92" resComp="80,-50" res1="-49,-41" res2="40,-70"/>
+            <StatePoint1 pr="14.69" wr="1" ipfix="0" fr="21.164" hr="33.86" icfix="0" ndum="21" cr="0.019" c="0.019" f="21.1644" link="0" t="86" localInd="1" iffix="0" w="1" ksub="10" p="14.6926" itfix="0" iwfix="0" tr="86"/>
+            <StatePoint2 pr="14.69" wr="1" ipfix="0" fr="21.164" hr="43.44" icfix="0" ndum="11" otherEndLocalSP="4" cr="0.019" c="0.019" f="21.1644" link="1" t="124.556" localInd="2" iffix="0" otherEndUnit="3" w="1" ksub="10" p="14.6926" itfix="1" iwfix="0" tr="124.55"/>
+            <StatePoint3 pr="14.69" wr="1" ipfix="0" fr="21.164" hr="57.87" icfix="4" ndum="9" otherEndLocalSP="2" cr="0.0291" c="0.0291" f="21.1644" link="1" t="137.048" localInd="3" iffix="0" otherEndUnit="3" w="1" ksub="10" p="14.6926" itfix="1" iwfix="0" tr="137.05"/>
+            <StatePoint4 pr="14.69" wr="1" ipfix="0" fr="21.164" hr="48.28" icfix="4" ndum="22" cr="0.0291" c="0.0291" f="21.1644" link="0" t="99.176" localInd="4" iffix="0" w="1" ksub="10" p="14.6926" itfix="1" iwfix="0" tr="99.18"/>
+        </Unit10>
+    </CaseData>
+    <TableData>
+        <table_1 qUnit="2" pUnit="2" runs="10" fUnit="0" tUnit="1" uaUnit="0" hUnit="0">
+            <header>Temperature
+State Point#4
+[℃];Concentration
+State Point#2
+[%]</header>
+            <inputEntries>Temperature,State Point#4,P1 4T</inputEntries>
+            <outputEntries>Concentration,State Point#2,P1 2C</outputEntries>
+            <Run No.="0">
+                <Input type="sp">
+                    <index>1  4</index>
+                    <parameter>T</parameter>
+                    <value>20</value>
+                </Input>
+                <Output type="sp">
+                    <index>1 2</index>
+                    <parameter>C</parameter>
+                    <value>0.0086</value>
+                </Output>
+            </Run>
+            <Run No.="1">
+                <Input type="sp">
+                    <index>1  4</index>
+                    <parameter>T</parameter>
+                    <value>22.22</value>
+                </Input>
+                <Output type="sp">
+                    <index>1 2</index>
+                    <parameter>C</parameter>
+                    <value>0.0087</value>
+                </Output>
+            </Run>
+            <Run No.="2">
+                <Input type="sp">
+                    <index>1  4</index>
+                    <parameter>T</parameter>
+                    <value>24.44</value>
+                </Input>
+                <Output type="sp">
+                    <index>1 2</index>
+                    <parameter>C</parameter>
+                    <value>0.0087</value>
+                </Output>
+            </Run>
+            <Run No.="3">
+                <Input type="sp">
+                    <index>1  4</index>
+                    <parameter>T</parameter>
+                    <value>26.67</value>
+                </Input>
+                <Output type="sp">
+                    <index>1 2</index>
+                    <parameter>C</parameter>
+                    <value>0.0088</value>
+                </Output>
+            </Run>
+            <Run No.="4">
+                <Input type="sp">
+                    <index>1  4</index>
+                    <parameter>T</parameter>
+                    <value>28.89</value>
+                </Input>
+                <Output type="sp">
+                    <index>1 2</index>
+                    <parameter>C</parameter>
+                    <value>0.0089</value>
+                </Output>
+            </Run>
+            <Run No.="5">
+                <Input type="sp">
+                    <index>1  4</index>
+                    <parameter>T</parameter>
+                    <value>31.11</value>
+                </Input>
+                <Output type="sp">
+                    <index>1 2</index>
+                    <parameter>C</parameter>
+                    <value>0.009</value>
+                </Output>
+            </Run>
+            <Run No.="6">
+                <Input type="sp">
+                    <index>1  4</index>
+                    <parameter>T</parameter>
+                    <value>33.33</value>
+                </Input>
+                <Output type="sp">
+                    <index>1 2</index>
+                    <parameter>C</parameter>
+                    <value>0.009</value>
+                </Output>
+            </Run>
+            <Run No.="7">
+                <Input type="sp">
+                    <index>1  4</index>
+                    <parameter>T</parameter>
+                    <value>35.56</value>
+                </Input>
+                <Output type="sp">
+                    <index>1 2</index>
+                    <parameter>C</parameter>
+                    <value>0.0091</value>
+                </Output>
+            </Run>
+            <Run No.="8">
+                <Input type="sp">
+                    <index>1  4</index>
+                    <parameter>T</parameter>
+                    <value>37.78</value>
+                </Input>
+                <Output type="sp">
+                    <index>1 2</index>
+                    <parameter>C</parameter>
+                    <value>0.0092</value>
+                </Output>
+            </Run>
+            <Run No.="9">
+                <Input type="sp">
+                    <index>1  4</index>
+                    <parameter>T</parameter>
+                    <value>40</value>
+                </Input>
+                <Output type="sp">
+                    <index>1 2</index>
+                    <parameter>C</parameter>
+                    <value>0.0093</value>
+                </Output>
+            </Run>
+        </table_1>
+        <table_2 qUnit="2" pUnit="2" runs="10" fUnit="0" tUnit="1" uaUnit="0" hUnit="0">
+            <header>Concentration
+State Point#4
+[%];Concentration
+State Point#2
+[%]</header>
+            <inputEntries>Concentration,State Point#4,P1 4C</inputEntries>
+            <outputEntries>Concentration,State Point#2,P1 2C</outputEntries>
+            <Run No.="0">
+                <Input type="sp">
+                    <index>1  4</index>
+                    <parameter>C</parameter>
+                    <value>0.01</value>
+                </Input>
+                <Output type="sp">
+                    <index>1 2</index>
+                    <parameter>C</parameter>
+                    <value>0.0051</value>
+                </Output>
+            </Run>
+            <Run No.="1">
+                <Input type="sp">
+                    <index>1  4</index>
+                    <parameter>C</parameter>
+                    <value>0.01167</value>
+                </Input>
+                <Output type="sp">
+                    <index>1 2</index>
+                    <parameter>C</parameter>
+                    <value>0.0058</value>
+                </Output>
+            </Run>
+            <Run No.="2">
+                <Input type="sp">
+                    <index>1  4</index>
+                    <parameter>C</parameter>
+                    <value>0.01333</value>
+                </Input>
+                <Output type="sp">
+                    <index>1 2</index>
+                    <parameter>C</parameter>
+                    <value>0.0065</value>
+                </Output>
+            </Run>
+            <Run No.="3">
+                <Input type="sp">
+                    <index>1  4</index>
+                    <parameter>C</parameter>
+                    <value>0.015</value>
+                </Input>
+                <Output type="sp">
+                    <index>1 2</index>
+                    <parameter>C</parameter>
+                    <value>0.0072</value>
+                </Output>
+            </Run>
+            <Run No.="4">
+                <Input type="sp">
+                    <index>1  4</index>
+                    <parameter>C</parameter>
+                    <value>0.01667</value>
+                </Input>
+                <Output type="sp">
+                    <index>1 2</index>
+                    <parameter>C</parameter>
+                    <value>0.0079</value>
+                </Output>
+            </Run>
+            <Run No.="5">
+                <Input type="sp">
+                    <index>1  4</index>
+                    <parameter>C</parameter>
+                    <value>0.01833</value>
+                </Input>
+                <Output type="sp">
+                    <index>1 2</index>
+                    <parameter>C</parameter>
+                    <value>0.0086</value>
+                </Output>
+            </Run>
+            <Run No.="6">
+                <Input type="sp">
+                    <index>1  4</index>
+                    <parameter>C</parameter>
+                    <value>0.02</value>
+                </Input>
+                <Output type="sp">
+                    <index>1 2</index>
+                    <parameter>C</parameter>
+                    <value>0.0094</value>
+                </Output>
+            </Run>
+            <Run No.="7">
+                <Input type="sp">
+                    <index>1  4</index>
+                    <parameter>C</parameter>
+                    <value>0.02167</value>
+                </Input>
+                <Output type="sp">
+                    <index>1 2</index>
+                    <parameter>C</parameter>
+                    <value>0.0102</value>
+                </Output>
+            </Run>
+            <Run No.="8">
+                <Input type="sp">
+                    <index>1  4</index>
+                    <parameter>C</parameter>
+                    <value>0.02333</value>
+                </Input>
+                <Output type="sp">
+                    <index>1 2</index>
+                    <parameter>C</parameter>
+                    <value>0.011</value>
+                </Output>
+            </Run>
+            <Run No.="9">
+                <Input type="sp">
+                    <index>1  4</index>
+                    <parameter>C</parameter>
+                    <value>0.025</value>
+                </Input>
+                <Output type="sp">
+                    <index>1 2</index>
+                    <parameter>C</parameter>
+                    <value>0.0118</value>
+                </Output>
+            </Run>
+        </table_2>
+        <table_3 qUnit="2" pUnit="2" runs="10" fUnit="0" tUnit="1" uaUnit="0" hUnit="0">
+            <Run No.="0">
+                <Input type="sp">
+                    <index>1  4</index>
+                    <parameter>F</parameter>
+                    <value>0.1</value>
+                </Input>
+                <Input type="sp">
+                    <index>1  2</index>
+                    <parameter>F</parameter>
+                    <value>0.1</value>
+                </Input>
+                <Output type="sp">
+                    <index>1 2</index>
+                    <parameter>C</parameter>
+                    <value>0.0065</value>
+                </Output>
+                <Input type="unit">
+                    <index>1</index>
+                    <parameter>NT</parameter>
+                    <value>3.6</value>
+                </Input>
+            </Run>
+            <Run No.="1">
+                <Input type="sp">
+                    <index>1  4</index>
+                    <parameter>F</parameter>
+                    <value>0.1333</value>
+                </Input>
+                <Input type="sp">
+                    <index>1  2</index>
+                    <parameter>F</parameter>
+                    <value>0.1333</value>
+                </Input>
+                <Output type="sp">
+                    <index>1 2</index>
+                    <parameter>C</parameter>
+                    <value>0.0079</value>
+                </Output>
+                <Input type="unit">
+                    <index>1</index>
+                    <parameter>NT</parameter>
+                    <value>2.70068</value>
+                </Input>
+            </Run>
+            <Run No.="2">
+                <Input type="sp">
+                    <index>1  4</index>
+                    <parameter>F</parameter>
+                    <value>0.1667</value>
+                </Input>
+                <Input type="sp">
+                    <index>1  2</index>
+                    <parameter>F</parameter>
+                    <value>0.1667</value>
+                </Input>
+                <Output type="sp">
+                    <index>1 2</index>
+                    <parameter>C</parameter>
+                    <value>0.0092</value>
+                </Output>
+                <Input type="unit">
+                    <index>1</index>
+                    <parameter>NT</parameter>
+                    <value>2.15957</value>
+                </Input>
+            </Run>
+            <Run No.="3">
+                <Input type="sp">
+                    <index>1  4</index>
+                    <parameter>F</parameter>
+                    <value>0.2</value>
+                </Input>
+                <Input type="sp">
+                    <index>1  2</index>
+                    <parameter>F</parameter>
+                    <value>0.2</value>
+                </Input>
+                <Output type="sp">
+                    <index>1 2</index>
+                    <parameter>C</parameter>
+                    <value>0.0102</value>
+                </Output>
+                <Input type="unit">
+                    <index>1</index>
+                    <parameter>NT</parameter>
+                    <value>1.8</value>
+                </Input>
+            </Run>
+            <Run No.="4">
+                <Input type="sp">
+                    <index>1  4</index>
+                    <parameter>F</parameter>
+                    <value>0.2333</value>
+                </Input>
+                <Input type="sp">
+                    <index>1  2</index>
+                    <parameter>F</parameter>
+                    <value>0.2333</value>
+                </Input>
+                <Output type="sp">
+                    <index>1 2</index>
+                    <parameter>C</parameter>
+                    <value>0.0111</value>
+                </Output>
+                <Input type="unit">
+                    <index>1</index>
+                    <parameter>NT</parameter>
+                    <value>1.54308</value>
+                </Input>
+            </Run>
+            <Run No.="5">
+                <Input type="sp">
+                    <index>1  4</index>
+                    <parameter>F</parameter>
+                    <value>0.2667</value>
+                </Input>
+                <Input type="sp">
+                    <index>1  2</index>
+                    <parameter>F</parameter>
+                    <value>0.2667</value>
+                </Input>
+                <Output type="sp">
+                    <index>1 2</index>
+                    <parameter>C</parameter>
+                    <value>0.0118</value>
+                </Output>
+                <Input type="unit">
+                    <index>1</index>
+                    <parameter>NT</parameter>
+                    <value>1.34983</value>
+                </Input>
+            </Run>
+            <Run No.="6">
+                <Input type="sp">
+                    <index>1  4</index>
+                    <parameter>F</parameter>
+                    <value>0.3</value>
+                </Input>
+                <Input type="sp">
+                    <index>1  2</index>
+                    <parameter>F</parameter>
+                    <value>0.3</value>
+                </Input>
+                <Output type="sp">
+                    <index>1 2</index>
+                    <parameter>C</parameter>
+                    <value>0.0124</value>
+                </Output>
+                <Input type="unit">
+                    <index>1</index>
+                    <parameter>NT</parameter>
+                    <value>1.2</value>
+                </Input>
+            </Run>
+            <Run No.="7">
+                <Input type="sp">
+                    <index>1  4</index>
+                    <parameter>F</parameter>
+                    <value>0.3333</value>
+                </Input>
+                <Input type="sp">
+                    <index>1  2</index>
+                    <parameter>F</parameter>
+                    <value>0.3333</value>
+                </Input>
+                <Output type="sp">
+                    <index>1 2</index>
+                    <parameter>C</parameter>
+                    <value>0.0129</value>
+                </Output>
+                <Input type="unit">
+                    <index>1</index>
+                    <parameter>NT</parameter>
+                    <value>1.08011</value>
+                </Input>
+            </Run>
+            <Run No.="8">
+                <Input type="sp">
+                    <index>1  4</index>
+                    <parameter>F</parameter>
+                    <value>0.3667</value>
+                </Input>
+                <Input type="sp">
+                    <index>1  2</index>
+                    <parameter>F</parameter>
+                    <value>0.3667</value>
+                </Input>
+                <Output type="sp">
+                    <index>1 2</index>
+                    <parameter>C</parameter>
+                    <value>0.0134</value>
+                </Output>
+                <Input type="unit">
+                    <index>1</index>
+                    <parameter>NT</parameter>
+                    <value>0.981729</value>
+                </Input>
+            </Run>
+            <Run No.="9">
+                <Input type="sp">
+                    <index>1  4</index>
+                    <parameter>F</parameter>
+                    <value>0.4</value>
+                </Input>
+                <Input type="sp">
+                    <index>1  2</index>
+                    <parameter>F</parameter>
+                    <value>0.4</value>
+                </Input>
+                <Output type="sp">
+                    <index>1 2</index>
+                    <parameter>C</parameter>
+                    <value>0.0138</value>
+                </Output>
+                <Input type="unit">
+                    <index>1</index>
+                    <parameter>NT</parameter>
+                    <value>0.9</value>
+                </Input>
+            </Run>
+            <header>Mass flow rate
+State Point#4
+[kg/s];Mass flow rate
+State Point#2
+[kg/s];NTU
+ component#1
+[ ];Concentration
+State Point#2
+[%]</header>
+            <inputEntries>Mass flow rate,State Point#4,P1 4F;Mass flow rate,State Point#2,P1 2F;NTU, component#1,U1NT</inputEntries>
+            <outputEntries>Concentration,State Point#2,P1 2C</outputEntries>
+        </table_3>
+        <table_4 qUnit="2" pUnit="2" runs="10" fUnit="0" tUnit="1" uaUnit="0" hUnit="0">
+            <header>Temperature
+State Point#5
+[℃];Concentration
+State Point#2
+[%]</header>
+            <inputEntries>Temperature,State Point#5,P2 1T</inputEntries>
+            <outputEntries>Concentration,State Point#2,P1 2C</outputEntries>
+            <Run No.="0">
+                <Input type="sp">
+                    <index>2  1</index>
+                    <parameter>T</parameter>
+                    <value>20</value>
+                </Input>
+                <Output type="sp">
+                    <index>1 2</index>
+                    <parameter>C</parameter>
+                    <value>0.007</value>
+                </Output>
+            </Run>
+            <Run No.="1">
+                <Input type="sp">
+                    <index>2  1</index>
+                    <parameter>T</parameter>
+                    <value>21.11</value>
+                </Input>
+                <Output type="sp">
+                    <index>1 2</index>
+                    <parameter>C</parameter>
+                    <value>0.0072</value>
+                </Output>
+            </Run>
+            <Run No.="2">
+                <Input type="sp">
+                    <index>2  1</index>
+                    <parameter>T</parameter>
+                    <value>22.22</value>
+                </Input>
+                <Output type="sp">
+                    <index>1 2</index>
+                    <parameter>C</parameter>
+                    <value>0.0074</value>
+                </Output>
+            </Run>
+            <Run No.="3">
+                <Input type="sp">
+                    <index>2  1</index>
+                    <parameter>T</parameter>
+                    <value>23.33</value>
+                </Input>
+                <Output type="sp">
+                    <index>1 2</index>
+                    <parameter>C</parameter>
+                    <value>0.0076</value>
+                </Output>
+            </Run>
+            <Run No.="4">
+                <Input type="sp">
+                    <index>2  1</index>
+                    <parameter>T</parameter>
+                    <value>24.44</value>
+                </Input>
+                <Output type="sp">
+                    <index>1 2</index>
+                    <parameter>C</parameter>
+                    <value>0.0078</value>
+                </Output>
+            </Run>
+            <Run No.="5">
+                <Input type="sp">
+                    <index>2  1</index>
+                    <parameter>T</parameter>
+                    <value>25.56</value>
+                </Input>
+                <Output type="sp">
+                    <index>1 2</index>
+                    <parameter>C</parameter>
+                    <value>0.0081</value>
+                </Output>
+            </Run>
+            <Run No.="6">
+                <Input type="sp">
+                    <index>2  1</index>
+                    <parameter>T</parameter>
+                    <value>26.67</value>
+                </Input>
+                <Output type="sp">
+                    <index>1 2</index>
+                    <parameter>C</parameter>
+                    <value>0.0083</value>
+                </Output>
+            </Run>
+            <Run No.="7">
+                <Input type="sp">
+                    <index>2  1</index>
+                    <parameter>T</parameter>
+                    <value>27.78</value>
+                </Input>
+                <Output type="sp">
+                    <index>1 2</index>
+                    <parameter>C</parameter>
+                    <value>0.0085</value>
+                </Output>
+            </Run>
+            <Run No.="8">
+                <Input type="sp">
+                    <index>2  1</index>
+                    <parameter>T</parameter>
+                    <value>28.89</value>
+                </Input>
+                <Output type="sp">
+                    <index>1 2</index>
+                    <parameter>C</parameter>
+                    <value>0.0088</value>
+                </Output>
+            </Run>
+            <Run No.="9">
+                <Input type="sp">
+                    <index>2  1</index>
+                    <parameter>T</parameter>
+                    <value>30</value>
+                </Input>
+                <Output type="sp">
+                    <index>1 2</index>
+                    <parameter>C</parameter>
+                    <value>0.009</value>
+                </Output>
+            </Run>
+        </table_4>
+        <table_5 qUnit="2" pUnit="2" runs="10" fUnit="0" tUnit="1" uaUnit="0" hUnit="0">
+            <header>Mass flow rate
+State Point#5
+[kg/s];Mass flow rate
+State Point#6
+[kg/s];Concentration
+State Point#2
+[%]</header>
+            <inputEntries>Mass flow rate,State Point#5,P2 1F;Mass flow rate,State Point#6,P2 2F</inputEntries>
+            <outputEntries>Concentration,State Point#2,P1 2C</outputEntries>
+            <Run No.="0">
+                <Input type="sp">
+                    <index>2  1</index>
+                    <parameter>F</parameter>
+                    <value>0.1</value>
+                </Input>
+                <Input type="sp">
+                    <index>2  2</index>
+                    <parameter>F</parameter>
+                    <value>0.1</value>
+                </Input>
+                <Output type="sp">
+                    <index>1 2</index>
+                    <parameter>C</parameter>
+                    <value>0.0096</value>
+                </Output>
+            </Run>
+            <Run No.="1">
+                <Input type="sp">
+                    <index>2  1</index>
+                    <parameter>F</parameter>
+                    <value>0.2</value>
+                </Input>
+                <Input type="sp">
+                    <index>2  2</index>
+                    <parameter>F</parameter>
+                    <value>0.2</value>
+                </Input>
+                <Output type="sp">
+                    <index>1 2</index>
+                    <parameter>C</parameter>
+                    <value>0.009</value>
+                </Output>
+            </Run>
+            <Run No.="2">
+                <Input type="sp">
+                    <index>2  1</index>
+                    <parameter>F</parameter>
+                    <value>0.3</value>
+                </Input>
+                <Input type="sp">
+                    <index>2  2</index>
+                    <parameter>F</parameter>
+                    <value>0.3</value>
+                </Input>
+                <Output type="sp">
+                    <index>1 2</index>
+                    <parameter>C</parameter>
+                    <value>0.0088</value>
+                </Output>
+            </Run>
+            <Run No.="3">
+                <Input type="sp">
+                    <index>2  1</index>
+                    <parameter>F</parameter>
+                    <value>0.4</value>
+                </Input>
+                <Input type="sp">
+                    <index>2  2</index>
+                    <parameter>F</parameter>
+                    <value>0.4</value>
+                </Input>
+                <Output type="sp">
+                    <index>1 2</index>
+                    <parameter>C</parameter>
+                    <value>0.0088</value>
+                </Output>
+            </Run>
+            <Run No.="4">
+                <Input type="sp">
+                    <index>2  1</index>
+                    <parameter>F</parameter>
+                    <value>0.5</value>
+                </Input>
+                <Input type="sp">
+                    <index>2  2</index>
+                    <parameter>F</parameter>
+                    <value>0.5</value>
+                </Input>
+                <Output type="sp">
+                    <index>1 2</index>
+                    <parameter>C</parameter>
+                    <value>0.0087</value>
+                </Output>
+            </Run>
+            <Run No.="5">
+                <Input type="sp">
+                    <index>2  1</index>
+                    <parameter>F</parameter>
+                    <value>0.6</value>
+                </Input>
+                <Input type="sp">
+                    <index>2  2</index>
+                    <parameter>F</parameter>
+                    <value>0.6</value>
+                </Input>
+                <Output type="sp">
+                    <index>1 2</index>
+                    <parameter>C</parameter>
+                    <value>0.0087</value>
+                </Output>
+            </Run>
+            <Run No.="6">
+                <Input type="sp">
+                    <index>2  1</index>
+                    <parameter>F</parameter>
+                    <value>0.7</value>
+                </Input>
+                <Input type="sp">
+                    <index>2  2</index>
+                    <parameter>F</parameter>
+                    <value>0.7</value>
+                </Input>
+                <Output type="sp">
+                    <index>1 2</index>
+                    <parameter>C</parameter>
+                    <value>0.0087</value>
+                </Output>
+            </Run>
+            <Run No.="7">
+                <Input type="sp">
+                    <index>2  1</index>
+                    <parameter>F</parameter>
+                    <value>0.8</value>
+                </Input>
+                <Input type="sp">
+                    <index>2  2</index>
+                    <parameter>F</parameter>
+                    <value>0.8</value>
+                </Input>
+                <Output type="sp">
+                    <index>1 2</index>
+                    <parameter>C</parameter>
+                    <value>0.0086</value>
+                </Output>
+            </Run>
+            <Run No.="8">
+                <Input type="sp">
+                    <index>2  1</index>
+                    <parameter>F</parameter>
+                    <value>0.9</value>
+                </Input>
+                <Input type="sp">
+                    <index>2  2</index>
+                    <parameter>F</parameter>
+                    <value>0.9</value>
+                </Input>
+                <Output type="sp">
+                    <index>1 2</index>
+                    <parameter>C</parameter>
+                    <value>0.0086</value>
+                </Output>
+            </Run>
+            <Run No.="9">
+                <Input type="sp">
+                    <index>2  1</index>
+                    <parameter>F</parameter>
+                    <value>1</value>
+                </Input>
+                <Input type="sp">
+                    <index>2  2</index>
+                    <parameter>F</parameter>
+                    <value>1</value>
+                </Input>
+                <Output type="sp">
+                    <index>1 2</index>
+                    <parameter>C</parameter>
+                    <value>0.0086</value>
+                </Output>
+            </Run>
+        </table_5>
+        <table_6 qUnit="2" pUnit="2" runs="10" fUnit="0" tUnit="1" uaUnit="0" hUnit="0">
+            <header>Mass flow rate
+State Point#16
+[kg/s];Concentration
+State Point#2
+[%];Concentration
+State Point#10
+[%]</header>
+            <inputEntries>Mass flow rate,State Point#16,P5 3F</inputEntries>
+            <outputEntries>Concentration,State Point#2,P1 2C;Concentration,State Point#10,P3 3C</outputEntries>
+            <Run No.="0">
+                <Input type="sp">
+                    <index>5  3</index>
+                    <parameter>F</parameter>
+                    <value>1.5</value>
+                </Input>
+                <Output type="sp">
+                    <index>1 2</index>
+                    <parameter>C</parameter>
+                    <value>0.0094</value>
+                </Output>
+                <Output type="sp">
+                    <index>3 3</index>
+                    <parameter>C</parameter>
+                    <value>37.659</value>
+                </Output>
+            </Run>
+            <Run No.="1">
+                <Input type="sp">
+                    <index>5  3</index>
+                    <parameter>F</parameter>
+                    <value>1.344</value>
+                </Input>
+                <Output type="sp">
+                    <index>1 2</index>
+                    <parameter>C</parameter>
+                    <value>0.0093</value>
+                </Output>
+                <Output type="sp">
+                    <index>3 3</index>
+                    <parameter>C</parameter>
+                    <value>37.8321</value>
+                </Output>
+            </Run>
+            <Run No.="2">
+                <Input type="sp">
+                    <index>5  3</index>
+                    <parameter>F</parameter>
+                    <value>1.189</value>
+                </Input>
+                <Output type="sp">
+                    <index>1 2</index>
+                    <parameter>C</parameter>
+                    <value>0.0092</value>
+                </Output>
+                <Output type="sp">
+                    <index>3 3</index>
+                    <parameter>C</parameter>
+                    <value>38.0097</value>
+                </Output>
+            </Run>
+            <Run No.="3">
+                <Input type="sp">
+                    <index>5  3</index>
+                    <parameter>F</parameter>
+                    <value>1.033</value>
+                </Input>
+                <Output type="sp">
+                    <index>1 2</index>
+                    <parameter>C</parameter>
+                    <value>0.0091</value>
+                </Output>
+                <Output type="sp">
+                    <index>3 3</index>
+                    <parameter>C</parameter>
+                    <value>38.2008</value>
+                </Output>
+            </Run>
+            <Run No.="4">
+                <Input type="sp">
+                    <index>5  3</index>
+                    <parameter>F</parameter>
+                    <value>0.8778</value>
+                </Input>
+                <Output type="sp">
+                    <index>1 2</index>
+                    <parameter>C</parameter>
+                    <value>0.0091</value>
+                </Output>
+                <Output type="sp">
+                    <index>3 3</index>
+                    <parameter>C</parameter>
+                    <value>38.3996</value>
+                </Output>
+            </Run>
+            <Run No.="5">
+                <Input type="sp">
+                    <index>5  3</index>
+                    <parameter>F</parameter>
+                    <value>0.7222</value>
+                </Input>
+                <Output type="sp">
+                    <index>1 2</index>
+                    <parameter>C</parameter>
+                    <value>0.009</value>
+                </Output>
+                <Output type="sp">
+                    <index>3 3</index>
+                    <parameter>C</parameter>
+                    <value>38.6441</value>
+                </Output>
+            </Run>
+            <Run No.="6">
+                <Input type="sp">
+                    <index>5  3</index>
+                    <parameter>F</parameter>
+                    <value>0.5667</value>
+                </Input>
+                <Output type="sp">
+                    <index>1 2</index>
+                    <parameter>C</parameter>
+                    <value>0.0089</value>
+                </Output>
+                <Output type="sp">
+                    <index>3 3</index>
+                    <parameter>C</parameter>
+                    <value>38.9265</value>
+                </Output>
+            </Run>
+            <Run No.="7">
+                <Input type="sp">
+                    <index>5  3</index>
+                    <parameter>F</parameter>
+                    <value>0.4111</value>
+                </Input>
+                <Output type="sp">
+                    <index>1 2</index>
+                    <parameter>C</parameter>
+                    <value>0.0089</value>
+                </Output>
+                <Output type="sp">
+                    <index>3 3</index>
+                    <parameter>C</parameter>
+                    <value>39.295</value>
+                </Output>
+            </Run>
+            <Run No.="8">
+                <Input type="sp">
+                    <index>5  3</index>
+                    <parameter>F</parameter>
+                    <value>0.2556</value>
+                </Input>
+                <Output type="sp">
+                    <index>1 2</index>
+                    <parameter>C</parameter>
+                    <value>0.0092</value>
+                </Output>
+                <Output type="sp">
+                    <index>3 3</index>
+                    <parameter>C</parameter>
+                    <value>39.7006</value>
+                </Output>
+            </Run>
+            <Run No.="9">
+                <Input type="sp">
+                    <index>5  3</index>
+                    <parameter>F</parameter>
+                    <value>0.1</value>
+                </Input>
+                <Output type="sp">
+                    <index>1 2</index>
+                    <parameter>C</parameter>
+                    <value>0.0112</value>
+                </Output>
+                <Output type="sp">
+                    <index>3 3</index>
+                    <parameter>C</parameter>
+                    <value>38.16</value>
+                </Output>
+            </Run>
+        </table_6>
+        <table_7 qUnit="2" pUnit="2" runs="11" fUnit="0" tUnit="1" uaUnit="0" hUnit="0">
+            <Run No.="0">
+                <Input type="sp">
+                    <index>4  3</index>
+                    <parameter>F</parameter>
+                    <value>0.1</value>
+                </Input>
+                <Input type="sp">
+                    <index>4  4</index>
+                    <parameter>F</parameter>
+                    <value>0.1</value>
+                </Input>
+                <Output type="sp">
+                    <index>1 2</index>
+                    <parameter>C</parameter>
+                    <value>0.01</value>
+                </Output>
+                <Output type="sp">
+                    <index>3 3</index>
+                    <parameter>C</parameter>
+                    <value>36.7648</value>
+                </Output>
+            </Run>
+            <Run No.="1">
+                <Input type="sp">
+                    <index>4  3</index>
+                    <parameter>F</parameter>
+                    <value>0.19</value>
+                </Input>
+                <Input type="sp">
+                    <index>4  4</index>
+                    <parameter>F</parameter>
+                    <value>0.19</value>
+                </Input>
+                <Output type="sp">
+                    <index>1 2</index>
+                    <parameter>C</parameter>
+                    <value>0.0091</value>
+                </Output>
+                <Output type="sp">
+                    <index>3 3</index>
+                    <parameter>C</parameter>
+                    <value>38.6256</value>
+                </Output>
+            </Run>
+            <Run No.="2">
+                <Input type="sp">
+                    <index>4  3</index>
+                    <parameter>F</parameter>
+                    <value>0.28</value>
+                </Input>
+                <Input type="sp">
+                    <index>4  4</index>
+                    <parameter>F</parameter>
+                    <value>0.28</value>
+                </Input>
+                <Output type="sp">
+                    <index>1 2</index>
+                    <parameter>C</parameter>
+                    <value>0.0089</value>
+                </Output>
+                <Output type="sp">
+                    <index>3 3</index>
+                    <parameter>C</parameter>
+                    <value>39.2158</value>
+                </Output>
+            </Run>
+            <Run No.="3">
+                <Input type="sp">
+                    <index>4  3</index>
+                    <parameter>F</parameter>
+                    <value>0.37</value>
+                </Input>
+                <Input type="sp">
+                    <index>4  4</index>
+                    <parameter>F</parameter>
+                    <value>0.37</value>
+                </Input>
+                <Output type="sp">
+                    <index>1 2</index>
+                    <parameter>C</parameter>
+                    <value>0.0087</value>
+                </Output>
+                <Output type="sp">
+                    <index>3 3</index>
+                    <parameter>C</parameter>
+                    <value>39.4959</value>
+                </Output>
+            </Run>
+            <Run No.="4">
+                <Input type="sp">
+                    <index>4  3</index>
+                    <parameter>F</parameter>
+                    <value>0.46</value>
+                </Input>
+                <Input type="sp">
+                    <index>4  4</index>
+                    <parameter>F</parameter>
+                    <value>0.46</value>
+                </Input>
+                <Output type="sp">
+                    <index>1 2</index>
+                    <parameter>C</parameter>
+                    <value>0.0087</value>
+                </Output>
+                <Output type="sp">
+                    <index>3 3</index>
+                    <parameter>C</parameter>
+                    <value>39.6626</value>
+                </Output>
+            </Run>
+            <Run No.="5">
+                <Input type="sp">
+                    <index>4  3</index>
+                    <parameter>F</parameter>
+                    <value>0.55</value>
+                </Input>
+                <Input type="sp">
+                    <index>4  4</index>
+                    <parameter>F</parameter>
+                    <value>0.55</value>
+                </Input>
+                <Output type="sp">
+                    <index>1 2</index>
+                    <parameter>C</parameter>
+                    <value>0.0086</value>
+                </Output>
+                <Output type="sp">
+                    <index>3 3</index>
+                    <parameter>C</parameter>
+                    <value>39.7633</value>
+                </Output>
+            </Run>
+            <Run No.="6">
+                <Input type="sp">
+                    <index>4  3</index>
+                    <parameter>F</parameter>
+                    <value>0.64</value>
+                </Input>
+                <Input type="sp">
+                    <index>4  4</index>
+                    <parameter>F</parameter>
+                    <value>0.64</value>
+                </Input>
+                <Output type="sp">
+                    <index>1 2</index>
+                    <parameter>C</parameter>
+                    <value>0.0086</value>
+                </Output>
+                <Output type="sp">
+                    <index>3 3</index>
+                    <parameter>C</parameter>
+                    <value>39.8357</value>
+                </Output>
+            </Run>
+            <Run No.="7">
+                <Input type="sp">
+                    <index>4  3</index>
+                    <parameter>F</parameter>
+                    <value>0.73</value>
+                </Input>
+                <Input type="sp">
+                    <index>4  4</index>
+                    <parameter>F</parameter>
+                    <value>0.73</value>
+                </Input>
+                <Output type="sp">
+                    <index>1 2</index>
+                    <parameter>C</parameter>
+                    <value>0.0085</value>
+                </Output>
+                <Output type="sp">
+                    <index>3 3</index>
+                    <parameter>C</parameter>
+                    <value>39.89</value>
+                </Output>
+            </Run>
+            <Run No.="8">
+                <Input type="sp">
+                    <index>4  3</index>
+                    <parameter>F</parameter>
+                    <value>0.82</value>
+                </Input>
+                <Input type="sp">
+                    <index>4  4</index>
+                    <parameter>F</parameter>
+                    <value>0.82</value>
+                </Input>
+                <Output type="sp">
+                    <index>1 2</index>
+                    <parameter>C</parameter>
+                    <value>0.0085</value>
+                </Output>
+                <Output type="sp">
+                    <index>3 3</index>
+                    <parameter>C</parameter>
+                    <value>39.9252</value>
+                </Output>
+            </Run>
+            <Run No.="9">
+                <Input type="sp">
+                    <index>4  3</index>
+                    <parameter>F</parameter>
+                    <value>0.91</value>
+                </Input>
+                <Input type="sp">
+                    <index>4  4</index>
+                    <parameter>F</parameter>
+                    <value>0.91</value>
+                </Input>
+                <Output type="sp">
+                    <index>1 2</index>
+                    <parameter>C</parameter>
+                    <value>0.0085</value>
+                </Output>
+                <Output type="sp">
+                    <index>3 3</index>
+                    <parameter>C</parameter>
+                    <value>39.9626</value>
+                </Output>
+            </Run>
+            <header>Mass flow rate
+State Point#13
+[kg/s];Mass flow rate
+State Point#14
+[kg/s];Concentration
+State Point#2
+[%];Concentration
+State Point#10
+[%]</header>
+            <inputEntries>Mass flow rate,State Point#13,P4 3F;Mass flow rate,State Point#14,P4 4F</inputEntries>
+            <outputEntries>Concentration,State Point#2,P1 2C;Concentration,State Point#10,P3 3C</outputEntries>
+            <Run No.="10">
+                <Input type="sp">
+                    <index>4  3</index>
+                    <parameter>F</parameter>
+                    <value>1</value>
+                </Input>
+                <Input type="sp">
+                    <index>4  4</index>
+                    <parameter>F</parameter>
+                    <value>1</value>
+                </Input>
+                <Output type="sp">
+                    <index>1 2</index>
+                    <parameter>C</parameter>
+                    <value>0.0085</value>
+                </Output>
+                <Output type="sp">
+                    <index>3 3</index>
+                    <parameter>C</parameter>
+                    <value>39.9874</value>
+                </Output>
+            </Run>
+        </table_7>
+        <table_8 qUnit="2" pUnit="2" runs="10" fUnit="0" tUnit="1" uaUnit="0" hUnit="0">
+            <Run No.="0">
+                <Input type="sp">
+                    <index>4  3</index>
+                    <parameter>T</parameter>
+                    <value>65</value>
+                </Input>
+                <Output type="sp">
+                    <index>1 2</index>
+                    <parameter>C</parameter>
+                    <value>0.01</value>
+                </Output>
+                <Output type="sp">
+                    <index>1 2</index>
+                    <parameter>T</parameter>
+                    <value>32.7333</value>
+                </Output>
+                <Output type="unit">
+                    <index>4</index>
+                    <parameter>HT</parameter>
+                    <value>5</value>
+                </Output>
+            </Run>
+            <Run No.="1">
+                <Input type="sp">
+                    <index>4  3</index>
+                    <parameter>T</parameter>
+                    <value>66.67</value>
+                </Input>
+                <Output type="sp">
+                    <index>1 2</index>
+                    <parameter>C</parameter>
+                    <value>0.01</value>
+                </Output>
+                <Output type="sp">
+                    <index>1 2</index>
+                    <parameter>T</parameter>
+                    <value>32.7333</value>
+                </Output>
+                <Output type="unit">
+                    <index>4</index>
+                    <parameter>HT</parameter>
+                    <value>5</value>
+                </Output>
+            </Run>
+            <Run No.="2">
+                <Input type="sp">
+                    <index>4  3</index>
+                    <parameter>T</parameter>
+                    <value>68.33</value>
+                </Input>
+                <Output type="sp">
+                    <index>1 2</index>
+                    <parameter>C</parameter>
+                    <value>0.01</value>
+                </Output>
+                <Output type="sp">
+                    <index>1 2</index>
+                    <parameter>T</parameter>
+                    <value>32.7333</value>
+                </Output>
+                <Output type="unit">
+                    <index>4</index>
+                    <parameter>HT</parameter>
+                    <value>5</value>
+                </Output>
+            </Run>
+            <Run No.="3">
+                <Input type="sp">
+                    <index>4  3</index>
+                    <parameter>T</parameter>
+                    <value>70</value>
+                </Input>
+                <Output type="sp">
+                    <index>1 2</index>
+                    <parameter>C</parameter>
+                    <value>0.01</value>
+                </Output>
+                <Output type="sp">
+                    <index>1 2</index>
+                    <parameter>T</parameter>
+                    <value>32.7333</value>
+                </Output>
+                <Output type="unit">
+                    <index>4</index>
+                    <parameter>HT</parameter>
+                    <value>5</value>
+                </Output>
+            </Run>
+            <Run No.="4">
+                <Input type="sp">
+                    <index>4  3</index>
+                    <parameter>T</parameter>
+                    <value>71.67</value>
+                </Input>
+                <Output type="sp">
+                    <index>1 2</index>
+                    <parameter>C</parameter>
+                    <value>0.01</value>
+                </Output>
+                <Output type="sp">
+                    <index>1 2</index>
+                    <parameter>T</parameter>
+                    <value>32.7333</value>
+                </Output>
+                <Output type="unit">
+                    <index>4</index>
+                    <parameter>HT</parameter>
+                    <value>5</value>
+                </Output>
+            </Run>
+            <Run No.="5">
+                <Input type="sp">
+                    <index>4  3</index>
+                    <parameter>T</parameter>
+                    <value>73.33</value>
+                </Input>
+                <Output type="sp">
+                    <index>1 2</index>
+                    <parameter>C</parameter>
+                    <value>0.01</value>
+                </Output>
+                <Output type="sp">
+                    <index>1 2</index>
+                    <parameter>T</parameter>
+                    <value>32.7333</value>
+                </Output>
+                <Output type="unit">
+                    <index>4</index>
+                    <parameter>HT</parameter>
+                    <value>5</value>
+                </Output>
+            </Run>
+            <Run No.="6">
+                <Input type="sp">
+                    <index>4  3</index>
+                    <parameter>T</parameter>
+                    <value>75</value>
+                </Input>
+                <Output type="sp">
+                    <index>1 2</index>
+                    <parameter>C</parameter>
+                    <value>0.01</value>
+                </Output>
+                <Output type="sp">
+                    <index>1 2</index>
+                    <parameter>T</parameter>
+                    <value>32.7333</value>
+                </Output>
+                <Output type="unit">
+                    <index>4</index>
+                    <parameter>HT</parameter>
+                    <value>5</value>
+                </Output>
+            </Run>
+            <Run No.="7">
+                <Input type="sp">
+                    <index>4  3</index>
+                    <parameter>T</parameter>
+                    <value>76.67</value>
+                </Input>
+                <Output type="sp">
+                    <index>1 2</index>
+                    <parameter>C</parameter>
+                    <value>0.01</value>
+                </Output>
+                <Output type="sp">
+                    <index>1 2</index>
+                    <parameter>T</parameter>
+                    <value>32.7333</value>
+                </Output>
+                <Output type="unit">
+                    <index>4</index>
+                    <parameter>HT</parameter>
+                    <value>5</value>
+                </Output>
+            </Run>
+            <Run No.="8">
+                <Input type="sp">
+                    <index>4  3</index>
+                    <parameter>T</parameter>
+                    <value>78.33</value>
+                </Input>
+                <Output type="sp">
+                    <index>1 2</index>
+                    <parameter>C</parameter>
+                    <value>0.01</value>
+                </Output>
+                <Output type="sp">
+                    <index>1 2</index>
+                    <parameter>T</parameter>
+                    <value>32.7333</value>
+                </Output>
+                <Output type="unit">
+                    <index>4</index>
+                    <parameter>HT</parameter>
+                    <value>5</value>
+                </Output>
+            </Run>
+            <Run No.="9">
+                <Input type="sp">
+                    <index>4  3</index>
+                    <parameter>T</parameter>
+                    <value>80</value>
+                </Input>
+                <Output type="sp">
+                    <index>1 2</index>
+                    <parameter>C</parameter>
+                    <value>0.01</value>
+                </Output>
+                <Output type="sp">
+                    <index>1 2</index>
+                    <parameter>T</parameter>
+                    <value>32.7333</value>
+                </Output>
+                <Output type="unit">
+                    <index>4</index>
+                    <parameter>HT</parameter>
+                    <value>5</value>
+                </Output>
+            </Run>
+            <header>Temperature
+State Point#13
+[℃];Concentration
+State Point#2
+[%];Temperature
+State Point#2
+[℃];Heat Transfer Value
+component#4
+[kW]</header>
+            <inputEntries>Temperature,State Point#13,P4 3T</inputEntries>
+            <outputEntries>Concentration,State Point#2,P1 2C;Temperature,State Point#2,P1 2T;Heat Transfer Value,component#4,U4HT</outputEntries>
+        </table_8>
+        <table_9 qUnit="2" pUnit="2" runs="10" fUnit="0" tUnit="1" uaUnit="0" hUnit="0">
+            <Run No.="0">
+                <Input type="sp">
+                    <index>5  3</index>
+                    <parameter>F</parameter>
+                    <value>0.7</value>
+                </Input>
+                <Output type="sp">
+                    <index>5 3</index>
+                    <parameter>T</parameter>
+                    <value>55.8333</value>
+                </Output>
+                <Output type="sp">
+                    <index>5 3</index>
+                    <parameter>C</parameter>
+                    <value>38.5837</value>
+                </Output>
+                <Output type="unit">
+                    <index>7</index>
+                    <parameter>HT</parameter>
+                    <value>3.26452</value>
+                </Output>
+                <Output type="unit">
+                    <index>4</index>
+                    <parameter>HT</parameter>
+                    <value>5.89939</value>
+                </Output>
+                <Output type="sp">
+                    <index>3 1</index>
+                    <parameter>T</parameter>
+                    <value>59.2778</value>
+                </Output>
+                <Output type="sp">
+                    <index>3 1</index>
+                    <parameter>C</parameter>
+                    <value>38.5837</value>
+                </Output>
+            </Run>
+            <Run No.="1">
+                <Input type="sp">
+                    <index>5  3</index>
+                    <parameter>F</parameter>
+                    <value>0.6444</value>
+                </Input>
+                <Output type="sp">
+                    <index>5 3</index>
+                    <parameter>T</parameter>
+                    <value>55.7278</value>
+                </Output>
+                <Output type="sp">
+                    <index>5 3</index>
+                    <parameter>C</parameter>
+                    <value>38.5765</value>
+                </Output>
+                <Output type="unit">
+                    <index>7</index>
+                    <parameter>HT</parameter>
+                    <value>3.04684</value>
+                </Output>
+                <Output type="unit">
+                    <index>4</index>
+                    <parameter>HT</parameter>
+                    <value>5.88163</value>
+                </Output>
+                <Output type="sp">
+                    <index>3 1</index>
+                    <parameter>T</parameter>
+                    <value>59.4556</value>
+                </Output>
+                <Output type="sp">
+                    <index>3 1</index>
+                    <parameter>C</parameter>
+                    <value>38.5765</value>
+                </Output>
+            </Run>
+            <Run No.="2">
+                <Input type="sp">
+                    <index>5  3</index>
+                    <parameter>F</parameter>
+                    <value>0.5889</value>
+                </Input>
+                <Output type="sp">
+                    <index>5 3</index>
+                    <parameter>T</parameter>
+                    <value>55.6</value>
+                </Output>
+                <Output type="sp">
+                    <index>5 3</index>
+                    <parameter>C</parameter>
+                    <value>38.6151</value>
+                </Output>
+                <Output type="unit">
+                    <index>7</index>
+                    <parameter>HT</parameter>
+                    <value>2.81632</value>
+                </Output>
+                <Output type="unit">
+                    <index>4</index>
+                    <parameter>HT</parameter>
+                    <value>5.86053</value>
+                </Output>
+                <Output type="sp">
+                    <index>3 1</index>
+                    <parameter>T</parameter>
+                    <value>59.6667</value>
+                </Output>
+                <Output type="sp">
+                    <index>3 1</index>
+                    <parameter>C</parameter>
+                    <value>38.6151</value>
+                </Output>
+            </Run>
+            <Run No.="3">
+                <Input type="sp">
+                    <index>5  3</index>
+                    <parameter>F</parameter>
+                    <value>0.5333</value>
+                </Input>
+                <Output type="sp">
+                    <index>5 3</index>
+                    <parameter>T</parameter>
+                    <value>55.5167</value>
+                </Output>
+                <Output type="sp">
+                    <index>5 3</index>
+                    <parameter>C</parameter>
+                    <value>38.7637</value>
+                </Output>
+                <Output type="unit">
+                    <index>7</index>
+                    <parameter>HT</parameter>
+                    <value>2.57754</value>
+                </Output>
+                <Output type="unit">
+                    <index>4</index>
+                    <parameter>HT</parameter>
+                    <value>5.79389</value>
+                </Output>
+                <Output type="sp">
+                    <index>3 1</index>
+                    <parameter>T</parameter>
+                    <value>59.9667</value>
+                </Output>
+                <Output type="sp">
+                    <index>3 1</index>
+                    <parameter>C</parameter>
+                    <value>38.7637</value>
+                </Output>
+            </Run>
+            <Run No.="4">
+                <Input type="sp">
+                    <index>5  3</index>
+                    <parameter>F</parameter>
+                    <value>0.4778</value>
+                </Input>
+                <Output type="sp">
+                    <index>5 3</index>
+                    <parameter>T</parameter>
+                    <value>55.4333</value>
+                </Output>
+                <Output type="sp">
+                    <index>5 3</index>
+                    <parameter>C</parameter>
+                    <value>38.9738</value>
+                </Output>
+                <Output type="unit">
+                    <index>7</index>
+                    <parameter>HT</parameter>
+                    <value>2.3312</value>
+                </Output>
+                <Output type="unit">
+                    <index>4</index>
+                    <parameter>HT</parameter>
+                    <value>5.6956</value>
+                </Output>
+                <Output type="sp">
+                    <index>3 1</index>
+                    <parameter>T</parameter>
+                    <value>60.3222</value>
+                </Output>
+                <Output type="sp">
+                    <index>3 1</index>
+                    <parameter>C</parameter>
+                    <value>38.9738</value>
+                </Output>
+            </Run>
+            <Run No.="5">
+                <Input type="sp">
+                    <index>5  3</index>
+                    <parameter>F</parameter>
+                    <value>0.4222</value>
+                </Input>
+                <Output type="sp">
+                    <index>5 3</index>
+                    <parameter>T</parameter>
+                    <value>55.2</value>
+                </Output>
+                <Output type="sp">
+                    <index>5 3</index>
+                    <parameter>C</parameter>
+                    <value>39.0976</value>
+                </Output>
+                <Output type="unit">
+                    <index>7</index>
+                    <parameter>HT</parameter>
+                    <value>2.06833</value>
+                </Output>
+                <Output type="unit">
+                    <index>4</index>
+                    <parameter>HT</parameter>
+                    <value>5.65252</value>
+                </Output>
+                <Output type="sp">
+                    <index>3 1</index>
+                    <parameter>T</parameter>
+                    <value>60.7056</value>
+                </Output>
+                <Output type="sp">
+                    <index>3 1</index>
+                    <parameter>C</parameter>
+                    <value>39.0976</value>
+                </Output>
+            </Run>
+            <Run No.="6">
+                <Input type="sp">
+                    <index>5  3</index>
+                    <parameter>F</parameter>
+                    <value>0.3667</value>
+                </Input>
+                <Output type="sp">
+                    <index>5 3</index>
+                    <parameter>T</parameter>
+                    <value>54.8389</value>
+                </Output>
+                <Output type="sp">
+                    <index>5 3</index>
+                    <parameter>C</parameter>
+                    <value>39.218</value>
+                </Output>
+                <Output type="unit">
+                    <index>7</index>
+                    <parameter>HT</parameter>
+                    <value>1.79385</value>
+                </Output>
+                <Output type="unit">
+                    <index>4</index>
+                    <parameter>HT</parameter>
+                    <value>5.60944</value>
+                </Output>
+                <Output type="sp">
+                    <index>3 1</index>
+                    <parameter>T</parameter>
+                    <value>61.1333</value>
+                </Output>
+                <Output type="sp">
+                    <index>3 1</index>
+                    <parameter>C</parameter>
+                    <value>39.218</value>
+                </Output>
+            </Run>
+            <Run No.="7">
+                <Input type="sp">
+                    <index>5  3</index>
+                    <parameter>F</parameter>
+                    <value>0.3111</value>
+                </Input>
+                <Output type="sp">
+                    <index>5 3</index>
+                    <parameter>T</parameter>
+                    <value>54.2556</value>
+                </Output>
+                <Output type="sp">
+                    <index>5 3</index>
+                    <parameter>C</parameter>
+                    <value>39.242</value>
+                </Output>
+                <Output type="unit">
+                    <index>7</index>
+                    <parameter>HT</parameter>
+                    <value>1.50461</value>
+                </Output>
+                <Output type="unit">
+                    <index>4</index>
+                    <parameter>HT</parameter>
+                    <value>5.58113</value>
+                </Output>
+                <Output type="sp">
+                    <index>3 1</index>
+                    <parameter>T</parameter>
+                    <value>61.6444</value>
+                </Output>
+                <Output type="sp">
+                    <index>3 1</index>
+                    <parameter>C</parameter>
+                    <value>39.242</value>
+                </Output>
+            </Run>
+            <Run No.="8">
+                <Input type="sp">
+                    <index>5  3</index>
+                    <parameter>F</parameter>
+                    <value>0.2556</value>
+                </Input>
+                <Output type="sp">
+                    <index>5 3</index>
+                    <parameter>T</parameter>
+                    <value>53.5278</value>
+                </Output>
+                <Output type="sp">
+                    <index>5 3</index>
+                    <parameter>C</parameter>
+                    <value>39.4301</value>
+                </Output>
+                <Output type="unit">
+                    <index>7</index>
+                    <parameter>HT</parameter>
+                    <value>1.21114</value>
+                </Output>
+                <Output type="unit">
+                    <index>4</index>
+                    <parameter>HT</parameter>
+                    <value>5.4598</value>
+                </Output>
+                <Output type="sp">
+                    <index>3 1</index>
+                    <parameter>T</parameter>
+                    <value>62.3444</value>
+                </Output>
+                <Output type="sp">
+                    <index>3 1</index>
+                    <parameter>C</parameter>
+                    <value>39.4301</value>
+                </Output>
+            </Run>
+            <Run No.="9">
+                <Input type="sp">
+                    <index>5  3</index>
+                    <parameter>F</parameter>
+                    <value>0.2</value>
+                </Input>
+                <Output type="sp">
+                    <index>5 3</index>
+                    <parameter>T</parameter>
+                    <value>52.2389</value>
+                </Output>
+                <Output type="sp">
+                    <index>5 3</index>
+                    <parameter>C</parameter>
+                    <value>39.3931</value>
+                </Output>
+                <Output type="unit">
+                    <index>7</index>
+                    <parameter>HT</parameter>
+                    <value>0.902729</value>
+                </Output>
+                <Output type="unit">
+                    <index>4</index>
+                    <parameter>HT</parameter>
+                    <value>5.30384</value>
+                </Output>
+                <Output type="sp">
+                    <index>3 1</index>
+                    <parameter>T</parameter>
+                    <value>63.1722</value>
+                </Output>
+                <Output type="sp">
+                    <index>3 1</index>
+                    <parameter>C</parameter>
+                    <value>39.3931</value>
+                </Output>
+            </Run>
+            <header>Mass flow rate
+State Point#16
+[kg/s];Temperature
+State Point#16
+[℃];Concentration
+State Point#16
+[%];Heat Transfer Value
+component#7
+[kW];Heat Transfer Value
+component#4
+[kW];Temperature
+State Point#8
+[℃];Concentration
+State Point#8
+[%]</header>
+            <inputEntries>Mass flow rate,State Point#16,P5 3F</inputEntries>
+            <outputEntries>Temperature,State Point#16,P5 3T;Concentration,State Point#16,P5 3C;Heat Transfer Value,component#7,U7HT;Heat Transfer Value,component#4,U4HT;Temperature,State Point#8,P3 1T;Concentration,State Point#8,P3 1C</outputEntries>
+        </table_9>
+        <table_10 qUnit="2" pUnit="2" runs="20" fUnit="0" tUnit="1" uaUnit="0" hUnit="0">
+            <Run No.="0">
+                <Input type="sp">
+                    <index>4  3</index>
+                    <parameter>T</parameter>
+                    <value>50</value>
+                </Input>
+                <Input type="sp">
+                    <index>2  1</index>
+                    <parameter>T</parameter>
+                    <value>20</value>
+                </Input>
+                <Input type="sp">
+                    <index>2  1</index>
+                    <parameter>F</parameter>
+                    <value>0.25</value>
+                </Input>
+                <Output type="sp">
+                    <index>1 2</index>
+                    <parameter>C</parameter>
+                    <value>0.0101</value>
+                </Output>
+                <Output type="sp">
+                    <index>1 2</index>
+                    <parameter>H</parameter>
+                    <value>51.3023</value>
+                </Output>
+                <Output type="sp">
+                    <index>1 4</index>
+                    <parameter>H</parameter>
+                    <value>78.7442</value>
+                </Output>
+                <Output type="unit">
+                    <index>1</index>
+                    <parameter>HE</parameter>
+                    <value>0.85864</value>
+                </Output>
+                <Output type="unit">
+                    <index>1</index>
+                    <parameter>MR</parameter>
+                    <value>0.00141932</value>
+                </Output>
+                <Output type="unit">
+                    <index>4</index>
+                    <parameter>HT</parameter>
+                    <value>4.46107</value>
+                </Output>
+                <Output type="unit">
+                    <index>3</index>
+                    <parameter>HE</parameter>
+                    <value>0.7922</value>
+                </Output>
+            </Run>
+            <Run No.="1">
+                <Input type="sp">
+                    <index>4  3</index>
+                    <parameter>T</parameter>
+                    <value>60</value>
+                </Input>
+                <Input type="sp">
+                    <index>2  1</index>
+                    <parameter>T</parameter>
+                    <value>20</value>
+                </Input>
+                <Input type="sp">
+                    <index>2  1</index>
+                    <parameter>F</parameter>
+                    <value>0.25</value>
+                </Input>
+                <Output type="sp">
+                    <index>1 2</index>
+                    <parameter>C</parameter>
+                    <value>0.0079</value>
+                </Output>
+                <Output type="sp">
+                    <index>1 2</index>
+                    <parameter>H</parameter>
+                    <value>46.4884</value>
+                </Output>
+                <Output type="sp">
+                    <index>1 4</index>
+                    <parameter>H</parameter>
+                    <value>78.7442</value>
+                </Output>
+                <Output type="unit">
+                    <index>1</index>
+                    <parameter>HE</parameter>
+                    <value>0.868612</value>
+                </Output>
+                <Output type="unit">
+                    <index>1</index>
+                    <parameter>MR</parameter>
+                    <value>0.00177159</value>
+                </Output>
+                <Output type="unit">
+                    <index>4</index>
+                    <parameter>HT</parameter>
+                    <value>5.90115</value>
+                </Output>
+                <Output type="unit">
+                    <index>3</index>
+                    <parameter>HE</parameter>
+                    <value>0.778818</value>
+                </Output>
+            </Run>
+            <Run No.="2">
+                <Input type="sp">
+                    <index>4  3</index>
+                    <parameter>T</parameter>
+                    <value>70</value>
+                </Input>
+                <Input type="sp">
+                    <index>2  1</index>
+                    <parameter>T</parameter>
+                    <value>20</value>
+                </Input>
+                <Input type="sp">
+                    <index>2  1</index>
+                    <parameter>F</parameter>
+                    <value>0.25</value>
+                </Input>
+                <Output type="sp">
+                    <index>1 2</index>
+                    <parameter>C</parameter>
+                    <value>0.0061</value>
+                </Output>
+                <Output type="sp">
+                    <index>1 2</index>
+                    <parameter>H</parameter>
+                    <value>42.5581</value>
+                </Output>
+                <Output type="sp">
+                    <index>1 4</index>
+                    <parameter>H</parameter>
+                    <value>78.7442</value>
+                </Output>
+                <Output type="unit">
+                    <index>1</index>
+                    <parameter>HE</parameter>
+                    <value>0.875977</value>
+                </Output>
+                <Output type="unit">
+                    <index>1</index>
+                    <parameter>MR</parameter>
+                    <value>0.00205775</value>
+                </Output>
+                <Output type="unit">
+                    <index>4</index>
+                    <parameter>HT</parameter>
+                    <value>7.21023</value>
+                </Output>
+                <Output type="unit">
+                    <index>3</index>
+                    <parameter>HE</parameter>
+                    <value>0.767568</value>
+                </Output>
+            </Run>
+            <header>Temperature
+State Point#13
+[℃];Temperature
+State Point#5
+[℃];Mass flow rate
+State Point#5
+[kg/s];Concentration
+State Point#2
+[%];Enthalpy
+State Point#2
+[kJ/kg];Enthalpy
+State Point#4
+[kJ/kg];Humidity Efficiency
+component#1
+[ ];Moisture Removal Rate
+component#1
+[kg/s];Heat Transfer Value
+component#4
+[kW];Humidity Efficiency
+component#3
+[ ]</header>
+            <inputEntries>Temperature,State Point#13,P4 3T;Temperature,State Point#5,P2 1T;Mass flow rate,State Point#5,P2 1F</inputEntries>
+            <outputEntries>Concentration,State Point#2,P1 2C;Enthalpy,State Point#2,P1 2H;Enthalpy,State Point#4,P1 4H;Humidity Efficiency,component#1,U1HE;Moisture Removal Rate,component#1,U1MR;Heat Transfer Value,component#4,U4HT;Humidity Efficiency,component#3,U3HE</outputEntries>
+            <Run No.="3">
+                <Input type="sp">
+                    <index>4  3</index>
+                    <parameter>T</parameter>
+                    <value>80</value>
+                </Input>
+                <Input type="sp">
+                    <index>2  1</index>
+                    <parameter>T</parameter>
+                    <value>20</value>
+                </Input>
+                <Input type="sp">
+                    <index>2  1</index>
+                    <parameter>F</parameter>
+                    <value>0.25</value>
+                </Input>
+                <Output type="sp">
+                    <index>1 2</index>
+                    <parameter>C</parameter>
+                    <value>0.0047</value>
+                </Output>
+                <Output type="sp">
+                    <index>1 2</index>
+                    <parameter>H</parameter>
+                    <value>39.4419</value>
+                </Output>
+                <Output type="sp">
+                    <index>1 4</index>
+                    <parameter>H</parameter>
+                    <value>78.7442</value>
+                </Output>
+                <Output type="unit">
+                    <index>1</index>
+                    <parameter>HE</parameter>
+                    <value>0.883326</value>
+                </Output>
+                <Output type="unit">
+                    <index>1</index>
+                    <parameter>MR</parameter>
+                    <value>0.0022871</value>
+                </Output>
+                <Output type="unit">
+                    <index>4</index>
+                    <parameter>HT</parameter>
+                    <value>8.37266</value>
+                </Output>
+                <Output type="unit">
+                    <index>3</index>
+                    <parameter>HE</parameter>
+                    <value>0.757907</value>
+                </Output>
+            </Run>
+            <Run No.="5">
+                <Input type="sp">
+                    <index>4  3</index>
+                    <parameter>T</parameter>
+                    <value>90</value>
+                </Input>
+                <Input type="sp">
+                    <index>2  1</index>
+                    <parameter>T</parameter>
+                    <value>20</value>
+                </Input>
+                <Input type="sp">
+                    <index>2  1</index>
+                    <parameter>F</parameter>
+                    <value>0.25</value>
+                </Input>
+                <Output type="sp">
+                    <index>1 2</index>
+                    <parameter>C</parameter>
+                    <value>0.0037</value>
+                </Output>
+                <Output type="sp">
+                    <index>1 2</index>
+                    <parameter>H</parameter>
+                    <value>36.9767</value>
+                </Output>
+                <Output type="sp">
+                    <index>1 4</index>
+                    <parameter>H</parameter>
+                    <value>78.7442</value>
+                </Output>
+                <Output type="unit">
+                    <index>1</index>
+                    <parameter>HE</parameter>
+                    <value>0.88658</value>
+                </Output>
+                <Output type="unit">
+                    <index>1</index>
+                    <parameter>MR</parameter>
+                    <value>0.00245595</value>
+                </Output>
+                <Output type="unit">
+                    <index>4</index>
+                    <parameter>HT</parameter>
+                    <value>9.32955</value>
+                </Output>
+                <Output type="unit">
+                    <index>3</index>
+                    <parameter>HE</parameter>
+                    <value>0.748492</value>
+                </Output>
+            </Run>
+            <Run No.="7">
+                <Input type="sp">
+                    <index>4  3</index>
+                    <parameter>T</parameter>
+                    <value>50</value>
+                </Input>
+                <Input type="sp">
+                    <index>2  1</index>
+                    <parameter>T</parameter>
+                    <value>25</value>
+                </Input>
+                <Input type="sp">
+                    <index>2  1</index>
+                    <parameter>F</parameter>
+                    <value>0.25</value>
+                </Input>
+                <Output type="sp">
+                    <index>1 2</index>
+                    <parameter>C</parameter>
+                    <value>0.0114</value>
+                </Output>
+                <Output type="sp">
+                    <index>1 2</index>
+                    <parameter>H</parameter>
+                    <value>58.093</value>
+                </Output>
+                <Output type="sp">
+                    <index>1 4</index>
+                    <parameter>H</parameter>
+                    <value>78.7442</value>
+                </Output>
+                <Output type="unit">
+                    <index>1</index>
+                    <parameter>HE</parameter>
+                    <value>0.857971</value>
+                </Output>
+                <Output type="unit">
+                    <index>1</index>
+                    <parameter>MR</parameter>
+                    <value>0.00121231</value>
+                </Output>
+                <Output type="unit">
+                    <index>4</index>
+                    <parameter>HT</parameter>
+                    <value>3.93111</value>
+                </Output>
+                <Output type="unit">
+                    <index>3</index>
+                    <parameter>HE</parameter>
+                    <value>0.79383</value>
+                </Output>
+            </Run>
+            <Run No.="9">
+                <Input type="sp">
+                    <index>4  3</index>
+                    <parameter>T</parameter>
+                    <value>60</value>
+                </Input>
+                <Input type="sp">
+                    <index>2  1</index>
+                    <parameter>T</parameter>
+                    <value>25</value>
+                </Input>
+                <Input type="sp">
+                    <index>2  1</index>
+                    <parameter>F</parameter>
+                    <value>0.25</value>
+                </Input>
+                <Output type="sp">
+                    <index>1 2</index>
+                    <parameter>C</parameter>
+                    <value>0.009</value>
+                </Output>
+                <Output type="sp">
+                    <index>1 2</index>
+                    <parameter>H</parameter>
+                    <value>52.7907</value>
+                </Output>
+                <Output type="sp">
+                    <index>1 4</index>
+                    <parameter>H</parameter>
+                    <value>78.7442</value>
+                </Output>
+                <Output type="unit">
+                    <index>1</index>
+                    <parameter>HE</parameter>
+                    <value>0.868273</value>
+                </Output>
+                <Output type="unit">
+                    <index>1</index>
+                    <parameter>MR</parameter>
+                    <value>0.00159921</value>
+                </Output>
+                <Output type="unit">
+                    <index>4</index>
+                    <parameter>HT</parameter>
+                    <value>5.4322</value>
+                </Output>
+                <Output type="unit">
+                    <index>3</index>
+                    <parameter>HE</parameter>
+                    <value>0.782594</value>
+                </Output>
+            </Run>
+            <Run No.="11">
+                <Input type="sp">
+                    <index>4  3</index>
+                    <parameter>T</parameter>
+                    <value>70</value>
+                </Input>
+                <Input type="sp">
+                    <index>2  1</index>
+                    <parameter>T</parameter>
+                    <value>25</value>
+                </Input>
+                <Input type="sp">
+                    <index>2  1</index>
+                    <parameter>F</parameter>
+                    <value>0.25</value>
+                </Input>
+                <Output type="sp">
+                    <index>1 2</index>
+                    <parameter>C</parameter>
+                    <value>0.007</value>
+                </Output>
+                <Output type="sp">
+                    <index>1 2</index>
+                    <parameter>H</parameter>
+                    <value>48.3953</value>
+                </Output>
+                <Output type="sp">
+                    <index>1 4</index>
+                    <parameter>H</parameter>
+                    <value>78.7442</value>
+                </Output>
+                <Output type="unit">
+                    <index>1</index>
+                    <parameter>HE</parameter>
+                    <value>0.874849</value>
+                </Output>
+                <Output type="unit">
+                    <index>1</index>
+                    <parameter>MR</parameter>
+                    <value>0.00191864</value>
+                </Output>
+                <Output type="unit">
+                    <index>4</index>
+                    <parameter>HT</parameter>
+                    <value>6.81495</value>
+                </Output>
+                <Output type="unit">
+                    <index>3</index>
+                    <parameter>HE</parameter>
+                    <value>0.768936</value>
+                </Output>
+            </Run>
+            <Run No.="13">
+                <Input type="sp">
+                    <index>4  3</index>
+                    <parameter>T</parameter>
+                    <value>80</value>
+                </Input>
+                <Input type="sp">
+                    <index>2  1</index>
+                    <parameter>T</parameter>
+                    <value>25</value>
+                </Input>
+                <Input type="sp">
+                    <index>2  1</index>
+                    <parameter>F</parameter>
+                    <value>0.25</value>
+                </Input>
+                <Output type="sp">
+                    <index>1 2</index>
+                    <parameter>C</parameter>
+                    <value>0.0054</value>
+                </Output>
+                <Output type="sp">
+                    <index>1 2</index>
+                    <parameter>H</parameter>
+                    <value>44.7907</value>
+                </Output>
+                <Output type="sp">
+                    <index>1 4</index>
+                    <parameter>H</parameter>
+                    <value>78.7442</value>
+                </Output>
+                <Output type="unit">
+                    <index>1</index>
+                    <parameter>HE</parameter>
+                    <value>0.881082</value>
+                </Output>
+                <Output type="unit">
+                    <index>1</index>
+                    <parameter>MR</parameter>
+                    <value>0.00217968</value>
+                </Output>
+                <Output type="unit">
+                    <index>4</index>
+                    <parameter>HT</parameter>
+                    <value>8.04755</value>
+                </Output>
+                <Output type="unit">
+                    <index>3</index>
+                    <parameter>HE</parameter>
+                    <value>0.758801</value>
+                </Output>
+            </Run>
+            <Run No.="15">
+                <Input type="sp">
+                    <index>4  3</index>
+                    <parameter>T</parameter>
+                    <value>90</value>
+                </Input>
+                <Input type="sp">
+                    <index>2  1</index>
+                    <parameter>T</parameter>
+                    <value>25</value>
+                </Input>
+                <Input type="sp">
+                    <index>2  1</index>
+                    <parameter>F</parameter>
+                    <value>0.25</value>
+                </Input>
+                <Output type="sp">
+                    <index>1 2</index>
+                    <parameter>C</parameter>
+                    <value>0.0041</value>
+                </Output>
+                <Output type="sp">
+                    <index>1 2</index>
+                    <parameter>H</parameter>
+                    <value>41.907</value>
+                </Output>
+                <Output type="sp">
+                    <index>1 4</index>
+                    <parameter>H</parameter>
+                    <value>78.7442</value>
+                </Output>
+                <Output type="unit">
+                    <index>1</index>
+                    <parameter>HE</parameter>
+                    <value>0.88529</value>
+                </Output>
+                <Output type="unit">
+                    <index>1</index>
+                    <parameter>MR</parameter>
+                    <value>0.00238145</value>
+                </Output>
+                <Output type="unit">
+                    <index>4</index>
+                    <parameter>HT</parameter>
+                    <value>9.0781</value>
+                </Output>
+                <Output type="unit">
+                    <index>3</index>
+                    <parameter>HE</parameter>
+                    <value>0.748994</value>
+                </Output>
+            </Run>
+            <Run No.="17">
+                <Input type="sp">
+                    <index>4  3</index>
+                    <parameter>T</parameter>
+                    <value>50</value>
+                </Input>
+                <Input type="sp">
+                    <index>2  1</index>
+                    <parameter>T</parameter>
+                    <value>30</value>
+                </Input>
+                <Input type="sp">
+                    <index>2  1</index>
+                    <parameter>F</parameter>
+                    <value>0.25</value>
+                </Input>
+                <Output type="sp">
+                    <index>1 2</index>
+                    <parameter>C</parameter>
+                    <value>0.0127</value>
+                </Output>
+                <Output type="sp">
+                    <index>1 2</index>
+                    <parameter>H</parameter>
+                    <value>64.7442</value>
+                </Output>
+                <Output type="sp">
+                    <index>1 4</index>
+                    <parameter>H</parameter>
+                    <value>78.7442</value>
+                </Output>
+                <Output type="unit">
+                    <index>1</index>
+                    <parameter>HE</parameter>
+                    <value>0.860742</value>
+                </Output>
+                <Output type="unit">
+                    <index>1</index>
+                    <parameter>MR</parameter>
+                    <value>0.00100958</value>
+                </Output>
+                <Output type="unit">
+                    <index>4</index>
+                    <parameter>HT</parameter>
+                    <value>3.24835</value>
+                </Output>
+                <Output type="unit">
+                    <index>3</index>
+                    <parameter>HE</parameter>
+                    <value>0.794744</value>
+                </Output>
+            </Run>
+            <Run No.="19">
+                <Input type="sp">
+                    <index>4  3</index>
+                    <parameter>T</parameter>
+                    <value>60</value>
+                </Input>
+                <Input type="sp">
+                    <index>2  1</index>
+                    <parameter>T</parameter>
+                    <value>30</value>
+                </Input>
+                <Input type="sp">
+                    <index>2  1</index>
+                    <parameter>F</parameter>
+                    <value>0.25</value>
+                </Input>
+                <Output type="sp">
+                    <index>1 2</index>
+                    <parameter>C</parameter>
+                    <value>0.0102</value>
+                </Output>
+                <Output type="sp">
+                    <index>1 2</index>
+                    <parameter>H</parameter>
+                    <value>59.3488</value>
+                </Output>
+                <Output type="sp">
+                    <index>1 4</index>
+                    <parameter>H</parameter>
+                    <value>78.7442</value>
+                </Output>
+                <Output type="unit">
+                    <index>1</index>
+                    <parameter>HE</parameter>
+                    <value>0.868279</value>
+                </Output>
+                <Output type="unit">
+                    <index>1</index>
+                    <parameter>MR</parameter>
+                    <value>0.00141082</value>
+                </Output>
+                <Output type="unit">
+                    <index>4</index>
+                    <parameter>HT</parameter>
+                    <value>4.936</value>
+                </Output>
+                <Output type="unit">
+                    <index>3</index>
+                    <parameter>HE</parameter>
+                    <value>0.782416</value>
+                </Output>
+            </Run>
+            <Run No.="21">
+                <Input type="sp">
+                    <index>4  3</index>
+                    <parameter>T</parameter>
+                    <value>70</value>
+                </Input>
+                <Input type="sp">
+                    <index>2  1</index>
+                    <parameter>T</parameter>
+                    <value>30</value>
+                </Input>
+                <Input type="sp">
+                    <index>2  1</index>
+                    <parameter>F</parameter>
+                    <value>0.25</value>
+                </Input>
+                <Output type="sp">
+                    <index>1 2</index>
+                    <parameter>C</parameter>
+                    <value>0.008</value>
+                </Output>
+                <Output type="sp">
+                    <index>1 2</index>
+                    <parameter>H</parameter>
+                    <value>54.4651</value>
+                </Output>
+                <Output type="sp">
+                    <index>1 4</index>
+                    <parameter>H</parameter>
+                    <value>78.7442</value>
+                </Output>
+                <Output type="unit">
+                    <index>1</index>
+                    <parameter>HE</parameter>
+                    <value>0.874256</value>
+                </Output>
+                <Output type="unit">
+                    <index>1</index>
+                    <parameter>MR</parameter>
+                    <value>0.00176469</value>
+                </Output>
+                <Output type="unit">
+                    <index>4</index>
+                    <parameter>HT</parameter>
+                    <value>6.38627</value>
+                </Output>
+                <Output type="unit">
+                    <index>3</index>
+                    <parameter>HE</parameter>
+                    <value>0.770092</value>
+                </Output>
+            </Run>
+            <Run No.="23">
+                <Input type="sp">
+                    <index>4  3</index>
+                    <parameter>T</parameter>
+                    <value>80</value>
+                </Input>
+                <Input type="sp">
+                    <index>2  1</index>
+                    <parameter>T</parameter>
+                    <value>30</value>
+                </Input>
+                <Input type="sp">
+                    <index>2  1</index>
+                    <parameter>F</parameter>
+                    <value>0.25</value>
+                </Input>
+                <Output type="sp">
+                    <index>1 2</index>
+                    <parameter>C</parameter>
+                    <value>0.0061</value>
+                </Output>
+                <Output type="sp">
+                    <index>1 2</index>
+                    <parameter>H</parameter>
+                    <value>50.3953</value>
+                </Output>
+                <Output type="sp">
+                    <index>1 4</index>
+                    <parameter>H</parameter>
+                    <value>78.7442</value>
+                </Output>
+                <Output type="unit">
+                    <index>1</index>
+                    <parameter>HE</parameter>
+                    <value>0.879983</value>
+                </Output>
+                <Output type="unit">
+                    <index>1</index>
+                    <parameter>MR</parameter>
+                    <value>0.00205871</value>
+                </Output>
+                <Output type="unit">
+                    <index>4</index>
+                    <parameter>HT</parameter>
+                    <value>7.68779</value>
+                </Output>
+                <Output type="unit">
+                    <index>3</index>
+                    <parameter>HE</parameter>
+                    <value>0.759776</value>
+                </Output>
+            </Run>
+            <Run No.="25">
+                <Input type="sp">
+                    <index>4  3</index>
+                    <parameter>T</parameter>
+                    <value>90</value>
+                </Input>
+                <Input type="sp">
+                    <index>2  1</index>
+                    <parameter>T</parameter>
+                    <value>30</value>
+                </Input>
+                <Input type="sp">
+                    <index>2  1</index>
+                    <parameter>F</parameter>
+                    <value>0.25</value>
+                </Input>
+                <Output type="sp">
+                    <index>1 2</index>
+                    <parameter>C</parameter>
+                    <value>0.0047</value>
+                </Output>
+                <Output type="sp">
+                    <index>1 2</index>
+                    <parameter>H</parameter>
+                    <value>47.0465</value>
+                </Output>
+                <Output type="sp">
+                    <index>1 4</index>
+                    <parameter>H</parameter>
+                    <value>78.7442</value>
+                </Output>
+                <Output type="unit">
+                    <index>1</index>
+                    <parameter>HE</parameter>
+                    <value>0.884263</value>
+                </Output>
+                <Output type="unit">
+                    <index>1</index>
+                    <parameter>MR</parameter>
+                    <value>0.00229334</value>
+                </Output>
+                <Output type="unit">
+                    <index>4</index>
+                    <parameter>HT</parameter>
+                    <value>8.7922</value>
+                </Output>
+                <Output type="unit">
+                    <index>3</index>
+                    <parameter>HE</parameter>
+                    <value>0.749587</value>
+                </Output>
+            </Run>
+            <Run No.="27">
+                <Input type="sp">
+                    <index>4  3</index>
+                    <parameter>T</parameter>
+                    <value>50</value>
+                </Input>
+                <Input type="sp">
+                    <index>2  1</index>
+                    <parameter>T</parameter>
+                    <value>35</value>
+                </Input>
+                <Input type="sp">
+                    <index>2  1</index>
+                    <parameter>F</parameter>
+                    <value>0.25</value>
+                </Input>
+                <Output type="sp">
+                    <index>1 2</index>
+                    <parameter>C</parameter>
+                    <value>0.0142</value>
+                </Output>
+                <Output type="sp">
+                    <index>1 2</index>
+                    <parameter>H</parameter>
+                    <value>72.093</value>
+                </Output>
+                <Output type="sp">
+                    <index>1 4</index>
+                    <parameter>H</parameter>
+                    <value>78.7442</value>
+                </Output>
+                <Output type="unit">
+                    <index>1</index>
+                    <parameter>HE</parameter>
+                    <value>0.870502</value>
+                </Output>
+                <Output type="unit">
+                    <index>1</index>
+                    <parameter>MR</parameter>
+                    <value>0.000774419</value>
+                </Output>
+                <Output type="unit">
+                    <index>4</index>
+                    <parameter>HT</parameter>
+                    <value>2.8063</value>
+                </Output>
+                <Output type="unit">
+                    <index>3</index>
+                    <parameter>HE</parameter>
+                    <value>0.794168</value>
+                </Output>
+            </Run>
+            <Run No.="29">
+                <Input type="sp">
+                    <index>4  3</index>
+                    <parameter>T</parameter>
+                    <value>60</value>
+                </Input>
+                <Input type="sp">
+                    <index>2  1</index>
+                    <parameter>T</parameter>
+                    <value>35</value>
+                </Input>
+                <Input type="sp">
+                    <index>2  1</index>
+                    <parameter>F</parameter>
+                    <value>0.25</value>
+                </Input>
+                <Output type="sp">
+                    <index>1 2</index>
+                    <parameter>C</parameter>
+                    <value>0.0114</value>
+                </Output>
+                <Output type="sp">
+                    <index>1 2</index>
+                    <parameter>H</parameter>
+                    <value>66.0233</value>
+                </Output>
+                <Output type="sp">
+                    <index>1 4</index>
+                    <parameter>H</parameter>
+                    <value>78.7442</value>
+                </Output>
+                <Output type="unit">
+                    <index>1</index>
+                    <parameter>HE</parameter>
+                    <value>0.872953</value>
+                </Output>
+                <Output type="unit">
+                    <index>1</index>
+                    <parameter>MR</parameter>
+                    <value>0.00121409</value>
+                </Output>
+                <Output type="unit">
+                    <index>4</index>
+                    <parameter>HT</parameter>
+                    <value>4.41254</value>
+                </Output>
+                <Output type="unit">
+                    <index>3</index>
+                    <parameter>HE</parameter>
+                    <value>0.782664</value>
+                </Output>
+            </Run>
+            <Run No.="31">
+                <Input type="sp">
+                    <index>4  3</index>
+                    <parameter>T</parameter>
+                    <value>70</value>
+                </Input>
+                <Input type="sp">
+                    <index>2  1</index>
+                    <parameter>T</parameter>
+                    <value>35</value>
+                </Input>
+                <Input type="sp">
+                    <index>2  1</index>
+                    <parameter>F</parameter>
+                    <value>0.25</value>
+                </Input>
+                <Output type="sp">
+                    <index>1 2</index>
+                    <parameter>C</parameter>
+                    <value>0</value>
+                </Output>
+                <Output type="sp">
+                    <index>1 2</index>
+                    <parameter>H</parameter>
+                    <value>0</value>
+                </Output>
+                <Output type="sp">
+                    <index>1 4</index>
+                    <parameter>H</parameter>
+                    <value>0</value>
+                </Output>
+                <Output type="unit">
+                    <index>1</index>
+                    <parameter>HE</parameter>
+                    <value>0</value>
+                </Output>
+                <Output type="unit">
+                    <index>1</index>
+                    <parameter>MR</parameter>
+                    <value>0</value>
+                </Output>
+                <Output type="unit">
+                    <index>4</index>
+                    <parameter>HT</parameter>
+                    <value>0</value>
+                </Output>
+                <Output type="unit">
+                    <index>3</index>
+                    <parameter>HE</parameter>
+                    <value>0</value>
+                </Output>
+            </Run>
+            <Run No.="33">
+                <Input type="sp">
+                    <index>4  3</index>
+                    <parameter>T</parameter>
+                    <value>80</value>
+                </Input>
+                <Input type="sp">
+                    <index>2  1</index>
+                    <parameter>T</parameter>
+                    <value>35</value>
+                </Input>
+                <Input type="sp">
+                    <index>2  1</index>
+                    <parameter>F</parameter>
+                    <value>0.25</value>
+                </Input>
+                <Output type="sp">
+                    <index>1 2</index>
+                    <parameter>C</parameter>
+                    <value>0</value>
+                </Output>
+                <Output type="sp">
+                    <index>1 2</index>
+                    <parameter>H</parameter>
+                    <value>0</value>
+                </Output>
+                <Output type="sp">
+                    <index>1 4</index>
+                    <parameter>H</parameter>
+                    <value>0</value>
+                </Output>
+                <Output type="unit">
+                    <index>1</index>
+                    <parameter>HE</parameter>
+                    <value>0</value>
+                </Output>
+                <Output type="unit">
+                    <index>1</index>
+                    <parameter>MR</parameter>
+                    <value>0</value>
+                </Output>
+                <Output type="unit">
+                    <index>4</index>
+                    <parameter>HT</parameter>
+                    <value>0</value>
+                </Output>
+                <Output type="unit">
+                    <index>3</index>
+                    <parameter>HE</parameter>
+                    <value>0</value>
+                </Output>
+            </Run>
+            <Run No.="35">
+                <Input type="sp">
+                    <index>4  3</index>
+                    <parameter>T</parameter>
+                    <value>90</value>
+                </Input>
+                <Input type="sp">
+                    <index>2  1</index>
+                    <parameter>T</parameter>
+                    <value>35</value>
+                </Input>
+                <Input type="sp">
+                    <index>2  1</index>
+                    <parameter>F</parameter>
+                    <value>0.25</value>
+                </Input>
+                <Output type="sp">
+                    <index>1 2</index>
+                    <parameter>C</parameter>
+                    <value>0</value>
+                </Output>
+                <Output type="sp">
+                    <index>1 2</index>
+                    <parameter>H</parameter>
+                    <value>0</value>
+                </Output>
+                <Output type="sp">
+                    <index>1 4</index>
+                    <parameter>H</parameter>
+                    <value>0</value>
+                </Output>
+                <Output type="unit">
+                    <index>1</index>
+                    <parameter>HE</parameter>
+                    <value>0</value>
+                </Output>
+                <Output type="unit">
+                    <index>1</index>
+                    <parameter>MR</parameter>
+                    <value>0</value>
+                </Output>
+                <Output type="unit">
+                    <index>4</index>
+                    <parameter>HT</parameter>
+                    <value>0</value>
+                </Output>
+                <Output type="unit">
+                    <index>3</index>
+                    <parameter>HE</parameter>
+                    <value>0</value>
+                </Output>
+            </Run>
+        </table_10>
+        <table_11 qUnit="2" pUnit="2" runs="6" fUnit="0" tUnit="1" uaUnit="0" hUnit="0">
+            <Run No.="0">
+                <Input type="sp">
+                    <index>4  3</index>
+                    <parameter>T</parameter>
+                    <value>55</value>
+                </Input>
+                <Input type="sp">
+                    <index>4  3</index>
+                    <parameter>F</parameter>
+                    <value>0.25</value>
+                </Input>
+                <Output type="sp">
+                    <index>1 2</index>
+                    <parameter>C</parameter>
+                    <value>0.0113</value>
+                </Output>
+                <Output type="unit">
+                    <index>1</index>
+                    <parameter>MR</parameter>
+                    <value>0.00123168</value>
+                </Output>
+                <Output type="unit">
+                    <index>4</index>
+                    <parameter>HT</parameter>
+                    <value>4.22528</value>
+                </Output>
+                <Output type="sp">
+                    <index>1 4</index>
+                    <parameter>H</parameter>
+                    <value>78.7442</value>
+                </Output>
+                <Output type="sp">
+                    <index>1 2</index>
+                    <parameter>H</parameter>
+                    <value>61.4186</value>
+                </Output>
+                <Output type="unit">
+                    <index>7</index>
+                    <parameter>HT</parameter>
+                    <value>1.78893</value>
+                </Output>
+                <Output type="unit">
+                    <index>7</index>
+                    <parameter>EF</parameter>
+                    <value>0.914</value>
+                </Output>
+            </Run>
+            <Run No.="1">
+                <Input type="sp">
+                    <index>4  3</index>
+                    <parameter>T</parameter>
+                    <value>60</value>
+                </Input>
+                <Input type="sp">
+                    <index>4  3</index>
+                    <parameter>F</parameter>
+                    <value>0.25</value>
+                </Input>
+                <Output type="sp">
+                    <index>1 2</index>
+                    <parameter>C</parameter>
+                    <value>0.0101</value>
+                </Output>
+                <Output type="unit">
+                    <index>1</index>
+                    <parameter>MR</parameter>
+                    <value>0.00143072</value>
+                </Output>
+                <Output type="unit">
+                    <index>4</index>
+                    <parameter>HT</parameter>
+                    <value>4.98576</value>
+                </Output>
+                <Output type="sp">
+                    <index>1 4</index>
+                    <parameter>H</parameter>
+                    <value>78.7442</value>
+                </Output>
+                <Output type="sp">
+                    <index>1 2</index>
+                    <parameter>H</parameter>
+                    <value>58.6744</value>
+                </Output>
+                <Output type="unit">
+                    <index>7</index>
+                    <parameter>HT</parameter>
+                    <value>2.11369</value>
+                </Output>
+                <Output type="unit">
+                    <index>7</index>
+                    <parameter>EF</parameter>
+                    <value>0.918</value>
+                </Output>
+            </Run>
+            <Run No.="2">
+                <Input type="sp">
+                    <index>4  3</index>
+                    <parameter>T</parameter>
+                    <value>65</value>
+                </Input>
+                <Input type="sp">
+                    <index>4  3</index>
+                    <parameter>F</parameter>
+                    <value>0.25</value>
+                </Input>
+                <Output type="sp">
+                    <index>1 2</index>
+                    <parameter>C</parameter>
+                    <value>0.0089</value>
+                </Output>
+                <Output type="unit">
+                    <index>1</index>
+                    <parameter>MR</parameter>
+                    <value>0.00161104</value>
+                </Output>
+                <Output type="unit">
+                    <index>4</index>
+                    <parameter>HT</parameter>
+                    <value>5.72795</value>
+                </Output>
+                <Output type="sp">
+                    <index>1 4</index>
+                    <parameter>H</parameter>
+                    <value>78.7442</value>
+                </Output>
+                <Output type="sp">
+                    <index>1 2</index>
+                    <parameter>H</parameter>
+                    <value>56.2093</value>
+                </Output>
+                <Output type="unit">
+                    <index>7</index>
+                    <parameter>HT</parameter>
+                    <value>2.43037</value>
+                </Output>
+                <Output type="unit">
+                    <index>7</index>
+                    <parameter>EF</parameter>
+                    <value>0.923</value>
+                </Output>
+            </Run>
+            <Run No.="3">
+                <Input type="sp">
+                    <index>4  3</index>
+                    <parameter>T</parameter>
+                    <value>70</value>
+                </Input>
+                <Input type="sp">
+                    <index>4  3</index>
+                    <parameter>F</parameter>
+                    <value>0.25</value>
+                </Input>
+                <Output type="sp">
+                    <index>1 2</index>
+                    <parameter>C</parameter>
+                    <value>0.0079</value>
+                </Output>
+                <Output type="unit">
+                    <index>1</index>
+                    <parameter>MR</parameter>
+                    <value>0.00178051</value>
+                </Output>
+                <Output type="unit">
+                    <index>4</index>
+                    <parameter>HT</parameter>
+                    <value>6.42935</value>
+                </Output>
+                <Output type="sp">
+                    <index>1 4</index>
+                    <parameter>H</parameter>
+                    <value>78.7442</value>
+                </Output>
+                <Output type="sp">
+                    <index>1 2</index>
+                    <parameter>H</parameter>
+                    <value>53.8605</value>
+                </Output>
+                <Output type="unit">
+                    <index>7</index>
+                    <parameter>HT</parameter>
+                    <value>2.73632</value>
+                </Output>
+                <Output type="unit">
+                    <index>7</index>
+                    <parameter>EF</parameter>
+                    <value>0.928</value>
+                </Output>
+            </Run>
+            <Run No.="4">
+                <Input type="sp">
+                    <index>4  3</index>
+                    <parameter>T</parameter>
+                    <value>75</value>
+                </Input>
+                <Input type="sp">
+                    <index>4  3</index>
+                    <parameter>F</parameter>
+                    <value>0.25</value>
+                </Input>
+                <Output type="sp">
+                    <index>1 2</index>
+                    <parameter>C</parameter>
+                    <value>0.0069</value>
+                </Output>
+                <Output type="unit">
+                    <index>1</index>
+                    <parameter>MR</parameter>
+                    <value>0.00193318</value>
+                </Output>
+                <Output type="unit">
+                    <index>4</index>
+                    <parameter>HT</parameter>
+                    <value>7.09734</value>
+                </Output>
+                <Output type="sp">
+                    <index>1 4</index>
+                    <parameter>H</parameter>
+                    <value>78.7442</value>
+                </Output>
+                <Output type="sp">
+                    <index>1 2</index>
+                    <parameter>H</parameter>
+                    <value>51.7442</value>
+                </Output>
+                <Output type="unit">
+                    <index>7</index>
+                    <parameter>HT</parameter>
+                    <value>3.03014</value>
+                </Output>
+                <Output type="unit">
+                    <index>7</index>
+                    <parameter>EF</parameter>
+                    <value>0.932</value>
+                </Output>
+            </Run>
+            <Run No.="5">
+                <Input type="sp">
+                    <index>4  3</index>
+                    <parameter>T</parameter>
+                    <value>80</value>
+                </Input>
+                <Input type="sp">
+                    <index>4  3</index>
+                    <parameter>F</parameter>
+                    <value>0.25</value>
+                </Input>
+                <Output type="sp">
+                    <index>1 2</index>
+                    <parameter>C</parameter>
+                    <value>0.0061</value>
+                </Output>
+                <Output type="unit">
+                    <index>1</index>
+                    <parameter>MR</parameter>
+                    <value>0.00207117</value>
+                </Output>
+                <Output type="unit">
+                    <index>4</index>
+                    <parameter>HT</parameter>
+                    <value>7.72542</value>
+                </Output>
+                <Output type="sp">
+                    <index>1 4</index>
+                    <parameter>H</parameter>
+                    <value>78.7442</value>
+                </Output>
+                <Output type="sp">
+                    <index>1 2</index>
+                    <parameter>H</parameter>
+                    <value>49.814</value>
+                </Output>
+                <Output type="unit">
+                    <index>7</index>
+                    <parameter>HT</parameter>
+                    <value>3.31499</value>
+                </Output>
+                <Output type="unit">
+                    <index>7</index>
+                    <parameter>EF</parameter>
+                    <value>0.937</value>
+                </Output>
+            </Run>
+            <header>Temperature
+State Point#13
+[℃];Mass flow rate
+State Point#13
+[kg/s];Concentration
+State Point#2
+[%];Moisture Removal Rate
+component#1
+[kg/s];Heat Transfer Value
+component#4
+[kW];Enthalpy
+State Point#4
+[kJ/kg];Enthalpy
+State Point#2
+[kJ/kg];Heat Transfer Value
+component#7
+[kW];EFF Value
+component#7
+[ ]</header>
+            <inputEntries>Temperature,State Point#13,P4 3T;Mass flow rate,State Point#13,P4 3F</inputEntries>
+            <outputEntries>Concentration,State Point#2,P1 2C;Moisture Removal Rate,component#1,U1MR;Heat Transfer Value,component#4,U4HT;Enthalpy,State Point#4,P1 4H;Enthalpy,State Point#2,P1 2H;Heat Transfer Value,component#7,U7HT;EFF Value,component#7,U7EF</outputEntries>
+        </table_11>
+    </TableData>
+    <PlotData/>
+</root>

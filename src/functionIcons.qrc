@@ -1,0 +1,36 @@
+<RCC>
+    <qresource prefix="/Images">
+        <file>icons/about.png</file>
+        <file>icons/Actions-document-save-icon.png</file>
+        <file>icons/Actions-insert-table-icon.png</file>
+        <file>icons/Actions-office-chart-line-stacked-icon.png</file>
+        <file>icons/Adds-Add-link-icon.png</file>
+        <file>icons/clipboard-icon.png</file>
+        <file>icons/Components-icon.png</file>
+        <file>icons/delete-icon.png</file>
+        <file>icons/exit.png</file>
+        <file>icons/export-icon.png</file>
+        <file>icons/Files-New-File-icon.png</file>
+        <file>icons/Folder-Open-icon.png</file>
+        <file>icons/Hands-Whole-hand-icon.png</file>
+        <file>icons/help.png</file>
+        <file>icons/import-icon.png</file>
+        <file>icons/Line-chart-icon.png</file>
+        <file>icons/Overview-Pages-3-icon.png</file>
+        <file>icons/page-table-add-icon.png</file>
+        <file>icons/parametric plot.png</file>
+        <file>icons/plus.png</file>
+        <file>icons/pointer.png</file>
+        <file>icons/print-icon.png</file>
+        <file>icons/Print-Preview-Fit-to-width-icon.png</file>
+        <file>icons/run.png</file>
+        <file>icons/settings.png</file>
+        <file>icons/settings2.png</file>
+        <file>icons/shape_flip_horizontal.png</file>
+        <file>icons/shape_flip_vertical.png</file>
+        <file>icons/shape_rotate_clockwise.png</file>
+        <file>icons/text.png</file>
+        <file>icons/view-details_318-1493.jpg</file>
+        <file>icons/guess_value.jpg</file>
+    </qresource>
+</RCC>
