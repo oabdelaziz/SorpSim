@@ -1,0 +1,473 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>MainWindow</class>
+ <widget class="QMainWindow" name="MainWindow">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>667</width>
+    <height>570</height>
+   </rect>
+  </property>
+  <property name="sizePolicy">
+   <sizepolicy hsizetype="MinimumExpanding" vsizetype="MinimumExpanding">
+    <horstretch>0</horstretch>
+    <verstretch>0</verstretch>
+   </sizepolicy>
+  </property>
+  <property name="windowTitle">
+   <string>MainWindow</string>
+  </property>
+  <widget class="QWidget" name="centralWidget"/>
+  <widget class="QMenuBar" name="menuBar">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>667</width>
+     <height>26</height>
+    </rect>
+   </property>
+   <widget class="QMenu" name="menuFile">
+    <property name="title">
+     <string>File</string>
+    </property>
+    <widget class="QMenu" name="menuRecent_File">
+     <property name="title">
+      <string>Recent File</string>
+     </property>
+    </widget>
+    <addaction name="actionNew"/>
+    <addaction name="actionOpen"/>
+    <addaction name="menuRecent_File"/>
+    <addaction name="actionImport_out_File"/>
+    <addaction name="actionSave"/>
+    <addaction name="actionSave_As"/>
+    <addaction name="actionPrint"/>
+    <addaction name="actionExport_to_File"/>
+    <addaction name="actionExit"/>
+   </widget>
+   <widget class="QMenu" name="menuEdit">
+    <property name="title">
+     <string>Edit</string>
+    </property>
+    <addaction name="actionDelete"/>
+    <addaction name="actionProperties"/>
+    <addaction name="actionMaster_Control_Panel"/>
+    <addaction name="actionGuess_Value"/>
+    <addaction name="actionSystem_Settings"/>
+    <addaction name="separator"/>
+    <addaction name="actionRotate_Clockwise"/>
+    <addaction name="actionFlip_Horizontally"/>
+    <addaction name="actionFlip_Vertically"/>
+    <addaction name="separator"/>
+    <addaction name="actionSelect"/>
+    <addaction name="actionPan"/>
+    <addaction name="actionZoom_To_Fit"/>
+   </widget>
+   <widget class="QMenu" name="menuConstruct">
+    <property name="title">
+     <string>Construct</string>
+    </property>
+    <addaction name="actionComponent"/>
+    <addaction name="actionLine"/>
+    <addaction name="actionText"/>
+   </widget>
+   <widget class="QMenu" name="menuCalculate">
+    <property name="title">
+     <string>Calculate</string>
+    </property>
+    <widget class="QMenu" name="menuResults">
+     <property name="title">
+      <string>Results</string>
+     </property>
+     <addaction name="actionShow_Results"/>
+     <addaction name="actionChoose_Results"/>
+     <addaction name="actionResults_Table"/>
+    </widget>
+    <addaction name="actionAdditional_equations"/>
+    <addaction name="actionRun"/>
+    <addaction name="actionCalculation_Details"/>
+    <addaction name="menuResults"/>
+   </widget>
+   <widget class="QMenu" name="menuTables">
+    <property name="title">
+     <string>Tables</string>
+    </property>
+    <widget class="QMenu" name="menuTable_Windows">
+     <property name="title">
+      <string>Table Windows</string>
+     </property>
+    </widget>
+    <addaction name="actionNew_Parametric_Table"/>
+    <addaction name="actionTable_Window"/>
+    <addaction name="menuTable_Windows"/>
+   </widget>
+   <widget class="QMenu" name="menuPlots">
+    <property name="title">
+     <string>Plots</string>
+    </property>
+    <widget class="QMenu" name="menuPlot_Windows">
+     <property name="title">
+      <string>Plot Windows</string>
+     </property>
+    </widget>
+    <addaction name="actionNew_Parametric_Plot"/>
+    <addaction name="actionNew_Property_Plot"/>
+    <addaction name="actionPlot_Window"/>
+    <addaction name="menuPlot_Windows"/>
+   </widget>
+   <widget class="QMenu" name="menuHelp">
+    <property name="title">
+     <string>Help</string>
+    </property>
+    <widget class="QMenu" name="menuExample_Cases">
+     <property name="title">
+      <string>Example Cases</string>
+     </property>
+    </widget>
+    <addaction name="actionContent_And_Index"/>
+    <addaction name="actionAbout"/>
+    <addaction name="menuExample_Cases"/>
+   </widget>
+   <addaction name="menuFile"/>
+   <addaction name="menuEdit"/>
+   <addaction name="menuConstruct"/>
+   <addaction name="menuCalculate"/>
+   <addaction name="menuTables"/>
+   <addaction name="menuPlots"/>
+   <addaction name="menuHelp"/>
+  </widget>
+  <widget class="QStatusBar" name="statusBar"/>
+  <action name="actionNew">
+   <property name="icon">
+    <iconset resource="functionIcons.qrc">
+     <normaloff>:/Images/icons/Files-New-File-icon.png</normaloff>:/Images/icons/Files-New-File-icon.png</iconset>
+   </property>
+   <property name="text">
+    <string>New</string>
+   </property>
+  </action>
+  <action name="actionOpen">
+   <property name="icon">
+    <iconset resource="functionIcons.qrc">
+     <normaloff>:/Images/icons/Folder-Open-icon.png</normaloff>:/Images/icons/Folder-Open-icon.png</iconset>
+   </property>
+   <property name="text">
+    <string>Open</string>
+   </property>
+  </action>
+  <action name="actionSave">
+   <property name="icon">
+    <iconset resource="functionIcons.qrc">
+     <normaloff>:/Images/icons/Actions-document-save-icon.png</normaloff>:/Images/icons/Actions-document-save-icon.png</iconset>
+   </property>
+   <property name="text">
+    <string>Save</string>
+   </property>
+  </action>
+  <action name="actionSave_As">
+   <property name="icon">
+    <iconset resource="functionIcons.qrc">
+     <normaloff>:/Images/icons/Actions-document-save-icon.png</normaloff>:/Images/icons/Actions-document-save-icon.png</iconset>
+   </property>
+   <property name="text">
+    <string>Save As</string>
+   </property>
+  </action>
+  <action name="actionPrint">
+   <property name="icon">
+    <iconset resource="functionIcons.qrc">
+     <normaloff>:/Images/icons/print-icon.png</normaloff>:/Images/icons/print-icon.png</iconset>
+   </property>
+   <property name="text">
+    <string>Print</string>
+   </property>
+  </action>
+  <action name="actionExit">
+   <property name="icon">
+    <iconset resource="functionIcons.qrc">
+     <normaloff>:/Images/icons/exit.png</normaloff>:/Images/icons/exit.png</iconset>
+   </property>
+   <property name="text">
+    <string>Exit</string>
+   </property>
+  </action>
+  <action name="actionDelete">
+   <property name="icon">
+    <iconset resource="functionIcons.qrc">
+     <normaloff>:/Images/icons/delete-icon.png</normaloff>:/Images/icons/delete-icon.png</iconset>
+   </property>
+   <property name="text">
+    <string>Delete</string>
+   </property>
+  </action>
+  <action name="actionProperties">
+   <property name="icon">
+    <iconset resource="functionIcons.qrc">
+     <normaloff>:/Images/icons/settings.png</normaloff>:/Images/icons/settings.png</iconset>
+   </property>
+   <property name="text">
+    <string>Properties</string>
+   </property>
+  </action>
+  <action name="actionComponent">
+   <property name="icon">
+    <iconset resource="functionIcons.qrc">
+     <normaloff>:/Images/icons/Components-icon.png</normaloff>:/Images/icons/Components-icon.png</iconset>
+   </property>
+   <property name="text">
+    <string>Component</string>
+   </property>
+  </action>
+  <action name="actionLine">
+   <property name="icon">
+    <iconset resource="functionIcons.qrc">
+     <normaloff>:/Images/icons/Adds-Add-link-icon.png</normaloff>:/Images/icons/Adds-Add-link-icon.png</iconset>
+   </property>
+   <property name="text">
+    <string>Link</string>
+   </property>
+  </action>
+  <action name="actionText">
+   <property name="icon">
+    <iconset resource="functionIcons.qrc">
+     <normaloff>:/Images/icons/text.png</normaloff>:/Images/icons/text.png</iconset>
+   </property>
+   <property name="text">
+    <string>Text</string>
+   </property>
+  </action>
+  <action name="actionSelect">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="icon">
+    <iconset resource="functionIcons.qrc">
+     <normaloff>:/Images/icons/pointer.png</normaloff>:/Images/icons/pointer.png</iconset>
+   </property>
+   <property name="text">
+    <string>Select</string>
+   </property>
+  </action>
+  <action name="actionPan">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="icon">
+    <iconset resource="functionIcons.qrc">
+     <normaloff>:/Images/icons/Hands-Whole-hand-icon.png</normaloff>:/Images/icons/Hands-Whole-hand-icon.png</iconset>
+   </property>
+   <property name="text">
+    <string>Pan</string>
+   </property>
+  </action>
+  <action name="actionZoom_To_Fit">
+   <property name="icon">
+    <iconset resource="functionIcons.qrc">
+     <normaloff>:/Images/icons/Print-Preview-Fit-to-width-icon.png</normaloff>:/Images/icons/Print-Preview-Fit-to-width-icon.png</iconset>
+   </property>
+   <property name="text">
+    <string>Zoom To Fit</string>
+   </property>
+   <property name="toolTip">
+    <string>Zoom To Fit</string>
+   </property>
+  </action>
+  <action name="actionRun">
+   <property name="icon">
+    <iconset resource="functionIcons.qrc">
+     <normaloff>:/Images/icons/run.png</normaloff>:/Images/icons/run.png</iconset>
+   </property>
+   <property name="text">
+    <string>Run</string>
+   </property>
+  </action>
+  <action name="actionNew_Parametric_Table">
+   <property name="icon">
+    <iconset resource="functionIcons.qrc">
+     <normaloff>:/Images/icons/page-table-add-icon.png</normaloff>:/Images/icons/page-table-add-icon.png</iconset>
+   </property>
+   <property name="text">
+    <string>New Parametric Table</string>
+   </property>
+  </action>
+  <action name="actionNew_Parametric_Plot">
+   <property name="icon">
+    <iconset resource="functionIcons.qrc">
+     <normaloff>:/Images/icons/Actions-office-chart-line-stacked-icon.png</normaloff>:/Images/icons/Actions-office-chart-line-stacked-icon.png</iconset>
+   </property>
+   <property name="text">
+    <string>New Parametric Plot</string>
+   </property>
+  </action>
+  <action name="actionNew_Property_Plot">
+   <property name="icon">
+    <iconset resource="functionIcons.qrc">
+     <normaloff>:/Images/icons/Line-chart-icon.png</normaloff>:/Images/icons/Line-chart-icon.png</iconset>
+   </property>
+   <property name="text">
+    <string>New Property Plot</string>
+   </property>
+  </action>
+  <action name="actionContent_And_Index">
+   <property name="icon">
+    <iconset resource="functionIcons.qrc">
+     <normaloff>:/Images/icons/help.png</normaloff>:/Images/icons/help.png</iconset>
+   </property>
+   <property name="text">
+    <string>Content And Index</string>
+   </property>
+  </action>
+  <action name="actionAbout">
+   <property name="icon">
+    <iconset resource="functionIcons.qrc">
+     <normaloff>:/Images/icons/about.png</normaloff>:/Images/icons/about.png</iconset>
+   </property>
+   <property name="text">
+    <string>About SorpSim</string>
+   </property>
+  </action>
+  <action name="actionChoose_Results">
+   <property name="icon">
+    <iconset resource="functionIcons.qrc">
+     <normaloff>:/Images/icons/clipboard-icon.png</normaloff>:/Images/icons/clipboard-icon.png</iconset>
+   </property>
+   <property name="text">
+    <string>Choose Results</string>
+   </property>
+  </action>
+  <action name="actionShow_Results">
+   <property name="icon">
+    <iconset resource="functionIcons.qrc">
+     <normaloff>:/Images/icons/clipboard-icon.png</normaloff>:/Images/icons/clipboard-icon.png</iconset>
+   </property>
+   <property name="text">
+    <string>Show Results</string>
+   </property>
+  </action>
+  <action name="actionTable_Window">
+   <property name="icon">
+    <iconset resource="functionIcons.qrc">
+     <normaloff>:/Images/icons/Actions-insert-table-icon.png</normaloff>:/Images/icons/Actions-insert-table-icon.png</iconset>
+   </property>
+   <property name="text">
+    <string>Table Window</string>
+   </property>
+  </action>
+  <action name="actionMaster_Control_Panel">
+   <property name="icon">
+    <iconset resource="functionIcons.qrc">
+     <normaloff>:/Images/icons/Overview-Pages-3-icon.png</normaloff>:/Images/icons/Overview-Pages-3-icon.png</iconset>
+   </property>
+   <property name="text">
+    <string>Master Control Panel</string>
+   </property>
+  </action>
+  <action name="actionImport_out_File">
+   <property name="icon">
+    <iconset resource="functionIcons.qrc">
+     <normaloff>:/Images/icons/Folder-Open-icon.png</normaloff>:/Images/icons/Folder-Open-icon.png</iconset>
+   </property>
+   <property name="text">
+    <string>Import .out File</string>
+   </property>
+  </action>
+  <action name="actionSystem_Settings">
+   <property name="icon">
+    <iconset resource="functionIcons.qrc">
+     <normaloff>:/Images/icons/settings2.png</normaloff>:/Images/icons/settings2.png</iconset>
+   </property>
+   <property name="text">
+    <string>Unit System/ Fluid</string>
+   </property>
+  </action>
+  <action name="actionExport_to_File">
+   <property name="icon">
+    <iconset resource="functionIcons.qrc">
+     <normaloff>:/Images/icons/export-icon.png</normaloff>:/Images/icons/export-icon.png</iconset>
+   </property>
+   <property name="text">
+    <string>Export Diagram to File</string>
+   </property>
+  </action>
+  <action name="actionAdditional_equations">
+   <property name="icon">
+    <iconset resource="functionIcons.qrc">
+     <normaloff>:/Images/icons/plus.png</normaloff>:/Images/icons/plus.png</iconset>
+   </property>
+   <property name="text">
+    <string>Additional equations</string>
+   </property>
+  </action>
+  <action name="actionRotate_Clockwise">
+   <property name="icon">
+    <iconset resource="functionIcons.qrc">
+     <normaloff>:/Images/icons/shape_rotate_clockwise.png</normaloff>:/Images/icons/shape_rotate_clockwise.png</iconset>
+   </property>
+   <property name="text">
+    <string>Rotate Clockwise</string>
+   </property>
+  </action>
+  <action name="actionFlip_Horizontally">
+   <property name="icon">
+    <iconset resource="functionIcons.qrc">
+     <normaloff>:/Images/icons/shape_flip_horizontal.png</normaloff>:/Images/icons/shape_flip_horizontal.png</iconset>
+   </property>
+   <property name="text">
+    <string>Flip Horizontally</string>
+   </property>
+  </action>
+  <action name="actionFlip_Vertically">
+   <property name="icon">
+    <iconset resource="functionIcons.qrc">
+     <normaloff>:/Images/icons/shape_flip_vertical.png</normaloff>:/Images/icons/shape_flip_vertical.png</iconset>
+   </property>
+   <property name="text">
+    <string>Flip Vertically</string>
+   </property>
+  </action>
+  <action name="actionPlot_Window">
+   <property name="icon">
+    <iconset resource="functionIcons.qrc">
+     <normaloff>:/Images/icons/parametric plot.png</normaloff>:/Images/icons/parametric plot.png</iconset>
+   </property>
+   <property name="text">
+    <string>Plot Window</string>
+   </property>
+  </action>
+  <action name="actionCalculation_Details">
+   <property name="icon">
+    <iconset resource="functionIcons.qrc">
+     <normaloff>:/Images/icons/view-details_318-1493.jpg</normaloff>:/Images/icons/view-details_318-1493.jpg</iconset>
+   </property>
+   <property name="text">
+    <string>Convergence Details</string>
+   </property>
+  </action>
+  <action name="actionResults_Table">
+   <property name="icon">
+    <iconset resource="functionIcons.qrc">
+     <normaloff>:/Images/icons/clipboard-icon.png</normaloff>:/Images/icons/clipboard-icon.png</iconset>
+   </property>
+   <property name="text">
+    <string>Results Table</string>
+   </property>
+  </action>
+  <action name="actionGuess_Value">
+   <property name="icon">
+    <iconset resource="functionIcons.qrc">
+     <normaloff>:/Images/icons/guess_value.jpg</normaloff>:/Images/icons/guess_value.jpg</iconset>
+   </property>
+   <property name="text">
+    <string>Guess Value</string>
+   </property>
+  </action>
+ </widget>
+ <layoutdefault spacing="6" margin="11"/>
+ <resources>
+  <include location="functionIcons.qrc"/>
+ </resources>
+ <connections/>
+</ui>

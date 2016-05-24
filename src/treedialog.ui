@@ -1,0 +1,495 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>TreeDialog</class>
+ <widget class="QDialog" name="TreeDialog">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>480</width>
+    <height>480</height>
+   </rect>
+  </property>
+  <property name="sizePolicy">
+   <sizepolicy hsizetype="MinimumExpanding" vsizetype="MinimumExpanding">
+    <horstretch>0</horstretch>
+    <verstretch>0</verstretch>
+   </sizepolicy>
+  </property>
+  <property name="minimumSize">
+   <size>
+    <width>480</width>
+    <height>0</height>
+   </size>
+  </property>
+  <property name="maximumSize">
+   <size>
+    <width>480</width>
+    <height>480</height>
+   </size>
+  </property>
+  <property name="windowTitle">
+   <string>Dialog</string>
+  </property>
+  <layout class="QVBoxLayout" name="verticalLayout_2">
+   <item>
+    <layout class="QHBoxLayout" name="horizontalLayout_2">
+     <item>
+      <widget class="QTreeWidget" name="treeWidget">
+       <property name="minimumSize">
+        <size>
+         <width>230</width>
+         <height>0</height>
+        </size>
+       </property>
+       <property name="maximumSize">
+        <size>
+         <width>201</width>
+         <height>500</height>
+        </size>
+       </property>
+       <column>
+        <property name="text">
+         <string>Component Type</string>
+        </property>
+       </column>
+       <item>
+        <property name="text">
+         <string>Absorber </string>
+        </property>
+        <item>
+         <property name="text">
+          <string>Absorber_crossflow</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>Absorber_coflow</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>Absorber_counterflow</string>
+         </property>
+        </item>
+       </item>
+       <item>
+        <property name="text">
+         <string>Desorber </string>
+        </property>
+        <item>
+         <property name="text">
+          <string>Desorber_crossflow</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>Desorber_coflow</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>Desorber_counterflow</string>
+         </property>
+        </item>
+       </item>
+       <item>
+        <property name="text">
+         <string>Heat Exchanger</string>
+        </property>
+        <item>
+         <property name="text">
+          <string>Heat Exchanger_crossflow</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>Heat Exchanger_coflow</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>Heat Exchanger_counterflow</string>
+         </property>
+        </item>
+       </item>
+       <item>
+        <property name="text">
+         <string>Condenser</string>
+        </property>
+        <item>
+         <property name="text">
+          <string>Condenser_side</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>Condenser_top</string>
+         </property>
+        </item>
+       </item>
+       <item>
+        <property name="text">
+         <string>Evaporator</string>
+        </property>
+        <item>
+         <property name="text">
+          <string>Evaporator_side</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>Evaporator_bottom</string>
+         </property>
+        </item>
+       </item>
+       <item>
+        <property name="text">
+         <string>Valve</string>
+        </property>
+        <item>
+         <property name="text">
+          <string>Valve_generic</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>Valve_throttle</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>Valve_thermostatic </string>
+         </property>
+        </item>
+       </item>
+       <item>
+        <property name="text">
+         <string>Mixer</string>
+        </property>
+        <item>
+         <property name="text">
+          <string>Mixer_180inlet</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>Mixer_90inlet</string>
+         </property>
+        </item>
+       </item>
+       <item>
+        <property name="text">
+         <string>Splitter</string>
+        </property>
+        <item>
+         <property name="text">
+          <string>Splitter_180outlet</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>Splitter_90outlet</string>
+         </property>
+        </item>
+       </item>
+       <item>
+        <property name="text">
+         <string>Rectifier</string>
+        </property>
+        <item>
+         <property name="text">
+          <string>Rectifier_counterflow</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>Rectifier_coflow</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>Rectifier_liquidinlet</string>
+         </property>
+        </item>
+       </item>
+       <item>
+        <property name="text">
+         <string>Analyzer</string>
+        </property>
+        <item>
+         <property name="text">
+          <string>Analyzer_heated</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>Analyzer_cooled</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>Analyzer_adiabatic</string>
+         </property>
+        </item>
+       </item>
+       <item>
+        <property name="text">
+         <string>Compressor</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>Pump</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>Desiccant Wheel</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>Dehumidifier_adiabatic</string>
+        </property>
+        <item>
+         <property name="text">
+          <string>Dehum_a_counter-flow</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>Dehum_a_co-flow</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>Dehum_a_cross-flow</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>Dehum_a_eff_model</string>
+         </property>
+        </item>
+       </item>
+       <item>
+        <property name="text">
+         <string>Regenerator_adiabatic</string>
+        </property>
+        <item>
+         <property name="text">
+          <string>Reg_a_counter-flow</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>Reg_a_co-flow</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>Reg_a_cross-flow</string>
+         </property>
+        </item>
+       </item>
+       <item>
+        <property name="text">
+         <string>Dehumidifier_cooled</string>
+        </property>
+        <item>
+         <property name="text">
+          <string>Counter-flow</string>
+         </property>
+         <item>
+          <property name="text">
+           <string>Dehum_c_counter-flow_1</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Dehum_c_counter-flow_2</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Dehum_c_counter-flow_3</string>
+          </property>
+         </item>
+        </item>
+        <item>
+         <property name="text">
+          <string>Co-flow</string>
+         </property>
+         <item>
+          <property name="text">
+           <string>Dehum_c_co-flow_1</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Dehum_c_co-flow_2</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Dehum_c_co-flow_3</string>
+          </property>
+         </item>
+        </item>
+        <item>
+         <property name="text">
+          <string>Cross-flow</string>
+         </property>
+         <item>
+          <property name="text">
+           <string>Dehum_c_cross-flow_1</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Dehum_c_cross-flow_2</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Dehum_c_cross-flow_3</string>
+          </property>
+         </item>
+        </item>
+       </item>
+       <item>
+        <property name="text">
+         <string>Regenerator_heated</string>
+        </property>
+        <item>
+         <property name="text">
+          <string>Counter-flow</string>
+         </property>
+         <item>
+          <property name="text">
+           <string>Reg_h_counter-flow_1</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Reg_h_counter-flow_2</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Reg_h_counter-flow_3</string>
+          </property>
+         </item>
+        </item>
+        <item>
+         <property name="text">
+          <string>Co-flow</string>
+         </property>
+         <item>
+          <property name="text">
+           <string>Reg_h_co-flow_1</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Reg_h_co-flow_2</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Reg_h_co-flow_3</string>
+          </property>
+         </item>
+        </item>
+        <item>
+         <property name="text">
+          <string>Cross-flow</string>
+         </property>
+         <item>
+          <property name="text">
+           <string>Reg_h_cross-flow_1</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Reg_h_cross-flow_2</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Reg_h_cross-flow_3</string>
+          </property>
+         </item>
+        </item>
+       </item>
+      </widget>
+     </item>
+     <item>
+      <layout class="QVBoxLayout" name="verticalLayout">
+       <item>
+        <widget class="QGraphicsView" name="myView">
+         <property name="minimumSize">
+          <size>
+           <width>250</width>
+           <height>250</height>
+          </size>
+         </property>
+         <property name="maximumSize">
+          <size>
+           <width>250</width>
+           <height>250</height>
+          </size>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QPlainTextEdit" name="discriptionBox">
+         <property name="minimumSize">
+          <size>
+           <width>250</width>
+           <height>0</height>
+          </size>
+         </property>
+         <property name="maximumSize">
+          <size>
+           <width>250</width>
+           <height>230</height>
+          </size>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <layout class="QHBoxLayout" name="horizontalLayout">
+         <item>
+          <widget class="QPushButton" name="selectButton">
+           <property name="text">
+            <string>Select</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QPushButton" name="cancelButton">
+           <property name="text">
+            <string>Cancel</string>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </item>
+      </layout>
+     </item>
+    </layout>
+   </item>
+  </layout>
+ </widget>
+ <tabstops>
+  <tabstop>selectButton</tabstop>
+  <tabstop>cancelButton</tabstop>
+  <tabstop>treeWidget</tabstop>
+  <tabstop>discriptionBox</tabstop>
+  <tabstop>myView</tabstop>
+ </tabstops>
+ <resources/>
+ <connections/>
+</ui>

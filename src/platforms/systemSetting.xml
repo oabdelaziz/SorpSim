@@ -1,0 +1,473 @@
+<?xml version='1.0' encoding='utf-8'?>
+<Root>
+    <Unit UnitID="Absorber">
+        <Description>Three types of ABSORBER are available, differing from each other by the flow of vapor relative to the liquid: Cross-flow, Co-flow and Counter-flow. The following equations are generated when an ABSORBER is added to the cycle:&#xd;
+&#xd;
+(1) CONSERVATION OF TOTAL MASS 
+&#xd;
+(2) CONSERVATION OF ABSORBENT/ABSORBATE MASS&#xd;
+(3) EQUILIBRIUM (+ possible deviation) AT SOLUTION OUTLET&#xd;
+(4) Adiabatic Absorption - EQUILIBRIUM&#xd;
+(5) Adiabatic Absorption - ENERGY BALANCE&#xd;
+(6) Adiabatic Absorption - MASS BALANCE&#xd;
+(7) OVERALL ENERGY BALANCE&#xd;
+(8) HEAT TRANSFER&#xd;
+&#xd;
+for the unknowns: P; T or W at coolant outlet; T, F and C at solution outlet; T, F and C at internal adiabatic equilibrium point.   &#xd;
+</Description>
+    </Unit>
+    <Unit UnitID="Add">
+        <Description>ADD - add one of twelve units specified under this entry (Absorber, Desorber, Heat Exchanger, Condenser, Evaporator, Valve, Mixer, Splitter, Rectifier, Analyser, Compressor and Pump) to the current cycle diagram. &#xd;
+&#xd;
+&#xd;
+Absorber  &#xd;
+Desorber &#xd;
+Heat Exchanger &#xd;
+Condenser &#xd;
+Evaporator &#xd;
+Valve &#xd;
+Mixer &#xd;
+Splitter &#xd;
+Rectifier &#xd;
+Analyser &#xd;
+Compressor &#xd;
+Pump &#xd;
+</Description>
+    </Unit>
+    <Unit UnitID="Analyser">
+        <Description>Three types of ANALYSER are available: Heated, Cooled and Adiabatic. The following equations are generated when an ANALYSER is added to the cycle: &#xd;
+&#xd;
+(1) CONSERVATION OF TOTAL MASS&#xd;
+(2) CONSERVATION OF ABSORBENT/ABSORBATE MASS&#xd;
+(3) EQUILIBRIUM (+ possible deviation) AT SOLUTION OUTLET&#xd;
+(4) EQUILIBRIUM AT VAPOR OUTLET&#xd;
+(5) Adiabatic Absorption - EQUILIBRIUM&#xd;
+(6) Adiabatic Absorption - ENERGY BALANCE&#xd;
+(7) Adiabatic Absorption - MASS BALANCE&#xd;
+(8) OVERALL ENERGY BALANCE&#xd;
+(9) HEAT TRANSFER (except for Adiabatic Analyser)&#xd;
+(10)EQUILIBRIUM DEVIATION AT VAPOR OUTLET&#xd;
+&#xd;
+for the unknowns: T, F and C at vapor outlet; T, F and C at solution outlet; T, F and C at internal adiabatic equilibrium point; T or W at coolant outlet (except for Adiabatic Analyser).&#xd;
+&#xd;
+  &#xd;
+</Description>
+    </Unit>
+    <Unit UnitID="Compressor">
+        <Description>&#xd;
+Two types of COMPRESSOR are available: Generic and Reciprocating (presently inoperative). The following equations are generated when a COMPRESSOR isadded to the cycle:&#xd;
+&#xd;
+(1) ISENTROPIC COMPRESSION (inlet to internal point)&#xd;
+(2) ISENTROPIC EFFICIENCY (inlet to outlet)&#xd;
+&#xd;
+for the unknowns: T at internal point; T at the outlet.&#xd;
+&#xd;
+Add | Pump &#xd;
+&#xd;
+&#xd;
+The following equations are generated when a PUMP is added to the cycle:&#xd;
+&#xd;
+(1) ISENTROPIC COMPRESSION (inlet to internal point)&#xd;
+(2) ISENTROPIC EFFICIENCY (inlet to outlet)&#xd;
+&#xd;
+for the unknowns: T at internal point; T at the outlet. &#xd;
+</Description>
+    </Unit>
+    <Unit UnitID="Condenser">
+        <Description>Two types of CONDENSER are available, differing from each other by the flow of vapor into the unit: Side inlet and Top inlet. The following equations are generated when a CONDENSER is added to the cycle:&#xd;
+&#xd;
+(1) EQUILIBRIUM (+ possible deviation) AT CONDENSATE OUTLET&#xd;
+(2) EQUILIBRIUM AT INTERNAL VAPOR SATURATION POINT&#xd;
+(3) OVERALL ENERGY BALANCE&#xd;
+(4) HEAT TRANSFER&#xd;
+&#xd;
+for the unknowns: P; T or W at condensate outlet; T or W at coolant outlet;  T at internal vapor saturation point.  &#xd;
+</Description>
+    </Unit>
+    <Unit UnitID="Copy Results">
+        <Description>COPY RESULTS - enables the user to improve his initial guess for the cycle, by substituting the results of a successful calculation for the values currently in the data file. Having prepared the input &#xd;
+according to the procedure described above, the user may RUN the program, and if convergence is achieved, select COPY RESULTS. The results of the calculation will automatically replace the initial guesses for all the state point &#xd;
+variables (temperatures, flowrates etc.) in the original input. Running the program again now will, under most cases, yield conversion in fewer iterations than before. The new input with the updated initial guesses may provide a better starting point for the next calculation.&#xd;
+</Description>
+    </Unit>
+    <Unit UnitID="Data">
+        <Description>DATA enables the user to specify the characteristic parameters of a cycle  (drawn earlier using ADD and the Tool Box), such as the heat and mass transfer characteristics of exchange units, the working fluid(s) at each state point and the given temperatures, flowrates etc. fixed at certain state points. The data parameters belong to three basic groups (GLOBAL PARAMETERS, UNIT PARAMETERS and STATE POINT DATA) as described below. Two additional options (READ DATA and COPY RESULTS) are available under DATA, as described below.&#xd;
+&#xd;
+The DATA menu includes the following entries:&#xd;
+&#xd;
+&#xd;
+Global Parameters  &#xd;
+Unit Parameters  &#xd;
+State Point Data  &#xd;
+Read Data  &#xd;
+Copy Results  &#xd;
+&#xd;
+&#xd;
+</Description>
+    </Unit>
+    <Unit UnitID="Desorber">
+        <Description>Three types of DESORBER are available, differing from each other by the flow of vapor relative to the liquid: Cross-flow, Co-flow and Counter-flow. The following equations are generated when a DESORBER is added to the cycle:&#xd;
+&#xd;
+(1) CONSERVATION OF TOTAL MASS&#xd;
+(2) CONSERVATION OF ABSORBENT/ABSORBATE MASS&#xd;
+(3) EQUILIBRIUM (+ possible deviation) AT SOLUTION OUTLET&#xd;
+(4) EQUILIBRIUM AT VAPOR OUTLET&#xd;
+(5) Adiabatic Desorption - EQUILIBRIUM&#xd;
+(6) Adiabatic Desorption - ENERGY BALANCE&#xd;
+(7) Adiabatic Desorption - MASS BALANCE&#xd;
+(8) TEMPERATURE DEVIATION BETWEEEN LIQUID AND VAPOR OUTLETS&#xd;
+(9) OVERALL ENERGY BALANCE&#xd;
+(10) HEAT TRANSFER&#xd;
+&#xd;
+for the unknowns: T, F and C at liquid outlet; T or W at heating fluid outlet; T, F and C at solution outlet; T, F and C at internal adiabatic equilibrium point.   &#xd;
+&#xd;
+</Description>
+    </Unit>
+    <Unit UnitID="Evaporator">
+        <Description>Two types of EVAPORATOR are available, differing from each other by the flow of vapor out of the unit: Side outlet and Bottom outlet. The following  equations are generated when an EVAPORATOR is added to the cycle:&#xd;
+&#xd;
+(1) EQUILIBRIUM AT INTERNAL LIQUID SATURATION POINT&#xd;
+(2) EQUILIBRIUM (+ possible deviation) AT VAPOR OUTLET&#xd;
+(3) OVERALL ENERGY BALANCE&#xd;
+(4) HEAT TRANSFER&#xd;
+&#xd;
+for the unknowns: T and W at vapor outlet; T or W at coolant outlet; T at internal liquid saturation point.&#xd;
+ &#xd;
+</Description>
+    </Unit>
+    <Unit UnitID="File">
+        <Description>FILE enables the user to manipulate ABSIM files. Three primary files are usually associated with each cycle: *.ABS is a graphical description file containing a map of the cycle diagram; *.DAT is an ASCII file containing the input parameters in the ABSIM format; and *.OUT is an ASCII file containing the results of the calculations in tabular form. In addition, two secondary files associated with the cycle are sometimes generated by the code: *.PTX contains information required for drawing a P-T-X diagram of the cycle;and *.PLT contains information required for plotting certain parameters vs. others, as requested by the user under PLOT. Of the above, only *.DAT, *.OUT and *.PLT contain information which may be of interest to the user.&#xd;
+&#xd;
+The FILE menu includes the following entries:&#xd;
+&#xd;
+&#xd;
+&#xd;
+Open &#xd;
+View &#xd;
+Run &#xd;
+New &#xd;
+Save &#xd;
+Save As &#xd;
+Print &#xd;
+Printer Setup &#xd;
+Exit&#xd;
+&#xd;
+&#xd;
+&#xd;
+File | Open &#xd;
+&#xd;
+OPEN - open an existing cycle. A list of the cycles in the subdirectory \DATA will appear when this entry is selected.&#xd;
+&#xd;
+File | View &#xd;
+&#xd;
+VIEW - enables the user to view ASCII files generated by ABSIM. Of particular interest are data files *.DAT, output files *.OUT and plot files *.PLT, as well as run diagnostic files containing possible error messages. These files are found in the subdirectory \DATA.&#xd;
+&#xd;
+&#xd;
+&#xd;
+File | Run &#xd;
+&#xd;
+&#xd;
+&#xd;
+RUN enables the user to run the simulation program after the cycle had been drawn and specified under DATA. With these tasks incomplete or improperly done, attempting to RUN will produce the message "run error!" &#xd;
+&#xd;
+When RUN is selected, the graphical interface creates two files based on the user input, in the subdirectory \DATA (alongside the already existing *.ABS): An ASCII file *.DAT which contains the input parameters in the ABSIM format, and a temporary file TMP.TMP containing the names of the input, output and P-T-X information files, typically *.DAT, *.OUT and *.PTX. The latter two are produced next (also in the subdirectory \DATA) when the ABSIM program is executed. *.OUT contains the results of the calculations, including a list of the equations generated and their residuals, upon termination. In the case of non-convergence, these residuals may be examined to indicate where the problem might be. *.PTX contains information required for plotting a P-T-X diagram for the cycle.&#xd;
+&#xd;
+A box containing a RUN MESSAGE appears on the screen at the conclusion of the run to report to the user whether or not convergence has been reached, the type of convergence and the number of iterations it took.&#xd;
+&#xd;
+Error messages generated by ABSIM during a run are collected in temporary files TMP.ERR and RUN.ERR. Messages and warnings other than error messages are collected in a temporary file TMP.STD. These temporary files are produced in the subdirectory \DATA and may be viewed by selecting VIEW under FILE.&#xd;
+&#xd;
+&#xd;
+&#xd;
+&#xd;
+&#xd;
+File | New &#xd;
+&#xd;
+NEW - create a new cycle. The name UNTITLED will be assigned to the cycle until it is saved under a different name.&#xd;
+&#xd;
+File | Save &#xd;
+&#xd;
+SAVE - save the current file under the current name.&#xd;
+&#xd;
+File | Save As &#xd;
+&#xd;
+SAVE AS - save the current file under a new name.&#xd;
+&#xd;
+File | Print &#xd;
+&#xd;
+PRINT - select this entry to print the cycle diagram. The diagram may be printed with or without the parameter values superimposed on it, depending on the way it is displayed on the screen at the time PRINT is selected.  &#xd;
+&#xd;
+File | Printer Setup &#xd;
+&#xd;
+PRINTER SETUP - set the printer characteristics and the print configuration.&#xd;
+&#xd;
+File | Exit &#xd;
+&#xd;
+Exit AbsimW.&#xd;
+&#xd;
+ &#xd;
+</Description>
+    </Unit>
+    <Unit UnitID="Global Parameters">
+        <Description>The following parameters should be specified:&#xd;
+&#xd;
+TITLE - enter a one-line title (up to 75 characters) for the current simulation problem.&#xd;
+&#xd;
+NORMALIZATION PARAMETERS - provide values for the maximum temperature, minimum temperature, maximum flowrate and maximum pressure expected in the cycle, for normalization purposes. &#xd;
+The values of these parameters need not be exact, and they are supplied automatically by the code from the STATE POINT DATA group, if the user chooses not to enter them. Thus, this step may be skipped.&#xd;
+&#xd;
+CONTROL PARAMETERS - specify the maximum number of iterations, the frequency at which intermediate results of iteration are printed into the output file (MSGLVL), the system of units for calculation (SI/BRITISH), the convergence tolerance on the functions (FTOL) and on the variables (XTOL).&#xd;
+Default values are available for all these parameters.&#xd;
+   &#xd;
+&#xd;
+</Description>
+    </Unit>
+    <Unit UnitID="Heat Exchanger">
+        <Description>Three types of HEAT EXCHANGER are available: Cross-flow (currently inoperative), Co-flow (currently inoperative) and Counter-flow. The following equations are generated when a HEAT EXCHANGER is added to the cycle:&#xd;
+&#xd;
+(1) OVERALL ENERGY BALANCE&#xd;
+(2) HEAT TRANSFER&#xd;
+&#xd;
+for the unknowns: T or W at hot stream outlet; T or W at cold stream outlet.&#xd;
+&#xd;
+&#xd;
+</Description>
+    </Unit>
+    <Unit UnitID="Help">
+        <Description>This entry contains Help information about AbsimW. The following topics are described:&#xd;
+&#xd;
+FILE  - how to manipulate ABSIM files, view, run and print them.&#xd;
+&#xd;
+ADD - how to add units to a cycle.&#xd;
+&#xd;
+DATA - how to specify the operating conditions of a cycle.&#xd;
+&#xd;
+RESULTS - how to view the results of calculation on the cycle diagram.&#xd;
+&#xd;
+PLOT - how to plot certain calculated parameters vs. others.&#xd;
+&#xd;
+RENUMBER - how to change the number assigned to units and state points.&#xd;
+&#xd;
+UTILITIES - how to shape the cycle diagram, change text size and form, change the number of digits after the decimal point.&#xd;
+&#xd;
+HELP - how to receive general instructions on ABSIM. &#xd;
+&#xd;
+ TOOL BOX - features enabling the user to move units and text in the cycle diagram, zoom in and out, rotate units and text, align and flip units, erase units and text, connect and disconnect units.&#xd;
+&#xd;
+&#xd;
+&#xd;
+Tool Box &#xd;
+&#xd;
+TOOL BOX contains several devices to assist the user in drawing or modifying the drawing of a cycle diagram. It enables the user to move units and text in the cycle, zoom in and out, rotate units and text, align and flip units, erase units and text, connect and disconnect units.&#xd;
+&#xd;
+&#xd;
+&#xd;
+ARROW - enables the user to move units and state point text in the cycle.&#xd;
+To move a unit or state point text from one location to another in the cycle diagram, indicate the item by the arrow, press the left mouse button and drag it to the desired location. Note that when a unit is moved, its connections to other units will move with it.&#xd;
+&#xd;
+&#xd;
+ZOOM IN/OUT - place the magnifying glass in the center of the desired zoom area. Click on the left mouse button to zoom in; click on the right mouse button to zoom out. The point indicated by the magnifying glass will relocate to the center of the window. &#xd;
+&#xd;
+&#xd;
+HOME - return to the original form of the diagram, referred to as Base View. The current form may be made into Base View by selecting the sub-entry SET VIEW under UTILITIES.&#xd;
+&#xd;
+&#xd;
+PAN-XY - use this device to move the entire cycle diagram up, down, right or left. Place the pan-XY in the center of the diagram and move the mouse while pressing the left button.&#xd;
+&#xd;
+&#xd;
+ROTATE - rotate units or state point text by 90 degrees. Indicate the desired item and click on the left mouse button.&#xd;
+&#xd;
+&#xd;
+FLIP HORIZONTALLY - flip a unit horizontally about a vertical axis.&#xd;
+&#xd;
+&#xd;
+FLIP VERTICALLY - flip a unit vertically about a horizontal axis.&#xd;
+&#xd;
+&#xd;
+ALIGN HORIZONTALLY - align a unit along the same horizontal axis with another unit. Use the mouse to indicate first the unit to be aligned, then the unit to align to.&#xd;
+&#xd;
+&#xd;
+ALIGN VERTICALLY - align a unit along the same vertical axis with another unit. Use the mouse to indicate first the unit to be aligned, then the unit to align to.&#xd;
+&#xd;
+&#xd;
+ERASE - erase a unit, a connection or state point text from the cycle diagram.Use the mouse to indicate the item and click on the left button to erase it.&#xd;
+If you erase a unit that had been connected to other units, its connecting streams will be erased along with it.&#xd;
+&#xd;
+&#xd;
+CONNECT - connect an outlet stream (or sensor) from one unit to an inlet stream of another unit. A choice of solid, dashed, dotted or hidden lines is available for the connection. Use the mouse to mark the outlet. A set of crosshairs will appear.&#xd;
+Use the mouse or the arrow keys (or Shift-Arrow) to advance the crosshairs in the desired direction in order to form segments of the connection; click on the left mouse button or press INSERT when  completing a segment, or press DELETE to erase the last segment. &#xd;
+When you reach the destination inlet, the connection is complete. The two connected state points, originally assigned two different numbers, will now have the same number.&#xd;
+Note that a unit may not be connected to itself. Also, certain units have more than one inlet or outlet; to help you identify the right stream, vapor streams (e.g. the vapor inlet into the Absorber) have been colored purple, while liquid streams (e.g. the solution inlet into the same absorber) are blue.&#xd;
+&#xd;
+&#xd;
+&#xd;
+</Description>
+    </Unit>
+    <Unit UnitID="Mixer">
+        <Description>Two types of MIXER are available, differing from each other by the relative positions of the two inlets: At 180 degrees and At 90 degrees. The  following equations are generated when a MIXER is added to the cycle: &#xd;
+&#xd;
+(1) CONSERVATION OF TOTAL MASS&#xd;
+(2) CONSERVATION OF ABSORBENT/ABSORBATE MASS&#xd;
+(3) OVERALL ENERGY BALANCE&#xd;
+&#xd;
+for the unknowns: T or W, F and C at the outlet.&#xd;
+&#xd;
+</Description>
+    </Unit>
+    <Unit UnitID="Plot">
+        <Description>PLOT enables the user to plot certain calculated parameters vs. others.Typically, after completing a simulation run at a particular set of input conditions, the user may want to observe the influence of varying one parameter on the behavior of another. &#xd;
+The graphical interface allows the user to specify the desired plot, display it on the screen and print it.&#xd;
+&#xd;
+The PLOT menu includes the following entries:&#xd;
+&#xd;
+CREATE - specify the desired plot. The user is first asked whether to COPY RESULTS (see HELP for this feature under DATA) between points, in order to improve the initial guess for each calculation and help convergence. &#xd;
+Next, a dialog box appears in which the user must specify: (1) an input parameter to be varied from a  minimum to a maximum value at a specified number of intervals; this parameter may be associated with a unit (e.g. a heat duty) or with a state point (e.g. a temperature). (2) the corresponding parameters to be plotted on the horizontal and vertical axes.&#xd;
+These parameters may again be associated with a unit, with a state point, or can be global parameters such as COP or capacity. Based on this specification, the input parameter is varied by the code over the required range and the program is run for each value to produce the required data, which is written into a file *.PLT. &#xd;
+This ASCII file may be copied and employed by the user in other application programs, spreadsheets etc. While PLOT is in progress, the status is displayed in terms of percentage of the runs completed. &#xd;
+&#xd;
+&#xd;
+&#xd;
+</Description>
+    </Unit>
+    <Unit UnitID="Pump">
+        <Description>The following equations are generated when a PUMP is added to the cycle:&#xd;
+&#xd;
+(1) ISENTROPIC COMPRESSION (inlet to internal point)&#xd;
+(2) ISENTROPIC EFFICIENCY (inlet to outlet)&#xd;
+&#xd;
+for the unknowns: T at internal point; T at the outlet.&#xd;
+&#xd;
+&#xd;
+</Description>
+    </Unit>
+    <Unit UnitID="Read Data">
+        <Description>The following equations are generated when a PUMP is added to the cycle:&#xd;
+&#xd;
+(1) ISENTROPIC COMPRESSION (inlet to internal point)&#xd;
+(2) ISENTROPIC EFFICIENCY (inlet to outlet)&#xd;
+&#xd;
+for the unknowns: T at internal point; T at the outlet.&#xd;
+&#xd;
+&#xd;
+</Description>
+    </Unit>
+    <Unit UnitID="Rectifier">
+        <Description>Three types of RECTIFIER are available, differing from each other by the flow of liquid relative to the vapor: Counter-flow (of the reflux liquid); Co-flow (of the reflux liquid) (currently inoperative); Liquid inlet (added to the rectifier of Couter-flow type) (currently inoperative). The following equations are generated when a RECTIFIER is added to the cycle:&#xd;
+&#xd;
+(1) CONSERVATION OF TOTAL MASS&#xd;
+(2) CONSERVATION OF ABSORBENT/ABSORBATE MASS&#xd;
+(3) EQUILIBRIUM AT VAPOR OUTLET&#xd;
+(4) EQUILIBRIUM (+ possible deviation) AT LIQUID REFLUX OUTLET&#xd;
+(5) EQUILIBRIUM AT INTERNAL VAPOR SATURATION POINT&#xd;
+(6) OVERALL ENERGY BALANCE&#xd;
+(7) HEAT TRANSFER&#xd;
+(8) EQUILIBRIUM DEVIATION AT REFLUX OUTLET&#xd;
+&#xd;
+for the unknowns: T, F and C at vapor outlet; T or W at coolant outlet; T, F and C at liquid reflux outlet; T at internal vapor saturation point.  &#xd;
+&#xd;
+&#xd;
+&#xd;
+</Description>
+    </Unit>
+    <Unit UnitID="Renumber">
+        <Description>RENUMBER - change the number assigned by the code to a unit or to a state point. Several options are available under this entry, as indicated by the menu. To renumber units, use the mouse to indicate two units and their numbers will be swapped. To renumber state points, either indicate two state points to swap their respective numbers or indicate one state point and enter the number you want to assign to it.&#xd;
+ In certain units, you may merge an internal state point (point marked by XXX) with an external one, assigning the same number to both, when their conditions are identical.  &#xd;
+&#xd;
+</Description>
+    </Unit>
+    <Unit UnitID="Results">
+        <Description>RESULTS enables the user to view the results of the calculations superimposed on the cycle diagram. &#xd;
+When selecting the proper entry from the RESULTS menu,the program displays the temperature, flowrate, concentration, pressure or vapor fraction at each state point in the cycle on the respective streams in the diagram; or the UA (overall heat transfer coefficient times area), NTU (number of transfer units), EFF (heat transfer effectiveness), CAT (closest approach temperature), LMTD (logarithmic mean temperature difference) or heat duty in each unit in the cycle. &#xd;
+Global results including the COP (coefficient of performance) and capacity may also be displayed. In each case, the quantity being displayed and its units of measurement areshown in the top header, along with the name of the file. Note that for state point parameters such as temperature, flowrate etc., user-specified values are displayed in a slightly different color than calculated values, to help distinguish between the two. &#xd;
+&#xd;
+A hard copy of the cycle diagram with or without the results may be printed (see PRINT under FILE). To view the diagram without the results, select HIDE.&#xd;
+&#xd;
+Selecting the entry PTX under RESULTS displays a P-T-X diagram of the cycle,based on the calculated results. This diagram appears under a separate window and may be printed by clicking the control box and selecting PRINT.&#xd;
+&#xd;
+In case of non-convergence, selecting RESULTS may help the user determine the source of the problem. A red frame will show along the contour of each unit in the cycle whose governing equations were not satisfied to the required tolerance. Failure of the code to reduce the residuals of certain equations may indicate improper specification of parameters associated with these equations, non-physical conditions and the like. &#xd;
+Once the problematic units have been pointed out, the user should refer to the complete listing of equations and their residuals, by viewing the file *.OUT.&#xd;
+&#xd;
+</Description>
+    </Unit>
+    <Unit UnitID="Run">
+        <Description>RUN enables the user to run the simulation program after the cycle had been drawn and specified under DATA. With these tasks incomplete or improperly done, attempting to RUN will produce the message "run error!" &#xd;
+&#xd;
+When RUN is selected, the graphical interface creates two files based on the user input, in the subdirectory \DATA (alongside the already existing *.ABS): An ASCII file *.DAT which contains the input parameters in the ABSIM format, and a temporary file TMP.TMP containing the names of the input, output and P-T-X information files, typically *.DAT, *.OUT and *.PTX. &#xd;
+The latter two are produced next (also in the subdirectory \DATA) when the ABSIM program is executed. *.OUT contains the results of the calculations, including a list of the equations generated and their residuals, upon termination. In the case of non-convergence, these residuals may be examined to indicate where the problem might be. *.PTX contains information required for plotting a P-T-X diagram for the cycle.&#xd;
+&#xd;
+A box containing a RUN MESSAGE appears on the screen at the conclusion of the run to report to the user whether or not convergence has been reached, the type of convergence and the number of iterations it took.&#xd;
+&#xd;
+Error messages generated by ABSIM during a run are collected in temporary files TMP.ERR and RUN.ERR. Messages and warnings other than error messages are collected in a temporary file TMP.STD. These temporary files are produced in the subdirectory \DATA and may be viewed by selecting VIEW under FILE.&#xd;
+&#xd;
+</Description>
+    </Unit>
+    <Unit UnitID="Splitter">
+        <Description>Two types of SPLITTER are available, differing from each other by the relative positions of the two outlets: At 180 degrees and At 90 degrees. The following equations are generated when a SPLITTER is added to the cycle:&#xd;
+&#xd;
+(1) CONSERVATION OF TOTAL MASS&#xd;
+(2) SPLIT RATIO (when specified)&#xd;
+&#xd;
+for the unknowns: F at the two outlets.&#xd;
+&#xd;
+</Description>
+    </Unit>
+    <Unit UnitID="State Point Data">
+        <Description>STATE POINT DATA - specify the working fluid at each state point, and a given (fixed) value or an initial guess for the temperature, flowrate,concentration, pressure, and vapor fraction at each state point. Whether the value is fixed or a variable is determined by the values of ITFIX, IFFIX,ICFIX, IPFIX and IWFIX for the above quantities, respectively, according tothe following rule:&#xd;
+&#xd;
+I_FIX = 0 indicates a fixed value of the quantity;&#xd;
+I_FIX = 1 indicates a variable value of the quantity, bearing no relation to the value of this quantity at other state points;&#xd;
+I_FIX > 1 indicates a variable value of the quantity, identical at all the state points having the same I_FIX.&#xd;
+&#xd;
+When selecting the SP DATA entry form the DATA menu and selecting a particular quantity sub-entry, current values of this quantity (initially all zeros) will appear at all state points on the cycle diagram. Use the mouse to indicate a state point and enter your desired value of the quantity.&#xd;
+Some values at other state points will be automatically adjusted, accordingly. For example, if you specify the fluid type and flowrate at the inlet to a Condenser, the outlet fluid type and flowrate must be the same. On the diagram, user-specified values are displayed in a slightly different color than calculated values, to help distinguish between the two.&#xd;
+&#xd;
+&#xd;
+&#xd;
+</Description>
+    </Unit>
+    <Unit UnitID="Tool Box">
+        <Description>TOOL BOX contains several devices to assist the user in drawing or modifying the drawing of a cycle diagram. It enables the user to move units and text in the cycle, zoom in and out, rotate units and text, align and flip units, erase units and text, connect and disconnect units.&#xd;
+&#xd;
+</Description>
+    </Unit>
+    <Unit UnitID="Unit Parameters">
+        <Description>UNIT PARAMETERS - specify the characteristics of the units composing the cycle, as applicable, e.g. heat and mass transfer characteristics of a Condenser, pressure difference/flowrate characteristic of a Valve, isentropic efficiency of a Compressor, and the like. Use the mouse to indicate a unit, then respond to the requests for data as they appear in the dialog box.&#xd;
+		 This process should be repeated for all the units composing the cycle.&#xd;
+&#xd;
+&#xd;
+</Description>
+    </Unit>
+    <Unit UnitID="Utilities">
+        <Description>UTILITIES enables the user to shape the cycle diagram and to change text size and form. The menu includes the following entries:&#xd;
+&#xd;
+SET VIEW - select this entry to make the current form of the cycle diagram into Base View - the form of the diagram to return to from various zooming and moving operations by means of the HOME button in the TOOL BOX.&#xd;
+&#xd;
+TEXT SIZE - allows the user to change the size of text, such as figures displaying values of parameters on the cycle diagram, relative to the default size. This feature is most useful in large cycles zoomed out to fit inside the window on the screen, where the numbers would look quite small. Use the mouse to select this entry and type in the dialog box the scale factor by which text size is to be magnified.&#xd;
+&#xd;
+DECIMAL POINT - set the number of figures after the decimal point. &#xd;
+&#xd;
+&#xd;
+</Description>
+    </Unit>
+    <Unit UnitID="Valve">
+        <Description>Three types of VALVE are available: Generic, Throttle and Thermostatic. The  following equations are generated when a VALVE is added to the cycle:&#xd;
+&#xd;
+(1) EQUILIBRIUM (TWO-PHASE) AT OUTLET&#xd;
+(2) H(2)=H(1) ISENTHALPIC EXPANSION&#xd;
+(3) FLOW-DeltaP RELATION (for Throttle Valve)&#xd;
+	or&#xd;
+(3) T(sensor)-T(outlet) = GIVEN DeltaT (for Thermostatic Valve)&#xd;
+&#xd;
+for the unknowns: F, T and W at the outlet.&#xd;
+ &#xd;
+&#xd;
+&#xd;
+</Description>
+    </Unit>
+    <recentFiles>
+        <file1 fileDir="D:/test/absBeta/build-absBeta-Desktop_Qt_5_0_2_MinGW_32bit-Release/test - Copy (4).xml"/>
+        <file2 fileDir="D:/test/absBeta/build-absBeta-Desktop_Qt_5_0_2_MinGW_32bit-Release/test - Copy (4).xml"/>
+        <file3 fileDir="D:/test/absBeta/build-absBeta-Desktop_Qt_5_0_2_MinGW_32bit-Release/test - Copy (4).xml"/>
+        <file4 fileDir="D:/test/absBeta/build-absBeta-Desktop_Qt_5_0_2_MinGW_32bit-Release/test - Copy (4).xml"/>
+        <file5 fileDir="D:/test/absBeta/build-absBeta-Desktop_Qt_5_0_2_MinGW_32bit-Release/test - Copy (4).xml"/>
+    </recentFiles>
+</Root>
