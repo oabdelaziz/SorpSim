@@ -1,0 +1,449 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>NTUestimateDialog</class>
+ <widget class="QDialog" name="NTUestimateDialog">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>768</width>
+    <height>486</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Dialog</string>
+  </property>
+  <layout class="QVBoxLayout" name="verticalLayout_8">
+   <item>
+    <widget class="QGroupBox" name="groupBox_3">
+     <property name="title">
+      <string>Select Method for NTU estimation</string>
+     </property>
+     <layout class="QVBoxLayout" name="verticalLayout_4">
+      <item>
+       <widget class="QRadioButton" name="inletoutletButton">
+        <property name="text">
+         <string>Use solution and air inlet and outlet conditions</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QRadioButton" name="moistureButton">
+        <property name="text">
+         <string>Use moisture change rate/ outlet air humidity</string>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </widget>
+   </item>
+   <item>
+    <layout class="QHBoxLayout" name="horizontalLayout_3">
+     <item>
+      <widget class="QGroupBox" name="inletoutletBox">
+       <property name="title">
+        <string>Solution and air inlet and outlet conditions</string>
+       </property>
+       <layout class="QVBoxLayout" name="verticalLayout_5">
+        <item>
+         <layout class="QHBoxLayout" name="horizontalLayout">
+          <item>
+           <layout class="QVBoxLayout" name="verticalLayout_3">
+            <item>
+             <widget class="QGroupBox" name="groupBox">
+              <property name="title">
+               <string>Inputs</string>
+              </property>
+              <layout class="QVBoxLayout" name="verticalLayout">
+               <item>
+                <layout class="QFormLayout" name="formLayout">
+                 <item row="0" column="0">
+                  <widget class="QLabel" name="waiLabel">
+                   <property name="text">
+                    <string>Air inlet humidity ratio</string>
+                   </property>
+                  </widget>
+                 </item>
+                 <item row="1" column="0">
+                  <widget class="QLabel" name="waoLabel">
+                   <property name="text">
+                    <string>Air outlet humidity ratio</string>
+                   </property>
+                  </widget>
+                 </item>
+                 <item row="2" column="0">
+                  <widget class="QLabel" name="tsiLabel">
+                   <property name="text">
+                    <string>Solution inlet temperature</string>
+                   </property>
+                  </widget>
+                 </item>
+                 <item row="3" column="0">
+                  <widget class="QLabel" name="xsiLabel">
+                   <property name="text">
+                    <string>Solution inlet concentration</string>
+                   </property>
+                  </widget>
+                 </item>
+                 <item row="4" column="0">
+                  <widget class="QLabel" name="tsoLabel">
+                   <property name="text">
+                    <string>Solution outlet temperature</string>
+                   </property>
+                  </widget>
+                 </item>
+                 <item row="5" column="0">
+                  <widget class="QLabel" name="xsoLabel">
+                   <property name="text">
+                    <string>Solution outlet concentration</string>
+                   </property>
+                  </widget>
+                 </item>
+                 <item row="0" column="1">
+                  <widget class="QLineEdit" name="waiLMLine"/>
+                 </item>
+                 <item row="1" column="1">
+                  <widget class="QLineEdit" name="waoLMLine"/>
+                 </item>
+                 <item row="2" column="1">
+                  <widget class="QLineEdit" name="tsiLMLine"/>
+                 </item>
+                 <item row="3" column="1">
+                  <widget class="QLineEdit" name="xsiLMLine"/>
+                 </item>
+                 <item row="4" column="1">
+                  <widget class="QLineEdit" name="tsoLMLine"/>
+                 </item>
+                 <item row="5" column="1">
+                  <widget class="QLineEdit" name="xsoLMLine"/>
+                 </item>
+                </layout>
+               </item>
+               <item>
+                <layout class="QHBoxLayout" name="horizontalLayout_2">
+                 <item>
+                  <widget class="QLabel" name="fluidLabel">
+                   <property name="text">
+                    <string>Desiccant solution:</string>
+                   </property>
+                  </widget>
+                 </item>
+                 <item>
+                  <widget class="QComboBox" name="FluidBox">
+                   <property name="sizePolicy">
+                    <sizepolicy hsizetype="MinimumExpanding" vsizetype="Fixed">
+                     <horstretch>0</horstretch>
+                     <verstretch>0</verstretch>
+                    </sizepolicy>
+                   </property>
+                  </widget>
+                 </item>
+                </layout>
+               </item>
+              </layout>
+             </widget>
+            </item>
+            <item>
+             <widget class="QGroupBox" name="groupBox_2">
+              <property name="title">
+               <string>Results</string>
+              </property>
+              <layout class="QVBoxLayout" name="verticalLayout_2">
+               <item>
+                <layout class="QFormLayout" name="formLayout_2">
+                 <property name="fieldGrowthPolicy">
+                  <enum>QFormLayout::AllNonFixedFieldsGrow</enum>
+                 </property>
+                 <item row="0" column="0">
+                  <widget class="QLabel" name="label">
+                   <property name="text">
+                    <string>Estimated NTU number:</string>
+                   </property>
+                  </widget>
+                 </item>
+                 <item row="0" column="1">
+                  <widget class="QLabel" name="NTUlabel">
+                   <property name="text">
+                    <string>TextLabel</string>
+                   </property>
+                  </widget>
+                 </item>
+                 <item row="1" column="0">
+                  <widget class="QLabel" name="label_2">
+                   <property name="text">
+                    <string>Solution inlet eq. humidity ratio:</string>
+                   </property>
+                  </widget>
+                 </item>
+                 <item row="1" column="1">
+                  <widget class="QLabel" name="wsiLabel">
+                   <property name="text">
+                    <string>TextLabel</string>
+                   </property>
+                  </widget>
+                 </item>
+                 <item row="2" column="0">
+                  <widget class="QLabel" name="label_3">
+                   <property name="text">
+                    <string>Solution outlet eq. humidity ratio:</string>
+                   </property>
+                  </widget>
+                 </item>
+                 <item row="2" column="1">
+                  <widget class="QLabel" name="wsoLabel">
+                   <property name="text">
+                    <string>TextLabel</string>
+                   </property>
+                  </widget>
+                 </item>
+                </layout>
+               </item>
+              </layout>
+             </widget>
+            </item>
+           </layout>
+          </item>
+         </layout>
+        </item>
+       </layout>
+      </widget>
+     </item>
+     <item>
+      <widget class="QGroupBox" name="moistureBox">
+       <property name="title">
+        <string>Moisture change/ outlet air humidity</string>
+       </property>
+       <layout class="QVBoxLayout" name="verticalLayout_7">
+        <item>
+         <widget class="QGroupBox" name="groupBox_4">
+          <property name="title">
+           <string>Inputs</string>
+          </property>
+          <layout class="QVBoxLayout" name="verticalLayout_9">
+           <item>
+            <layout class="QFormLayout" name="formLayout_3">
+             <item row="0" column="0">
+              <widget class="QLabel" name="taiMrrLabel">
+               <property name="text">
+                <string>Air inlet temperature</string>
+               </property>
+              </widget>
+             </item>
+             <item row="0" column="1">
+              <widget class="QLineEdit" name="taiMrrLine"/>
+             </item>
+             <item row="1" column="0">
+              <widget class="QLabel" name="waiMrrLabel">
+               <property name="text">
+                <string>Air inlet humidity ratio</string>
+               </property>
+              </widget>
+             </item>
+             <item row="1" column="1">
+              <widget class="QLineEdit" name="waiMrrLine"/>
+             </item>
+             <item row="2" column="0">
+              <widget class="QLabel" name="maiMrrLabel">
+               <property name="text">
+                <string>Dry air flow rate</string>
+               </property>
+              </widget>
+             </item>
+             <item row="2" column="1">
+              <widget class="QLineEdit" name="maiMrrLine"/>
+             </item>
+             <item row="3" column="0">
+              <widget class="QLabel" name="tsiMrrLabel">
+               <property name="text">
+                <string>Solution inlet temperature</string>
+               </property>
+              </widget>
+             </item>
+             <item row="3" column="1">
+              <widget class="QLineEdit" name="tsiMrrLine"/>
+             </item>
+             <item row="4" column="0">
+              <widget class="QLabel" name="xsiMrrLabel">
+               <property name="text">
+                <string>Solution inlet concentration</string>
+               </property>
+              </widget>
+             </item>
+             <item row="4" column="1">
+              <widget class="QLineEdit" name="xsiMrrLine"/>
+             </item>
+             <item row="5" column="0">
+              <widget class="QLabel" name="msiMrrLabel">
+               <property name="text">
+                <string>Solution flow rate</string>
+               </property>
+              </widget>
+             </item>
+             <item row="5" column="1">
+              <widget class="QLineEdit" name="msiMrrLine"/>
+             </item>
+            </layout>
+           </item>
+           <item>
+            <widget class="QGroupBox" name="groupBox_5">
+             <property name="title">
+              <string>Targets</string>
+             </property>
+             <layout class="QVBoxLayout" name="verticalLayout_6">
+              <item>
+               <layout class="QHBoxLayout" name="horizontalLayout_4">
+                <item>
+                 <widget class="QRadioButton" name="mrrButton">
+                  <property name="text">
+                   <string>RadioButton</string>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QLineEdit" name="mrrLine"/>
+                </item>
+               </layout>
+              </item>
+              <item>
+               <layout class="QHBoxLayout" name="horizontalLayout_5">
+                <item>
+                 <widget class="QRadioButton" name="waoEstButton">
+                  <property name="text">
+                   <string>RadioButton</string>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QLineEdit" name="waoEstLine"/>
+                </item>
+               </layout>
+              </item>
+             </layout>
+            </widget>
+           </item>
+           <item>
+            <layout class="QHBoxLayout" name="horizontalLayout_7">
+             <item>
+              <widget class="QLabel" name="label_7">
+               <property name="text">
+                <string>Deisccant solution:</string>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QComboBox" name="FluidBox_2">
+               <property name="sizePolicy">
+                <sizepolicy hsizetype="MinimumExpanding" vsizetype="Fixed">
+                 <horstretch>0</horstretch>
+                 <verstretch>0</verstretch>
+                </sizepolicy>
+               </property>
+              </widget>
+             </item>
+            </layout>
+           </item>
+          </layout>
+         </widget>
+        </item>
+        <item>
+         <layout class="QHBoxLayout" name="horizontalLayout_6">
+          <item>
+           <widget class="QLabel" name="label_6">
+            <property name="text">
+             <string>Estimated NTU number:</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QLabel" name="NTUmmr">
+            <property name="text">
+             <string>TextLabel</string>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </item>
+       </layout>
+      </widget>
+     </item>
+     <item>
+      <widget class="QGraphicsView" name="myView">
+       <property name="minimumSize">
+        <size>
+         <width>250</width>
+         <height>250</height>
+        </size>
+       </property>
+      </widget>
+     </item>
+    </layout>
+   </item>
+   <item>
+    <layout class="QHBoxLayout" name="horizontalLayout_8">
+     <item>
+      <spacer name="horizontalSpacer">
+       <property name="orientation">
+        <enum>Qt::Horizontal</enum>
+       </property>
+       <property name="sizeHint" stdset="0">
+        <size>
+         <width>40</width>
+         <height>20</height>
+        </size>
+       </property>
+      </spacer>
+     </item>
+     <item>
+      <widget class="QPushButton" name="estimateButton">
+       <property name="text">
+        <string>Estimate NTU</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QPushButton" name="applyButton">
+       <property name="text">
+        <string>Apply this method</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QPushButton" name="closeButton">
+       <property name="text">
+        <string>Cancel</string>
+       </property>
+      </widget>
+     </item>
+    </layout>
+   </item>
+  </layout>
+ </widget>
+ <tabstops>
+  <tabstop>estimateButton</tabstop>
+  <tabstop>applyButton</tabstop>
+  <tabstop>closeButton</tabstop>
+  <tabstop>inletoutletButton</tabstop>
+  <tabstop>moistureButton</tabstop>
+  <tabstop>waiLMLine</tabstop>
+  <tabstop>waoLMLine</tabstop>
+  <tabstop>tsiLMLine</tabstop>
+  <tabstop>xsiLMLine</tabstop>
+  <tabstop>tsoLMLine</tabstop>
+  <tabstop>xsoLMLine</tabstop>
+  <tabstop>FluidBox</tabstop>
+  <tabstop>taiMrrLine</tabstop>
+  <tabstop>waiMrrLine</tabstop>
+  <tabstop>maiMrrLine</tabstop>
+  <tabstop>tsiMrrLine</tabstop>
+  <tabstop>xsiMrrLine</tabstop>
+  <tabstop>msiMrrLine</tabstop>
+  <tabstop>mrrButton</tabstop>
+  <tabstop>waoEstButton</tabstop>
+  <tabstop>mrrLine</tabstop>
+  <tabstop>waoEstLine</tabstop>
+  <tabstop>FluidBox_2</tabstop>
+  <tabstop>myView</tabstop>
+ </tabstops>
+ <resources/>
+ <connections/>
+</ui>
