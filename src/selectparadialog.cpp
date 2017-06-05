@@ -174,24 +174,26 @@ void selectParaDialog::setUnit(unit *)
 
             ui->cb1->show();
             ui->cb1->setText("Humidity Efficiency");
+            ui->cb2->show();
+            ui->cb2->setText("Enthalpy Efficiency");
             if(tableunit->idunit<180)
             {
-                ui->cb2->show();
-                ui->cb2->setText("Moisture Removal Rate");
+                ui->cb3->show();
+                ui->cb3->setText("Moisture Removal Rate");
                 if(tableunit->idunit>170)
                 {
-                    ui->cb3->show();
-                    ui->cb3->setText("Heat Transfer");
+                    ui->cb4->show();
+                    ui->cb4->setText("Heat Transfer");
                 }
             }
             else
             {
-                ui->cb2->show();
-                ui->cb2->setText("Water Evaporation Rate");
+                ui->cb3->show();
+                ui->cb3->setText("Water Evaporation Rate");
                 if(tableunit->idunit>190)
                 {
-                    ui->cb3->show();
-                    ui->cb3->setText("Heat Transfer");
+                    ui->cb4->show();
+                    ui->cb4->setText("Heat Transfer");
                 }
             }
         }
@@ -450,9 +452,16 @@ void selectParaDialog::on_okButton_clicked()
                         outputEntries.append("Humidity Efficiency,component#"+QString::number(tableunit->nu)
                                              +",U"+QString::number(tableunit->nu)+"HE");
                 }
+                if(ui->cb2->isChecked())
+                {
+                    if(!outputEntries.contains("Enthalpy Efficiency,component#"+QString::number(tableunit->nu)
+                                               +",U"+QString::number(tableunit->nu)+"EE"))
+                        outputEntries.append("Enthalpy Efficiency,component#"+QString::number(tableunit->nu)
+                                             +",U"+QString::number(tableunit->nu)+"EE");
+                }
                 if(tableunit->idunit<180)
                 {
-                    if(ui->cb2->isChecked())
+                    if(ui->cb3->isChecked())
                     {
                         if(!outputEntries.contains("Moisture Removal Rate,component#"+QString::number(tableunit->nu)
                                                    +",U"+QString::number(tableunit->nu)+"MR"))
@@ -461,7 +470,7 @@ void selectParaDialog::on_okButton_clicked()
                     }
                     if(tableunit->idunit>170)
                     {
-                        if(ui->cb3->isChecked())
+                        if(ui->cb4->isChecked())
                         {
                             if(!outputEntries.contains("Heat Transfer,component#"+QString::number(tableunit->nu)
                                                        +",U"+QString::number(tableunit->nu)+"HT"))
@@ -472,7 +481,7 @@ void selectParaDialog::on_okButton_clicked()
                 }
                 else
                 {
-                    if(ui->cb2->isChecked())
+                    if(ui->cb3->isChecked())
                     {
                         if(!outputEntries.contains("Water Evaporation Rate,component#"+QString::number(tableunit->nu)
                                                    +",U"+QString::number(tableunit->nu)+"ME"))
@@ -481,7 +490,7 @@ void selectParaDialog::on_okButton_clicked()
                     }
                     if(tableunit->idunit>190)
                     {
-                        if(ui->cb3->isChecked())
+                        if(ui->cb4->isChecked())
                         {
                             if(!outputEntries.contains("Heat Transfer,component#"+QString::number(tableunit->nu)
                                                        +",U"+QString::number(tableunit->nu)+"HT"))

@@ -718,7 +718,17 @@ Plot::Plot(QMultiMap<double, double> data, QStringList xValues, int curveCount, 
     }
 
 
-    QwtSymbol *symbol = new QwtSymbol( QwtSymbol::Ellipse,QBrush( Qt::yellow ), QPen( Qt::black, 2 ), QSize( 8, 8 ) );
+//    QwtSymbol *symbol = new QwtSymbol( QwtSymbol::Ellipse,QBrush( Qt::yellow ), QPen( Qt::black, 2 ), QSize( 8, 8 ) );
+
+    QList<QwtSymbol *> symbols;
+    QwtSymbol * sItem = new QwtSymbol(QwtSymbol::Ellipse,QBrush(Qt::gray),QPen(Qt::black,1),QSize(3,3));
+    symbols.append(sItem);
+    sItem = new QwtSymbol(QwtSymbol::Ellipse,QBrush(Qt::red),QPen(Qt::black,1),QSize(3,3));
+    symbols.append(sItem);
+    sItem = new QwtSymbol(QwtSymbol::Ellipse,QBrush(Qt::blue),QPen(Qt::black,1),QSize(3,3));
+    symbols.append(sItem);
+    sItem = new QwtSymbol(QwtSymbol::Ellipse,QBrush(Qt::black),QPen(Qt::black,1),QSize(3,3));
+    symbols.append(sItem);
 
     QPolygonF *points = new QPolygonF[nCurves];
     QwtPlotCurve * curve[nCurves];
@@ -731,9 +741,27 @@ Plot::Plot(QMultiMap<double, double> data, QStringList xValues, int curveCount, 
         for(int i=0;i<nRuns;i++)
             points[j]<<QPointF(xValues.at(i).toDouble(),data.values(xValues.at(i).toDouble()).at(nCurves-j-1));
         //qMap inserts reversely
-        curve[j]->setPen(Qt::gray,1,Qt::SolidLine);
+        switch(j%4){
+        case 0:{
+            curve[j]->setPen(Qt::gray,2,Qt::SolidLine);
+            break;
+        }
+        case 1:{
+            curve[j]->setPen(Qt::red,2,Qt::SolidLine);
+            break;
+        }
+        case 2:{
+            curve[j]->setPen(Qt::blue,2,Qt::DashLine);
+            break;
+        }
+        case 3:{
+            curve[j]->setPen(Qt::black,2,Qt::DashLine);
+            break;
+        }
+        }
+
         curve[j]->setSamples(points[j]);
-        curve[j]->setSymbol(symbol);
+        curve[j]->setSymbol(symbols.at(j%4));
         curve[j]->attach(this);
         curvelist<<curve[j];
     }

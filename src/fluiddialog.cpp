@@ -85,9 +85,11 @@ void fluidDialog::on_OkButton_clicked()
         globalpara.fluids.clear();
         foreach(QString item,selectedItems)
         {
-            for(int j = 0;j<globalpara.fluidInventory.count();j++)
-                if(globalpara.fluidInventory.at(j).split(",").last() == item)
+            for(int j = 0;j<globalpara.fluidInventory.count();j++){
+                if(globalpara.fluidInventory.at(j).split(",").last() == item){
                     globalpara.fluids<<j+1;
+                }
+            }
         }
 
 

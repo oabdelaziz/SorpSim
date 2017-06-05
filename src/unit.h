@@ -56,6 +56,7 @@ public:
     float lmtd;
     float mrate;
     float humeff;
+    float enthalpyeff;
 
     int ihtT;
     float htT;
@@ -76,6 +77,7 @@ public:
     float lmtdT;
     float mrateT;
     float humeffT;
+    float enthalpyeffT;
 
 
     Node* myNodes[7];

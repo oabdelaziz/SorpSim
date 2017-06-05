@@ -393,9 +393,14 @@ bool calculate::updateSystem()
         iterator->cat = outputs.cat[m+1]/conv;
         iterator->lmtd = outputs.lmtd[m+1]/conv;
         iterator->htr = convert(outputs.heat[m+1],heat_trans_rate[7],heat_trans_rate[globalpara.unitindex_heat_trans_rate]);
-        iterator->mrate = convert(outputs.mrate[m+1],mass_flow_rate[1],mass_flow_rate[globalpara.unitindex_massflow]);
-        iterator->humeff = outputs.humeff[m+1];
+
+        if(iterator->idunit>160){
+            iterator->mrate = convert(outputs.mrate[m+1],mass_flow_rate[1],mass_flow_rate[globalpara.unitindex_massflow]);
+            iterator->humeff = outputs.humeff[m+1];
+            iterator->enthalpyeff = outputs.enthalpyeff[m+1];
+        }
         iterator = iterator->next;
+
     }
 
     //global para

@@ -123,6 +123,7 @@ struct calOutputs
     int ipinch[50];
     double mrate[50];
     double humeff[50];
+    double enthalpyeff[50];
     double distributionW[50][101];
     double distributionT[50][101];
     double distributionH[50][101];
@@ -183,7 +184,7 @@ struct globalparameter
     QStringList recentFileList;
     QStringList fluidInventory = (QStringList()<<"LiBr-H2O,1"<<"H2O-NH3,2"<<"H2O,3"<<"LiBr-H2O-NH3,4"<<"LiBr/ZnBr2-CH3OH,5"<<"CH3OH,6"<<
                                   "LiNO3/KNO3/NaNO3-H2O,7"<<"NaOH-H2O,8"<<"LiCl-H2O,9"<<"Moist Air,10"<<"Flue Gas,11"<<
-                                  "R12,12"<<"R134a,134"<<"R152a,152"<<"R22,22"<<"R290,290"<<"R32,32"<<"R410A,411");
+                                  "R12,12"<<"[C2mim][OAc],14"<<"R134a,134"<<"R152a,152"<<"R22,22"<<"R290,290"<<"R32,32"<<"R410A,411");
 
     bool resUA,resNTU,resEFF,resCAT,resLMTD,resHT;
     bool resT,resF,resC,resW,resP,resH;

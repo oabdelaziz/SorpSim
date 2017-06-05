@@ -309,23 +309,21 @@ wftx1(common &cmn, double &w, const double &t, const double &x)
     //C****** EQUILIBRIUM WITH LIBR /WATER SOLUTION AS A FUNCTION  *********
     //C****** OF TEMP IN F AND CONCENTRATION in 0.01                       *********
     //C*********************************************************************
-    double xx = x, p0, w0, tp, A,B,C = 6.21147,D = -2886.373,E = -337269.46;
+//    double xx = x, p0, w0, tp, A,B,C = 6.21147,D = -2886.373,E = -337269.46;
 
-    A = -2.00755+0.16976*xx - 3.133362e-3*pow(xx,2) + 1.97668e-5*pow(xx,3);
-    B = 321.128 - 19.322*xx +0.374382*pow(xx,2) - (2.0637e-3)*pow(xx,3);
-    tp = (t-B)/A;
-    p0 = pow(10,C + D/(tp+459.72) + E/pow((tp+459.72),2))*6.89475729;
-    w0 = 0.622*(p0/(101.3-p0));
+//    A = -2.00755+0.16976*xx - 3.133362e-3*pow(xx,2) + 1.97668e-5*pow(xx,3);
+//    B = 321.128 - 19.322*xx +0.374382*pow(xx,2) - (2.0637e-3)*pow(xx,3);
+//    tp = (t-B)/A;
+//    p0 = pow(10,C + D/(tp+459.72) + E/pow((tp+459.72),2))*6.89475729;
+//    w0 = 0.622*(p0/(101.3-p0));
 //   data from 1977 ASHRAE handbook & product directory
 
-//    double pv;
-//    pftx1(cmn,pv,t,x);
-//    pv = pv*6.8947;
-//    double w1 = 0.622*(pv/(101.3-pv));
+    double pv;
+    pftx1(cmn,pv,t,x);
+    pv = pv*6.89475729;
+    w = 0.622*(pv/(101.3-pv));
 
-//    qDebug()<<"LiBr humrat:T"<<t*1.8+32<<"x"<<x<<"w"<<w0<<"w'"<<w1;
-
-    w = w0;
+//    qDebug()<<"wftx1 "<<p0<<" pftx1 "<<pv;
 
 }
 
@@ -2422,128 +2420,6 @@ hftx8(
   hs = h / 2.326f;
 }
 
-
-//C*********************************************************************
-void
-pftx13(
-  common& cmn,
-  double& p,
-  double const& t,
-  double const& x)
-{
-    //C***********************************************************************
-    //C******  SUBROUTINE CALCULATES VAPOR PRESSURE IN PSIA        ************
-    //C******  OF SILICA GEL/WATER AS A FUNCTION OF TEMPERATURE   ************
-    //C******  IN DEG F AND CONCENTRATION OF WATER IN lbm/lbm PER DRY S.G. *******
-    //C***********************************************************************
-    double tc = (t-32)/1.8;
-  double rh = -9.310771e-02+1.71765e-05*tc*tc+4.780868*x-1.417118e1*x*x
-          +2.094818e1*x*x*x+9.183715e-07*x*tc*tc*tc;
-  double p1;
-  pft3(cmn,p1,t);
-  p = rh*p1;
-}
-
-//C*********************************************************************
-void
-tfpx13(
-  common& cmn,
-  double& t,
-  double & p,
-  double const& x)
-{
-    //C*********************************************************************
-    //C******  SUBROUTINE CALCULATES EQUILIBRIUM TEMP IN DEG F OF **********
-    //C******  SILICA GEL/WATER AS A FUNCTION OF PRESSURE IN PSIA **********
-    //C******  AND CONCENTRATION OF WATER IN lbm/lbm PER DRY S.G.     **********
-    //C*********************************************************************
-  double tl = 40;
-  double th = 300;
-  double tt,pp,f=1;
-  if(fabs(f)>=1e-10)
-  {
-      tt = (tl+th)/2;
-      pftx13(cmn,pp,tt,x);
-      f=(pp-p)/p;
-      if(f>0)
-          th = tt;
-      if(f<0)
-          tl = tt;
-  }
-  t = tt;
-}
-
-
-//C*********************************************************************
-void
-hftx13(
-        common& cmn,
-  double& hs,
-  double const& t,
-  double const& x)
-{
-    //C*********************************************************************
-    //C******       SUBROUTINE CALCULATES ENTHALPY IN BTU/LB OF   **********
-    //C******  silica gel/water        AS A FUNCTION OF TEMP       **********
-    //C******  IN DEG F AND CONC IN PERCENTS                      **********
-    //C*********************************************************************
-  //C      IMPLICIT REAL*8(A-H,O-Z)
-    double tc = (t-32)/1.8;
-    double tk = 273.15+tc;
-    double deltaHW =(2504.4 -2.4425 *tc)
-            *(-0.545942 *x+3.866967*x*x-17.569907 *x*x*x+38.5128 *x*x*x*x-32.20502 *x*x*x*x*x);
-    double CW = 0.460354
-            *(4.07 -1.108e-3*tk+4.152e-6*tk*tk-2.964e-9*tk*tk*tk+0.807e-12*tk*tk*tk*tk);
-    double h = (CW*x+0.92048)*tc + deltaHW;
-    hs = h/2.326;
-}
-
-//C*********************************************************************
-void
-eqb13(
-  common& cmn,
-  double & pi,
-  double const& xi,
-  double& tio1,
-  double& hout,
-  int const& k,
-  int const& kent)
-{
-  int idummy = fem::int0;
-  //C*********************************************************************
-  //C      SUBROUTINE  EQB13  (PI, XI,   TIO1, HOUT,K,KENT )
-  //C*********************************************************************
-  //C******     SUBROUTINE WHICH CALCULATES, FOR SILICA GEL:      ********
-  //C******   THE TEMP IN DEG F AND THE ENTHALPY IN BTU/LB         ********
-  //C******   AS A FUNCTION OF PRESS IN PSIA AND CONC IN WT%      ********
-  //C******************             OR              ***********************
-  //C******   THE PRESS IN PSIA AND THE ENTHALPY IN BTU/LB         ********
-  //C******   AS A FUNCTION OF TEMP IN DEG   AND CONC IN WT%       ********
-  //C******                                                ********
-  //C******   BUT IF PRESS.LE.0.0 THEN IT CALCULATES THE           ********
-  //C******    ENTHALPY ONLY AS A FUNCTION OF TEMP AND CONC       ********
-  //C******     based on paper by Dini and Worek
-  //C******     ********************************************      ********
-  //C******  WHEN KENT = 0   NO OUTPUT ENTHALPIES                 ********
-  //C******  WHEN KENT = 1   TEMP WITH OUTPUT ENTHALPIES           ********
-  //C******  WHEN KENT = 4   PRESS WITH OUTPUT ENTHALPIES          ********
-  //C*********************************************************************
-  //C      IMPLICIT REAL*8(A-H,O-Z)
-  idummy = k;
-  if (pi <= 0.0f) {
-    goto statement_9;
-  }
-  if(kent == 1)
-      tfpx13(cmn,tio1,pi,xi);
-  if(kent ==4)
-      pftx13(cmn,pi,tio1,xi);
-  statement_9:
-  if (kent == 0) {
-    goto statement_400;
-  }
-  hftx13(cmn,hout, tio1, xi);
-  statement_400:;
-}
 //C*********************************************************************
 //C      SUBROUTINE  EQB7  (PI, XI,   TIO1, HOUT,K,KENT )
 //C*********************************************************************
@@ -2728,17 +2604,16 @@ wftx9(
     C = tk/647.1;
     pv1 = psatKpa*a25*(A+B*C);
 //    qDebug()<<"Conde pv"<<pv1;
-    w = 0.622*(pv1/(101.3-pv1));
-//    qDebug()<<"w of solution is "<<w;
 //    data from Conde
 
 //    double pv;
 //    pftx9(cmn,pv,t,x*100);
 //    pv = pv* 6.8947;
 //    qDebug()<<"original pv"<<pv;
-//    w = 0.622*(pv/(101.3-pv));
 
 
+    w = 0.622*(pv1/(101.3-pv1));
+//    qDebug()<<"w of solution is "<<w;
 }
 //C*********************************************************************
 void
@@ -2762,6 +2637,8 @@ cpftx9(common& cmn,
     double f2=B5*pow(theta,0.02)+B6*pow(theta,0.04)+B7*pow(theta,0.06);
     cps=cp_H2O*(1-f1*f2);
     cps = cps/4.186798188;
+
+//    qDebug()<<"LiCl cp"<<cps;
 }
 
 //C*********************************************************************
@@ -4185,11 +4062,6 @@ vapor(
 //C**********************************************************************
 
 
-
-
-
-
-
 void
 eqb12(
   common& cmn,
@@ -4287,9 +4159,6 @@ eqb12(
   hh = svap;
   statement_400:;
 }
-
-
-
 
 
 void
@@ -5409,6 +5278,319 @@ tables(
 
 //C --until here--
 //C***********************************************************************
+
+
+//C*********************************************************************
+void
+pftx13(
+  common& cmn,
+  double& p,
+  double const& t,
+  double const& x)
+{
+    //C***********************************************************************
+    //C******  SUBROUTINE CALCULATES VAPOR PRESSURE IN PSIA        ************
+    //C******  OF SILICA GEL/WATER AS A FUNCTION OF TEMPERATURE   ************
+    //C******  IN DEG F AND CONCENTRATION OF WATER IN lbm/lbm PER DRY S.G. *******
+    //C***********************************************************************
+    double tc = (t-32)/1.8;
+  double rh = -9.310771e-02+1.71765e-05*tc*tc+4.780868*x-1.417118e1*x*x
+          +2.094818e1*x*x*x+9.183715e-07*x*tc*tc*tc;
+  double p1;
+  pft3(cmn,p1,t);
+  p = rh*p1;
+}
+
+//C*********************************************************************
+void
+tfpx13(
+  common& cmn,
+  double& t,
+  double & p,
+  double const& x)
+{
+    //C*********************************************************************
+    //C******  SUBROUTINE CALCULATES EQUILIBRIUM TEMP IN DEG F OF **********
+    //C******  SILICA GEL/WATER AS A FUNCTION OF PRESSURE IN PSIA **********
+    //C******  AND CONCENTRATION OF WATER IN lbm/lbm PER DRY S.G.     **********
+    //C*********************************************************************
+  double tl = 40;
+  double th = 300;
+  double tt,pp,f=1;
+  if(fabs(f)>=1e-10)
+  {
+      tt = (tl+th)/2;
+      pftx13(cmn,pp,tt,x);
+      f=(pp-p)/p;
+      if(f>0)
+          th = tt;
+      if(f<0)
+          tl = tt;
+  }
+  t = tt;
+}
+
+
+//C*********************************************************************
+void
+hftx13(
+        common& cmn,
+  double& hs,
+  double const& t,
+  double const& x)
+{
+    //C*********************************************************************
+    //C******       SUBROUTINE CALCULATES ENTHALPY IN BTU/LB OF   **********
+    //C******  silica gel/water        AS A FUNCTION OF TEMP       **********
+    //C******  IN DEG F AND CONC IN PERCENTS                      **********
+    //C*********************************************************************
+  //C      IMPLICIT REAL*8(A-H,O-Z)
+    double tc = (t-32)/1.8;
+    double tk = 273.15+tc;
+    double deltaHW =(2504.4 -2.4425 *tc)
+            *(-0.545942 *x+3.866967*x*x-17.569907 *x*x*x+38.5128 *x*x*x*x-32.20502 *x*x*x*x*x);
+    double CW = 0.460354
+            *(4.07 -1.108e-3*tk+4.152e-6*tk*tk-2.964e-9*tk*tk*tk+0.807e-12*tk*tk*tk*tk);
+    double h = (CW*x+0.92048)*tc + deltaHW;
+    hs = h/2.326;
+}
+
+//C*********************************************************************
+void
+eqb13(
+  common& cmn,
+  double & pi,
+  double const& xi,
+  double& tio1,
+  double& hout,
+  int const& k,
+  int const& kent)
+{
+  int idummy = fem::int0;
+  //C*********************************************************************
+  //C      SUBROUTINE  EQB13  (PI, XI,   TIO1, HOUT,K,KENT )
+  //C*********************************************************************
+  //C******     SUBROUTINE WHICH CALCULATES, FOR SILICA GEL:      ********
+  //C******   THE TEMP IN DEG F AND THE ENTHALPY IN BTU/LB         ********
+  //C******   AS A FUNCTION OF PRESS IN PSIA AND CONC IN WT%      ********
+  //C******************             OR              ***********************
+  //C******   THE PRESS IN PSIA AND THE ENTHALPY IN BTU/LB         ********
+  //C******   AS A FUNCTION OF TEMP IN DEG   AND CONC IN WT%       ********
+  //C******                                                ********
+  //C******   BUT IF PRESS.LE.0.0 THEN IT CALCULATES THE           ********
+  //C******    ENTHALPY ONLY AS A FUNCTION OF TEMP AND CONC       ********
+  //C******     based on paper by Dini and Worek
+  //C******     ********************************************      ********
+  //C******  WHEN KENT = 0   NO OUTPUT ENTHALPIES                 ********
+  //C******  WHEN KENT = 1   TEMP WITH OUTPUT ENTHALPIES           ********
+  //C******  WHEN KENT = 4   PRESS WITH OUTPUT ENTHALPIES          ********
+  //C*********************************************************************
+  //C      IMPLICIT REAL*8(A-H,O-Z)
+  idummy = k;
+  if (pi <= 0.0f) {
+    goto statement_9;
+  }
+  if(kent == 1)
+      tfpx13(cmn,tio1,pi,xi);
+  if(kent ==4)
+      pftx13(cmn,pi,tio1,xi);
+  statement_9:
+  if (kent == 0) {
+    goto statement_400;
+  }
+  hftx13(cmn,hout, tio1, xi);
+  statement_400:;
+}
+
+//C*********************************************************************
+double
+cpftx14(
+        common& cmn,
+  double const& t,
+  double const& x)
+{
+    //C*********************************************************************
+    //C******   SUBROUTINE CALCULATES SPECIFIC HEAT IN BTU/LB-F OF   *******
+    //C******  Ionic Liquid [EMIM][Oac] AS A FUNCTION OF TEMP     **********
+    //C******  IN DEG F AND CONC IN PERCENTS                      **********
+    //C*********************************************************************
+  //C      IMPLICIT REAL*8(A-H,O-Z)
+    double tc = (t-32)/1.8;
+    double tk = tc + 273.15;
+    double xx = x/100;
+    double cp = 2.761077 + 0.008120 * tk - 1.106151e-5 * pow(tk,2)
+            - 2.649514 * xx - 0.918307 * pow(xx,2) + 0.00358 * tk * xx;
+    cp = cp * 0.239;//convert from kJ/kg-C to BTU/lb-F
+
+    //from Qu et al. ORNL/TM-2016/477
+
+//    qDebug()<<"IL cp"<<cp;
+
+    return cp;
+}
+
+//C*********************************************************************IMPLEMENT!!!!!
+double
+pftx14(
+        common& cmn,
+  double const& t,
+  double const& x)
+{
+    //C*********************************************************************
+    //C******   SUBROUTINE CALCULATES EQUILIBRIUM VAPOR PRESSURE OF       **
+    //C******  Ionic Liquid [EMIM][Oac] in PSIA AS A FUNCTION OF TEMP     **
+    //C******  IN DEG F AND CONC IN PERCENTS                      **********
+    //C*********************************************************************
+  //C      IMPLICIT REAL*8(A-H,O-Z)
+    double tc = (t-32)/1.8;
+    double xx = x/100;
+    double tk = tc + 273.15;
+    double delta_g12 = 28938, delta_g21 = -25691, a12 = 0.10243;
+    double R = 8.314;//gas constant in kJ/mol-K
+
+    double t12 = delta_g12/R/tk;
+    double t21 = delta_g21/R/tk;
+    double G12 = exp(-a12*t12);
+    double G21 = exp(-a12*t21);
+    double x2 = (xx/0.17)/(xx/0.17 + (1-xx)/0.018);//molar fraction of IL
+    double x1 = 1-x2;//molar fraction of water
+    double p_sat_h2o = 0;
+    pft3(cmn,p_sat_h2o,t);
+    p_sat_h2o *= 6.89476;//convert to kPa
+    double z1 = t21*pow(G21/(x1+x2*G21),2)+t12*G12/pow(x2+x1*G12,2);
+    double z = pow(x2,2)*z1;
+    double r1 = exp(z);
+    double p = p_sat_h2o * x1 * r1;
+
+//    qDebug()<<"in pftx14:"<<"tc"<<tc<<"x"<<xx<<"ph2o"<<p_sat_h2o<<"x1"<<x1<<"x2"<<x2
+//           <<"t12"<<t12<<"t21"<<t21<<"G12"<<G12<<"G21"<<G21<<"z1"<<z1<<"z"<<z<<"r1"<<r1<<"p"<<p;
+
+    p /= 6.89476;//convert to psia
+
+
+    //from Qu et al. ORNL/TM-2016/477
+
+    return p;
+}
+
+//C*********************************************************************
+void
+wftx14(
+        common& cmn,
+  double& w,
+  double const& t,
+  double const& x)
+{
+    //C*********************************************************************
+    //C******   SUBROUTINE CALCULATES EQUILIBRIUM AIR HUMIDITY RATIO OF   **
+    //C******  Ionic Liquid [EMIM][Oac] AS A FUNCTION OF TEMP     **********
+    //C******  IN DEG F AND CONC IN PERCENTS                      **********
+    //C*********************************************************************
+  //C      IMPLICIT REAL*8(A-H,O-Z)
+    double psat = pftx14(cmn,t,x)*6.89476;
+//    qDebug()<<"in wftx14:"<<(t-32)/1.8<<x<<psat;
+    w = 0.622 * (psat / (101.3 - psat));
+}
+
+
+//C*********************************************************************
+void
+hftx14(
+        common& cmn,
+  double& hs,
+  double const& t,
+  double const& x)
+{
+    //C*********************************************************************
+    //C******       SUBROUTINE CALCULATES ENTHALPY IN BTU/LB OF   **********
+    //C******  Ionic Liquid [EMIM][Oac] AS A FUNCTION OF TEMP     **********
+    //C******  IN DEG F AND CONC IN PERCENTS                      **********
+    //C*********************************************************************
+  //C      IMPLICIT REAL*8(A-H,O-Z)
+    double tc = (t-32)/1.8;
+    double xx = x/100;
+//    double tk = 273.15+tc;
+//    double cph2o = 4.18;//consider introducing a cpft3() to add accuracy
+
+    double cpIL = cpftx14(cmn,tc/2,70)/0.239;
+    double dH = 2400;//consider introducing a dhft3() to add accuracy to evaporation heat
+    //for the pure IL from Ma et al. 2012 Study on Enthalpy and Molar Heat Capacity
+    //of Solution for the Ionic Liquid [C2mim][OAc]
+
+    double H0 = cpIL * tc;//70% IL enthalpy based on reference state at 0C
+    double Hv = 0, psat = 0, dhsum = 0, dx = (0.7-xx)/20, xtemp = 0, dh = 0;//integrate from 70% to x
+    for(int i = 0; i < 20; i++){
+        xtemp = 0.7 - (i+1)*dx;
+        psat = pftx14(cmn,t,(0.7+xtemp)/2);//mid-point vapor pressure in IP
+        hfp3(cmn,Hv,psat);//in IP
+        Hv *= 2.326;//convert to kJ/kg
+        dh = (Hv - dH)*((1-0.7/xtemp)-(1-0.7/(xtemp + dx)));
+        dhsum += dh;
+//        qDebug()<<"xtemp"<<xtemp<<"psat"<<psat<<"hv"<<Hv<<"dh"<<dh<<"dhsum"<<dhsum;
+    }
+    hs = (H0-dhsum)/(0.7/xx);
+
+//    qDebug()<<"t "<<tc<<" x "<<xx<<"H0"<<H0<<"psat"<<psat<<"dhsum"<<dhsum<<" h "<<hs;
+
+    hs /= 2.326;//convert to BTU/lb
+
+
+
+    //calculation according to McNeely 1979 Thermodynamic Properties of Aqueous
+    //Solutions of Lithium Bromide, the integration of H_bar is carried out using
+    //finite discrete segments where the Hv is calculated using the mean concentration
+    //reference state is 0C liquid water and 0C 70% IL.
+}
+
+//C*********************************************************************
+void
+eqb14(
+  common& cmn,
+  double const& pi,
+  double const& xi,
+  double& tio1,
+  double& hout,
+  int const& k,
+  int const& kent)
+{
+  int idummy = fem::int0;
+  //C*********************************************************************
+  //C      SUBROUTINE  EQB14  (PI, XI,   TIO1, HOUT,K,KENT )
+  //C*********************************************************************
+  //C******     SUBROUTINE WHICH CALCULATES, FOR IL [C2mim][OAc]:      ***
+  //C******   THE TEMP IN DEG F AND THE ENTHALPY IN BTU/LB         ********
+  //C******   AS A FUNCTION OF PRESS IN PSIA AND CONC IN WT%      ********
+  //C******************             OR              ***********************
+  //C******   THE PRESS IN PSIA AND THE ENTHALPY IN BTU/LB         ********
+  //C******   AS A FUNCTION OF TEMP IN DEG   AND CONC IN WT%       ********
+  //C******                                                ********
+  //C******   BUT IF PRESS.LE.0.0 THEN IT CALCULATES THE           ********
+  //C******    ENTHALPY ONLY AS A FUNCTION OF TEMP AND CONC       ********
+  //C******     based on paper by Dini and Worek
+  //C******     ********************************************      ********
+  //C******  WHEN KENT = 0   NO OUTPUT ENTHALPIES                 ********
+  //C******  WHEN KENT = 1   TEMP WITH OUTPUT ENTHALPIES           ********
+  //C******  WHEN KENT = 4   PRESS WITH OUTPUT ENTHALPIES          ********
+  //C*********************************************************************
+  //C      IMPLICIT REAL*8(A-H,O-Z)
+  idummy = k;
+  if (pi <= 0.0f) {
+    goto statement_9;
+  }
+//  if(kent == 1)
+//      tfpx14(cmn,tio1,pi,xi);
+//  if(kent ==4)
+//      pftx14(cmn,pi,tio1,xi);
+  statement_9:
+  if (kent == 0) {
+    goto statement_400;
+  }
+  hftx14(cmn,hout, tio1, xi);
+  statement_400:;
+}
+
+
+
 void
 eqb(
   common& cmn,
@@ -5425,13 +5607,13 @@ eqb(
   //C***********************************************************************
   //C      IMPLICIT REAL*8(A-H,O-Z)
   //C
-  if (kk > 11) {
+  if (kk > 11&&kk!=14) {
     nr = kk;
   }
-  if (kk > 11) {
+  if (kk > 11&&kk!=14) {
     tables(cmn, nr);
   }
-  if (kk > 11) {
+  if (kk > 11&&kk!=14) {
     goto statement_22;
   }
   switch (kk) {
@@ -5446,6 +5628,7 @@ eqb(
     case 9: goto statement_19;
     case 10: goto statement_20;
     case 11: goto statement_21;
+    case 14: goto statement_22;
     default: break;
   }
   statement_11:
@@ -5482,7 +5665,7 @@ eqb(
   eqb11(cmn, pp, cc, tt, hh, klv, kent);
   goto statement_101;
   statement_22:
-  eqb12(cmn, pp, cc, tt, hh, klv, kent);
+  eqb14(cmn, pp, cc, tt, hh, klv, kent);
   goto statement_101;
   statement_101:;
 }
@@ -9442,20 +9625,20 @@ conditioner_adiabatic(
           double cps;
           double wsatl,wsath;
           double wsatin,hsatin;
-          if(ksub(spsi) == 9){
+          if(ksub(spsi) == 9)
+          {
               cpftx9(cmn,cps,tsi,xsi);
+              wftx9(cmn,wsatin,tsi,xsi);
+
           }
           else if(ksub(spsi) ==1){
               cps = cpftx1(cmn,tsi,xsi);
-//              globalpara.reportError("cp libr"+QString::number(cps));
-//              cps = 0.3;//lbm/ft3
-          }
-          if(ksub(spsi) == 9)
-          {
-              wftx9(cmn,wsatin,tsi,xsi);
-          }
-          else if(ksub(spsi) ==1){
               wftx1(cmn,wsatin,tsi,xsi);
+          }
+          else if(ksub(spsi) ==14){
+              cps = cpftx14(cmn,tsi,xsi);
+              wftx14(cmn,wsatin,tsi,xsi);
+//              qDebug()<<"\n\ndehum wsatin "<<wsatin<<" cp "<<cps;;
           }
       //    using paper model
           double hsath, hsatl;
@@ -9470,6 +9653,11 @@ conditioner_adiabatic(
           else if(ksub(spsi)==1){
               wftx1(cmn,wsatl,tl,xsi);
               wftx1(cmn,wsath,th,xsi);
+          }
+          else if(ksub(spsi)==14){
+              wftx14(cmn,wsatl,tl,xsi);
+              wftx14(cmn,wsath,th,xsi);
+//              qDebug()<<"dehum wsatl "<<wsatl<<" dehum wsath "<<wsath;
           }
           else
           {
@@ -9520,6 +9708,9 @@ conditioner_adiabatic(
             else if(ksub(spsi)==1){
                 wftx1(cmn,weff1,teff*1.8+32,xsi);
             }
+            else if(ksub(spsi)==14){
+                wftx14(cmn,weff1,teff*1.8+32,xsi);
+            }
             if(weff>weff1)
                 weff -= fabs(weff-weff1)/10;
             else if(weff<weff1)
@@ -9527,8 +9718,24 @@ conditioner_adiabatic(
             counter++;
           }
 
-//          qDebug()<<"hai"<<hai<<"hao"<<hao<<"heff"<<heff;
-//          qDebug()<<"wai"<<wai<<"wao"<<wao<<"weff"<<weff<<"wsatin"<<wsatin;
+          double wsato = 0;
+
+          if(ksub(spsi)==9){
+              wftx9(cmn,wsato,tso,xso);
+          }
+          else if(ksub(spsi)==1){
+              wftx1(cmn,wsato,tso,xso);
+          }
+          else if(ksub(spsi)==14){
+              wftx14(cmn,wsato,tso,xso);
+          }
+
+//          qDebug()<<"\n\ndehum\nhai"<<hai<<"hao"<<hao<<"heff"<<heff;
+//          qDebug()<<"wai"<<wai<<"wao"<<wao<<"weff"<<weff;
+//          qDebug()<<"hsi"<<hsi<<"hso"<<hso<<"wsatin"<<wsatin;
+//          qDebug()<<"tso"<<(tso-32)/1.8<<"xso"<<xso<<"wsato"<<wsato;
+
+
           nnl++;
           eName = "Mass Transfer: w"+QString::number(spao)+" = w_eff + (w"+QString::number(spai)+" - w_eff)*exp(-NTU)";
           fun(nnl) = ma*(wao - weff - (wai - weff)*exp(-myNtu))/fmax;//mass transfer
@@ -9559,7 +9766,9 @@ conditioner_adiabatic(
 
           outputs.humeff[iunit] = (wai-wao)/(wai-wsatin);
           outputs.ntu[iunit] = myNtu;
+          outputs.enthalpyeff[iunit] = (hai - hao)/(hai - hsatin);
 
+//          qDebug()<<"hai"<<hai<<"hao"<<hao<<"hsatin"<<hsatin<<"enthalpyEff"<<outputs.enthalpyeff[iunit];
 //          qDebug()<<"energy cons"<<ma*hai+msi*hsi<<ma*hao+mso*hso<<"diff"<<ma*hai+msi*hsi-ma*hao-mso*hso;
 //          qDebug()<<"mass cons"<<ma*(1+wai)+msi<<ma*(1+wao)+mso<<"diff"<<ma*(1+wai)+msi-ma*(1+wao)-mso;
 
@@ -9582,6 +9791,7 @@ conditioner_adiabatic(
           ms[1] = msi;
           ha[1] = hao;
 
+
 //          qDebug()<<"tsi"<<tsi<<"tao"<<tao<<"wao"<<wao<<"xsi"<<xsi<<"msi"<<msi<<"hao"<<hao;
 
           for(int i = 1;i <= n; i++)
@@ -9598,6 +9808,11 @@ conditioner_adiabatic(
               case 1:
               {
                   wftx1(cmn,wsat,ts[i],xs[i]);
+                  break;
+              }
+              case 14:
+              {
+                  wftx14(cmn,wsat,ts[i],xs[i]);
                   break;
               }
               }
@@ -9623,10 +9838,13 @@ conditioner_adiabatic(
               else if(ksub(spsi)==1){
                   cps = cpftx1(cmn,ts[i],xs[i]);
               }
+              else if(ksub(spsi)==14){
+                  cps = cpftx14(cmn,ts[i],xs[i]);
+              }
               double dtsdz = ma*dhadz/(ms[i]*cps);
               ts[i+1] = ts[i] + dtsdz*delta_z;
 
-//              qDebug()<<"dha"<<dhadz<<"dwa"<<dwadz<<"dxs"<<dxsdz<<"dts"<<dtsdz;
+              qDebug()<<"dha"<<dhadz<<"dwa"<<dwadz<<"dxs"<<dxsdz<<"dts"<<dtsdz;
           }
           nnl++;
           eName = "Air Inlet Temperature Convergance";
@@ -9657,6 +9875,30 @@ conditioner_adiabatic(
 //          qDebug()<<"\nenergy cons"<<ma*hai+msi*hsi<<ma*hao+mso*hso<<"diff"<<ma*hai+msi*hsi-ma*hao-mso*hso;
 //          qDebug()<<"mass cons"<<ma*(1+wai)+msi<<ma*(1+wao)+mso<<"diff"<<ma*(1+wai)+msi-ma*(1+wao)-mso<<"\n\n";
 
+
+          double wsatin = 0, hsatin = 0;
+          switch (ksub(spsi))
+          {
+          case 9:
+          {
+              wftx9(cmn,wsatin,tsi,xsi);
+              break;
+          }
+          case 14:
+          {
+              wftx14(cmn,wsatin,tsi,xsi);
+              break;
+          }
+          case 1:
+          {
+              wftx1(cmn,wsatin,tsi,xsi);
+              break;
+          }
+          }
+          hsatin = (1.006*(tsi-32)/1.8 + wsatin*(1.84*(tsi-32)/1.8 + 2501))/2.326;
+          outputs.humeff[iunit] = (wai-wao)/(wai-wsatin);
+          outputs.ntu[iunit] = NTU;
+          outputs.enthalpyeff[iunit] = (hai - hao)/(hai - hsatin);
 
       }
       else if(idunit(iunit) == 162)//co
@@ -9735,6 +9977,28 @@ conditioner_adiabatic(
           fun(nnl) =(ms[n] - mso)/cmn.fmax;
           afun(nnl) = eName.toStdString();
           iaf(nnl) = iunit;
+
+
+          double wsatin = 0, hsatin = 0;
+          switch (ksub(spsi))
+          {
+          case 9:
+          {
+              wftx9(cmn,wsatin,tsi,xsi);
+              break;
+          }
+          case 1:
+          {
+              wftx1(cmn,wsatin,tsi,xsi);
+              break;
+          }
+          }
+          hsatin = (1.006*(tsi-32)/1.8 + wsatin*(1.84*(tsi-32)/1.8 + 2501))/2.326;
+          outputs.humeff[iunit] = (wai-wao)/(wai-wsatin);
+          outputs.ntu[iunit] = NTU;
+          outputs.enthalpyeff[iunit] = (hai - hao)/(hai - hsatin);
+
+
       }
       else if(idunit(iunit) == 163)//cross
       {
@@ -9871,6 +10135,25 @@ conditioner_adiabatic(
           afun(nnl) = eName.toStdString();
           iaf(nnl) = iunit;
       }
+
+      double wsatin = 0, hsatin = 0;
+      switch (ksub(spsi))
+      {
+      case 9:
+      {
+          wftx9(cmn,wsatin,tsi,xsi);
+          break;
+      }
+      case 1:
+      {
+          wftx1(cmn,wsatin,tsi,xsi);
+          break;
+      }
+      }
+      hsatin = (1.006*(tsi-32)/1.8 + wsatin*(1.84*(tsi-32)/1.8 + 2501))/2.326;
+      outputs.humeff[iunit] = (wai-wao)/(wai-wsatin);
+      outputs.ntu[iunit] = NTU;
+      outputs.enthalpyeff[iunit] = (hai - hao)/(hai - hsatin);
 
   }
   statement_500:
@@ -11753,6 +12036,11 @@ regenerator_adiabatic(
                   wftx1(cmn,wsat,ts[i],xs[i]);
                   break;
               }
+              case 14:
+              {
+                  wftx14(cmn,wsat,ts[i],xs[i]);
+                  break;
+              }
               }
               hsati = (1.006*(ts[i]-32)/1.8 + wsat*(1.84*(ts[i]-32)/1.8 + 2501))/2.326;
               hsat[i] = hsati;
@@ -11775,18 +12063,21 @@ regenerator_adiabatic(
               else if(ksub(spsi)==1){
                   cps = cpftx1(cmn,ts[i],xs[i]);
               }
+              else if(ksub(spsi)==14){
+                  cps = cpftx14(cmn,ts[i],xs[i]);
+              }
               double dtsdz = ma*dhadz/(ms[i]*cps);
               ts[i+1] = ts[i] + dtsdz*delta_z;
 
-              double wsati,hs;
-              wftx1(cmn,wsati,ts[i],xs[i]);
-              hftx1(cmn,hs,ts[i],xs[i]);
-              outputs.distributionW[iunit][i]=wsati;
-              outputs.distributionW[iunit][i+50]=wa[i];
-              outputs.distributionT[iunit][i]=ts[i];
-              outputs.distributionT[iunit][i+50]=ta[i];
-              outputs.distributionH[iunit][i]=hs;
-              outputs.distributionH[iunit][i+50]=ha[i];
+//              double wsati,hs;
+//              wftx1(cmn,wsati,ts[i],xs[i]);
+//              hftx1(cmn,hs,ts[i],xs[i]);
+//              outputs.distributionW[iunit][i]=wsati;
+//              outputs.distributionW[iunit][i+50]=wa[i];
+//              outputs.distributionT[iunit][i]=ts[i];
+//              outputs.distributionT[iunit][i+50]=ta[i];
+//              outputs.distributionH[iunit][i]=hs;
+//              outputs.distributionH[iunit][i+50]=ha[i];
 
           }
           nnl++;
@@ -11814,6 +12105,30 @@ regenerator_adiabatic(
           fun(nnl) =(ms[n] - mso)/cmn.fmax;
           afun(nnl) = eName.toStdString();
           iaf(nnl) = iunit;
+
+          double wsatin = 0, hsatin = 0;
+          switch (ksub(spsi))
+          {
+          case 9:
+          {
+              wftx9(cmn,wsatin,tsi,xsi);
+              break;
+          }
+          case 1:
+          {
+              wftx1(cmn,wsatin,tsi,xsi);
+              break;
+          }
+          case 14:
+          {
+              wftx14(cmn,wsatin,tsi,xsi);
+              break;
+          }
+          }
+          hsatin = (1.006*(tsi-32)/1.8 + wsatin*(1.84*(tsi-32)/1.8 + 2501))/2.326;
+          outputs.humeff[iunit] = (wai-wao)/(wai-wsatin);
+          outputs.ntu[iunit] = NTU;
+          outputs.enthalpyeff[iunit] = (hai - hao)/(hai - hsatin);
 
 
       }
@@ -11900,6 +12215,26 @@ regenerator_adiabatic(
           fun(nnl) =(ms[n] - mso)/cmn.fmax;
           afun(nnl) = eName.toStdString();
           iaf(nnl) = iunit;
+
+
+          double wsatin = 0, hsatin = 0;
+          switch (ksub(spsi))
+          {
+          case 9:
+          {
+              wftx9(cmn,wsatin,tsi,xsi);
+              break;
+          }
+          case 1:
+          {
+              wftx1(cmn,wsatin,tsi,xsi);
+              break;
+          }
+          }
+          hsatin = (1.006*(tsi-32)/1.8 + wsatin*(1.84*(tsi-32)/1.8 + 2501))/2.326;
+          outputs.humeff[iunit] = (wai-wao)/(wai-wsatin);
+          outputs.ntu[iunit] = NTU;
+          outputs.enthalpyeff[iunit] = (hai - hao)/(hai - hsatin);
       }
       else if(idunit(iunit) == 183)
       {
@@ -12030,6 +12365,26 @@ regenerator_adiabatic(
           fun(nnl) =(msor - mso)/cmn.fmax;
           afun(nnl) = eName.toStdString();
           iaf(nnl) = iunit;
+
+
+          double wsatin = 0, hsatin = 0;
+          switch (ksub(spsi))
+          {
+          case 9:
+          {
+              wftx9(cmn,wsatin,tsi,xsi);
+              break;
+          }
+          case 1:
+          {
+              wftx1(cmn,wsatin,tsi,xsi);
+              break;
+          }
+          }
+          hsatin = (1.006*(tsi-32)/1.8 + wsatin*(1.84*(tsi-32)/1.8 + 2501))/2.326;
+          outputs.humeff[iunit] = (wai-wao)/(wai-wsatin);
+          outputs.ntu[iunit] = NTU;
+          outputs.enthalpyeff[iunit] = (hai - hao)/(hai - hsatin);
       }
       else if(idunit(iunit)==184)//effectiveness
       {
@@ -12040,18 +12395,19 @@ regenerator_adiabatic(
           double cps;
           double wsatl,wsath;
           double wsatin,hsatin;
-          if(ksub(spsi)==9){
-              cpftx9(cmn,cps,tsi,xsi);
-          }
-          else if(ksub(spsi)==1){
-              cps = cpftx1(cmn,tsi,xsi);
-          }
           if(ksub(spsi) == 9)
           {
+              cpftx9(cmn,cps,tsi,xsi);
               wftx9(cmn,wsatin,tsi,xsi);
           }
           else if(ksub(spsi)==1){
+              cps = cpftx1(cmn,tsi,xsi);
               wftx1(cmn,wsatin,tsi,xsi);
+          }
+          else if(ksub(spsi)==14){
+              cps = cpftx14(cmn,tsi,xsi);
+              wftx14(cmn,wsatin,tsi,xsi);
+//              qDebug()<<"regen wsatin "<<wsatin<<" cp "<<cps;
           }
       //    using paper model
           double hsath, hsatl;
@@ -12060,8 +12416,22 @@ regenerator_adiabatic(
 
 
           double th=tso,tl=tsi;
-          wftx9(cmn,wsatl,tl,xsi);
-          wftx9(cmn,wsath,th,xsi);
+          if(ksub(spsi)==9){
+              wftx9(cmn,wsatl,tl,xsi);
+              wftx9(cmn,wsath,th,xsi);
+          }
+          else if(ksub(spsi)==1){
+              wftx1(cmn,wsatl,tl,xsi);
+              wftx1(cmn,wsath,th,xsi);
+          }
+          else if(ksub(spsi)==14){
+              wftx14(cmn,wsatl,tl,xsi);
+              wftx14(cmn,wsath,th,xsi);
+          }
+          else
+          {
+              qDebug()<<"no property subroutine found.";
+          }
           hsatl = (1.006*(tl-32)/1.8 + wsatl*(1.84*(tl-32)/1.8 + 2501))/2.326;
           hsath = (1.006*(th-32)/1.8 + wsath*(1.84*(th-32)/1.8 + 2501))/2.326;
           double csat = (hsatl - hsath)/(tl - th);
@@ -12085,7 +12455,6 @@ regenerator_adiabatic(
               myEff = ht(iunit);
               myNtu = 1/(m_s-1)*log((myEff-1)/(myEff*m_s - 1));
               if(myEff*m_s > 1){
-                  qDebug()<<"too much air!";
                   outputs.myMsg.clear();
                   outputs.myMsg = "The effectiveness model can't be applied for regenerator "+QString::number(iunit)+".\nThe air flow rate is too much larger than solution flow rate.";
                   FEM_STOP(0);
@@ -12104,10 +12473,12 @@ regenerator_adiabatic(
             teff = (heff*2.326 - weff*2501)/(1.006+1.84*weff);
             if(ksub(spsi)==9){
                 wftx9(cmn,weff1,teff*1.8+32,xsi);
-
             }
             else if(ksub(spsi)==1){
                 wftx1(cmn,weff1,teff*1.8+32,xsi);
+            }
+            else if(ksub(spsi)==14){
+                wftx14(cmn,weff1,teff*1.8+32,xsi);
             }
             if(weff>weff1)
                 weff -= fabs(weff-weff1)/10;
@@ -12116,10 +12487,24 @@ regenerator_adiabatic(
             counter++;
           }
 
-//          qDebug()<<"hsatin"<<hsatin<<"hai"<<hai<<"heff"<<heff<<"weff"<<weff;
-//          qDebug()<<"hai"<<hai<<"hao"<<hao<<"heff"<<heff;
+          double wsato = 0;
+
+          if(ksub(spsi)==9){
+              wftx9(cmn,wsato,tso,xso);
+          }
+          else if(ksub(spsi)==1){
+              wftx1(cmn,wsato,tso,xso);
+          }
+          else if(ksub(spsi)==14){
+              wftx14(cmn,wsato,tso,xso);
+          }
+
+//          qDebug()<<"\n\nregen\nhai"<<hai<<"hao"<<hao<<"heff"<<heff;
 //          qDebug()<<"wai"<<wai<<"wao"<<wao<<"weff"<<weff;
-//          qDebug()<<"tai"<<tai<<"tsi"<<tsi<<"ntu"<<myNtu<<"eff"<<myEff;
+//          qDebug()<<"hsi"<<hsi<<"hso"<<hso<<"wsatin"<<wsatin;
+//          qDebug()<<"tso"<<(tso-32)/1.8<<"xso"<<xso<<"wsato"<<wsato;
+
+
           nnl++;
           eName = "Mass Transfer: w"+QString::number(spao)+" = w_eff + (w"+QString::number(spai)+" - w_eff)*exp(-NTU)";
           fun(nnl) = ma*(wao - weff - (wai - weff)*exp(-myNtu))/fmax;//mass transfer
@@ -12150,7 +12535,11 @@ regenerator_adiabatic(
           iaf(nnl) = iunit;
 
           outputs.humeff[iunit] = (wai-wao)/(wai-wsatin);
+//          qDebug()<<"humeff in calc"<<iunit<<(wai-wao)/(wai-wsatin);
+//          qDebug()<<outputs.humeff[0]<<outputs.humeff[1]<<outputs.humeff[2]<<outputs.humeff[3]<<outputs.humeff[4];
           outputs.ntu[iunit] = myNtu;
+          outputs.enthalpyeff[iunit] = (hai - hao)/(hai - hsatin);
+//          qDebug()<<"regen humeff"<<(wai-wao)/(wai-wsatin);
 
 //          qDebug()<<"energy cons"<<ma*hai+msi*hsi<<ma*hao+mso*hso<<"diff"<<ma*hai+msi*hsi-ma*hao-mso*hso;
 //          qDebug()<<"mass cons"<<ma*(1+wai)+msi<<ma*(1+wao)+mso<<"diff"<<ma*(1+wai)+msi-ma*(1+wao)-mso;
@@ -12167,22 +12556,22 @@ regenerator_adiabatic(
   statement_500:
   q(iunit) =0;
   outputs.mrate[iunit] = ma*(wao-wai);
-  double wsati;
-  switch (ksub(spsi))
-  {
-  case 1:
-  {
-      wftx1(cmn,wsati,tsi,xsi);
-      break;
-  }
-  case 9:
-  {
-      wftx9(cmn,wsati,tsi,xsi);
-      break;
-  }
-  }
+//  double wsati;
+//  switch (ksub(spsi))
+//  {
+//  case 1:
+//  {
+//      wftx1(cmn,wsati,tsi,xsi);
+//      break;
+//  }
+//  case 9:
+//  {
+//      wftx9(cmn,wsati,tsi,xsi);
+//      break;
+//  }
+//  }
 //  qDebug()<<"wao"<<wao<<"wai"<<wai<<"wsati"<<wsati;
-  outputs.humeff[iunit] = (wao-wai)/(wsati-wai);
+//  outputs.humeff[iunit] = (wao-wai)/(wsati-wai);
   return;
   statement_510:
   statement_520:;
@@ -16192,6 +16581,7 @@ pftx9(
   double t1 = tsat * 1.8f + 32;
 //  qDebug()<<"pft3 called by pftx9";
   pft3(cmn, p, t1);
+
 }
 
 //C*********************************************************************
@@ -16997,6 +17387,7 @@ program_sorpsimEngine(
   lwa = (n * (3 * n + 7)) / 2;
   hybrd1(cmn, n, fcn, x, fun, ftol, xtol, maxfev, ier, lwa, wa);
 
+
   //C*********************************************************************
   //C****             PRINTING FINAL RESULTS                         *****
   //C*********************************************************************
@@ -17310,6 +17701,7 @@ int absdCal(int argc,char const* argv[], calInputs myCalInput, bool print)
     argc1 = argc;
     argv1 = argv;
     int code = fem::main_with_catch(argc1, argv1,program_sorpsimEngine);
+
     return code;
 }
 

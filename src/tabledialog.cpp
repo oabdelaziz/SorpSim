@@ -1041,6 +1041,7 @@ void tableDialog::calcTable()
                     QSet<Node*>fSet = globalpara.allSet;
                     foreach(Node*theNode,fSet)
                         theNode->fT = spValue;
+                    qDebug()<<"taking flow"<<spValue<<"to calculate";
 
                 }
                 else if(spPara == "W")
@@ -1239,6 +1240,13 @@ void tableDialog::calcTable()
                         item->setTextAlignment(Qt::AlignCenter);
                         newElement.appendChild(newText);
                     }
+                    else if(uPara == "EE")
+                    {
+                        QDomText newText = doc.createTextNode(QString::number(iterator->enthalpyeffT));
+                        item->setData(Qt::DisplayRole,QString::number(iterator->enthalpyeffT,'g',4));
+                        item->setTextAlignment(Qt::AlignCenter);
+                        newElement.appendChild(newText);
+                    }
                     else if(uPara == "MR"||uPara == "ME")
                     {
                         QDomText newText = doc.createTextNode(QString::number(convert(iterator->mrateT,mass_flow_rate[globalpara.unitindex_massflow],mass_flow_rate[fUnit])));
@@ -1353,6 +1361,7 @@ void tableDialog::updatesystem()
             iterator->lmtdT = outputs.lmtd[m+1]/conv;
             iterator->htTr = convert(outputs.heat[m+1],heat_trans_rate[7],heat_trans_rate[globalpara.unitindex_heat_trans_rate]);
             iterator->humeffT = outputs.humeff[m+1];
+            iterator->enthalpyeffT = outputs.enthalpyeff[m+1];
             iterator->mrateT = convert(outputs.mrate[m+1],mass_flow_rate[1],mass_flow_rate[globalpara.unitindex_massflow]);
             iterator = iterator->next;
         }

@@ -52,6 +52,8 @@ ui(new Ui::newParaPlotDialog)
     QLayout *mainLayout = layout();
     mainLayout->setSizeConstraint(QLayout::SetFixedSize);
 
+    ui->yList->setSelectionMode(QAbstractItemView::MultiSelection);
+
 
     if(mode>0)
         readTheFile(tName);
