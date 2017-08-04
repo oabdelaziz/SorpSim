@@ -6112,6 +6112,10 @@ void unit::drawUnit()
         spParameter[3] = new QGraphicsSimpleTextItem(this);
         spParameter[3]->moveBy(-50,60);
 
+
+        myNodes[1]->addToSet(myNodes[3],"f");
+        myNodes[3]->addToSet(myNodes[1],"f");
+
         utext->moveBy(-20,18);
         unitName = "DEHUM-EFF";
         utext->setParentItem(this);
@@ -7877,7 +7881,10 @@ void unit::drawUnit()
         myNodes[3]->isOutlet = false;
         myNodes[3] -> isinside = false;
         spParameter[3] = new QGraphicsSimpleTextItem(this);
-        spParameter[3]->moveBy(-50,60);
+        spParameter[3]->moveBy(-50,60);        
+
+        myNodes[1]->addToSet(myNodes[3],"f");
+        myNodes[3]->addToSet(myNodes[1],"f");
 
         utext->moveBy(-20,18);
         unitName = "REGEN-EFF";

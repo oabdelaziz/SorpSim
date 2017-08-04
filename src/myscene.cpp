@@ -190,7 +190,7 @@ void myScene::mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event)
             return;
     }
     //for selecting text items
-    if(!items.empty()&& items.first()->type()==10000)
+    if(!items.isEmpty()&& items.first()->type()==10000)
     {
         textedit * dialog=new textedit(theView,(SimpleTextItem * )items.first());
         dialog->exec();

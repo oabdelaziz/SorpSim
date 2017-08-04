@@ -1,7 +1,9 @@
 /*dehumeffdialog.cpp
  * [SorpSim v1.0 source code]
  * [developed by Zhiyao Yang and Dr. Ming Qu for ORNL]
- * [last updated: 10/12/15]
+ * [last updated: 05/24/16]
+ *
+ * extend effectiveness value precision to 7 digits after decimal point
  *
  * dialog to edit the properties of an adiabatic liquid desiccant component
  * either effectiveness or NTU value is given
@@ -60,7 +62,7 @@ dehumEffDialog::dehumEffDialog(unit*unit, QWidget *parent) :
     mainLayout->setSizeConstraint(QLayout::SetFixedSize);
 
 
-    QValidator *inputRange = new QDoubleValidator(0,1,2,this);
+    QValidator *inputRange = new QDoubleValidator(0,1,7,this);
 
     QRegExp regExp("[-.0-9]+$");
     QRegExpValidator *regExpValidator = new QRegExpValidator(regExp,this);
@@ -79,12 +81,14 @@ void dehumEffDialog::on_OKButton_clicked()
     if(ui->NTUButton->isChecked())
     {
         myUnit->ht=ui->NTULine->text().toDouble();
+        myUnit->NTUm = myUnit->ht;
         myUnit->iht=2;
         myUnit->le = ui->LeLE->text().toDouble();
     }
     else if(ui->effButton->isChecked())
     {
         myUnit->ht=ui->effLine->text().toDouble();
+        myUnit->eff = myUnit->ht;
         myUnit->iht=3;
     }
     accept();

@@ -97,9 +97,11 @@ resultDialog::resultDialog(QWidget *parent) :
     LDACTable = new QTableWidget();
     LDACTable->setRowCount(globalpara.LDACcount);
     LDACTable->resizeColumnsToContents();
-    LDACTable->setColumnCount(5);
+    LDACTable->setColumnCount(6);
     QStringList LDACList;
-    LDACList<<"Index"<<"Type"<<"Heat\n["+globalpara.unitname_heatquantity+"]"<<"Evap/Cond\nrate\n["+globalpara.unitname_massflow+"]"<<"Humidity\nefficiency\n[-]";
+    LDACList<<"Index"<<"Type"<<"Heat\n["+globalpara.unitname_heatquantity+"]"
+           <<"Evap/Cond\nrate\n["+globalpara.unitname_massflow+"]"<<"Humidity\nefficiency\n[-]"
+             <<"Enthalpy\nefficiency\n[-]";
     LDACTable->setHorizontalHeaderLabels(LDACList);
     QHeaderView *lheader = LDACTable->horizontalHeader();
     lheader->setSectionResizeMode(QHeaderView::ResizeToContents);
@@ -281,6 +283,11 @@ resultDialog::resultDialog(QWidget *parent) :
             item->setText(QString::number(iterator->humeff,'g',4));
             item->setFlags(Qt::ItemIsSelectable|Qt::ItemIsEnabled);
             LDACTable->setItem(lcount,4,item);
+
+            item = new QTableWidgetItem;
+            item->setText(QString::number(iterator->enthalpyeff,'g',4));
+            item->setFlags(Qt::ItemIsSelectable|Qt::ItemIsEnabled);
+            LDACTable->setItem(lcount,5,item);
 
             lcount++;
         }

@@ -104,8 +104,8 @@ masterDialog::masterDialog(QWidget *parent) :
 
     LDACTable = new QTableWidget();
     QStringList lHeader;
-    lHeader<<"Name"<<"Index"<<"Wetness\nLevel"<<"NTUm"<<"NTUw"<<"NTUa";
-    LDACTable->setColumnCount(6);
+    lHeader<<"Name"<<"Index"<<"Wetness\nLevel"<<"NTUm"<<"NTUw"<<"NTUa"<<"effectiveness";
+    LDACTable->setColumnCount(7);
     LDACTable->setHorizontalHeaderLabels(lHeader);
     LDACTable->setRowCount(globalpara.LDACcount);
     LDACTable->resizeColumnsToContents();
@@ -242,25 +242,109 @@ void masterDialog::updateTable()
                 index->setFlags(Qt::ItemIsSelectable|Qt::ItemIsEnabled);
                 LDACTable->setItem(lcounter,1,index);
 
-                QTableWidgetItem * value = new QTableWidgetItem;
-                value->setData(Qt::DisplayRole,iterator->wetness);
-                value->setTextAlignment(Qt::AlignCenter);
-                LDACTable->setItem(lcounter,2,value);
 
-                value = new QTableWidgetItem;
-                value->setData(Qt::DisplayRole,iterator->NTUm);
-                value->setTextAlignment(Qt::AlignCenter);
-                LDACTable->setItem(lcounter,3,value);
+                if(iterator->idunit==164||iterator->idunit==184)//adiabatic eff model
+                {
 
-                value = new QTableWidgetItem;
-                value->setData(Qt::DisplayRole,iterator->NTUt);
-                value->setTextAlignment(Qt::AlignCenter);
-                LDACTable->setItem(lcounter,4,value);
+                    QTableWidgetItem * value = new QTableWidgetItem;
+                    value->setData(Qt::DisplayRole,1);
+                    value->setTextAlignment(Qt::AlignCenter);
+                    LDACTable->setItem(lcounter,2,value);
 
-                value = new QTableWidgetItem;
-                value->setData(Qt::DisplayRole,iterator->NTUa);
-                value->setTextAlignment(Qt::AlignCenter);
-                LDACTable->setItem(lcounter,5,value);
+                    value = new QTableWidgetItem;
+                    if(iterator->iht==2)
+                    {
+                        value->setData(Qt::DisplayRole,iterator->ht);
+                    }
+                    else if(iterator->iht==3)
+                    {
+                        value->setData(Qt::DisplayRole,"N/A");
+                    }
+                    value->setTextAlignment(Qt::AlignCenter);
+                    LDACTable->setItem(lcounter,3,value);
+
+                    value = new QTableWidgetItem;
+                    value->setData(Qt::DisplayRole,"N/A");
+                    value->setTextAlignment(Qt::AlignCenter);
+                    LDACTable->setItem(lcounter,4,value);
+
+                    value = new QTableWidgetItem;
+                    value->setData(Qt::DisplayRole,"N/A");
+                    value->setTextAlignment(Qt::AlignCenter);
+                    LDACTable->setItem(lcounter,5,value);
+
+                    value = new QTableWidgetItem;
+                    if(iterator->iht==2)
+                    {
+                        value->setData(Qt::DisplayRole,"N/A");
+                    }
+                    else if(iterator->iht==3)
+                    {
+                        value->setData(Qt::DisplayRole,iterator->ht);
+                    }
+                    value->setTextAlignment(Qt::AlignCenter);
+                    LDACTable->setItem(lcounter,6,value);
+
+                }
+                else if(iterator->idunit<170||(iterator->idunit>180&&iterator->idunit<190))//adiabatic
+                {
+
+                    QTableWidgetItem * value = new QTableWidgetItem;
+                    value->setData(Qt::DisplayRole,iterator->wetness);
+                    value->setTextAlignment(Qt::AlignCenter);
+                    LDACTable->setItem(lcounter,2,value);
+
+                    value = new QTableWidgetItem;
+                    value->setData(Qt::DisplayRole,iterator->NTUm);
+                    value->setTextAlignment(Qt::AlignCenter);
+                    LDACTable->setItem(lcounter,3,value);
+
+                    value = new QTableWidgetItem;
+                    value->setData(Qt::DisplayRole,"N/A");
+                    value->setTextAlignment(Qt::AlignCenter);
+                    LDACTable->setItem(lcounter,4,value);
+
+                    value = new QTableWidgetItem;
+                    value->setData(Qt::DisplayRole,"N/A");
+                    value->setTextAlignment(Qt::AlignCenter);
+                    LDACTable->setItem(lcounter,5,value);
+
+                    value = new QTableWidgetItem;
+                    value->setData(Qt::DisplayRole,"N/A");
+                    value->setTextAlignment(Qt::AlignCenter);
+                    LDACTable->setItem(lcounter,6,value);
+
+                }
+                else
+                {
+
+
+                    QTableWidgetItem * value = new QTableWidgetItem;
+                    value->setData(Qt::DisplayRole,iterator->wetness);
+                    value->setTextAlignment(Qt::AlignCenter);
+                    LDACTable->setItem(lcounter,2,value);
+
+                    value = new QTableWidgetItem;
+                    value->setData(Qt::DisplayRole,iterator->NTUm);
+                    value->setTextAlignment(Qt::AlignCenter);
+                    LDACTable->setItem(lcounter,3,value);
+
+                    value = new QTableWidgetItem;
+                    value->setData(Qt::DisplayRole,iterator->NTUt);
+                    value->setTextAlignment(Qt::AlignCenter);
+                    LDACTable->setItem(lcounter,4,value);
+
+                    value = new QTableWidgetItem;
+                    value->setData(Qt::DisplayRole,iterator->NTUa);
+                    value->setTextAlignment(Qt::AlignCenter);
+                    LDACTable->setItem(lcounter,5,value);
+
+                    value = new QTableWidgetItem;
+                    value->setData(Qt::DisplayRole,"N/A");
+                    value->setTextAlignment(Qt::AlignCenter);
+                    LDACTable->setItem(lcounter,6,value);
+
+                }
 
                 lcounter++;
             }
@@ -758,6 +842,10 @@ void masterDialog::applyChanges()
             iterator->NTUm = LDACTable->item(lcounter,3)->data(Qt::DisplayRole).toDouble();
             iterator->NTUt = LDACTable->item(lcounter,4)->data(Qt::DisplayRole).toDouble();
             iterator->NTUa = LDACTable->item(lcounter,5)->data(Qt::DisplayRole).toDouble();
+            if(iterator->iht==3&&(iterator->idunit==164||iterator->idunit==184))
+            {
+                iterator->ht = LDACTable->item(lcounter,6)->data(Qt::DisplayRole).toDouble();
+            }
 
             lcounter++;
         }

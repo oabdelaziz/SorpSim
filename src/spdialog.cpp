@@ -322,6 +322,7 @@ void spDialog::updateSetting()
     }
     sysFluids<<"Not Assigned";
 
+
     for(int m = 0; m < sysFluids.count();m++)
         ui->fluidCB->insertItem(0,sysFluids.at(m).split(",").first());
 
@@ -722,7 +723,7 @@ void spDialog::on_TLE_editingFinished()
         {
             this->hide();
             QMessageBox *mBox = new QMessageBox;
-            mBox->setWindowTitle("Warning");mBox->setText("This will set temperature of sp"+QString::number(myNode->ndum)+list.join("")+" to"+text+globalpara.unitname_temperature);
+            mBox->setWindowTitle("Warning");mBox->setText("This will set temperature of sp"+QString::number(myNode->ndum)+list.join("")+" to "+text+globalpara.unitname_temperature);
             mBox->exec();
             this->show();
         }
@@ -873,7 +874,7 @@ void spDialog::on_PLE_editingFinished()
         {
             this->hide();
             QMessageBox *mBox = new QMessageBox;
-            mBox->setWindowTitle("Warning");mBox->setText("This will set pressure of sp"+QString::number(myNode->ndum)+list.join("")+" to"+text+globalpara.unitname_pressure);
+            mBox->setWindowTitle("Warning");mBox->setText("This will set pressure of sp"+QString::number(myNode->ndum)+list.join("")+" to "+text+globalpara.unitname_pressure);
             mBox->exec();
             this->show();
         }
@@ -1025,7 +1026,7 @@ void spDialog::on_FLE_editingFinished()
         {
             this->hide();
             QMessageBox *mBox = new QMessageBox;
-            mBox->setWindowTitle("Warning");mBox->setText("This will set mass flow rate of sp"+QString::number(myNode->ndum)+list.join("")+" to"+text+globalpara.unitname_massflow);
+            mBox->setWindowTitle("Warning");mBox->setText("This will set mass flow rate of sp"+QString::number(myNode->ndum)+list.join("")+" to "+text+globalpara.unitname_massflow);
             mBox->exec();
             this->show();
         }
@@ -1177,7 +1178,7 @@ void spDialog::on_CLE_editingFinished()
         {
             this->hide();
             QMessageBox *mBox = new QMessageBox;
-            mBox->setWindowTitle("Warning");mBox->setText("This will set concentration of sp"+QString::number(myNode->ndum)+list.join("")+" to"+text+"%");
+            mBox->setWindowTitle("Warning");mBox->setText("This will set concentration of sp"+QString::number(myNode->ndum)+list.join("")+" to "+text+"%");
             mBox->exec();
             this->show();
         }
@@ -1329,7 +1330,7 @@ void spDialog::on_WLE_editingFinished()
         {
             this->hide();
             QMessageBox *mBox = new QMessageBox;
-            mBox->setWindowTitle("Warning");mBox->setText("This will set vapor fraction of sp"+QString::number(myNode->ndum)+list.join("")+" to"+text);
+            mBox->setWindowTitle("Warning");mBox->setText("This will set vapor fraction of sp"+QString::number(myNode->ndum)+list.join("")+" to "+text);
             mBox->exec();
             this->show();
         }

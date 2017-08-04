@@ -3730,32 +3730,41 @@ void MainWindow::resultShow()
 
             if(globalpara.compResSelected())
             {
-                iterator->unitParameter->setBrush(ubr);
-                iterator->unitParameter->setFont(font);
-                uPara.append("#"+QString::number(iterator->nu)+" "+iterator->unitName);
-                if(globalpara.resUA)
-                    uPara.append("\nUA="+QString::number(iterator->ua,'g',3)+globalpara.unitname_UAvalue);
-                if(globalpara.resNTU)
-                    uPara.append("\nNTU="+QString::number(iterator->ntu,'g',3));
-                if(globalpara.resEFF){
+                if(iterator->idunit<70||iterator->idunit>90){//skip mixer and splitter
+                    iterator->unitParameter->setBrush(ubr);
+                    iterator->unitParameter->setFont(font);
+                    uPara.append("#"+QString::number(iterator->nu)+" "+iterator->unitName);
+
                     if(iterator->idunit<160){
-                        uPara.append("\nEFF="+QString::number(iterator->eff,'g',3));
+                        if(globalpara.resUA)
+                            uPara.append("\nUA="+QString::number(iterator->ua,'g',3)+globalpara.unitname_UAvalue);
+                        if(globalpara.resNTU)
+                            uPara.append("\nNTU="+QString::number(iterator->ntu,'g',3));
+                        if(globalpara.resEFF){
+                                uPara.append("\nEFF="+QString::number(iterator->eff,'g',3));
+                            }
+                        if(globalpara.resCAT)
+                            uPara.append("\nCAT="+QString::number(iterator->cat,'g',3)+globalpara.unitname_temperature);
+                        if(globalpara.resLMTD)
+                            uPara.append("\nLMTD="+QString::number(iterator->lmtd,'g',3)+globalpara.unitname_temperature);
+                        if(globalpara.resHT)
+                            uPara.append("\nHT="+QString::number(iterator->htr,'g',3)+globalpara.unitname_heatquantity);
+
+                        if(iterator->idunit>60&&iterator->idunit<90){
+                            iterator->unitParameter->setText("");
+                        }
+
                     }
                     else{
-                        uPara.append("\nEFF="+QString::number(iterator->humeff,'g',3));
+                        uPara.append("\nMw="+QString::number(iterator->mrate,'g',6)+globalpara.unitname_massflow);
+                        uPara.append("\nHumEff="+QString::number(iterator->humeff,'g',5));
+                        uPara.append("\nEnthalEff="+QString::number(iterator->enthalpyeff,'g',5));
+                        if((iterator->idunit>170&&iterator->idunit<180)||iterator->idunit>190){
+                            uPara.append("\nHT="+QString::number(iterator->htr,'g',2)+globalpara.unitname_heatquantity);
+                        }
                     }
-                }
-                if(globalpara.resCAT)
-                    uPara.append("\nCAT="+QString::number(iterator->cat,'g',3)+globalpara.unitname_temperature);
-                if(globalpara.resLMTD)
-                    uPara.append("\nLMTD="+QString::number(iterator->lmtd,'g',3)+globalpara.unitname_temperature);
-                if(globalpara.resHT)
-                    uPara.append("\nHT="+QString::number(iterator->htr,'g',3)+globalpara.unitname_heatquantity);
-                iterator->unitParameter->setText(uPara);
-                uPara.clear();
-
-                if((iterator->idunit>60&&iterator->idunit<90)||(iterator->idunit>160&&iterator->idunit<170)||(iterator->idunit>180&&iterator->idunit<190)){
-                    iterator->unitParameter->setText("");
+                    iterator->unitParameter->setText(uPara);
+                    uPara.clear();
                 }
             }
             else
