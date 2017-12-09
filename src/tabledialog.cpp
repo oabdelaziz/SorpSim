@@ -93,7 +93,7 @@ bool alvAccepted = false;
 int alvMethod;
 int alvCol;
 int alvRowCount;
-QDialog* theTablewindow;
+tableDialog* theTablewindow;
 
 tableDialog::tableDialog(QString startTable, QWidget *parent) :
     QDialog(parent),
