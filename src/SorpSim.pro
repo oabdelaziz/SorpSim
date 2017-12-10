@@ -14,6 +14,9 @@ INCLUDEPATH += C:\qwt-6.1.0\src
 DEPENDPATH += C:\qwt-6.1.0\src
 
 #LIBS += C:\qwt-6.1.0\lib\qwt.dll
+win32:CONFIG(release, debug|release): LIBS += -L/qwt-6.1.0/lib/ -lqwt
+else:win32:CONFIG(debug, debug|release): LIBS += -L/qwt-6.1.0/lib/ -lqwtd
+else:unix: LIBS += -L/qwt-6.1.0/lib/ -lqwt
 
 #include(c:/qwt-6.1.0/qwt.prf)
 #####include the qwt library for Mac compilation
