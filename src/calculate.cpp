@@ -410,7 +410,7 @@ bool calculate::updateSystem()
     return true;
 }
 
-bool calculate::checkEV()
+void calculate::checkEV()
 {
     int nv=0, ne=0;
     nv = spnumber*5;

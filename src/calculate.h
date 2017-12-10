@@ -23,7 +23,15 @@ private:
     unit * myDummy;
     QString myFileName;
 
-    bool checkEV();
+    /**
+     * @brief checkEV
+     *
+     * A debugging function called by calculate::calc().
+     * Appears to count equations and/or nodes and vertices in the drawing.
+     *
+     * @return Nothing useful
+     */
+    void checkEV();
 };
 
 #endif // CALCULATE_H

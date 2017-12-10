@@ -668,7 +668,8 @@ Plot::Plot(QString fluid, QString subType, QString unitSystem)
 
 Plot::Plot(QMultiMap<double, double> data, QStringList xValues, int curveCount, int *axis_info, QStringList axis_name)
 {
-    int nRuns = xValues.count(), nCurves = curveCount;
+    const int nRuns = xValues.count();
+    const int nCurves = curveCount;
     QString inAxis = axis_name.at(0);
     QStringList outAxis;
     for(int i = 1; i < axis_name.count();i++)
@@ -730,8 +731,11 @@ Plot::Plot(QMultiMap<double, double> data, QStringList xValues, int curveCount, 
     sItem = new QwtSymbol(QwtSymbol::Ellipse,QBrush(Qt::black),QPen(Qt::black,1),QSize(3,3));
     symbols.append(sItem);
 
+
+    // TODO: consider using std::vector or smart pointers. However, ...
+    // TODO: no need to store these in an array, since they are consumed immediately in the loop.
     QPolygonF *points = new QPolygonF[nCurves];
-    QwtPlotCurve * curve[nCurves];
+    QwtPlotCurve** curve = new QwtPlotCurve*[nCurves];
     for(int j=0;j<nCurves;j++)
     {
         QString curveName = outAxis.at(j);
@@ -765,7 +769,8 @@ Plot::Plot(QMultiMap<double, double> data, QStringList xValues, int curveCount, 
         curve[j]->attach(this);
         curvelist<<curve[j];
     }
-
+    // These are just pointers, so deleting them doesn't affect the objects to which they point.
+    delete[] curve;
 }
 
 

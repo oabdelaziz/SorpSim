@@ -17,6 +17,7 @@
  * function, and the "myScene" is added onto the "myView" after that. (refer to Qt documentations about View and Scene operations)
 */
 
+#include <vector>
 
 #include <QTabWidget>
 #include <QApplication>
@@ -1646,7 +1647,7 @@ bool MainWindow::loadOutFile()
                 }while(!line.contains("NO. OF UNITS"));
                 line.replace("NO. OF UNITS:","");
                 unitCount = line.toInt();
-                int sps[unitCount][7];
+                std::vector<int[7]> sps(unitCount);
 
                 do
                 {
@@ -1738,8 +1739,8 @@ bool MainWindow::loadOutFile()
 
                 //load state points
                 int const spNm = spCount+1;
-                int ksub[spNm],itfix[spNm],iffix[spNm],icfix[spNm],ipfix[spNm],iwfix[spNm];
-                double t[spNm],f[spNm],c[spNm],p[spNm],w[spNm];
+                std::vector<int> ksub(spNm),itfix(spNm),iffix(spNm),icfix(spNm),ipfix(spNm),iwfix(spNm);
+                std::vector<double> t(spNm),f(spNm),c(spNm),p(spNm),w(spNm);
 
                 for(int h = 0; h < spCount; h++)
                 {
@@ -1795,7 +1796,7 @@ bool MainWindow::loadOutFile()
                 line = stream.readLine();
 
                 //load state points
-                double tr[spNm],fr[spNm],cr[spNm],pr[spNm],wr[spNm],hr[spNm];
+                std::vector<double> tr(spNm),fr(spNm),cr(spNm),pr(spNm),wr(spNm),hr(spNm);
 
                 for(int h = 0; h < spCount; h++)
                 {
@@ -2684,6 +2685,14 @@ bool MainWindow::setTPMenu()
 
 }
 
+/**
+ * @brief MainWindow::setRecentFiles
+ *
+ * Sets the list of recent files in the user profile. As a side effect in case
+ * of I/O errors, issues a helpful warning message.
+ *
+ * @return Whether the operation succeeded.
+ */
 bool MainWindow::setRecentFiles()
 {
 #ifdef Q_OS_WIN32
@@ -2698,6 +2707,7 @@ bool MainWindow::setRecentFiles()
     if(!ofile.open(QIODevice::ReadOnly|QIODevice::Text))
     {
         globalpara.reportError("Failed to open and load recent file.",this);
+        return false;
     }
     else
     {
@@ -2705,6 +2715,7 @@ bool MainWindow::setRecentFiles()
         {
             globalpara.reportError("Failed to load recent file directories from xml file.",this);
             ofile.close();
+            return false;
         }
     }
 
@@ -2730,6 +2741,7 @@ bool MainWindow::setRecentFiles()
             connect(tempAction,SIGNAL(triggered()),SLOT(openRecentFile()));
         }
     }
+    return true;
 }
 
 bool MainWindow::saveRecentFile(QString fileDir)

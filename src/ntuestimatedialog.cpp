@@ -381,7 +381,7 @@ double NTUestimateDialog::dehum(double tsoli, double xsoli, double msol, double 
     double delta_z = h/n;
     double mrateTemp = 0;
 
-    double ts[n+2],ta[n+2],wa[n+2],ha[n+2],xs[n+2],ms[n+2],hsat[n+2];
+    std::vector<double> ts(n+2),ta(n+2),wa(n+2),ha(n+2),xs(n+2),ms(n+2),hsat(n+2);
     ts[1] = tsoli;
     ta[1] = tairi;
     wa[1] = wairi;

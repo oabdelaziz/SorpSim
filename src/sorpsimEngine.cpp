@@ -26,6 +26,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <math.h>
+#include <vector>
 #include <QDebug>
 #include <QString>
 #include <QStringList>
@@ -9783,7 +9784,7 @@ conditioner_adiabatic(
       else if(idunit(iunit)==161)//counter
       {
 
-          double ts[n+2],ta[n+2],wa[n+2],ha[n+2],xs[n+2],ms[n+2],hsat[n+2];
+          std::vector<double> ts(n+2),ta(n+2),wa(n+2),ha(n+2),xs(n+2),ms(n+2),hsat(n+2);
           ts[1] = tsi;
           ta[1] = tao;
           wa[1] = wao;
@@ -9904,7 +9905,7 @@ conditioner_adiabatic(
       else if(idunit(iunit) == 162)//co
       {
 
-          double ts[n+2],ta[n+2],wa[n+2],ha[n+2],xs[n+2],ms[n+2],hsat[n+2];
+          std::vector<double> ts(n+2),ta(n+2),wa(n+2),ha(n+2),xs(n+2),ms(n+2),hsat(n+2);
           ts[1] = tsi;
           ta[1] = tai;
           wa[1] = wai;
@@ -10003,7 +10004,14 @@ conditioner_adiabatic(
       else if(idunit(iunit) == 163)//cross
       {
 
-          double ts[n+2][m+2],ta[n+2][m+2],wa[n+2][m+2],ha[n+2][m+2],xs[n+2][m+2],ms[n+2][m+2],hs[n+2][m+2];
+          std::vector<std::vector<double>>
+                  ts(n+2, std::vector<double>(m+2)),
+                  ta(n+2, std::vector<double>(m+2)),
+                  wa(n+2, std::vector<double>(m+2)),
+                  ha(n+2, std::vector<double>(m+2)),
+                  xs(n+2, std::vector<double>(m+2)),
+                  ms(n+2, std::vector<double>(m+2)),
+                  hs(n+2, std::vector<double>(m+2));
           for(int i = 1; i <= m; i++)
           {
               ts[1][i] = tsi;
@@ -10413,7 +10421,7 @@ conditioner_cooled(
       double Le = inputs.le[iunit];
       int n = inputs.nIter[iunit];
       double delta_z = h/n;
-      double ts[n+2],ta[n+2],wa[n+2],ha[n+2],xs[n+2],ms[n+2],hc[n+2], tc[n+2],hsati[n+2], wc[n+2];
+      std::vector<double> ts(n+2),ta(n+2),wa(n+2),ha(n+2),xs(n+2),ms(n+2),hc(n+2), tc(n+2),hsati(n+2), wc(n+2);
       ts[1] = tsi;
       ta[1] = tao;
       wa[1] = wao;
@@ -10662,7 +10670,7 @@ conditioner_cooled(
       int n = 50;
       double Cpc = 1.003;
       double delta_z = h/n;
-      double ts[n+2],ta[n+2],wa[n+2],ha[n+2],xs[n+2],ms[n+2],tc[n+2],hsati[n+2];
+      std::vector<double> ts(n+2),ta(n+2),wa(n+2),ha(n+2),xs(n+2),ms(n+2),tc(n+2),hsati(n+2);
       ts[1] = tsi;
       ta[1] = tao;
       wa[1] = wao;
@@ -10804,7 +10812,15 @@ conditioner_cooled(
       double delta_z = h/n;
       double delta_x = l/m;
 
-      double ts[n+2][m+2],ta[n+2][m+2],wa[n+2][m+2],ha[n+2][m+2],xs[n+2][m+2],ms[n+2][m+2],hs[n+2][m+2],tc[n+2][m+2];
+      std::vector<std::vector<double>>
+              ts(n+2, std::vector<double>(m+2)),
+              ta(n+2, std::vector<double>(m+2)),
+              wa(n+2, std::vector<double>(m+2)),
+              ha(n+2, std::vector<double>(m+2)),
+              xs(n+2, std::vector<double>(m+2)),
+              ms(n+2, std::vector<double>(m+2)),
+              hs(n+2, std::vector<double>(m+2)),
+              tc(n+2, std::vector<double>(m+2));
       for(int i = 1; i <= m; i++)
       {
           ts[1][i] = tsi;
@@ -10952,7 +10968,7 @@ conditioner_cooled(
       int n = 50;
       double Cpc = 1.003;
       double delta_z = h/n;
-      double ts[n+2],ta[n+2],wa[n+2],ha[n+2],xs[n+2],ms[n+2],tc[n+2],hsati[n+2];
+      std::vector<double> ts(n+2),ta(n+2),wa(n+2),ha(n+2),xs(n+2),ms(n+2),tc(n+2),hsati(n+2);
       ts[1] = tsi;
       ta[1] = tai;
       wa[1] = wai;
@@ -11089,7 +11105,7 @@ conditioner_cooled(
       int n = 50;
       double Cpc = 1.003;
       double delta_z = h/n;
-      double ts[n+2],ta[n+2],wa[n+2],ha[n+2],xs[n+2],ms[n+2],tc[n+2];
+      std::vector<double> ts(n+2),ta(n+2),wa(n+2),ha(n+2),xs(n+2),ms(n+2),tc(n+2);
       ts[1] = tsi;
       ta[1] = tai;
       wa[1] = wai;
@@ -11227,7 +11243,15 @@ conditioner_cooled(
       double delta_z = h/n;
       double delta_x = l/m;
 
-      double ts[n+2][m+2],ta[n+2][m+2],wa[n+2][m+2],ha[n+2][m+2],xs[n+2][m+2],ms[n+2][m+2],hs[n+2][m+2],tc[n+2][m+2];
+      std::vector<std::vector<double>>
+              ts(n+2, std::vector<double>(m+2)),
+              ta(n+2, std::vector<double>(m+2)),
+              wa(n+2, std::vector<double>(m+2)),
+              ha(n+2, std::vector<double>(m+2)),
+              xs(n+2, std::vector<double>(m+2)),
+              ms(n+2, std::vector<double>(m+2)),
+              hs(n+2, std::vector<double>(m+2)),
+              tc(n+2, std::vector<double>(m+2));
       for(int i = 1; i <= m; i++)
       {
           ts[1][i] = tsi;
@@ -11380,7 +11404,15 @@ conditioner_cooled(
       double delta_z = h/n;
       double delta_x = l/m;
 
-      double ts[n+2][m+2],ta[n+2][m+2],wa[n+2][m+2],ha[n+2][m+2],xs[n+2][m+2],ms[n+2][m+2],hs[n+2][m+2],tc[n+2][m+2];
+      std::vector<std::vector<double>>
+              ts(n+2, std::vector<double>(m+2)),
+              ta(n+2, std::vector<double>(m+2)),
+              wa(n+2, std::vector<double>(m+2)),
+              ha(n+2, std::vector<double>(m+2)),
+              xs(n+2, std::vector<double>(m+2)),
+              ms(n+2, std::vector<double>(m+2)),
+              hs(n+2, std::vector<double>(m+2)),
+              tc(n+2, std::vector<double>(m+2));
       for(int i = 1; i <= m; i++)
       {
           ts[1][i] = tsi;
@@ -11533,7 +11565,15 @@ conditioner_cooled(
       double delta_z = h/n;
       double delta_x = l/m;
 
-      double ts[n+2][m+2],ta[n+2][m+2],wa[n+2][m+2],ha[n+2][m+2],xs[n+2][m+2],ms[n+2][m+2],hs[n+2][m+2],tc[n+2][m+2];
+      std::vector<std::vector<double>>
+              ts(n+2, std::vector<double>(m+2)),
+              ta(n+2, std::vector<double>(m+2)),
+              wa(n+2, std::vector<double>(m+2)),
+              ha(n+2, std::vector<double>(m+2)),
+              xs(n+2, std::vector<double>(m+2)),
+              ms(n+2, std::vector<double>(m+2)),
+              hs(n+2, std::vector<double>(m+2)),
+              tc(n+2, std::vector<double>(m+2));
       for(int i = 1; i <= m; i++)
       {
           ts[1][i] = tsi;
@@ -11686,7 +11726,15 @@ conditioner_cooled(
       double delta_z = h/n;
       double delta_x = l/m;
 
-      double ts[n+2][m+2],ta[n+2][m+2],wa[n+2][m+2],ha[n+2][m+2],xs[n+2][m+2],ms[n+2][m+2],hs[n+2][m+2],tc[n+2][m+2];
+      std::vector<std::vector<double>>
+              ts(n+2, std::vector<double>(m+2)),
+              ta(n+2, std::vector<double>(m+2)),
+              wa(n+2, std::vector<double>(m+2)),
+              ha(n+2, std::vector<double>(m+2)),
+              xs(n+2, std::vector<double>(m+2)),
+              ms(n+2, std::vector<double>(m+2)),
+              hs(n+2, std::vector<double>(m+2)),
+              tc(n+2, std::vector<double>(m+2));
       for(int i = 1; i <= m; i++)
       {
           ts[1][i] = tsi;
@@ -12009,7 +12057,7 @@ regenerator_adiabatic(
       int m = 50;
       double delta_z = h/n;
       double delta_x = l/m;
-      double ts[n+2],ta[n+2],wa[n+2],ha[n+2],xs[n+2],ms[n+2],hsat[n+2];
+      std::vector<double> ts(n+2),ta(n+2),wa(n+2),ha(n+2),xs(n+2),ms(n+2),hsat(n+2);
 
       if(idunit(iunit)==181)
       {
@@ -12240,7 +12288,14 @@ regenerator_adiabatic(
       {
 
 
-          double ts[n+2][m+2],ta[n+2][m+2],wa[n+2][m+2],ha[n+2][m+2],xs[n+2][m+2],ms[n+2][m+2],hs[n+2][m+2];
+          std::vector<std::vector<double>>
+                  ts(n+2, std::vector<double>(m+2)),
+                  ta(n+2, std::vector<double>(m+2)),
+                  wa(n+2, std::vector<double>(m+2)),
+                  ha(n+2, std::vector<double>(m+2)),
+                  xs(n+2, std::vector<double>(m+2)),
+                  ms(n+2, std::vector<double>(m+2)),
+                  hs(n+2, std::vector<double>(m+2));
           for(int i = 1; i <= m; i++)
           {
               ts[1][i] = tsi;
@@ -12812,7 +12867,7 @@ regenerator_heated(
       double Le = inputs.le[iunit];
       int n = inputs.nIter[iunit];
       double delta_z = h/n;
-      double ts[n+2],ta[n+2],wa[n+2],ha[n+2],xs[n+2],ms[n+2],hc[n+2], tc[n+2],hsati[n+2], wc[n+2];
+      std::vector<double> ts(n+2),ta(n+2),wa(n+2),ha(n+2),xs(n+2),ms(n+2),hc(n+2), tc(n+2),hsati(n+2), wc(n+2);
       ts[1] = tsi;
       ta[1] = tao;
       wa[1] = wao;
@@ -13039,7 +13094,7 @@ regenerator_heated(
       int n = 50;
       double Cpc = 1.003;
       double delta_z = h/n;
-      double ts[n+2],ta[n+2],wa[n+2],ha[n+2],xs[n+2],ms[n+2],tc[n+2],hsati[n+2];
+      std::vector<double> ts(n+2),ta(n+2),wa(n+2),ha(n+2),xs(n+2),ms(n+2),tc(n+2),hsati(n+2);
       ts[1] = tsi;
       ta[1] = tao;
       wa[1] = wao;
@@ -13177,7 +13232,15 @@ regenerator_heated(
       double delta_z = h/n;
       double delta_x = l/m;
 
-      double ts[n+2][m+2],ta[n+2][m+2],wa[n+2][m+2],ha[n+2][m+2],xs[n+2][m+2],ms[n+2][m+2],hs[n+2][m+2],tc[n+2][m+2];
+      std::vector<std::vector<double>>
+              ts(n+2, std::vector<double>(m+2)),
+              ta(n+2, std::vector<double>(m+2)),
+              wa(n+2, std::vector<double>(m+2)),
+              ha(n+2, std::vector<double>(m+2)),
+              xs(n+2, std::vector<double>(m+2)),
+              ms(n+2, std::vector<double>(m+2)),
+              hs(n+2, std::vector<double>(m+2)),
+              tc(n+2, std::vector<double>(m+2));
       for(int i = 1; i <= m; i++)
       {
           ts[1][i] = tsi;
@@ -13329,7 +13392,7 @@ regenerator_heated(
       int n = 50;
       double Cpc = 1.003;
       double delta_z = h/n;
-      double ts[n+2],ta[n+2],wa[n+2],ha[n+2],xs[n+2],ms[n+2],tc[n+2],hsati[n+2];
+      std::vector<double> ts(n+2),ta(n+2),wa(n+2),ha(n+2),xs(n+2),ms(n+2),tc(n+2),hsati(n+2);
       ts[1] = tsi;
       ta[1] = tai;
       wa[1] = wai;
@@ -13465,7 +13528,7 @@ regenerator_heated(
       int n = inputs.nIter[iunit];
       double Cpc = 1.003;
       double delta_z = h/n;
-      double ts[n+2],ta[n+2],wa[n+2],ha[n+2],xs[n+2],ms[n+2],tc[n+2];
+      std::vector<double> ts(n+2),ta(n+2),wa(n+2),ha(n+2),xs(n+2),ms(n+2),tc(n+2);
       ts[1] = tsi;
       ta[1] = tai;
       wa[1] = wai;
@@ -13617,7 +13680,15 @@ regenerator_heated(
       double delta_z = h/n;
       double delta_x = l/m;
 
-      double ts[n+2][m+2],ta[n+2][m+2],wa[n+2][m+2],ha[n+2][m+2],xs[n+2][m+2],ms[n+2][m+2],hs[n+2][m+2],tc[n+2][m+2];
+      std::vector<std::vector<double>>
+              ts(n+2, std::vector<double>(m+2)),
+              ta(n+2, std::vector<double>(m+2)),
+              wa(n+2, std::vector<double>(m+2)),
+              ha(n+2, std::vector<double>(m+2)),
+              xs(n+2, std::vector<double>(m+2)),
+              ms(n+2, std::vector<double>(m+2)),
+              hs(n+2, std::vector<double>(m+2)),
+              tc(n+2, std::vector<double>(m+2));
       for(int i = 1; i <= m; i++)
       {
           ts[1][i] = tsi;
@@ -13772,7 +13843,15 @@ regenerator_heated(
       double delta_z = h/n;
       double delta_x = l/m;
 
-      double ts[n+2][m+2],ta[n+2][m+2],wa[n+2][m+2],ha[n+2][m+2],xs[n+2][m+2],ms[n+2][m+2],hs[n+2][m+2],tc[n+2][m+2];
+      std::vector<std::vector<double>>
+              ts(n+2, std::vector<double>(m+2)),
+              ta(n+2, std::vector<double>(m+2)),
+              wa(n+2, std::vector<double>(m+2)),
+              ha(n+2, std::vector<double>(m+2)),
+              xs(n+2, std::vector<double>(m+2)),
+              ms(n+2, std::vector<double>(m+2)),
+              hs(n+2, std::vector<double>(m+2)),
+              tc(n+2, std::vector<double>(m+2));
       for(int i = 1; i <= m; i++)
       {
           ts[1][i] = tsi;
@@ -13927,7 +14006,15 @@ regenerator_heated(
       double delta_z = h/n;
       double delta_x = l/m;
 
-      double ts[n+2][m+2],ta[n+2][m+2],wa[n+2][m+2],ha[n+2][m+2],xs[n+2][m+2],ms[n+2][m+2],hs[n+2][m+2],tc[n+2][m+2];
+      std::vector<std::vector<double>>
+              ts(n+2, std::vector<double>(m+2)),
+              ta(n+2, std::vector<double>(m+2)),
+              wa(n+2, std::vector<double>(m+2)),
+              ha(n+2, std::vector<double>(m+2)),
+              xs(n+2, std::vector<double>(m+2)),
+              ms(n+2, std::vector<double>(m+2)),
+              hs(n+2, std::vector<double>(m+2)),
+              tc(n+2, std::vector<double>(m+2));
       for(int i = 1; i <= m; i++)
       {
           ts[1][i] = tsi;
@@ -14080,7 +14167,15 @@ regenerator_heated(
       double delta_z = h/n;
       double delta_x = l/m;
 
-      double ts[n+2][m+2],ta[n+2][m+2],wa[n+2][m+2],ha[n+2][m+2],xs[n+2][m+2],ms[n+2][m+2],hs[n+2][m+2],tc[n+2][m+2];
+      std::vector<std::vector<double>>
+              ts(n+2, std::vector<double>(m+2)),
+              ta(n+2, std::vector<double>(m+2)),
+              wa(n+2, std::vector<double>(m+2)),
+              ha(n+2, std::vector<double>(m+2)),
+              xs(n+2, std::vector<double>(m+2)),
+              ms(n+2, std::vector<double>(m+2)),
+              hs(n+2, std::vector<double>(m+2)),
+              tc(n+2, std::vector<double>(m+2));
       for(int i = 1; i <= m; i++)
       {
           ts[1][i] = tsi;
