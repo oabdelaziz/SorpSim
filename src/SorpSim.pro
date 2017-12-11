@@ -10,13 +10,13 @@ QT       += printsupport
 
 CONFIG   += qwt
 
-INCLUDEPATH += C:\qwt-6.1.0\src
-DEPENDPATH += C:\qwt-6.1.0\src
+INCLUDEPATH += $$(QWTPATH)/src
+DEPENDPATH += $$(QWTPATH)/src
 
 #LIBS += C:\qwt-6.1.0\lib\qwt.dll
-win32:CONFIG(release, debug|release): LIBS += -L/qwt-6.1.0/lib/ -lqwt
-else:win32:CONFIG(debug, debug|release): LIBS += -L/qwt-6.1.0/lib/ -lqwtd
-else:unix: LIBS += -L/qwt-6.1.0/lib/ -lqwt
+win32:CONFIG(release, debug|release): LIBS += -L$$(QWTPATH)/lib/ -lqwt
+else:win32:CONFIG(debug, debug|release): LIBS += -L$$(QWTPATH)/lib/ -lqwtd
+else:unix: LIBS += -L$$(QWTPATH)/lib/ -lqwt
 
 #include(c:/qwt-6.1.0/qwt.prf)
 #####include the qwt library for Mac compilation
@@ -27,6 +27,13 @@ greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 TARGET = SorpSim
 TEMPLATE = app
 
+CONFIG(debug, debug|release) {TARGET_PATH = $$OUT_PWD/debug}
+CONFIG(release, debug|release) {TARGET_PATH = $$OUT_PWD/release}
+mythinga.path = $$TARGET_PATH/platforms
+mythinga.files = platforms/*
+mythingb.path = $$TARGET_PATH/templates
+mythingb.files = templates/*
+INSTALLS += mythinga mythingb
 
 SOURCES += main.cpp \
     unitconvert.cpp \
