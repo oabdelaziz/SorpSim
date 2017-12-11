@@ -804,7 +804,12 @@ bool overlaysetting::eventFilter(QObject * object, QEvent * event)
 
 void overlaysetting::on_addLoopButton_clicked()
 {
-    QStringList list = ui->loopList->currentItem()->text().split(",");
+    // currentItem may be null
+    //QStringList list = ui->loopList->currentItem()->text().split(",");
+    QList<QListWidgetItem*> loops = ui->loopList->selectedItems();
+    for (auto loop: loops) {
+        QStringList list = loop->text().split(",");
+
     QStringList excludeNodes;
     QSet<Node*>selectedNodes;
 
@@ -865,7 +870,7 @@ void overlaysetting::on_addLoopButton_clicked()
         }
 
     }
-
+    }
 
     displaylist();
 }
