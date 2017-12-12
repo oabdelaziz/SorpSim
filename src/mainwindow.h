@@ -153,6 +153,13 @@ private:
     void startWindow();
     void newCase();
     bool openCase();
+    /** Opens a modal dialog box to ask if user wants to
+     * save before the next requested operation.
+     *
+     * @returns 0 indicating user selected QMessageBox::Cancel;
+     *   1 if QMessageBox::Ok (save and continue);
+     *   2 if QMessageBox::No (skip saving and continue).
+     */
     int askToSave();
     bool loadCase(QString name);
     bool preprocessOutFile(QString fileName);
