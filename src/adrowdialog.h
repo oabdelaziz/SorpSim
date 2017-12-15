@@ -19,7 +19,13 @@ public:
     explicit adRowDialog(QWidget *parent = 0);
     ~adRowDialog();
     void setTableName(QString name);
-    
+
+    bool adrAccepted;
+    bool adrIsInsert;
+    int adrPosition; //1 = top, 2 = bottom, 3 = after adrIar
+    int adrIar;
+    int adrNr;       //number of runs
+
 private slots:
     void on_OKButton_clicked();
 

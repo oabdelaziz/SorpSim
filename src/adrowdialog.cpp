@@ -19,19 +19,17 @@
 #include <QLayout>
 #include "mainwindow.h"
 
-
-extern bool adrIsInsert;
-extern int adrPosition;//1 = top, 2 = bottom, 3 = after adrIar
-extern int adrIar;
-extern int adrNr;//number of runs
-extern bool adrAccepted;
-
 extern MainWindow *theMainwindow;
 extern tableDialog*theTablewindow;
 
 adRowDialog::adRowDialog(QWidget *parent) :
     QDialog(parent),
-    ui(new Ui::adRowDialog)
+    ui(new Ui::adRowDialog),
+    adrAccepted(false),
+    adrIsInsert(true),
+    adrPosition(1),
+    adrIar(0),
+    adrNr(0)
 {
     ui->setupUi(this);
     ui->insertButton->setChecked(true);

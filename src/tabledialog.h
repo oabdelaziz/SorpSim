@@ -32,6 +32,8 @@ public:
 
     bool saveChanges();
 
+    bool add_or_delete_runs(bool adrIsInsert, int adrPosition, int adrIar, int adrNr);
+
 private slots:
 
     void on_calculateButton_clicked();
@@ -48,7 +50,11 @@ private slots:
 
     QString translateOutput(QStringList outputEntries, int index, int item);
 
-    bool reshapeXml();
+    /**
+     * @brief reshapeXml Apply (guessed) recent changes of the table in memory to the XML shadow copy.
+     * @return Whether the operation succeeded.
+     */
+    bool reshapeXml(int adrPosition, int adrIar);
 
     void copyTable();
 
