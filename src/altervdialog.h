@@ -8,6 +8,10 @@ namespace Ui {
 class altervDialog;
 }
 
+/**
+ * @brief The altervDialog class provides a dialog box that shows when
+ * the user selects the "alter variable" button on the parametric table.
+ */
 class altervDialog : public QDialog
 {
     Q_OBJECT

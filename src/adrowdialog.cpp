@@ -81,10 +81,10 @@ void adRowDialog::on_OKButton_clicked()
     }
     else// CAN ADD DETAILED DIRECTION TO WHERE THE PROBLEM IS
     {
-        QMessageBox * adrBox = new QMessageBox;
-        adrBox->setWindowTitle("Warning!");
-        adrBox->setText("Please finish all sections!");
-        adrBox->exec();
+        QMessageBox adrBox;
+        adrBox.setWindowTitle("Warning!");
+        adrBox.setText("Please finish all sections!");
+        adrBox.exec();
     }
 
 }

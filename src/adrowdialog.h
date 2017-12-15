@@ -7,6 +7,10 @@ namespace Ui {
 class adRowDialog;
 }
 
+/**
+ * @brief The adRowDialog class provides a dialog box that shows when
+ * the user selects "alter runs" in a parametric table.
+ */
 class adRowDialog : public QDialog
 {
     Q_OBJECT

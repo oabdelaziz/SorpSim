@@ -13,6 +13,10 @@ namespace Ui {
 class tableDialog;
 }
 
+/**
+ * @brief The tableDialog class shows a parametric table with input and output columns.
+ *
+ */
 class tableDialog : public QDialog
 {
     Q_OBJECT
