@@ -891,8 +891,8 @@ bool tableDialog::calc(unit *dummy, globalparameter globalpara, QString fileName
 
     else if(outputs.IER > 3)
     {
-        QMessageBox * errorBox = new QMessageBox;
-        errorBox->setWindowTitle("Warnging!");
+        QMessageBox errorBox(this);
+        errorBox.setWindowTitle("Warnging!");
         QString msg;
         switch (outputs.IER)
         {
@@ -917,9 +917,9 @@ bool tableDialog::calc(unit *dummy, globalparameter globalpara, QString fileName
             break;
         }
         }
-        errorBox->setText("Failed to converge at run #"
+        errorBox.setText("Failed to converge at run #"
                           +QString::number(run+1)+"\nAnd the error is:\n"+msg);
-        errorBox->exec();
+        errorBox.exec();
         return false;
     }
     else if(outputs.stopped)
@@ -1507,8 +1507,8 @@ void tableDialog::on_alterVarButton_clicked()
     QFile file(bundleDir+"/tableTemp.xml");
 #endif
     QDomDocument doc;
-    altervDialog * alvDialog = new altervDialog(this);
-    alvDialog->setTableName(ui->tabWidget->tabText(ui->tabWidget->currentIndex()));
+    altervDialog alvDialog(this);
+    alvDialog.setTableName(ui->tabWidget->tabText(ui->tabWidget->currentIndex()));
 
 
     int inputCount;
@@ -1539,23 +1539,23 @@ void tableDialog::on_alterVarButton_clicked()
                 string.append(currentTable->item(0,i)->data(Qt::DisplayRole).toString());
                 string.append(",");
                 string.append(currentTable->item(rowCount-1,i)->data(Qt::DisplayRole).toString());
-                alvDialog->ranges.append(string);
+                alvDialog.ranges.append(string);
             }
             for(int i = 0;i < list.count();i++)
             {
                 list[i] = list[i].split(",")[0]+list[i].split(",")[1];
             }
-            alvDialog->setInputs(list);
+            alvDialog.setInputs(list);
             file.close();
         }
 
     }
 
 
-    alvDialog->setWindowTitle("Alter Values");
-    alvDialog->exec();
+    alvDialog.setWindowTitle("Alter Values");
+    alvDialog.exec();
 
-    currentDialog = alvDialog;
+    currentDialog = &alvDialog;
     if(alvAccepted)
     {
 

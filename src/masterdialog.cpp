@@ -997,8 +997,14 @@ void masterDialog::on_exportBox_currentTextChanged(const QString &arg1)
 
 void masterDialog::on_guessButton_clicked()
 {
+    // TODO: did you want this to be a modal dialog?
+    // See documention for QDialog, section Modal Dialogs.
     theMasterDialog=this;
     guessDialog * gDialog = new guessDialog(true,theMainwindow);
-    gDialog->setModal(false);
+    // If so, guessDialog constructor already made it modal ...
     gDialog->exec();
+    // Else, you wanted a modeless dialog ...
+    //gDialog->setModal(false);
+    //gDialog->show();
+    //gDialog->raise();
 }
