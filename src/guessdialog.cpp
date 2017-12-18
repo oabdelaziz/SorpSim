@@ -266,6 +266,7 @@ bool guessDialog::event(QEvent *e)
         {
             theMainwindow->show();
             theMainwindow->raise();
+            // TODO: is this necessary?
             if(fromMDialog){
                 theMasterDialog->raise();
             }

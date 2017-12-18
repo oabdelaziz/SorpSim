@@ -33,7 +33,7 @@ sysSettingDialog::sysSettingDialog(QWidget *parent) :
 {
     ui->setupUi(this);
 
-    setWindowTitle("System setting");
+    setWindowTitle("System Settings");
     setWindowFlags(Qt::Tool);
     setWindowModality(Qt::ApplicationModal);
 

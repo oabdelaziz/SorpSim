@@ -34,6 +34,7 @@
 #include <QGraphicsSceneMouseEvent>
 #include <QFile>
 #include <QFileDialog>
+#include <QFileInfo>
 #include <QtXml>
 #include <QtXml/qdom.h>
 #include <QtXml/QDomDocument>
@@ -3973,10 +3974,10 @@ void MainWindow::on_actionNew_Property_Plot_triggered()
 {
     switchToSelect();
     disableResult();
-    newPropPlotDialog * pDialog = new newPropPlotDialog(this);
-    pDialog->setWindowTitle("Property Plot");
-    pDialog->setModal(true);
-    pDialog->exec();
+    newPropPlotDialog  pDialog(this);
+    pDialog.setWindowTitle("Property Plot");
+    pDialog.setModal(true);
+    pDialog.exec();
 }
 
 void MainWindow::on_actionLine_triggered()
@@ -4026,6 +4027,7 @@ void MainWindow::on_actionMaster_Control_Panel_triggered()
             globalpara.LDACcount += 1;
     }
 
+    // TODO: manage memory and pointer theMasterDialog
     masterDialog * mDialog = new masterDialog(this);
     mDialog->exec();
 
@@ -4062,22 +4064,8 @@ void MainWindow::on_actionImport_out_File_triggered()//this function needs to be
         if(globalpara.caseName == fName)
         {
             QString name = QFileDialog::getSaveFileName(this,"Save current case to file:","./","XML files(*.xml)");
-            bool noSave = false;
-            while(name==""&&(!noSave))
-            {
-                QMessageBox * mBox = new QMessageBox(this);
-                mBox->addButton("Enter a directory",QMessageBox::YesRole);
-                mBox->addButton("Don's save current case",QMessageBox::NoRole);
-                mBox->setWindowTitle("Warning");
-                mBox->setText("Please enter a directory to save the case!");
-                mBox->setModal(true);
-                mBox->exec();
-                if(mBox->buttonRole(mBox->clickedButton())==QMessageBox::YesRole)
-                    name = QFileDialog::getSaveFileName(this,"Save current case to file:","./","XML files(*.xml)");
-                else if(mBox->buttonRole(mBox->clickedButton())==QMessageBox::NoRole)
-                    noSave = true;
-            }
-            if(!noSave)
+            bool cancel = name.isNull();
+            if(!cancel)
             {
                 globalpara.caseName = name;
                 QFile tempFile(fName);
@@ -4085,9 +4073,15 @@ void MainWindow::on_actionImport_out_File_triggered()//this function needs to be
                 newFile.remove();
                 tempFile.copy(globalpara.caseName);
                 tempFile.remove();
+
+                loadOutFile();
             }
         }
-        loadOutFile();
+        else
+        {
+            loadOutFile();
+        }
+
         break;
     }
     case 2:
@@ -4116,10 +4110,8 @@ void MainWindow::on_actionZoom_To_Fit_triggered()
 
 void MainWindow::on_actionSystem_Settings_triggered()
 {
-    sysSettingDialog * sysDialog = new sysSettingDialog(this);
-    sysDialog->setWindowTitle("System Settings");
-    sysDialog->setModal(true);
-    sysDialog->exec();
+    sysSettingDialog sysDialog(this);
+    sysDialog.exec();
 }
 
 void MainWindow::closeEvent(QCloseEvent *event)
@@ -4151,22 +4143,8 @@ void MainWindow::closeEvent(QCloseEvent *event)
         if(globalpara.caseName == fName)
         {
             QString name = QFileDialog::getSaveFileName(this,"Save current case to file:","./","XML files(*.xml)");
-            bool noSave = false;
-            while(name==""&&(!noSave))
-            {
-                QMessageBox * mBox = new QMessageBox(this);
-                mBox->addButton("Enter a directory",QMessageBox::YesRole);
-                mBox->addButton("Don's save current case",QMessageBox::NoRole);
-                mBox->setWindowTitle("Warning");
-                mBox->setText("Please enter a directory to save the case!");
-                mBox->setModal(true);
-                mBox->exec();
-                if(mBox->buttonRole(mBox->clickedButton())==QMessageBox::YesRole)
-                    name = QFileDialog::getSaveFileName(this,"Save current case to file:","./","XML files(*.xml)");
-                else if(mBox->buttonRole(mBox->clickedButton())==QMessageBox::NoRole)
-                    noSave = true;
-            }
-            if(!noSave)
+            bool cancel = name.isNull();
+            if(!cancel)
             {
                 globalpara.caseName = name;
                 QFile tempFile(fName);
@@ -4174,8 +4152,11 @@ void MainWindow::closeEvent(QCloseEvent *event)
                 newFile.remove();
                 tempFile.copy(globalpara.caseName);
                 tempFile.remove();
-                exit(0);
-                break;
+                event->accept();
+            }
+            else
+            {
+                event->ignore();
             }
         }
         else
@@ -4183,27 +4164,29 @@ void MainWindow::closeEvent(QCloseEvent *event)
             QFile tempFile(fName);
             if(tempFile.exists())
                 tempFile.remove();
-            exit(0);
-            break;
+            event->accept();
         }
+        break;
     }
     case 2:
     {
         QFile tempFile(fName);
         if(tempFile.exists())
             tempFile.remove();
-        exit(0);
+        event->accept();
     }
     }
 }
 
+// TODO: implementation seems unfinished.
+// Print action works to provide a PDF on modern platforms.
 void MainWindow::on_actionExport_to_File_triggered()
 {
-    QFileDialog * fDialog = new QFileDialog(this);
-    QString fileName = "setTheNameForExport";
-    fileName = fDialog->getSaveFileName(this,"Export system diagram as..","./","Image(*.png);;PDF File(*.pdf)");
+    QString fileName = QFileDialog::getSaveFileName(this,"Export system diagram as..","./","Image(*.png);;PDF File(*.pdf)");
     if(fileName!="")
     {
+        QString suffix = QFileInfo(fileName).suffix().toLower();
+
         zoomToFit();
         double xmin=0,ymin=0,xmax = 0, ymax = 0;
         unit * iterator = dummy;
@@ -4240,26 +4223,32 @@ void MainWindow::on_actionExport_to_File_triggered()
         QRectF target = QRect(QPoint(0,0),QPoint(m_pageWidth,m_pageHeight));
 
 
-        //if pdf
+        if (suffix == "pdf")
+        {
+            myPrinter.setOutputFormat(QPrinter::PdfFormat);
+            myPrinter.setOutputFileName(fileName);
 
-        myPrinter.setOutputFormat(QPrinter::PdfFormat);
-        myPrinter.setOutputFileName(fileName);
+            QPainter myPainter(&myPrinter);
+            myPainter.setViewport(0, 0, m_pageWidth, m_pageHeight);
+            myPainter.setRenderHint(QPainter::Antialiasing);
+            scene->render(&myPainter, target, source);
+            myPainter.end();
 
-
-        QPainter myPainter(&myPrinter);
-        myPainter.setViewport(0, 0, m_pageWidth, m_pageHeight);
-        myPainter.setRenderHint(QPainter::Antialiasing);
-        scene->render(&myPainter, target, source);
-        myPainter.end();
-
-        //if image
-        QImage image(m_pageWidth,m_pageHeight,QImage::Format_ARGB32_Premultiplied);
-        QPainter imgPainter;
-        imgPainter.begin(&image);
-        imgPainter.setRenderHint(QPainter::Antialiasing);
-        scene->render(&imgPainter,target,source);
-        imgPainter.end();
-        image.save(fileName);
+        }
+        else if (suffix == "png")
+        {
+            QImage image(m_pageWidth,m_pageHeight,QImage::Format_ARGB32_Premultiplied);
+            QPainter imgPainter;
+            imgPainter.begin(&image);
+            imgPainter.setRenderHint(QPainter::Antialiasing);
+            scene->render(&imgPainter,target,source);
+            imgPainter.end();
+            image.save(fileName);
+        }
+        else
+        {
+            qDebug() << "Unimplemented export file type (" << suffix << ") in: " << fileName;
+        }
     }
 
 
@@ -4333,6 +4322,7 @@ void MainWindow::on_actionAdditional_equations_triggered()
     manageGroups();
 }
 
+// TODO: decide if user wants to rotate all selected, or just "first" (appears random)
 void MainWindow::on_actionRotate_Clockwise_triggered()
 {
 
@@ -4349,14 +4339,13 @@ void MainWindow::on_actionRotate_Clockwise_triggered()
     }
     if(!done)
     {
-        QMessageBox*mBox = new QMessageBox(this);
-        mBox->setModal(true);
-        mBox->setWindowTitle("Warning");
-        mBox->setText("Please select a component to apply the rotation!");
+        // TODO: enable if desired, delete if not
+        // (Original code omitted call to exec() and therefore had no effect.)
+        //QMessageBox::warning(this,"Warning","Please select a component to apply the rotation!");
     }
-
 }
 
+// TODO: decide if user wants to rotate all selected, or just "first" (appears random)
 void MainWindow::on_actionFlip_Horizontally_triggered()
 {
     bool done = false;
@@ -4370,16 +4359,9 @@ void MainWindow::on_actionFlip_Horizontally_triggered()
             done = true;
         }
     }
-    if(!done)
-    {
-        QMessageBox*mBox = new QMessageBox(this);
-        mBox->setModal(true);
-        mBox->setWindowTitle("Warning");
-        mBox->setText("Please select a component to apply the horizontal flip!");
-    }
-
 }
 
+// TODO: decide if user wants to rotate all selected, or just "first" (appears random)
 void MainWindow::on_actionFlip_Vertically_triggered()
 {
     bool done = false;
@@ -4393,21 +4375,13 @@ void MainWindow::on_actionFlip_Vertically_triggered()
             done = true;
         }
     }
-    if(!done)
-    {
-        QMessageBox*mBox = new QMessageBox(this);
-        mBox->setModal(true);
-        mBox->setWindowTitle("Warning");
-        mBox->setText("Please select a component to apply the vertical flip!");
-    }
-
 }
 
 void MainWindow::on_actionCalculation_Details_triggered()
 {
     scene->resetPointedComp();
-    calcDetailDialog*dDialog = new calcDetailDialog(this);
-    dDialog->exec();
+    calcDetailDialog dDialog(this);
+    dDialog.exec();
 }
 
 void MainWindow::loadExampleCase()
