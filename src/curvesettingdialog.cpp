@@ -440,6 +440,7 @@ void curvesetting::curveToggled(QListWidgetItem *item)
         {
             thisCurve->detach();
             set_plot->replot();
+			// TODO: next line triggers an error when user unchecks all curves
             foreach(QwtPlotMarker*marker,set_plot->curveMarkers.at(curveIndex))
             {
                 marker->detach();
@@ -496,8 +497,8 @@ void curvesetting::bgCurveToggled(QListWidgetItem *item)
 void curvesetting::on_editCurveButton_clicked()
 {
     int bgLineCount = ui->bgList->count();
-    editPropertyCurveDialog*eDialog = new editPropertyCurveDialog(set_plot,curvelistset,ui->listWidget->currentIndex().row(),bgLineCount,this);
-    eDialog->exec();
+    editPropertyCurveDialog eDialog(set_plot,curvelistset,ui->listWidget->currentIndex().row(),bgLineCount,this);
+    eDialog.exec();
 }
 
 void curvesetting::on_lineWidthSB_valueChanged(int arg1)//line width SpinBox
@@ -516,6 +517,7 @@ void curvesetting::on_deleteCurveButton_clicked()
     set_plot->curvelist.removeAt(bgLineCount+ui->listWidget->currentIndex().row());
     set_plot->replot();
     set_plot->curvePoints.removeAt(ui->listWidget->currentIndex().row());
+    // TODO: caution here, if curve is missing somehow
     foreach(QwtPlotMarker*marker,set_plot->curveMarkers.at(ui->listWidget->currentRow()))
         marker->detach();
     set_plot->curveMarkers.removeAt(ui->listWidget->currentRow());

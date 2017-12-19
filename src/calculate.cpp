@@ -43,7 +43,6 @@ void calculate::calc(unit*mdummy,globalparameter globalpara, QString fileName)
 
 {
     myDummy = mdummy;
-    QMessageBox * inputError;
     bool error = false;
 
 
@@ -108,10 +107,7 @@ void calculate::calc(unit*mdummy,globalparameter globalpara, QString fileName)
             {
                 if(myHead->sensor==NULL)
                 {
-                    QMessageBox *mBox = new QMessageBox;
-                    mBox->setWindowTitle("Warning");
-                    mBox->setText("Please reset temperature sensor of the thermostatic valve!");
-                    mBox->exec();
+                    QMessageBox::warning(theMainwindow, "Warning", "Please reset temperature sensor of the thermostatic valve.");
                     return;
                 }
                 myInputs.devl[count] = myHead->devl;
@@ -159,10 +155,7 @@ void calculate::calc(unit*mdummy,globalparameter globalpara, QString fileName)
                         {
                             if(myInputs.t[i]>705)
                             {
-                                inputError = new QMessageBox;
-                                inputError->setText("Temperature setting of state point "+QString::number(i)+" is over H2O critical point, calculation cancelled.");
-                                inputError->setWindowTitle("Warning");
-                                inputError->exec();
+                                QMessageBox::warning(theMainwindow,"Warning","Temperature setting of state point "+QString::number(i)+" is over H2O critical point, calculation cancelled.");
                                 error = true;
                             }
                         }
@@ -175,10 +168,7 @@ void calculate::calc(unit*mdummy,globalparameter globalpara, QString fileName)
                         {
                             if(myInputs.p[i]>3200)
                             {
-                                inputError = new QMessageBox;
-                                inputError->setText("Pressure setting of state point "+QString::number(i)+" is over H2O critical point, calculation cancelled.");
-                                inputError->setWindowTitle("Warning");
-                                inputError->exec();
+                                QMessageBox::warning(theMainwindow,"Warning","Pressure setting of state point "+QString::number(i)+" is over H2O critical point, calculation cancelled.");
                                 error = true;
                             }
                         }
@@ -212,7 +202,7 @@ void calculate::calc(unit*mdummy,globalparameter globalpara, QString fileName)
 //        qDebug()<<"checking";
 //        checkEV();
 
-        QMessageBox * calcMsg = new QMessageBox(theMainwindow);
+        QMessageBox calcMsg(theMainwindow);
         QString title = "Warning",msg = "not defined";
 
         QString nvneq = /*"";//*/ "There are "+QString::number(outputs.noEqn)+" equations and "+QString::number(outputs.noVar)+" variables.\n";
@@ -285,32 +275,32 @@ void calculate::calc(unit*mdummy,globalparameter globalpara, QString fileName)
         }
 
         if(outputs.stopped){
-            calcMsg->addButton("Close",QMessageBox::YesRole);
-            calcMsg->setIcon(QMessageBox::Critical);
+            calcMsg.addButton("Close",QMessageBox::YesRole);
+            calcMsg.setIcon(QMessageBox::Critical);
         }
         else{
             QString showRes = "Show Last Iteration";
-            calcMsg->setIcon(QMessageBox::Warning);
+            calcMsg.setIcon(QMessageBox::Warning);
             if(converged){
                 showRes = "Show Results";
                 updateSystem();
-                calcMsg->setIcon(QMessageBox::Information);
+                calcMsg.setIcon(QMessageBox::Information);
             }
-            calcMsg->addButton(showRes,QMessageBox::AcceptRole);
-            calcMsg->addButton("Details",QMessageBox::NoRole);
-            calcMsg->addButton("OK",QMessageBox::YesRole);
+            calcMsg.addButton(showRes,QMessageBox::AcceptRole);
+            calcMsg.addButton("Details",QMessageBox::NoRole);
+            calcMsg.addButton("OK",QMessageBox::YesRole);
         }
-        calcMsg->setWindowTitle(title);
-        calcMsg->setText(msg);
-        calcMsg->exec();
+        calcMsg.setWindowTitle(title);
+        calcMsg.setText(msg);
+        calcMsg.exec();
 
 
-        if(calcMsg->buttonRole(calcMsg->clickedButton())==QMessageBox::NoRole)
+        if(calcMsg.buttonRole(calcMsg.clickedButton())==QMessageBox::NoRole)
         {
-            calcDetailDialog*dDialog = new calcDetailDialog(theMainwindow);
-            dDialog->exec();
+            calcDetailDialog dDialog(theMainwindow);
+            dDialog.exec();
         }
-        else if(calcMsg->buttonRole(calcMsg->clickedButton())==QMessageBox::AcceptRole)
+        else if(calcMsg.buttonRole(calcMsg.clickedButton())==QMessageBox::AcceptRole)
         {
             if(!converged){
                 updateSystem();

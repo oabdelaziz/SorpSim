@@ -119,10 +119,7 @@ void altervDialog::on_okButton_clicked()
         }
         else// CAN ADD DETAILED DIRECTION TO WHERE THE PROBLEM IS
         {
-            QMessageBox * alvBox = new QMessageBox;
-            alvBox->setWindowTitle("Warning!");
-            alvBox->setText("Please check your settings!");
-            alvBox->exec();
+            QMessageBox::warning(this, "Warning", "Invalid input. Please try again.");
         }
 }
 

@@ -4303,8 +4303,8 @@ void MainWindow::on_actionText_triggered()
     newTextItem->setBrush(Qt::black);
     newTextItem->setFlags(QGraphicsItem::ItemIsMovable|QGraphicsItem::ItemIsSelectable);
 
-    textedit * dialog= new textedit(this,newTextItem);
-    if(dialog->exec()!=QDialog::Accepted)
+    textedit dialog(this,newTextItem);
+    if (dialog.exec() != QDialog::Accepted)
         delete newTextItem;
     else
     {
@@ -4451,29 +4451,17 @@ void MainWindow::loadExampleCase()
                 if(globalpara.caseName == fName)
                 {
                     QString name = QFileDialog::getSaveFileName(this,"Save current case to file:","./","XML files(*.xml)");
-                    bool noSave = false;
-                    while(name==""&&(!noSave))
-                    {
-                        QMessageBox * mBox = new QMessageBox(this);
-                        mBox->addButton("Enter a directory",QMessageBox::YesRole);
-                        mBox->addButton("Don's save current case",QMessageBox::NoRole);
-                        mBox->setWindowTitle("Warning");
-                        mBox->setText("Please enter a directory to save the case!");
-                        mBox->setModal(true);
-                        mBox->exec();
-                        if(mBox->buttonRole(mBox->clickedButton())==QMessageBox::YesRole)
-                            name = QFileDialog::getSaveFileName(this,"Save current case to file:","./","XML files(*.xml)");
-                        else if(mBox->buttonRole(mBox->clickedButton())==QMessageBox::NoRole)
-                            noSave = true;
-                    }
-                    if(!noSave)
+                    bool cancel = name.isNull();
+                    if (!cancel)
                     {
                         globalpara.caseName = name;
                         QFile tempFile(fName);
                         QFile newFile(name);
-                        newFile.remove();
-                        tempFile.copy(globalpara.caseName);
-                        tempFile.remove();
+                        if (!(newFile.remove() && tempFile.copy(globalpara.caseName) && tempFile.remove()))
+                        {
+                            globalpara.reportError("Failed to save to file " + name, this);
+                            return;
+                        }
                     }
                     else
                         return;
@@ -4503,6 +4491,7 @@ void MainWindow::loadExampleCase()
             }
             }
 #endif
+// TODO: condense code for multiple platforms into one, using new utility function
 #ifdef Q_OS_MAC
             int askSave = askToSave();
             saveFile(globalpara.caseName,false);
@@ -4584,9 +4573,9 @@ void MainWindow::loadExampleCase()
 
 void MainWindow::on_actionResults_Table_triggered()
 {
-    resultDialog* resDialog = new resultDialog(this);
-    resDialog->setModal(true);
-    resDialog->exec();
+    resultDialog resDialog(this);
+    resDialog.setModal(true);
+    resDialog.exec();
 }
 
 void MainWindow::defaultTheSystem()
