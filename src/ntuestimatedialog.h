@@ -17,6 +17,7 @@ class NTUestimateDialog : public QDialog
 public:
     explicit NTUestimateDialog(unit*estUnit, QWidget *parent = 0);
     ~NTUestimateDialog();
+    double getNTUEstimation();
     
 private slots:
     void on_estimateButton_clicked();
@@ -40,6 +41,7 @@ private slots:
 private:
     Ui::NTUestimateDialog *ui;
 
+    double NTUEstimation;
     unit* myUnit;
     spScene * myScene;
     double wsi,wso,wai,wao,tsi,tso,xsi,xso,NTUest,tai,ma,ms,mrr;
