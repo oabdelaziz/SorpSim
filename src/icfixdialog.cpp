@@ -31,7 +31,6 @@
 extern unit * dummy;
 extern int globalcount;
 extern globalparameter globalpara;
-extern QSet<Node*> spOnline;
 extern MainWindow*theMainwindow;
 extern VICheckDialog*theVIDialog;
 

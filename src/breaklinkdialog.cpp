@@ -5,7 +5,8 @@
 #include <QMessageBox>
 #include <QLayout>
 
-extern QSet<int> spOnline;
+// Couldn't find this variable defined anywhere in the source on 2017-12-26.
+//extern QSet<int> spOnline;
 extern globalparameter globalpara;
 
 breakLinkDialog::breakLinkDialog(Node *sp1, Node *sp2, QWidget *parent) :
