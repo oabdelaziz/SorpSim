@@ -344,10 +344,9 @@ void iwfixDialog::on_addButton_clicked()
 
 void iwfixDialog::on_removeButton_clicked()
 {
-    QMessageBox * removeBox = new QMessageBox;
     QMessageBox::StandardButton reply;
     bool confirmed;
-    reply = QMessageBox::question(removeBox,"Warning",
+    reply = QMessageBox::question(this,"Warning",
                                   "Are you sure to remove this group?",
                                   QMessageBox::Yes|QMessageBox::No);
     confirmed = (reply == QMessageBox::Yes);

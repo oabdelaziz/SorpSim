@@ -72,6 +72,7 @@ dehumEffDialog::dehumEffDialog(unit*unit, QWidget *parent) :
 
 dehumEffDialog::~dehumEffDialog()
 {
+    dhefDialog = NULL;
     delete ui;
 }
 

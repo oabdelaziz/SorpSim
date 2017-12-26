@@ -115,11 +115,7 @@ void pumpDialog::on_okButton_clicked()
     if(ui->nonisen_Button->isChecked()
             &&(ui->isenLine->text().isEmpty()||!ui->isenLine->hasAcceptableInput()))
     {
-        QMessageBox *mBox = new QMessageBox(this);
-        mBox->setWindowTitle("Warning");
-        mBox->setText("Please enter a valid value (0-1) for isentropic efficiency!");
-        mBox->setModal(true);
-        mBox->exec();
+        QMessageBox::warning(this, "Warning", "Please enter a valid value (0-1) for isentropic efficiency!");
         ui->isenLine->setFocus();
     }
     else

@@ -334,9 +334,7 @@ void guessDialog::on_exportBox_currentTextChanged(const QString &arg1)
     }
     else if(arg1 == "Export to text file")
     {
-        QFileDialog * fDialog = new QFileDialog;
-        QString fileName = "setTheNameForExport";
-        fileName = fDialog->getSaveFileName(this,"Export table as..","./","Text File(*.txt)");
+        QString fileName = QFileDialog::getSaveFileName(this,"Export table as..","./","Text File(*.txt)");
         if(fileName!="")
         {
             selected.clear();

@@ -174,6 +174,9 @@ void overlaysetting::on_buttonBox_accepted()
     {
         overlay_plot->addvaluelist.clear();
 
+        // TODO: start checking on usage of QList<mytype *>. See: ...
+        // https://stackoverflow.com/questions/21386296/need-to-free-qlist-contents
+
         addvalue*addSp = new addvalue;
         addSp->index = 1;
         addSp->add_pressure = 0.673;

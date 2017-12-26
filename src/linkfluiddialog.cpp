@@ -102,11 +102,7 @@ void linkFluidDialog::on_okButton_clicked()
     {
         if(ui->fluidCB->currentText()=="Choose fluid..")
         {
-            QMessageBox *mBox = new QMessageBox(this);
-            mBox->setWindowTitle("Warning");
-            mBox->setText("Please choose a working fluid for the new link.");
-            mBox->setModal(true);
-            mBox->exec();
+            QMessageBox::warning(this, "Warning", "Please choose a working fluid for the new link.");
         }
         else
         {
@@ -152,13 +148,10 @@ void linkFluidDialog::on_okButton_clicked()
             }
             if(sps.count()>2)
             {
-                QMessageBox * mBox = new QMessageBox;
-                mBox->addButton("OK",QMessageBox::YesRole);
-                mBox->addButton("Cancel",QMessageBox::NoRole);
-                mBox->setWindowTitle("Setting Fluid");
-                mBox->setText("The change will affect "+sps.join(","));
-                mBox->exec();
-                if(mBox->buttonRole(mBox->clickedButton())!=QMessageBox::YesRole)
+                QMessageBox::StandardButton result = QMessageBox::question(
+                            this, "Setting Fluid", "The change will affect "+sps.join(",") + ".\n"
+                            + "OK to continue?");
+                if(result != QMessageBox::Yes)
                     reject();
                 else
                 {
@@ -226,17 +219,16 @@ void linkFluidDialog::on_okButton_clicked()
         }
         if(sps.count()>1)
         {
-            QMessageBox * mBox = new QMessageBox;
-            mBox->addButton("OK",QMessageBox::YesRole);
-            mBox->addButton("Cancel",QMessageBox::NoRole);
-            mBox->setWindowTitle("Setting Fluid");
-            mBox->setText("The change will affect "+sps.join(","));
-            mBox->exec();
-            if(mBox->buttonRole(mBox->clickedButton())==QMessageBox::YesRole)
+            QMessageBox::StandardButton result = QMessageBox::question(
+                        this, "Setting Fluid", "The change will affect "+sps.join(",") + ".\n"
+                        + "OK to continue?");
+            if(result == QMessageBox::Yes)
             {
                 selectedKsub = newKsub;
                 accept();
             }
+            else
+                reject();
         }
         else
         {

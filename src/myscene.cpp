@@ -92,9 +92,6 @@ void myScene::mousePressEvent(QGraphicsSceneMouseEvent *event)
     QList <QGraphicsItem *> items = this->selectedItems();
 
     Node *item;
-    QMessageBox * errorBox = new QMessageBox(theMainwindow);
-    errorBox->setWindowTitle("Error!");
-
 
     //for adding units*********************************************
     if(sceneActionIndex==1)
@@ -116,13 +113,14 @@ void myScene::mousePressEvent(QGraphicsSceneMouseEvent *event)
                 dehumEffDialog *dDialog = new dehumEffDialog(tempUnit,theMainwindow);
                 dDialog->setModal(true);
                 dDialog->exec();
+                dDialog->deleteLater();
             }
             else
             {
                 LDACcompDialog *lDialog = new LDACcompDialog(tempUnit,theMainwindow);
                 lDialog->setModal(true);
                 lDialog->exec();
-
+                lDialog->deleteLater();
             }
         }
         else
@@ -137,18 +135,21 @@ void myScene::mousePressEvent(QGraphicsSceneMouseEvent *event)
                 splitterDialog *spltDialog = new splitterDialog(tempUnit,true,theMainwindow);
                 spltDialog->setModal(true);
                 spltDialog->exec();
+                spltDialog->deleteLater();
             }
            else if(tempUnit->idunit == 62||tempUnit->idunit==63)
            {
                valveDialog *vlvDialog = new valveDialog(tempUnit,true,theMainwindow);
                vlvDialog->setModal(true);
                vlvDialog->exec();
+               vlvDialog->deleteLater();
            }
            else if(tempUnit->idunit==121||tempUnit->idunit==111)
            {
                pumpDialog * pmpDialog = new pumpDialog(tempUnit,true,theMainwindow);
                pmpDialog->setModal(true);
                pmpDialog->exec();
+               pmpDialog->deleteLater();
            }
 
            else if(!list.contains(QString::number(tempUnit->idunit)))
@@ -156,6 +157,7 @@ void myScene::mousePressEvent(QGraphicsSceneMouseEvent *event)
                 editUnitDialog *eduDialog = new editUnitDialog(tempUnit,theMainwindow);
                 eduDialog->setModal(true);
                 eduDialog->exec();
+                eduDialog->deleteLater();
             }
         }
 
@@ -192,8 +194,8 @@ void myScene::mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event)
     //for selecting text items
     if(!items.isEmpty()&& items.first()->type()==10000)
     {
-        textedit * dialog=new textedit(theView,(SimpleTextItem * )items.first());
-        dialog->exec();
+        textedit dialog(theView,(SimpleTextItem * )items.first());
+        dialog.exec();
     }
 
     //for selecting parameters for table****************************
@@ -247,6 +249,7 @@ void myScene::mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event)
             }
             sceneActionIndex=0;
 
+            seleDialog->deleteLater();
         }
 
     }//****************************for selecting parameters for table
@@ -303,17 +306,15 @@ void myScene::mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event)
                     item->setHighlighted(true);
                     selectednodeslist.append(item);
                     QApplication::restoreOverrideCursor();
-                    QMessageBox * mBox = new QMessageBox(theMainwindow);
-                    mBox->addButton("OK",QMessageBox::YesRole);
-                    mBox->addButton("Cancel",QMessageBox::NoRole);
-                    mBox->setWindowTitle("Making links");
-                    mBox->setText("Please double click the 2nd state point of the new link.");
-                    mBox->setModal(true);
-                    mBox->exec();
+                    QMessageBox::StandardButton theAnswer = QMessageBox::question(
+                                theMainwindow,
+                                "Making links",
+                                "Please double click the 2nd state point of the new link.",
+                                QMessageBox::StandardButtons(QMessageBox::Ok|QMessageBox::Cancel));
                     QApplication::setOverrideCursor(QCursor(Qt::CrossCursor));
                     theStatusBar->showMessage("Please double click the 2nd state point of the new link.");
 
-                    if(mBox->buttonRole(mBox->clickedButton())!=QMessageBox::YesRole)
+                    if(theAnswer != QMessageBox::Ok)
                     {
                         cancelLink(item);
                     }
@@ -367,9 +368,8 @@ void myScene::mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event)
                             nodesAreSame = nodesAreSame&&node1->w==node2->w;
                         if(!nodesAreSame)
                         {
-                            linkDialog * lDialog = new linkDialog(node1,node2,theMainwindow);
-                            lDialog->setModal(true);
-                            if(lDialog->exec()==QDialog::Accepted)
+                            linkDialog lDialog(node1,node2,theMainwindow);
+                            if(lDialog.exec()==QDialog::Accepted)
                             {
                                 linkcount ++;
                                 unit*iterator = dummy;
@@ -470,6 +470,7 @@ void myScene::mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event)
         else
         {
         }
+        errorBox->deleteLater();
     }
     //********************************************for adding links
     //for evoke property setting dialogs*************************************
@@ -489,10 +490,7 @@ void myScene::mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event)
                         evokeProperties();
                 else
                 {
-                    QMessageBox * mBox = new QMessageBox(theMainwindow);
-                    mBox->setWindowTitle("Information");
-                    mBox->setText("This component doesn't need property setting.");
-                    mBox->exec();
+                    QMessageBox::StandardButton theAnswer = QMessageBox::information(theMainwindow, "Information", "This component doesn't need property setting.");
                 }
             }
             else if(items.first()->zValue() == 3)
@@ -508,10 +506,6 @@ void myScene::mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event)
 
 int myScene::checkFluidForLink(Node *node1, Node *node2)
 {
-    QMessageBox * mBox = new QMessageBox(theMainwindow);
-    mBox->addButton("OK",QMessageBox::YesRole);
-    mBox->addButton("Cancel",QMessageBox::NoRole);
-    mBox->setWindowTitle("Checking Fluid");
     QString text;
     if(node1->ksub==node2->ksub)
     {
@@ -519,9 +513,9 @@ int myScene::checkFluidForLink(Node *node1, Node *node2)
             return 0;
         else//neither defined, define
         {
-            linkFluidDialog*lDialog = new linkFluidDialog(node1,node2,true,theMainwindow);
-            lDialog->setModal(true);
-            if(lDialog->exec()==QDialog::Accepted)
+            linkFluidDialog lDialog(node1,node2,true,theMainwindow);
+            lDialog.setModal(true);
+            if(lDialog.exec()==QDialog::Accepted)
                 return selectedKsub;
             else
             {
@@ -554,8 +548,9 @@ int myScene::checkFluidForLink(Node *node1, Node *node2)
 
             text = "State point "+QString::number(undNode->ndum)+" will have "
                     +fluidName
-                    +" as working fluid same  as state point "
-                    +QString::number(defNode->ndum);
+                    +" as working fluid, same as state point "
+                    +QString::number(defNode->ndum)
+                    +". ";
             QStringList sps;
             globalpara.allSet.clear();
             undNode->searchAllSet("fluid");
@@ -575,11 +570,14 @@ int myScene::checkFluidForLink(Node *node1, Node *node2)
                 }
             }
             if(sps.count()>2)
-                text.append("\n"+sps.join(",")+" will all use the same fluid.");
-            mBox->setText(text);
-            mBox->setModal(true);
-            mBox->exec();
-            if(mBox->buttonRole(mBox->clickedButton())!=QMessageBox::YesRole)
+                text.append("\nPoints "+sps.join(",")+" will all use the same fluid.");
+
+            QMessageBox::StandardButton theAnswer = QMessageBox::question(
+                        theMainwindow,
+                        "Checking Fluid",
+                        text,
+                        QMessageBox::StandardButtons(QMessageBox::Ok | QMessageBox::Cancel));
+            if (theAnswer != QMessageBox::Ok)
             {
                 cancelLink(node1,node2);
                 return -1;
@@ -591,9 +589,9 @@ int myScene::checkFluidForLink(Node *node1, Node *node2)
         }
         else //difined differently, choose
         {
-            linkFluidDialog*lDialog = new linkFluidDialog(node1,node2,false,theMainwindow);
-            lDialog->setModal(true);
-            if(lDialog->exec()==QDialog::Accepted)
+            linkFluidDialog lDialog(node1,node2,false,theMainwindow);
+            lDialog.setModal(true);
+            if(lDialog.exec()==QDialog::Accepted)
                 return selectedKsub;
             else
             {
@@ -773,21 +771,21 @@ void myScene::evokeProperties()
             {
                 if(edunit->idunit==81||edunit->idunit==82)
                 {
-                    splitterDialog *spltDialog = new splitterDialog(edunit,false);
-                    spltDialog->setModal(true);
-                    spltDialog->exec();
+                    splitterDialog spltDialog(edunit,false,theMainwindow);
+                    spltDialog.setModal(true);
+                    spltDialog.exec();
                 }
                 else if(edunit->idunit==62||edunit->idunit==63)
                 {
-                    valveDialog *vlvDialog = new valveDialog(edunit,false,theMainwindow);
-                    vlvDialog->setModal(true);
-                    vlvDialog->exec();
+                    valveDialog vlvDialog(edunit,false,theMainwindow);
+                    vlvDialog.setModal(true);
+                    vlvDialog.exec();
                 }
                 else if(edunit->idunit==121||edunit->idunit==111)
                 {
-                    pumpDialog * pmpDialog = new pumpDialog(edunit,false,theMainwindow);
-                    pmpDialog->setModal(true);
-                    pmpDialog->exec();
+                    pumpDialog pmpDialog(edunit,false,theMainwindow);
+                    pmpDialog.setModal(true);
+                    pmpDialog.exec();
                 }
 
                 else
@@ -797,17 +795,15 @@ void myScene::evokeProperties()
             {
                 if(edunit->idunit==164||edunit->idunit==184)
                 {
-                    dehumEffDialog*dDialog = new dehumEffDialog(edunit,theMainwindow);
-                    dDialog->exec();
+                    dehumEffDialog dDialog(edunit,theMainwindow);
+                    dDialog.exec();
                 }
                 else
                 {
-                    LDACcompDialog* lDialog = new LDACcompDialog(edunit,theMainwindow);
-                    lDialog->exec();
-
+                    LDACcompDialog lDialog(edunit,theMainwindow);
+                    lDialog.exec();
                 }
             }
-
         }
         else if(items.first()->zValue() == 3)
         {
@@ -823,9 +819,9 @@ void myScene::evokeProperties()
 
 void myScene::editUnit(unit * edUnit)
 {
-    editUnitDialog* edDialog = new editUnitDialog(edUnit,theMainwindow);
-    edDialog->setModal(true);
-    edDialog->exec();
+    editUnitDialog edDialog(edUnit,theMainwindow);
+    edDialog.setModal(true);
+    edDialog.exec();
 }
 
 
@@ -908,15 +904,15 @@ void myScene::editSp(Node *node)
 
     if(node->myUnit->idunit==63&&node->localindex==3)
     {
-        valveDialog*vDialog = new valveDialog(node->myUnit,false,theMainwindow);
-        vDialog->setModal(true);
-        vDialog->exec();
+        valveDialog vDialog(node->myUnit,false,theMainwindow);
+        vDialog.setModal(true);
+        vDialog.exec();
     }
     else
     {
-        spDialog * sDialog = new spDialog(node,theMainwindow);
-        sDialog->setModal(true);
-        sDialog->exec();
+        spDialog sDialog(node,theMainwindow);
+        sDialog.setModal(true);
+        sDialog.exec();
     }
 }
 
@@ -945,9 +941,10 @@ void myScene::resetPointedComp()
     }
 }
 
-
+// TODO: maybe make tDialog private, and detect if tDialog already exists.
 void myScene::evokeTDialog()
 {
+    // This is a member so that theMainwindow can trigger it from a key press.
     tDialog = new tableSelectParaDialog(theMainwindow);
     tDialog->setModal(true);
     tDialog->exec();

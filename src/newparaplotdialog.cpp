@@ -61,6 +61,7 @@ ui(new Ui::newParaPlotDialog)
 
 newParaPlotDialog::~newParaPlotDialog()
 {
+
     delete ui;
 }
 
@@ -92,6 +93,7 @@ void newParaPlotDialog::on_okButton_clicked()
             theScene->plotWindow = new plotsDialog();
             this->accept();
             theScene->plotWindow->exec();
+            // TODO: delete plotWindow when done
         }
         else if(mode==1)
         {
@@ -101,6 +103,7 @@ void newParaPlotDialog::on_okButton_clicked()
             theScene->plotWindow = new plotsDialog("",true);
             this->accept();
             theScene->plotWindow->exec();
+            // TODO: delete plotWindow when done
         }
         else
             this->accept();
@@ -114,6 +117,7 @@ bool newParaPlotDialog::setupXml()
 {
     int num=ui->xList->count(),inputIndex;
     int outputCount=ui->yList->selectedItems().count();
+    // Needs to be deleted at end of this scope.
     int * outputIndexes = new int[outputCount];
 
     int j=0;
@@ -331,8 +335,8 @@ bool newParaPlotDialog::setupXml()
 
         }
 
-     }
-
+    }
+    delete[] outputIndexes;
 }
 
 bool newParaPlotDialog::plotNameUsed(QString name)
@@ -579,6 +583,9 @@ bool newParaPlotDialog::readTheFile(QString tableName)
         }
 
     }
+    // TODO: member tablevalue is never referenced after being set in this function. Why? Is that a mistake?
+    // TODO: dyanmically allocated arrays are created with new, stored in tablevalue, but never delete[]'d!
+
 
     return true;
 }

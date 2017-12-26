@@ -173,11 +173,7 @@ void spDialog::on_OkButton_clicked()
 {
     if(ui->fluidCB->currentText()=="Not Assigned")
     {
-        QMessageBox * flBox = new QMessageBox;
-        flBox->setWindowTitle("Warning");
-        flBox->setText("Please assign working fluid for the state point!");
-        flBox->exec();
-
+        QMessageBox::warning(this, "Warning", "Please assign working fluid for the state point.");
     }
     else
     {
@@ -196,10 +192,7 @@ void spDialog::on_OkButton_clicked()
 
         if(!completed)
         {
-            QMessageBox * incompleteBox = new QMessageBox;
-            incompleteBox->setWindowTitle("Warning");
-            incompleteBox->setText("Please enter value for input parameter(s)");
-            incompleteBox->exec();
+            QMessageBox::warning(this, "Warning", "Please enter value for input parameter(s)");
         }
         else
         {
@@ -618,11 +611,11 @@ void spDialog::on_TFButton_clicked()
         }
         if(warn)
         {
+            // TODO: Is it necessary to hide and show this?
+            qDebug() << "spDialog: Hiding myself.";
             this->hide();
-            QMessageBox *mBox = new QMessageBox;
-            mBox->setWindowTitle("Warning");
-            mBox->setText("This will set temperature of sp"+QString::number(myNode->ndum)+list.join("")+" as fixed input.");
-            mBox->exec();
+            QMessageBox::warning(this, "Warning", "This will set temperature of sp"+QString::number(myNode->ndum)+list.join("")+" as fixed input.");
+            qDebug() << "spDialog: Showing myself.";
             this->show();
         }
 
