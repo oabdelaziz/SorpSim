@@ -6028,6 +6028,7 @@ qheat(
   {
       iterator = iterator->next;
   }
+  // TODO: make this consistent with other parts of code
   outputs.equations.append("Energy balance in "+iterator->unitName);
   afun(nnl) = "Heat Balance";
   iaf(nnl) = iunit;
@@ -6614,6 +6615,7 @@ desorb(
   double& ctt = cmn.ctt;
   //
   common_variant afdata(cmn.common_afdata, sve.afdata_bindings);
+  // TODO: remove anfun (default strings to label the equations).
   str_arr_ref<1> anfun(sve.anfun, dimension(10));
   if (is_called_first_time) {
     using fem::mbr; // member of variant common or equivalence
@@ -6654,12 +6656,12 @@ desorb(
   double qgn = fem::float0;
   double qg = fem::float0;
   QString sp1,sp2,sp3,sp4,sp5,sp6;
-  sp1 = i1;
-  sp2 = i2;
-  sp3 = i3;
-  sp4 = i4;
-  sp5 = i5;
-  sp6 = i6;
+  sp1 = QString::number(i1);
+  sp2 = QString::number(i2);
+  sp3 = QString::number(i3);
+  sp4 = QString::number(i4);
+  sp5 = QString::number(i5);
+  sp6 = QString::number(i6);
   QString eName;
   int counter = 0;
   //C*********************************************************************
@@ -6757,6 +6759,10 @@ desorb(
   if (jflag != 3) {
     return;
   }
+// FIXED: double check the code here ...
+// Sometimes we get the default strings from afun.
+// TODO: consider converting string concatenation to template/format.
+// See documentation for QString::arg(), QString::asprintf
 statement_400:{
   nlin++;
   line(nlin) = 1;
@@ -6783,7 +6789,7 @@ statement_400:{
   nnl++;
   outputs.currentSp = i2;
   eqb(cmn, p(i2), c2e, t(i2), h2e, 2, 0, ksub(i2));
-  eName = "Equilibrium at Point "+sp2+": C"+sp2+" = C"+sp2+"_eq(T"+sp2+",P"+sp2;
+  eName = QString("Equilibrium at Point %2: C%2 = C%2_eq(T%2,P%2)").arg(sp2);
   fun(nnl) = (c2e - c(i2)) / ctt;
   afun(nnl) = eName.toStdString();
   iaf(nnl) = iunit;
@@ -6800,7 +6806,7 @@ statement_400:{
   nnl++;
   outputs.currentSp = i6;
   eqb(cmn, p(i2), c(i6), t6e, h6e, 1, 0, ksub(i6));
-  eName = "Equilibrium at Point "+sp6+": T"+sp6+" = T"+sp6+"_eq(P"+sp6+",C"+sp6;
+  eName = QString("Equilibrium at Point %6: T%6 = T%6_eq(P%6,C%6)").arg(sp6);
   fun(nnl) = (t6e - t(i6)) / txn;
   afun(nnl) = eName.toStdString();
   iaf(nnl) = iunit;
@@ -6840,19 +6846,21 @@ statement_400:{
   iaf(nnl) = iunit;
   goto statement_490;
   statement_460:
-  eName = "Heat/Mass Transfer (Gas): T"+sp2+" = T"+sp6+" + DEVG";
+  eName = QString("Heat/Mass Transfer (Gas): T%2 = T%6 + DEVG").arg(sp2).arg(sp6);
   fun(nnl) = (t(i6) + devg(iunit) - t(i2)) / txn;
-  afun(nnl) = anfun(9);
+  //afun(nnl) = anfun(9);
+  afun(nnl) = eName.toStdString();
   iaf(nnl) = iunit;
   statement_490:
   if (w(i4) == w(i3) || itfix(i4) == 0) {
     goto statement_500;
   }
   nnl++;
+  // eName = "T4=T4E(P3,C3)";
   outputs.currentSp = i4;
   eqb(cmn, p(i3), c(i4), t4e, h4e, 1, 0, ksub(i4));
   fun(nnl) = (t4e - t(i4)) / txn;
-  afun(nnl) = anfun(10);
+  afun(nnl) = anfun(10); // eName.toStdString();
   iaf(nnl) = iunit;
   statement_500:
   qgp = f(i5) * h(i5) + f(i2) * h(i2) - f(i1) * h(i1);
@@ -6917,10 +6925,10 @@ hex(
   double qxn = fem::float0;
   double qx = fem::float0;
   QString sp1,sp2,sp3,sp4,eName;
-  sp1 = i1;
-  sp2 = i2;
-  sp3 = i3;
-  sp4 = i4;
+  sp1 = QString::number(i1);
+  sp2 = QString::number(i2);
+  sp3 = QString::number(i3);
+  sp4 = QString::number(i4);
   int counter = 0;
   //C*********************************************************************
   //C      IMPLICIT REAL*8(A-H,O-Z)
@@ -7064,11 +7072,11 @@ cond(
   double qcp = fem::float0;
   double qc = fem::float0;
   QString sp1,sp2,sp3,sp4,sp5,eName;
-  sp1 = i1;
-  sp2 = i2;
-  sp3 = i3;
-  sp4 = i4;
-  sp5 = i5;
+  sp1 = QString::number(i1);
+  sp2 = QString::number(i2);
+  sp3 = QString::number(i3);
+  sp4 = QString::number(i4);
+  sp5 = QString::number(i5);
   int counter = 0;
   //C*********************************************************************
   //C      IMPLICIT REAL*8(A-H,O-Z)
@@ -7282,11 +7290,11 @@ evap(
   double qen = fem::float0;
   double qe = fem::float0;
   QString sp1,sp2,sp3,sp4,sp5,eName;
-  sp1 = i1;
-  sp2 = i2;
-  sp3 = i3;
-  sp4 = i4;
-  sp5 = i5;
+  sp1 = QString::number(i1);
+  sp2 = QString::number(i2);
+  sp3 = QString::number(i3);
+  sp4 = QString::number(i4);
+  sp5 = QString::number(i5);
   int counter = 0;
   //C*********************************************************************
   //C      IMPLICIT REAL*8(A-H,O-Z)
@@ -7482,9 +7490,9 @@ valve(
   double cvlv = fem::float0;
   double pvlv = fem::float0;
   QString sp1,sp2,sp3,eName;
-  sp1 = i1;
-  sp2 = i2;
-  sp3 = i3;
+  sp1 = QString::number(i1);
+  sp2 = QString::number(i2);
+  sp3 = QString::number(i3);
   //C*********************************************************************
   //C      IMPLICIT REAL*8(A-H,O-Z)
   //C*********************************************************************
@@ -7609,9 +7617,9 @@ mix(
     }
   }
   QString sp1,sp2,sp3,eName;
-  sp1 = i1;
-  sp2 = i2;
-  sp3 = i3;
+  sp1 = QString::number(i1);
+  sp2 = QString::number(i2);
+  sp3 = QString::number(i3);
   //C*********************************************************************
   //C      IMPLICIT REAL*8(A-H,O-Z)
   //C*********************************************************************
@@ -7731,9 +7739,9 @@ split(
     }
   }
   QString sp1,sp2,sp3,eName;
-  sp1 = i1;
-  sp2 = i2;
-  sp3 = i3;
+  sp1 = QString::number(i1);
+  sp2 = QString::number(i2);
+  sp3 = QString::number(i3);
   //C*********************************************************************
   //C      IMPLICIT REAL*8(A-H,O-Z)
   //C*********************************************************************
@@ -7880,12 +7888,12 @@ rect(
   double qr = fem::float0;
   int counter = 0;
   QString sp1,sp2,sp3,sp4,sp5,sp6,eName;
-  sp1 = i1;
-  sp2 = i2;
-  sp3 = i3;
-  sp4 = i4;
-  sp5 = i5;
-  sp6 = i6;
+  sp1 = QString::number(i1);
+  sp2 = QString::number(i2);
+  sp3 = QString::number(i3);
+  sp4 = QString::number(i4);
+  sp5 = QString::number(i5);
+  sp6 = QString::number(i6);
   //C*********************************************************************
   //C      IMPLICIT REAL*8(A-H,O-Z)
   //C*********************************************************************
@@ -8132,6 +8140,13 @@ analys(
   double qn = fem::float0;
   int counter = 0;
   QString sp1,sp2,sp3,sp4,sp5,sp6,sp7,eName;
+  sp1 = QString::number(i1);
+  sp2 = QString::number(i2);
+  sp3 = QString::number(i3);
+  sp4 = QString::number(i4);
+  sp5 = QString::number(i5);
+  sp6 = QString::number(i6);
+  sp7 = QString::number(i7);
   //C*********************************************************************
   //C      IMPLICIT REAL*8(A-H,O-Z)
   //C*********************************************************************
@@ -8558,9 +8573,9 @@ comp(
   double s1 = fem::float0;
   double s3 = fem::float0;
   QString sp1,sp2,sp3,eName;
-  sp1 = i1;
-  sp2 = i2;
-  sp3 = i3;
+  sp1 = QString::number(i1);
+  sp2 = QString::number(i2);
+  sp3 = QString::number(i3);
   //C*********************************************************************
   //C      IMPLICIT REAL*8(A-H,O-Z)
   //C*********************************************************************
@@ -8775,9 +8790,9 @@ pump(
   }
   double d1 = fem::float0;
   QString sp1,sp2,sp3,eName;
-  sp1 = i1;
-  sp2 = i2;
-  sp3 = i3;
+  sp1 = QString::number(i1);
+  sp2 = QString::number(i2);
+  sp3 = QString::number(i3);
   //C*********************************************************************
   //C      IMPLICIT REAL*8(A-H,O-Z)
   //C*********************************************************************

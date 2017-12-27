@@ -129,6 +129,7 @@ struct calOutputs
     double distributionH[50][101];
 
 
+    // TODO: this is used as write-only and never read out.
     QStringList equations;
     QStringList singularIndex;
 
