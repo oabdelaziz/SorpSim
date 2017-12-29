@@ -31,7 +31,6 @@ extern unit* dummy;
 extern MainWindow*theMainwindow;
 
 extern globalparameter globalpara;
-calInputs myInputs;
 extern calOutputs outputs;
 
 calculate::calculate()
@@ -49,6 +48,7 @@ void calculate::calc(unit*mdummy,globalparameter globalpara, QString fileName)
     globalparameter *theGlobal = &globalpara;
     globalpara.checkMinMax(theGlobal);
 
+    calInputs myInputs;
     myInputs.title = globalpara.title;
     myInputs.tmax = convert(globalpara.tmax,temperature[globalpara.unitindex_temperature],temperature[3]);
     myInputs.tmin = convert(globalpara.tmin,temperature[globalpara.unitindex_temperature],temperature[3]);

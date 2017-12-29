@@ -642,7 +642,7 @@ void myScene::drawLink(Node *node1, Node *node2)
 
                 if(head->nu == sp2->unitindex )//for sp in the same unit
                 {
-
+                    // TODO: for readability/consistency, change index range and use [j] instead of [j-1] (why not?)
                     for(int j = sp2->localindex+1; j <= head->usp;j++)
                     {
                         if(head->myNodes[j-1]->linked && (!head->myNodes[j-1]->linklowerflag))//linked and is the smaller one, just update

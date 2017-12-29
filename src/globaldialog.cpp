@@ -17,7 +17,6 @@
 #include <QValidator>
 #include <QDoubleValidator>
 
-extern bool gocalc;
 extern globalparameter globalpara;
 extern MainWindow*theMainwindow;
 
@@ -56,14 +55,12 @@ void GlobalDialog::on_buttonBox_accepted()
    globalpara.msglvl = globalpara.maxfev;
    globalpara.ftol = ui->convtolerancef->text().toDouble();
    globalpara.xtol = ui->convtolerancev->text().toDouble();
-   gocalc = true;
    accept();
 
 }
 
 void GlobalDialog::on_buttonBox_rejected()
 {
-    gocalc = false;
     reject();
 }
 

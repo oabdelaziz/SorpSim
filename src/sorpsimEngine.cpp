@@ -17793,7 +17793,7 @@ program_sorpsimEngine(
 
 
 
-int absdCal(int argc,char const* argv[], calInputs myCalInput, bool print)
+int absdCal(int argc,char const* argv[], const calInputs &myCalInput, bool print)
 {
     for(int i = 0;i < 150;i++)
         outputs.eqn_name[i] = "";

@@ -133,18 +133,19 @@ NTUestimateDialog::NTUestimateDialog(unit *estUnit, QWidget *parent) :
         ui->msiMrrLine->setText(QString::number(myUnit->myNodes[si]->f));
 
 
+        // TODO: document intent and make this consistent
         switch (myUnit->myNodes[0]->ksub)
         {
         case 1:
         {
             ui->FluidBox->setCurrentText("LiBr-water");
-            ui->FluidBox_2->setCurrentText("LiBr-water");
+            ui->FluidBox_2->setCurrentText("LiBr-water"); // matching
             break;
         }
         case 9:
         {
             ui->FluidBox->setCurrentText("LiCl-water");
-            ui->FluidBox_2->setCurrentText("LiBr-water");
+            ui->FluidBox_2->setCurrentText("LiBr-water"); // not matching
             break;
         }
         }

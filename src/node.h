@@ -38,30 +38,32 @@ public:
 
     QPointF getPosition();
 
-    QGraphicsSimpleTextItem * text;
-    QGraphicsSimpleTextItem * parameters;
-    bool real;
+    QGraphicsSimpleTextItem * text;     // Text box to show this node's index on the display
+    // QGraphicsSimpleTextItem * parameters;  // Unused. See unit::spParameter. TODO - delete.
+    // bool real; // Unused. TODO - delete.
 
-    int ndum;
-    int ksub;
+    int ndum;       // Index of this node in global list of nodes
+    int ksub;       // Index into fluid inventory (see Link::setColor)
     int itfix;
-    float t;
+    float t;        // temperature
     int iffix;
-    float f;
+    float f;        // flow rate
     int icfix;
-    float c;
+    float c;        // concentration
     int ipfix;
-    float p;
+    float p;        // pressure
     int iwfix;
-    float w;
+    float w;        // vapor fraction?
 
+    // Calculation results
     float tr;
     float fr;
     float cr;
     float pr;
     float wr;
-    float hr;
+    float hr;       // probably enthalpy
 
+    // For table mode. Maybe some of these have to do with guess values?
     float tT;
     float fT;
     float cT;
@@ -75,19 +77,32 @@ public:
     float wTr;
     float hTr;
 
-    bool linked;
+    // Links
+    // A link is like a pipe between units. It goes from one node (that should
+    // be an outlet for its unit) to another node.
+    // If a node is "inside" the unit, any linking should be done with the
+    // insideLink class, which differentiates the inside and outside links.
+    bool linked;                        // Presumably, whether there is a link from this node to another
     bool insideLinked;
-    bool isOutlet;
-    int unitindex;
-    bool isinside;
+    bool isOutlet;                      // Whether this Node is intended as an outlet for myUnit.
+    int unitindex;                      // Copied from parent's unit::nu.
+                                        //   Note: set by TreeDialog::on_selectButton_clicked(),
+                                        //   MainWindow::deleteunit, loadCase, and loadOutFile.
+                                        //   (We could ask unit to be responsible for that...)
+    bool isinside;                      // Whether this Node is intended to be internal/inside
+                                        //   (a candidate to merge with a corresponding inlet,
+                                        //   not to be linked to another unit).
     bool linklowerflag;//means current one is larger
     int localindex;//starting 1
-    QSet <Link*> myLinks;
+    QSet <Link*> myLinks;               // This is problematic. All client code converts
+                                        //   the set to a list and looks at the first element.
+                                        //   TODO: change to a (smart) point to Link.
     insideLink * myInsideLink;
-    unit* myUnit;
+    unit* myUnit;                       // Points back to the unit to which this Node belongs.
+                                        //   Note: set by myScene::drawAUnit().
 
-    bool isHighlighted;
-    bool lineHighlighted;
+    bool isHighlighted;       // For the display, whether the node is highlighted, appearing with a different color.
+    bool lineHighlighted;     //
 
     QSet<Node*> FSet;
     QSet<Node*> CSet;

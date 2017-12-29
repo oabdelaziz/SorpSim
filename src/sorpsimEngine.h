@@ -511,6 +511,6 @@ double calcEnthalpy(sorpsim4l::common& cmn, int ksub, double t,
                     double p, double c, double w);
 
 
-int absdCal(int argc,char const* argv[], calInputs myCal, bool print=false);
+int absdCal(int argc, char const* argv[], const calInputs &myCal, bool print=false);
 
 #endif // SORPSIMENGINE_H

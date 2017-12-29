@@ -18,7 +18,6 @@
 
 
 extern globalparameter globalpara;
-extern bool setupNew;
 extern MainWindow*theMainwindow;
 
 unitsetting::unitsetting(QWidget *parent) :
@@ -185,7 +184,6 @@ void unitsetting::on_okButton_clicked()
     }
 
     accept();
-    setupNew = true;
 }
 
 void unitsetting::closeEvent(QCloseEvent *event)

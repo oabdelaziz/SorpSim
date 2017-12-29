@@ -102,18 +102,12 @@
 #include "guessdialog.h"
 
 
-bool gocalc = false;
-bool setupNew = false;
-
-int templateindex = 0;
-int globalcount = 0;
-int spnumber = 0;
-int linkcount = 0;
-unit* head =NULL;
-unit* prev =NULL;
-unit* temp1 =NULL;
-unit* temp2 = NULL;
-unit* dummy = NULL;
+int globalcount = 0;                    // number of units
+int spnumber = 0;                       // number of state points
+int linkcount = 0;                      // number of links between state points (write-only, for debugging?)
+// Linked list of units is implemented with pointers (unit::next)
+unit* head =NULL;                       // often the first unit in the list (after dummy)
+unit* dummy = NULL;                     // a placeholder before the first unit
 QString fname;
 unit * tableunit = NULL;
 Node * tablesp = NULL;
@@ -398,15 +392,6 @@ void MainWindow::deleteunit(unit *delunit)
                 }
             }
         }
-        foreach(QSet<Node*>set,globalpara.cGroup){
-            if(set.contains(theNode)){
-                globalpara.cGroup.removeOne(set);
-                set.remove(theNode);
-                if(set.count()>1){
-                    globalpara.cGroup.append(set);
-                }
-            }
-        }
         foreach(QSet<Node*>set,globalpara.pGroup){
             if(set.contains(theNode)){
                 globalpara.pGroup.removeOne(set);
@@ -445,7 +430,7 @@ void MainWindow::deleteunit(unit *delunit)
 
         if  (head->next==delunit)
         {
-
+            unit* temp1 =NULL;
             if(head->next->next==NULL)
                 {
                     temp1 = head->next;
@@ -460,6 +445,7 @@ void MainWindow::deleteunit(unit *delunit)
                 }
             else
                 {
+                    unit* temp2 = NULL;
                     temp1 = head;
                     temp2 = head->next;
                     temp1->next = temp2->next;
@@ -4014,6 +4000,8 @@ void MainWindow::on_actionLine_triggered()
         theMenuBar->setEnabled(true);
         QApplication::restoreOverrideCursor();
     }
+    // The selection process continues thus: theScene waits for user to double click a point,
+    // and then we go to myScene::mouseDoubleClickEvent().
 }
 
 void MainWindow::on_actionMaster_Control_Panel_triggered()
