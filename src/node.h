@@ -104,12 +104,17 @@ public:
     bool isHighlighted;       // For the display, whether the node is highlighted, appearing with a different color.
     bool lineHighlighted;     //
 
+    // These sets are used to convey information about flow through the unit.
+    // They represent a directional graph in which target nodes receive
+    // flow or state properties, with the same letter abbreviations as above.
     QSet<Node*> FSet;
     QSet<Node*> CSet;
     QSet<Node*> FluidSet;
     QSet<Node*> PSet;
     QSet<Node*> TSet;
     QSet<Node*> WSet;
+    // This set is slightly different, in that it does not have an analogous
+    // node property. The only known client is editPropertyCurveDialog::updateLoopList.
     QSet<Node*> FCSet;
 
     void setColor();

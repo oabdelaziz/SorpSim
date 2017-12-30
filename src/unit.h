@@ -12,6 +12,27 @@
 
 class Node;
 
+/**
+ * @brief An object of the unit class represents a component-level unit of a sorption system.
+ *
+ * Typical usage:
+ *     unit * myUnit = new unit();
+ *     myUnit.idunit = 11; // ABSORBER
+ *     myUnit.initialize();
+ *     // Populate desired data fields
+ *     ...
+ *     myUnit.drawUnit();
+ *     unit->setParentItem(rect);
+ *     // Graphics happens ...
+ *     if (done)  {
+ *         delete myUnit;
+ *     } else {
+ *         // Do more complicated things
+ *         myScene::addLink(...);
+ *         // Clean up
+ *         mainWindow::deleteunit(...);
+ *     }
+ */
 class unit : public QGraphicsItem
 {
 public:
@@ -22,8 +43,8 @@ public:
                const QStyleOptionGraphicsItem *option, QWidget *widget);
 
     QPointF getPos();
-    void initialize();
-    void drawUnit();
+    void initialize();                  // Lazy constructor
+    void drawUnit();                    // Very lazy constructor
     void horizontalFlip();
     void verticalFlip();
     void rotateClockWise();
@@ -136,9 +157,9 @@ public:
     QGraphicsSimpleTextItem *utext;  // Eg. "<ABSORBER>", label to put near the unit in the display.
     int mergedOutPoint;              // If there is an internal state point that can be ignored
                                      //   via the insideMerged toggle, then this is the index
-                                     //   of the inlet/outlet point to merge with.
-                                     //   Note: for this index, counting starts at 1.
-                                     //   So values <= 0 and > usp are meaningless.
+                                     //   of the inlet/outlet point with which to merge it.
+                                     //   Note: for this index, counting starts at 1,
+                                     //   so values <= 0 and > usp are meaningless.
 
     QGraphicsSimpleTextItem *spParameter[7];  // Text boxes to show state point info on the display (show results).
     QGraphicsSimpleTextItem * unitParameter;  // Text box to show results for this unit on the display.

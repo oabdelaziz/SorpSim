@@ -36,6 +36,16 @@ public:
     ~MainWindow();
     QDialog*currentDialog;
 
+    /**
+     * @brief setTPMenu Updates the menu actions available in the Table and Plot menus based on table and plot counts.
+     *
+     * If there are multiple plots, this will try to open the current case XML file.
+     * This will return false if that I/O operation fails.
+     * TODO: None of the client code uses the return value. Redefine without it?
+     * Also, this seems to happen occasionally, and it should not! TODO: debug
+     *
+     * @return Whether the operation succeeded.
+     */
     bool setTPMenu();
     bool setRecentFiles();
     bool saveRecentFile(QString fileDir);
@@ -142,17 +152,57 @@ private slots:
 private:
     Ui::MainWindow *ui;
 
+    /**
+     * @brief defaultTheSystem clears the list of units, all display text, and resets global parameters.
+     */
     void defaultTheSystem();
+
+    /**
+     * @brief clearResultSelection resets all toggles for variables to display in results mode.
+     */
     void clearResultSelection();
+
+    /**
+     * @brief hasCopcap determines whether capacity and COP are defined.
+     * @return 0 if capacity is not defined; 1 if capacity but COP is defined; or 2 if both are defined.
+     */
     int hasCopcap();
-    void setZValue(int z);
-    void setupNode(Node *node);
+
+    /**
+     * @brief deleteunit clears all references to the unit, then deletes it.
+     *
+     * deleteunit() clears all references to the given unit, then deletes it.
+     * This includes:
+     * - Removing all the unit's nodes from global groups.
+     * - Clearing references to and deleting all links to and from the units nodes.
+     * - Removing the unit from the global list of units and renumbering unit indexes.
+     * - Delete the unit (deallocate memory)
+     *
+     * @param delunit Pointer to the unit to delete.
+     */
     void deleteunit(unit * delunit);
+
+    /**
+     * @brief deletelink Removes the link from its nodes and renumbers following nodes.
+     *
+     * TODO: Decide whether to deallocate the memory.
+     * Right now this doesn't actually delete the memory allocated for dellink.
+     * (Client code usage varies, which is bad.)
+     *
+     * @param dellink
+     */
     void deletelink(Link * dellink);
+
     void zoomToFit();
     void startWindow();
     void newCase();
+
+    /**
+     * @brief openCase prompts user to select a file to load.
+     * @return True if and only if the user did not cancel the operation and it was successful.
+     */
     bool openCase();
+
     /** Opens a modal dialog box to ask if user wants to
      * save before the next requested operation.
      *
@@ -167,6 +217,18 @@ private:
     void manageGroups();
     void createGroupFromIfix();
     bool noChangeMade();
+    /**
+     * @brief hasTPData checks whether how tables and plots belong to the current case.
+     *
+     * It opens the current case XML file and searches there for the data, not within memory.
+     * The return is a map with at least one key, as requested (table if lookForTable, else plot).
+     * If the file was correctly opened and parse, it should return both keys!
+     * History
+     * -- 2017-12-29. Fixed: failed to explicitly close file before return.
+     *
+     * @param lookForTable a toggle
+     * @return A map counting tables and plots, like {'table': 1, 'plot': 2}.
+     */
     QMap<QString,int> hasTPData(bool lookForTable);
     calculate * mycal;
     myScene *scene;
@@ -176,7 +238,11 @@ private:
 
     void resizeEvent(QResizeEvent *e);
 
-
+    /**
+     * @brief SSGetTempFileName
+     * @return A QTemporaryFile that will be automatically removed when this is destroyed.
+     */
+    QFile * SSGetTempFileName();
 
 };
 

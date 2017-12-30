@@ -63,6 +63,7 @@
 #include <QMenuBar>
 #include <QDialogButtonBox>
 #include <QTextBrowser>
+#include <QTemporaryFile>
 
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
@@ -418,7 +419,7 @@ void MainWindow::deleteunit(unit *delunit)
         }
     }
 
-
+    // Remove unit from linked list of units.
     head = dummy;
     int diff;
     int changes=0;
@@ -459,7 +460,8 @@ void MainWindow::deleteunit(unit *delunit)
         }
         else    head = head->next;
 
-
+        // The deleted unit was not at the end of the list,
+        // so renumber all the units and nodes that follow.
         if(delflag)
         {
             head->nu = head->nu - 1;
@@ -501,6 +503,7 @@ void MainWindow::deleteunit(unit *delunit)
 
 }
 
+// TODO: never deletes memory allocated for dellink
 void MainWindow::deletelink(Link *dellink)
 {
     Node * node1 = dellink->myFromNode;
@@ -1371,14 +1374,16 @@ bool MainWindow::preprocessOutFile(QString fileName)
     QFile ofile(newName);
     if(!ifile.open(QIODevice::ReadOnly|QIODevice::Text))
     {
-        globalpara.reportError("Failed to open original file during preprocessing.",this);
+        globalpara.reportError(QString("During preprocessing, failed to open original file:\n'%1'")
+                               .arg(fileName),this);
         return false;
     }
     if(ofile.exists())
         ofile.remove();
     if(!ofile.open(QIODevice::WriteOnly|QIODevice::Text))
     {
-        globalpara.reportError("Failed to open original file during preprocessing.",this);
+        globalpara.reportError(QString("During preprocessing, failed to open the new file:\n'%1'")
+                               .arg(newName),this);
         return false;
     }
     else
@@ -1562,7 +1567,8 @@ bool MainWindow::loadOutFile()
 //            QFile ofile(name);
             if(!ofile.open(QIODevice::ReadOnly|QIODevice::Text))
             {
-                globalpara.reportError("Failed to open original file.",this);
+                globalpara.reportError(QString("After preprocessing, failed to re-open the new file:\n'%1'")
+                                       .arg(newName),this);
                 return false;
             }
             else
@@ -1996,7 +2002,7 @@ bool MainWindow::loadOutFile()
                     {
                         if(iterator->myNodes[n]->ndum==i+1)
                         {
-                            Node*tNode = iterator->myNodes[n];
+//                            Node*tNode = iterator->myNodes[n];
 //                            qDebug()<<i+1<<tNode->itfix<<tNode->iffix<<tNode->icfix<<tNode->ipfix<<tNode->iwfix;
                             found = true;
                         }
@@ -2508,17 +2514,15 @@ QMap<QString, int> MainWindow::hasTPData(bool lookForTable)
     QMessageBox mBox;
     QString string;
     QMap<QString,int> results;
-    if(lookForTable)
-        string = "table";
-    else string = "plot";
+    results.insert("plot", 0);
+    results.insert("table",0);
+
     mBox.setWindowTitle("Warning");
     mBox.setModal(true);
     if(!file.open(QIODevice::ReadOnly | QIODevice::Text))
     {
         mBox.setText("Fail to open case file.");
         mBox.exec();
-        results.insert(string,0);
-        return results;
     }
     else
     {
@@ -2526,21 +2530,19 @@ QMap<QString, int> MainWindow::hasTPData(bool lookForTable)
         {
             mBox.setText("Fail to load "+string+" data.");
             mBox.exec();
-            results.insert(string,0);
-            return results;
         }
         else
         {
             results.clear();
             tableData = doc.elementsByTagName("TableData").at(0).toElement();
             plotData = doc.elementsByTagName("plotData").at(0).toElement();
-            results.insert("table",tableData.childNodes().count());
-            results.insert("plot",plotData.childNodes().count());
-            return results;
+            results["table"] = tableData.childNodes().count();
+            results["plot"] = plotData.childNodes().count();
 
             file.close();
         }
     }
+    return results;
 }
 
 bool MainWindow::setTPMenu()
@@ -2579,8 +2581,8 @@ bool MainWindow::setTPMenu()
         {
             if(!file.open(QIODevice::ReadOnly|QIODevice::Text))
             {
-                return false;
                 globalpara.reportError("Fail to open case file for table data.",this);
+                return false;
             }
             else
             {
@@ -2677,6 +2679,7 @@ bool MainWindow::setTPMenu()
         }
     }
 
+    return true;
 }
 
 /**
@@ -2938,6 +2941,13 @@ void MainWindow::resizeEvent(QResizeEvent *e)
 {
     QMainWindow::changeEvent(e);
     mainwindowSize = geometry();
+}
+
+QFile * MainWindow::SSGetTempFileName()
+{
+    //QString tempPath = QDir::tempPath();
+    QTemporaryFile * myTempFile = new QTemporaryFile(this);
+    return myTempFile;
 }
 
 

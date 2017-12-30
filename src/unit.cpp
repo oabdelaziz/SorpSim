@@ -38,6 +38,7 @@ unit::unit()
 
 }
 
+// TODO: fails to delete allocated nodes and links
 unit::~unit()
 {
 }
