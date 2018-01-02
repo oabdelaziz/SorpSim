@@ -34,6 +34,7 @@
 #include <qprinter.h>
 #include "curvesettingdialog.h"
 #include "overlaysettingdialog.h"
+#include <QDomImplementation>
 #include <QtXml/QDomDocument>
 #include <QtXml>
 #include <QtXml/qdom.h>
@@ -186,6 +187,11 @@ void plotsDialog::setupPlots(bool init)
 
 bool plotsDialog::loadXml(bool init)
 {
+#ifdef QT_DEBUG
+    QDomImplementation::InvalidDataPolicy policy = QDomImplementation::invalidDataPolicy();
+    qDebug() << "Note: QDomImplementation::invalidDataPolicy() is " << policy;
+#endif
+
     tabs->clear();
     QFile file;
 #ifdef Q_OS_WIN32
@@ -258,6 +264,8 @@ bool plotsDialog::loadXml(bool init)
             for(int i = 0; i < plotCount;i++)
             {
                 currentPlot = plotData.childNodes().at(i).toElement();
+                QString plotTitle = currentPlot.tagName();
+                qDebug() << "Loading from XML plot with title \"" << plotTitle << "\".";
                 if(currentPlot.attribute("plotType")=="parametric")
                 {
                     QDomElement currentRun,runInput,runOutput;
@@ -334,10 +342,14 @@ bool plotsDialog::loadXml(bool init)
 
 
                 }
-                newPlot->setTitle(currentPlot.tagName());
+                else
+                {
+                    qDebug() << "Unkown plotType \"" << currentPlot.attribute("plotType") << "\".";
+                }
+                newPlot->setTitle(plotTitle);
 
                 //load the plot settings
-                QDomElement general, legend, grid, curve;
+                QDomElement general, legend, grid, curveList;
 
                 //general
                 if(currentPlot.elementsByTagName("general").count()>0)
@@ -428,27 +440,43 @@ bool plotsDialog::loadXml(bool init)
                 }
 
                 //curve
-                if(currentPlot.elementsByTagName("curve").count()>0)
+                // Fixed: rework to read new XML structure for this
+                // See savePlotSettings().
+                if(currentPlot.elementsByTagName("curveList").count()>0)
                 {
-                    curve = currentPlot.elementsByTagName("curve").at(0).toElement();
-                    if(curve.childNodes().count()==newPlot->curvelist.count())
+                    curveList = currentPlot.elementsByTagName("curveList").at(0).toElement();
+                    QMap<QString, QDomElement> curveListMap;
+                    QDomNodeList  curveListNodes = curveList.childNodes();
+                    for (int j = 0; j < curveListNodes.count(); j++)
+                    {
+                        QDomElement el = curveListNodes.at(j).toElement();
+                        QString curveTitle = el.attribute("title");
+                        curveListMap[curveTitle] = el;
+                    }
+                    qDebug() << "Curve titles available in XML:" << curveListMap.keys();
+
+                    if(curveList.childNodes().count()==newPlot->curvelist.count())
                     {
                         QDomElement currentCurve;
                         QwtPlotCurve *thisCurve;
-                        QString lineColor, lineSize, lineType, isVisible;
+                        QString curveTitle, lineColor, lineSize, lineType, isVisible;
                         for(int i = 0; i < newPlot->curvelist.count();i++)
                         {
-                            currentCurve = curve.elementsByTagName(newPlot->curvelist[i]->title().text().replace(" ","")).at(0).toElement();
+                            curveTitle = newPlot->curvelist.at(i)->title().text();
+                            if (!curveListMap.contains(curveTitle))
+                            {
+                                qDebug() << "Curve not found in XML with title \"" << curveTitle << "\".";
+                                continue;
+                            }
+                            qDebug() << "Loading attributes from XML for curve \"" << curveTitle << "\".";
+                            currentCurve = curveListMap.value(curveTitle);
                             thisCurve = newPlot->curvelist[i];
                             lineColor = currentCurve.attribute("lineColor");
                             lineSize = currentCurve.attribute("lineSize");
                             lineType = currentCurve.attribute("lineType");
                             isVisible = currentCurve.attribute("isVisible");
                             thisCurve->setPen(QColor(lineColor),lineSize.toInt(),Qt::PenStyle(lineType.toInt()));
-                            if(isVisible=="true")
-                                thisCurve->setVisible(true);
-                            else if(isVisible=="false")
-                                thisCurve->setVisible(false);
+                            thisCurve->setVisible("true" == isVisible);
                         }
                     }
                 }
@@ -557,13 +585,13 @@ void plotsDialog::showInfo(QString text)
 
 void plotsDialog::deleteCurrentPlot()
 {
-    QMessageBox * askBox = new QMessageBox(this);
-    askBox->addButton("Delete",QMessageBox::YesRole);
-    askBox->addButton("Cancel",QMessageBox::NoRole);
-    askBox->setText("Confirm to delete the plot?");
-    askBox->setWindowTitle("Warning");
-    askBox->exec();
-    if(askBox->buttonRole(askBox->clickedButton())==QMessageBox::YesRole)
+    QMessageBox askBox(this);
+    askBox.addButton("Delete",QMessageBox::YesRole);
+    askBox.addButton("Cancel",QMessageBox::NoRole);
+    askBox.setText("Confirm to delete the plot?");
+    askBox.setWindowTitle("Warning");
+    askBox.exec();
+    if(askBox.buttonRole(askBox.clickedButton())==QMessageBox::YesRole)
     {
         Plot* plotToDelete = dynamic_cast<Plot*>(tabs->currentWidget());
     #ifdef Q_OS_WIN32
@@ -914,14 +942,18 @@ bool plotsDialog::saveChanges()
         globalpara.reportError("Fail to load xml document from case file to update plot data.",this);
         return false;
     }
+    QString errorMsg;
+    int errorLine, errorColumn;
     if(!file.open(QIODevice::ReadOnly|QIODevice::Text))
     {
         globalpara.reportError("Fail to open plot temp file to update plot data.",this);
         return false;
     }
-    else if(!doc.setContent(&file))
+    else if(!doc.setContent(&file, &errorMsg, &errorLine, &errorColumn))
     {
-        globalpara.reportError("Fail to load xml document from plot temp file to update plot data..",this);
+        globalpara.reportError(QString("Fail to load xml document from plot temp file to update plot data. Details:\n%1\nat line %2 column %3")
+                               .arg(errorMsg).arg(errorLine).arg(errorColumn),
+                               this);
         return false;
     }
     else
@@ -950,6 +982,10 @@ void plotsDialog::keyPressEvent(QKeyEvent *e)
 
 void plotsDialog::savePlotSettings()
 {
+#ifdef QT_DEBUG
+    QDomImplementation::InvalidDataPolicy policy = QDomImplementation::invalidDataPolicy();
+    qDebug() << "Note: QDomImplementation::invalidDataPolicy() is " << policy;
+#endif
 
 #ifdef Q_OS_WIN32
     QFile file("plotTemp.xml");
@@ -965,7 +1001,7 @@ void plotsDialog::savePlotSettings()
     QTextStream stream;
     stream.setDevice(&file);
     QDomDocument doc;
-    QDomElement plotData, currentPlot, general, legend, grid, curve;
+    QDomElement plotData, currentPlot, general, legend, grid, curveList;
 
     if(!file.open(QIODevice::ReadWrite | QIODevice::Text))
     {
@@ -1098,62 +1134,40 @@ void plotsDialog::savePlotSettings()
                 }
 
                 //curve
-                QDomNode const oldCurveSettings = currentPlot.elementsByTagName("curve").at(0);
+                QDomNode const oldCurveSettings = currentPlot.elementsByTagName("curveList").at(0);
                 currentPlot.removeChild(oldCurveSettings);
-                curve = doc.createElement("curve");
-                currentPlot.appendChild(curve);
-//                if(currentPlot.elementsByTagName("curve").count()==0)
-//                {
-//                    curve = doc.createElement("curve");
-//                    currentPlot.appendChild(curve);
-//                }
-//                else curve = currentPlot.elementsByTagName("curve").at(0).toElement();
-//                if(curve.childNodes().count()!=set_plot->curvelist.count())
-//                {
-//                    QDomNode node;
-//                    for(int i = 0; i < curve.childNodes().count();i++)
-//                    {
-//                        node = curve.childNodes().at(i);
-//                        curve.removeChild(node);
-//                    }
-//                    QDomElement newCurve;
-//                    for(int i = 0; i < set_plot->curvelist.count();i++)
-//                    {
-//                        newCurve = doc.createElement(set_plot->curvelist.at(i)->title().text().replace(" ",""));
-//                        curve.appendChild(newCurve);
-//                    }
-//                }
+                curveList = doc.createElement("curveList");
+                currentPlot.appendChild(curveList);
                 QDomElement currentCurve;
-                QwtPlotCurve *thisCurve;
+                QwtPlotCurve *dumpCurve;
                 for(int i = 0; i < set_plot->curvelist.count();i++)
                 {
-                    currentCurve = doc.createElement(set_plot->curvelist.at(i)->title().text().replace(" ",""));
-                    curve.appendChild(currentCurve);
-                    thisCurve = set_plot->curvelist[i];
-                    currentCurve = curve.elementsByTagName(set_plot->curvelist.at(i)->title().text().replace(" ","")).at(0).toElement();
+                    // TODO: generates invalid XML by taking raw curve title as tag.
+                    // Suggested fix: structure xml like this:
+                    // <curveList>
+                    //   <curve title="HeatTransferValuecomponent#1kW" lineType="1" lineSize="2" isVisible="true" lineColor="#000000"/>
+                    // </curves>
+                    currentCurve = doc.createElement("curve");
+                    curveList.appendChild(currentCurve);
+                    dumpCurve = set_plot->curvelist[i];
 
-                    if(thisCurve->isVisible())
-                        currentCurve.setAttribute("isVisible","true");
-                    else
-                        currentCurve.setAttribute("isVisible","false");
-                    currentCurve.setAttribute("lineColor",thisCurve->pen().color().name());
-                    currentCurve.setAttribute("lineSize",thisCurve->pen().width());
-                    int styleCode;
-                    if(thisCurve->pen().style()==Qt::NoPen)
-                        styleCode=0;
-                    else if(thisCurve->pen().style()==Qt::SolidLine)
-                        styleCode=1;
-                    else if(thisCurve->pen().style()==Qt::DashLine)
-                        styleCode=2;
-                    else if(thisCurve->pen().style()==Qt::DotLine)
-                        styleCode=3;
-                    else if(thisCurve->pen().style()==Qt::DashDotLine)
-                        styleCode=4;
-                    else if(thisCurve->pen().style()==Qt::DashDotDotLine)
-                        styleCode=5;
-                    currentCurve.setAttribute("lineType",styleCode);
+                    QMap<QString, QString> myMap;
+                    myMap["title"] = dumpCurve->title().text();
+                    myMap["isVisible"] = dumpCurve->isVisible()?"true":"false";
+                    myMap["lineColor"] = dumpCurve->pen().color().name();
+                    myMap["lineSize"] = QString::number(dumpCurve->pen().width());
+                    myMap["lineType"] = QString::number(dumpCurve->pen().style());
+#ifdef QT_DEBUG
+                        qDebug() << myMap;
+#endif
+
+                    QMap<QString, QString>::const_iterator myIter = myMap.constBegin();
+                    while (myIter != myMap.constEnd())
+                    {
+                        currentCurve.setAttribute(myIter.key(),myIter.value());
+                        ++myIter;
+                    }
                 }
-
             }
 
             file.resize(0);

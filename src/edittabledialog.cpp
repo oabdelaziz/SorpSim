@@ -260,7 +260,7 @@ void editTableDialog::on_OKButton_clicked()
             {
                 theScene->tableWindow->close();
             }
-            theScene->tableWindow = new tableDialog();
+            theScene->tableWindow = new tableDialog(dummy, "", theMainwindow);
             theScene->tableWindow->setModal(true);
             this->hide();
             theScene->tableWindow->exec();

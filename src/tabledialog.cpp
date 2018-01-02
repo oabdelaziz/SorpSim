@@ -89,7 +89,8 @@ int alvCol;
 int alvRowCount;
 tableDialog* theTablewindow;
 
-tableDialog::tableDialog(QString startTable, QWidget *parent) :
+tableDialog::tableDialog(unit * dummy, QString startTable, QWidget * parent) :
+    myDummy(dummy),
     QDialog(parent),
     ui(new Ui::tableDialog)
 {
@@ -723,11 +724,8 @@ bool tableDialog::updateXml()
     }
 }
 
-bool tableDialog::calc(unit *dummy, globalparameter globalpara, QString fileName, int run)
+bool tableDialog::calc(globalparameter globalpara, QString fileName, int run)
 {
-    myDummy = dummy;
-
-
     tInputs.title = globalpara.title;
     tInputs.tmax = convert(globalpara.tmax,temperature[globalpara.unitindex_temperature],temperature[3]);
     tInputs.tmin = convert(globalpara.tmin,temperature[globalpara.unitindex_temperature],temperature[3]);
@@ -752,7 +750,7 @@ bool tableDialog::calc(unit *dummy, globalparameter globalpara, QString fileName
         conv = 1.8;
     }
 
-    myHead = myDummy->next;
+    unit * myHead = myDummy->next;
     for(int count = 1; count-1 < globalcount;count++)
     {
         tInputs.idunit[count] = myHead->idunit;
@@ -1086,7 +1084,7 @@ void tableDialog::calcTable()
 
 
         //calculation
-        if(!calc(dummy,globalpara,"tableCalc",i))
+        if(!calc(globalpara,"tableCalc",i))
         {
             for(int p = 0; p < (inputEntries.count());p++)
             {
@@ -1303,7 +1301,6 @@ void tableDialog::on_calculateButton_clicked()
 
 void tableDialog::updatesystem()
 {
-    myDummy = dummy;
     qDebug()<<outputs.t[1]<<outputs.t[2]<<outputs.t[3]<<outputs.t[4]<<outputs.t[5]<<outputs.t[6];
 
     //    sp para

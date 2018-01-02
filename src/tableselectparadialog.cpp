@@ -442,7 +442,7 @@ void tableSelectParaDialog::on_OKButton_clicked()
         if(theScene->tableWindow!=NULL)
             theScene->tableWindow->close();
         setupXml();
-        theScene->tableWindow = new tableDialog();
+        theScene->tableWindow = new tableDialog(dummy, "", theMainwindow);
         theScene->tableWindow->setModal(true);
         this->accept();
         theScene->tableWindow->exec();

@@ -230,9 +230,11 @@ private:
      * @return A map counting tables and plots, like {'table': 1, 'plot': 2}.
      */
     QMap<QString,int> hasTPData(bool lookForTable);
-    calculate * mycal;
+
     myScene *scene;
     myView *view;
+
+    // TODO: move to ui?
     QAction* openTWindow;
     QAction* openPWindow;
 

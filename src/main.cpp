@@ -14,10 +14,12 @@
 
 #include "mainwindow.h"
 #include <QApplication>
+#include <QDomImplementation>
 
 int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);
+    QDomImplementation::setInvalidDataPolicy(QDomImplementation::ReturnNullNode);
     MainWindow w;
     w.show();
     return a.exec();

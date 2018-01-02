@@ -2459,7 +2459,7 @@ void MainWindow::openTableWindow()
         // TODO: remove tableWindow from scene (never used)
         if(scene->tableWindow!=NULL)
             scene->tableWindow->close();
-        scene->tableWindow = new tableDialog(startTName, this);
+        scene->tableWindow = new tableDialog(dummy, startTName, this);
         scene->tableWindow->exec();
     }
 }
@@ -3036,13 +3036,12 @@ void MainWindow::on_actionRun_triggered()
         if(gDialog.exec() == QDialog::Accepted)
         {
             fname = "Project";
-            // TODO: remove field from mainwindow (used only locally)
-            mycal = new calculate;
-            mycal->calc(dummy,globalpara,fname);
-            delete mycal;
-
+            // 2017-12-30: removed this field from mainwindow (used only locally)
+            // TODO: why is it a class?
+            // calculate::updateSystem() is never called.
+            calculate mycal(dummy);
+            mycal.calc(globalpara,fname);
         }
-//        }
     }
 
     if(hasCopcap()>0){

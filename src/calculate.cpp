@@ -33,15 +33,15 @@ extern MainWindow*theMainwindow;
 extern globalparameter globalpara;
 extern calOutputs outputs;
 
-calculate::calculate()
+calculate::calculate(unit * dummy) :
+    myDummy(dummy)
 {
 
 }
 
-void calculate::calc(unit*mdummy,globalparameter globalpara, QString fileName)
+void calculate::calc(globalparameter globalpara, QString fileName)
 
 {
-    myDummy = mdummy;
     bool error = false;
 
 
@@ -73,7 +73,7 @@ void calculate::calc(unit*mdummy,globalparameter globalpara, QString fileName)
         conv = 1.8;
     }
 
-    myHead = myDummy->next;
+    unit * myHead = myDummy->next;
     int count = 1;
     while (myHead!= NULL)
     {
@@ -315,8 +315,6 @@ void calculate::calc(unit*mdummy,globalparameter globalpara, QString fileName)
 bool calculate::updateSystem()
 
 {
-    myDummy = dummy;
-
 //    sp para
     unit * iterator;
     Node* node;

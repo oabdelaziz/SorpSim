@@ -22,10 +22,10 @@ class tableDialog : public QDialog
     Q_OBJECT
     
 public:
-    explicit tableDialog(QString startTable = "",QWidget *parent = 0);
+    explicit tableDialog(unit * dummy, QString startTable = "",QWidget *parent = 0);
     ~tableDialog();
 
-    bool calc(unit*dummy, globalparameter globalpara, QString fileName,int run);
+    bool calc(globalparameter globalpara, QString fileName, int run);
 
     bool updateXml();
     void calcTable();
@@ -78,9 +78,8 @@ private slots:
 
 private:
     Ui::tableDialog *ui;
-    unit * myHead;
-    unit * myDummy;
-    QString myFileName;
+    unit * const myDummy;
+
     QDialog*currentDialog;
     QList<QTableWidgetItem*> selected;
     QByteArray myByteArray;

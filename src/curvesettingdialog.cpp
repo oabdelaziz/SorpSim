@@ -212,6 +212,10 @@ void curvesetting::on_lineEdit_linetitle_textChanged(const QString &arg1)//set c
     {
         int bgLineCount = ui->bgList->count();
         QString curveName = arg1;
+        // TODO: replace() removes # from automatically generated titles without user interaction.
+        // (Change is not reflected in XML until later.)
+        // Change is not reflected in this lineEdit field!
+        // Change is not reflected in list of curves, which can then be deleted!!!
         curveName.replace(QRegExp("[^a-zA-Z0-9_]"), "");
         if(curveName.count()==0)
             curveName = "curve_"+QString::number(ui->listWidget->currentRow());
@@ -566,9 +570,21 @@ void curvesetting::on_deleteCurveButton_clicked()
             }
             else
             {
-                thisCurve = currentPlot.elementsByTagName(delCurveName).at(0);
-                qDebug()<<"revoming curve"<<delCurveName;
-                currentPlot.removeChild(thisCurve);
+                QDomNodeList curveNodeList = currentPlot.elementsByTagName("curveList").at(0).childNodes();
+                bool found = false;
+                for (int i = 0; i < curveNodeList.count(); ++i)
+                {
+                    thisCurve = curveNodeList.at(i);
+                    if (thisCurve.toElement().attribute("title") == delCurveName)
+                    {
+                        qDebug()<<"revoming curve"<<delCurveName;
+                        currentPlot.removeChild(thisCurve);
+                        found = true;
+                    }
+                }
+                if (!found) {
+                    qDebug() << "Failed to find in XML any <curve> with title" << delCurveName << ".";
+                }
                 file.resize(0);
                 doc.save(stream,4);
                 file.close();
