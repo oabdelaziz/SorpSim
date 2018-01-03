@@ -123,6 +123,7 @@ public:
     bool isParametric;
 
     void setupNewPropertyCurve(QString title, bool isDuhring);
+    void getCurveByTitle(const QString &title, QwtPlotCurve *&result, int &i);
 
 private Q_SLOTS:
     void moved( const QPoint & );
@@ -133,6 +134,7 @@ private Q_SLOTS:
     void print();
 #endif
 
+    // TODO: implement this method
     void exportDocument();
     void enableZoomMode( bool );
 

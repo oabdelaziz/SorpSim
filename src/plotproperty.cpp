@@ -671,7 +671,7 @@ Plot::Plot(QMultiMap<double, double> data, QStringList xValues, int curveCount, 
     const int nRuns = xValues.count();
     const int nCurves = curveCount;
     QString inAxis = axis_name.at(0);
-    QStringList outAxis;
+    QStringList outAxis; // TODO: make a deep copy (also, why bother?)
     for(int i = 1; i < axis_name.count();i++)
         outAxis<<axis_name.at(i);
 
@@ -902,4 +902,18 @@ void Plot::setupNewPropertyCurve(QString title, bool isDuhring)
     curvelist<<thisCurve;
     curvePoints.append(thePoints);
     curveMarkers.append(theMarkers);
+}
+
+void Plot::getCurveByTitle(const QString &title, QwtPlotCurve * &result, int &i)
+{
+    for (i = 0; i < curvelist.size(); ++i)
+    {
+        result = curvelist.at(i);
+        if (title == result->title().text())
+        {
+            return;
+        }
+    }
+    result = NULL;
+    i = -1;
 }

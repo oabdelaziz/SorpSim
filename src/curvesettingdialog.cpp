@@ -211,17 +211,20 @@ void curvesetting::on_lineEdit_linetitle_textChanged(const QString &arg1)//set c
     if(ui->listWidget->count()>0&&ui->listWidget->currentRow()!=-1)
     {
         int bgLineCount = ui->bgList->count();
+        int listIndex = ui->listWidget->currentRow()+bgLineCount;
+        QString oldCurveName = curvelistset->at(listIndex)->title().text();
         QString curveName = arg1;
         // TODO: replace() removes # from automatically generated titles without user interaction.
         // (Change is not reflected in XML until later.)
         // Change is not reflected in this lineEdit field!
         // Change is not reflected in list of curves, which can then be deleted!!!
-        curveName.replace(QRegExp("[^a-zA-Z0-9_]"), "");
+        //curveName.replace(QRegExp("[^a-zA-Z0-9_]"), "");
         if(curveName.count()==0)
             curveName = "curve_"+QString::number(ui->listWidget->currentRow());
         if(curveName.at(0).isDigit())
             curveName = "curve_"+curveName;
-        curvelistset->at(ui->listWidget->currentRow()+bgLineCount)->setTitle(curveName);
+        curvelistset->at(listIndex)->setTitle(curveName);
+        ui->lineEdit_linetitle->setText(curveName);
     }
 }
 
@@ -517,11 +520,35 @@ void curvesetting::on_deleteCurveButton_clicked()
     QString delCurveName;
     int bgLineCount = ui->bgList->count();
     delCurveName = set_plot->curvelist.at(bgLineCount+ui->listWidget->currentIndex().row())->title().text();
+    int myRow = ui->listWidget->currentRow();
+    int markerRows = set_plot->curveMarkers.count();
+    // TODO: caution here, if curve is missing somehow
+    // Hint: curveMakers are only created for specialty plots (Duhring, Clapeyron)
+    // See Plot::setupNewPropertyCurve
+#ifdef QT_DEBUG
+
+    qDebug() << "set_plot->curveMarkers debug info:";
+
+    qDebug() << "Count of lists of curve markers:" << markerRows;
+    qDebug() << "Looking for list number" << myRow;
+    if (myRow < markerRows)
+    {
+        qDebug() << "This list has " << set_plot->curveMarkers.at(myRow).count() << "elements.";
+        qDebug() << set_plot->curveMarkers.at(myRow);
+    }
+    else
+    {
+        qDebug() << "Clearly not enough lists! Giving up gracefully.";
+    }
+#endif
+    if !(myRow < markerRows)
+        return;
+
     set_plot->curvelist.at(bgLineCount+ui->listWidget->currentIndex().row())->detach();
     set_plot->curvelist.removeAt(bgLineCount+ui->listWidget->currentIndex().row());
     set_plot->replot();
     set_plot->curvePoints.removeAt(ui->listWidget->currentIndex().row());
-    // TODO: caution here, if curve is missing somehow
+
     foreach(QwtPlotMarker*marker,set_plot->curveMarkers.at(ui->listWidget->currentRow()))
         marker->detach();
     set_plot->curveMarkers.removeAt(ui->listWidget->currentRow());
@@ -602,6 +629,7 @@ void curvesetting::setLists()
     disconnect(ui->bgList,SIGNAL(itemChanged(QListWidgetItem*)),this,SLOT(bgCurveToggled(QListWidgetItem*)));
     //background list and curve list widget
 //    QwtPlotCurve* thisCurve;
+    // TODO: find a better way to flag specialized plots
     if(curvelistset->count()>=28)//duhring
     {
         for(int i = 0; i < 28; i++)

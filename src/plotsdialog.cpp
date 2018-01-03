@@ -1142,11 +1142,11 @@ void plotsDialog::savePlotSettings()
                 QwtPlotCurve *dumpCurve;
                 for(int i = 0; i < set_plot->curvelist.count();i++)
                 {
-                    // TODO: generates invalid XML by taking raw curve title as tag.
+                    // FIXED: generates valid XML
                     // Suggested fix: structure xml like this:
                     // <curveList>
-                    //   <curve title="HeatTransferValuecomponent#1kW" lineType="1" lineSize="2" isVisible="true" lineColor="#000000"/>
-                    // </curves>
+                    //   <curve title="Heat Transfer Valuecomponent#1kW" lineType="1" lineSize="2" isVisible="true" lineColor="#000000"/>
+                    // </curveList>
                     currentCurve = doc.createElement("curve");
                     curveList.appendChild(currentCurve);
                     dumpCurve = set_plot->curvelist[i];
