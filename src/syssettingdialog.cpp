@@ -34,7 +34,7 @@ sysSettingDialog::sysSettingDialog(QWidget *parent) :
     ui->setupUi(this);
 
     setWindowTitle("System Settings");
-    setWindowFlags(Qt::Tool);
+    setWindowFlags(Qt::Dialog);
     setWindowModality(Qt::ApplicationModal);
 
 //    this->setStyleSheet("background:white");

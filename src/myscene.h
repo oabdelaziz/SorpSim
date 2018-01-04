@@ -29,7 +29,7 @@ QT_END_NAMESPACE
 class myScene :public  QGraphicsScene
 {
 public:
-    myScene();
+    myScene(QObject * parent = NULL);
     tableSelectParaDialog * tDialog;
     editTableDialog * etDialog;
     plotsDialog* plotWindow;

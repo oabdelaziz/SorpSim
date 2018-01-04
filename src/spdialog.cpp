@@ -38,7 +38,7 @@ spDialog::spDialog(Node* sp, QWidget *parent) :
     ui->setupUi(this);
     initializing = true;
 
-    setWindowFlags(Qt::Tool);
+    setWindowFlags(Qt::Dialog);
     setWindowModality(Qt::ApplicationModal);
     reSet = reset;
     myNode = sp;

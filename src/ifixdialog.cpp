@@ -44,7 +44,7 @@ ifixDialog::ifixDialog(QWidget *parent) :
     ui(new Ui::ifixDialog)
 {
     ui->setupUi(this);
-    setWindowFlags(Qt::Tool);
+    setWindowFlags(Qt::Dialog);
     setWindowModality(Qt::ApplicationModal);
     setWindowTitle("Temperature");
     ui->label->setText("Please define state points that have same temperature.");

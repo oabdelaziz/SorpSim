@@ -40,7 +40,7 @@ QDialog(parent),ui(new Ui::editUnitDialog)
     ui->setupUi(this);
 
     tempUnit = myUnit;
-    setWindowFlags(Qt::Tool);
+    setWindowFlags(Qt::Dialog);
     setWindowModality(Qt::ApplicationModal);
     setWindowTitle("Component Parameters");
     QString label;

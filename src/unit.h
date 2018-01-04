@@ -32,6 +32,9 @@ class Node;
  *         // Clean up
  *         mainWindow::deleteunit(...);
  *     }
+ *
+ * TODO: is not a QObject so should not be passed as a parent to items.
+ * Therefore, it doesn't clean up those items, and we need to fix that.
  */
 class unit : public QGraphicsItem
 {

@@ -33,7 +33,7 @@ unitsetting::unitsetting(QWidget *parent) :
 
 
     setWindowTitle("Unit system");
-    setWindowFlags(Qt::Tool);
+    setWindowFlags(Qt::Dialog);
     setWindowModality(Qt::ApplicationModal);
     QLayout *mainLayout = layout();
     mainLayout->setSizeConstraint(QLayout::SetFixedSize);

@@ -76,7 +76,8 @@ extern QMenuBar* theMenuBar;
 extern QToolBar* theToolBar;
 
 
-myScene::myScene()
+myScene::myScene(QObject *parent)
+    : QGraphicsScene(parent)
 {
     sel_plot=NULL;
     overlaydialog=NULL;
@@ -724,6 +725,7 @@ void myScene::drawLink(Node *node1, Node *node2)
 void myScene::drawAUnit(unit* unit)
 {
     QPen pen(Qt::white);
+    // Create a rect owned by (QGraphicsScene)this.
     rect = this->addRect(mousex-50,mousey-50,+100,+100);
     rect->setFlags(QGraphicsItem::ItemIsMovable|QGraphicsItem::ItemIsSelectable);
     rect->setPen(pen);
@@ -750,6 +752,7 @@ void myScene::drawAUnit(unit* unit)
 
     head->moveBy(mousex,mousey);
 
+    // Transfers ownership of the unit to rect.
     head->setParentItem(rect);
 
 }

@@ -44,7 +44,7 @@ ipfixDialog::ipfixDialog(QWidget *parent) :
     ui(new Ui::ipfixDialog)
 {
     ui->setupUi(this);
-    setWindowFlags(Qt::Tool);
+    setWindowFlags(Qt::Dialog);
     setWindowModality(Qt::ApplicationModal);
     setWindowTitle("Pressure");
     ui->label->setText("Please define state points that have same pressure.");

@@ -41,7 +41,7 @@ linkDialog::linkDialog(Node *sp1, Node *sp2, QWidget *parent) :
     ui->setupUi(this);
 
     setWindowTitle("Linking");
-    setWindowFlags(Qt::Tool);
+    setWindowFlags(Qt::Dialog);
     setWindowModality(Qt::ApplicationModal);
 
     QApplication::restoreOverrideCursor();

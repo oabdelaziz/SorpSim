@@ -674,10 +674,8 @@ Plot::Plot(QMultiMap<double, double> data, QStringList xValues, int curveCount, 
 {
     const int nRuns = xValues.count();
     const int nCurves = curveCount;
-    QString inAxis = axis_name.at(0);
-    QStringList outAxis; // TODO: make a deep copy (also, why bother?)
-    for(int i = 1; i < axis_name.count();i++)
-        outAxis<<axis_name.at(i);
+    QStringList outAxis(axis_name);
+    QString inAxis = outAxis.takeFirst();
 
     plotselect=false;
     isParametric = true;
@@ -789,7 +787,7 @@ double Plot::cal_rt_p(double pres)
         if(up>pres && down<pres) return i;
         down=up;
     }
-    // TODO: we gave up at 180, is that intentional?
+    // TODO: we gave up at 180, is that the intent?
     return i;
 }
 

@@ -145,7 +145,7 @@ MainWindow::MainWindow(QWidget *parent) :
     setWindowTitle("SorpSim");
     theMainwindow=this;
     view = new myView(this);
-    scene = new myScene();
+    scene = new myScene(this);
     theScene = scene;
     scene->setSceneRect(-100000,-100000,200000,200000);
     view->setScene(scene);
@@ -316,6 +316,15 @@ void MainWindow::on_actionDelete_triggered()
 
         if(items.first()->zValue() == 2)//for deleting units
         {
+            // TODO: Need to do all:
+            // (a) remove selected units from the global linked list (done by deleteunit)
+            // (b) delete the units (done by deleteunit) (also done by qDeleteAll)
+            // (c) remove the rects that own them from the scene
+            // (d) delete the rects (done by qDeleteAll)
+            // As it is, steps (a) and (b) were only applied to the first selected unit,
+            // though steps (d) was applied to all units. This results in a bug
+            // where the user selects multiple units, deletes them, opens the master
+            // dialog, and crashes the program.
             QGraphicsRectItem * rect = dynamic_cast<QGraphicsRectItem *>(items.first());
             QList<QGraphicsItem *> rectitem = rect->childItems();
             unit * delunit = dynamic_cast<unit *>(rectitem.first());
@@ -503,7 +512,6 @@ void MainWindow::deleteunit(unit *delunit)
 
 }
 
-// TODO: never deletes memory allocated for dellink
 void MainWindow::deletelink(Link *dellink)
 {
     Node * node1 = dellink->myFromNode;
@@ -890,8 +898,9 @@ void MainWindow::newCase()
                 QPen pen(Qt::white);
                 pen.setWidth(0);
                 scene->copRect->setPen(pen);
-                // TODO: manage memory of scene->copcap (COP and capacity caption) ...
-                // TODO: and manage memory of parent, scene->copRect.
+                // Note: memory of scene->copcap (COP and capacity caption) ...
+                // and memory of parent, scene->copRect ...
+                // are now owned by scene. MainWindow::defaultTheSystem will clear scene.
                 scene->copcap = new QGraphicsSimpleTextItem(scene->copRect);
                 scene->copcap->setFont(font);
                 scene->copcap->setBrush(Qt::magenta);
@@ -1657,8 +1666,9 @@ bool MainWindow::loadOutFile()
                     line = stream.readLine();
                 }while(!line.contains("INPUT"));
 
-                // TODO: Does this block ever store loadUnit? ...
-                // TODO: Yes, the line scene->drawAUnit(loadUnit); has a side effect of storing the pointer.
+                // Note: Does this block ever store loadUnit? ...
+                // Yes, the code `scene->drawAUnit(loadUnit);` has a side effect of storing the pointer
+                // in a rect belonging to the scene.
                 //load components
                 for(int i = 0; i < unitCount; i ++)
                 {
@@ -2499,8 +2509,7 @@ void MainWindow::openPlotWindow()
     }
     else
     {
-        // TODO: remove plotWindow from scene (never used).
-        scene->plotWindow = new plotsDialog(startPName);
+        scene->plotWindow = new plotsDialog(startPName, false, this);
         scene->plotWindow ->exec();
     }
 
@@ -3038,7 +3047,6 @@ void MainWindow::on_actionRun_triggered()
             fname = "Project";
             // 2017-12-30: removed this field from mainwindow (used only locally)
             // TODO: why is it a class?
-            // calculate::updateSystem() is never called.
             calculate mycal(dummy);
             mycal.calc(globalpara,fname);
         }
@@ -4024,9 +4032,8 @@ void MainWindow::on_actionMaster_Control_Panel_triggered()
             globalpara.LDACcount += 1;
     }
 
-    // TODO: manage memory and pointer theMasterDialog
-    masterDialog * mDialog = new masterDialog(this);
-    mDialog->exec();
+    masterDialog mDialog(this);
+    mDialog.exec();
 
     globalpara.resetIfixes('t');
     globalpara.resetIfixes('f');
@@ -4336,9 +4343,7 @@ void MainWindow::on_actionRotate_Clockwise_triggered()
     }
     if(!done)
     {
-        // TODO: enable if desired, delete if not
-        // (Original code omitted call to exec() and therefore had no effect.)
-        //QMessageBox::warning(this,"Warning","Please select a component to apply the rotation!");
+        theStatusBar->showMessage("Rotate: select a component first");
     }
 }
 
@@ -4602,6 +4607,8 @@ void MainWindow::defaultTheSystem()
     globalpara.sceneText.clear();
 
     QList<QGraphicsItem*> sceneItems = scene->items();
+    // TODO: is simply removing items (no delete)
+    // Should: delete and remove all items
     foreach (QGraphicsItem* item, sceneItems)
         scene->removeItem(item);
 

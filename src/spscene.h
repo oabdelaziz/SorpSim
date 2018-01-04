@@ -7,7 +7,7 @@
 class spScene :public QGraphicsScene
 {
 public:
-    spScene();
+    spScene(QObject *parent = NULL);
 
     void drawUnit(unit * unit);
 private:

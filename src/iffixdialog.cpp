@@ -45,7 +45,7 @@ iffixDialog::iffixDialog(QWidget *parent) :
     ui(new Ui::iffixDialog)
 {
     ui->setupUi(this);
-    setWindowFlags(Qt::Tool);
+    setWindowFlags(Qt::Dialog);
     setWindowModality(Qt::ApplicationModal);
     setWindowTitle("Mass Flow Rate");
     ui->label->setText("Please define state points that have same mass flow rate.");

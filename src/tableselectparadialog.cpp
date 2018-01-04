@@ -65,7 +65,7 @@ tableSelectParaDialog::tableSelectParaDialog(QWidget *parent) :
     ui(new Ui::tableSelectParaDialog)
 {
     ui->setupUi(this);
-    setWindowFlags(Qt::Tool);
+    setWindowFlags(Qt::Dialog);
     setWindowModality(Qt::ApplicationModal);
     setWindowTitle("Setup new table");
 

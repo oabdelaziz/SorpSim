@@ -43,7 +43,7 @@ icfixDialog::icfixDialog(QWidget *parent) :
     ui(new Ui::icfixDialog)
 {
     ui->setupUi(this);
-    setWindowFlags(Qt::Tool);
+    setWindowFlags(Qt::Dialog);
     setWindowModality(Qt::ApplicationModal);
     setWindowTitle("Concentration");
     ui->label->setText("Please define state points that have same concentration.");

@@ -81,9 +81,13 @@ plotsDialog::plotsDialog(QString startPlot, bool fromTable, QWidget *parent) :
 
     tabs = ui->tabWidget;
 //    setContextMenuPolicy(Qt::NoContextMenu);
-    setWindowFlags(Qt::Window);
+    setWindowFlags(Qt::Dialog);
     setWindowModality(Qt::WindowModal);
     setWindowTitle("Plots");
+    // Allows us to kill this with this->close(), as used
+    // throughout code since a myScene object keeps a pointer to this.
+    // TODO: This allows bad style. Instead get rid of myScene::plotWindow, or make this constructor private, etc.
+    setAttribute(Qt::WA_DeleteOnClose);
 
     connect(tabs,SIGNAL(currentChanged(int)),SLOT(resetZoomer(int)));
 
@@ -129,6 +133,9 @@ plotsDialog::plotsDialog(QString startPlot, bool fromTable, QWidget *parent) :
 
 plotsDialog::~plotsDialog()
 {
+#ifdef QT_DEBUG
+    qDebug() << "plotsDialog: destroying now at" << this;
+#endif
     delete ui;
 }
 
@@ -689,6 +696,7 @@ void plotsDialog::on_exportMenuButton_triggered(QAction *arg1)
 //        qDebug()<<"They want data!";
 }
 
+// TODO: strange things happen after this action
 void plotsDialog::on_dataSelectButton_clicked()
 {
     QString pName = tabs->tabText(tabs->currentIndex());

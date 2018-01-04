@@ -53,7 +53,7 @@ altervDialog::altervDialog(QWidget *parent) :
     ui->firstValueLE->setValidator(regExpValidator);
     ui->lastValueLE->setValidator(regExpValidator);
 
-    setWindowFlags(Qt::Tool);
+    setWindowFlags(Qt::Dialog);
     QLayout *mainLayout = layout();
     mainLayout->setSizeConstraint(QLayout::SetFixedSize);
 

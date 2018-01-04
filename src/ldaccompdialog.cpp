@@ -35,7 +35,7 @@ LDACcompDialog::LDACcompDialog(unit* unit, QWidget *parent) :
     ui->setupUi(this);
     ldacDialog = this;
     myUnit = unit;
-    setWindowFlags(Qt::Tool);
+    setWindowFlags(Qt::Dialog);
     setWindowModality(Qt::ApplicationModal);
     setWindowTitle("LDAC Component Parameters");
     ui->NTUmtip->setText("\nMass transfer between desiccant and air");

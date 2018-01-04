@@ -81,7 +81,7 @@ editPropertyCurveDialog::editPropertyCurveDialog(Plot*d_plot, QList<QwtPlotCurve
 {
     ui->setupUi(this);
 
-    setWindowFlags(Qt::Window);
+    setWindowFlags(Qt::Dialog);
     setWindowTitle("Edit property curve");
 
     QLayout *mainLayout = layout();

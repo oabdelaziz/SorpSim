@@ -36,7 +36,7 @@ pumpDialog::pumpDialog(unit* theComp, bool first,QWidget *parent) :
     else if(myUnit->idunit==121)//pump
         name = "Pump";
     setWindowTitle("Define the "+name);
-    setWindowFlags(Qt::Tool);
+    setWindowFlags(Qt::Dialog);
     setWindowModality(Qt::ApplicationModal);
     ui->COPlabel->setText("Energy Consumption of the "+name+" Added to System COP's");
     ui->efficiencyLabel->setText("Isentropic Efficiency");

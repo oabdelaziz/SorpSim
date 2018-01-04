@@ -98,7 +98,7 @@ tableDialog::tableDialog(unit * dummy, QString startTable, QWidget * parent) :
     theTablewindow=this;
     currentDialog = NULL;
     setWindowModality(Qt::WindowModal);
-    setWindowFlags(Qt::Window);
+    setWindowFlags(Qt::Dialog);
 
 
     setWindowTitle("Parametric Tables");
@@ -1853,9 +1853,8 @@ void tableDialog::on_exportBox_activated(const QString &arg1)
     else if(arg1 == "Export to text file")
     {
         QRect oldGeo = geometry();
-        QFileDialog * fDialog = new QFileDialog;
         QString fileName = "setTheNameForExport";
-        fileName = fDialog->getSaveFileName(this,"Export table as..","./","Text File(*.txt)");
+        fileName = QFileDialog::getSaveFileName(this,"Export table as..","./","Text File(*.txt)");
         if(fileName!="")
         {
             selected.clear();

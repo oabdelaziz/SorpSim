@@ -43,13 +43,13 @@ NTUestimateDialog::NTUestimateDialog(unit *estUnit, QWidget *parent) :
     ui->setupUi(this);
     myUnit = estUnit;
 
-    setWindowFlags(Qt::Tool);
+    setWindowFlags(Qt::Dialog);
     setWindowModality(Qt::ApplicationModal);
     setWindowTitle("Automatic NTU estimation");
 
-    // TODO: "the view does not take ownership of scene." ...
-    // TODO: ... So we need to delete spScene eventually.
-    myScene = new spScene;
+    // Note: "the view does not take ownership of scene." ...
+    // So we pass ownership of the spScene to this for automatic deletion by ~QObject.
+    myScene = new spScene(this);
     ui->myView->setScene(myScene);
     ui->myView->setRenderHint(QPainter::TextAntialiasing);
 
@@ -210,13 +210,13 @@ void NTUestimateDialog::displayComponent(int idunit)
 {
     myScene->clear();
 
-    // TODO: do we need to delete disUnit?
     unit* disUnit = new unit;
     disUnit->idunit = idunit;
     disUnit->initialize();
     for(int i = 0; i < disUnit->usp;i++)
         disUnit->myNodes[i]->text->setText(QString::number(i+1));
 
+    // This call will pass ownership of unit to the scene.
     myScene->drawUnit(disUnit);
 
     ui->myView->centerOn(disUnit);

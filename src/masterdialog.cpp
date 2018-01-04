@@ -38,7 +38,6 @@ extern int spnumber;
 extern QRect mainwindowSize;
 extern MainWindow*theMainwindow;
 
-masterDialog*theMasterDialog;
 
 bool initializing;
 masterDialog::masterDialog(QWidget *parent) :
@@ -47,8 +46,7 @@ masterDialog::masterDialog(QWidget *parent) :
 {
     ui->setupUi(this);
 
-    theMasterDialog = this;
-    setWindowFlags(Qt::Tool);
+    setWindowFlags(Qt::Dialog);
     setWindowModality(Qt::WindowModal);
     setWindowTitle("Master Panel");
     initializing = true;
@@ -994,15 +992,6 @@ void masterDialog::on_exportBox_currentTextChanged(const QString &arg1)
 
 void masterDialog::on_guessButton_clicked()
 {
-    // TODO: did you want this to be a modal dialog?
-    // See documention for QDialog, section Modal Dialogs.
-    theMasterDialog=this;
-    guessDialog * gDialog = new guessDialog(true,theMainwindow);
-    // If so, guessDialog constructor already made it modal ...
-    gDialog->exec();
-    gDialog->deleteLater();
-    // Else, you wanted a modeless dialog ...
-    //gDialog->setModal(false);
-    //gDialog->show();
-    //gDialog->raise();
+    guessDialog gDialog(true,this);
+    gDialog.exec();
 }

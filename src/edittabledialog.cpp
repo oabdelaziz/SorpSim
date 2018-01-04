@@ -61,7 +61,7 @@ editTableDialog::editTableDialog(QString theTableName, QWidget *parent) :
     ui(new Ui::editTableDialog)
 {
     ui->setupUi(this);
-    setWindowFlags(Qt::Tool);
+    setWindowFlags(Qt::Dialog);
     setWindowModality(Qt::ApplicationModal);
     setWindowTitle("Edit Table");
 

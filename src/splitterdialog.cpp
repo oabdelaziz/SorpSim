@@ -29,7 +29,7 @@ splitterDialog::splitterDialog(unit* myunit, bool first, QWidget *parent) :
     ui->sp2SpinBox->setMaximum(1);
     ui->sp1SpinBox->setSingleStep(0.05);
     ui->sp2SpinBox->setSingleStep(0.05);
-    setWindowFlags(Qt::Tool);
+    setWindowFlags(Qt::Dialog);
     setWindowModality(Qt::ApplicationModal);
     setWindowTitle("Define Splitter");
 

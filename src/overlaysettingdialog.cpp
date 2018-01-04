@@ -87,7 +87,7 @@ overlaysetting::overlaysetting(Plot *d_plot,QWidget *parent):
 
     ui->setupUi(this);
 
-    setWindowFlags(Qt::Window);
+    setWindowFlags(Qt::Dialog);
     setWindowModality(Qt::WindowModal);
     setWindowTitle("Overlay property plot");
 

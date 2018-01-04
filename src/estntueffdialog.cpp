@@ -30,7 +30,7 @@ estNtuEffDialog::estNtuEffDialog(Node *airInlet, QWidget *parent) :
     ui->setupUi(this);
     QString mai = QString::number(airInlet->f,'f',4);
     ui->maLine->setText(mai);
-    setWindowFlags(Qt::Tool);
+    setWindowFlags(Qt::Dialog);
     setWindowModality(Qt::WindowModal);
     setWindowTitle("Estimate NTU");
     connect(ui->maLine,SIGNAL(textEdited(QString)),this,SLOT(calculate(QString)));

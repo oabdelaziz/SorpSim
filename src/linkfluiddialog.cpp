@@ -32,7 +32,7 @@ linkFluidDialog::linkFluidDialog(Node *node1, Node *node2, bool withBox, QWidget
     QApplication::restoreOverrideCursor();
     ui->setupUi(this);
     setWindowTitle("Setup fluid in link");
-    setWindowFlags(Qt::Tool);
+    setWindowFlags(Qt::Dialog);
     setWindowModality(Qt::ApplicationModal);
     myNode1 = node1;
     myNode2 = node2;

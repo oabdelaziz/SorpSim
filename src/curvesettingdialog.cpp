@@ -247,6 +247,7 @@ void curvesetting::on_comboBox_currentIndexChanged(QString text)//line color com
     set_plot->replot();
 }
 
+// TODO: double check that currentRow hasn't just been deleted before accessing it.
 void curvesetting::on_listWidget_currentRowChanged(int currentRow)//load current line status
 {
     if(ui->listWidget->count()>0&&currentRow!=-1)

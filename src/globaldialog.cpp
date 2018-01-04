@@ -31,7 +31,7 @@ GlobalDialog::GlobalDialog(QWidget *parent) :
     ui->convtolerancev->setText(QString::number(globalpara.xtol));
 
     setWindowTitle("Set Calculation Control");
-    setWindowFlags(Qt::Tool);
+    setWindowFlags(Qt::Dialog);
     setWindowModality(Qt::ApplicationModal);
 
     QLayout *mainLayout = layout();

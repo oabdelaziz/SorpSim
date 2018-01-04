@@ -32,7 +32,6 @@ extern int globalcount;
 extern int spnumber;
 extern QRect mainwindowSize;
 extern MainWindow*theMainwindow;
-extern masterDialog * theMasterDialog;
 
 int nv,nt,nf,np,nc,nw;
 
@@ -49,7 +48,7 @@ guessDialog::guessDialog(bool fromMasterDialog, QWidget *parent) :
     nc = 0;
     nw = 0;
     ui->setupUi(this);
-    setWindowFlags(Qt::Tool);
+    setWindowFlags(Qt::Dialog);
     setWindowModality(Qt::WindowModal);
     setWindowTitle("Guess Value");
     QStringList sHeader;
@@ -258,24 +257,7 @@ void guessDialog::showEvent(QShowEvent *e)
     adjustTableSize();
 }
 
-bool guessDialog::event(QEvent *e)
-{
-    if(e->type()==QEvent::ActivationChange)
-    {
-        if(qApp->activeWindow()==this)
-        {
-            theMainwindow->show();
-            theMainwindow->raise();
-            // TODO: is this necessary?
-            if(fromMDialog){
-                theMasterDialog->raise();
-            }
-            this->raise();
-            this->setFocus();
-        }
-    }
-    return QDialog::event(e);
-}
+
 
 void guessDialog::on_exportBox_currentTextChanged(const QString &arg1)
 {

@@ -26,7 +26,7 @@ startDialog::startDialog(QWidget *parent) :
 {
     ui->setupUi(this);
 
-    setWindowFlags(Qt::Tool);
+    setWindowFlags(Qt::Dialog);
     setWindowModality(Qt::WindowModal);
     setWindowTitle(" ");
     ui->label->setText("Welcome to SorpSim!");

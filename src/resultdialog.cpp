@@ -48,7 +48,7 @@ resultDialog::resultDialog(QWidget *parent) :
     ui->setupUi(this);
 
     initializing = true;
-    setWindowFlags(Qt::Tool);
+    setWindowFlags(Qt::Dialog);
     setWindowModality(Qt::WindowModal);
     setWindowTitle("Results");
 

@@ -90,20 +90,18 @@ void newParaPlotDialog::on_okButton_clicked()
             if(theScene->plotWindow!=NULL)
                 theScene->plotWindow->close();
             setupXml();
-            theScene->plotWindow = new plotsDialog();
+            theScene->plotWindow = new plotsDialog("",false,theMainwindow);
             this->accept();
             theScene->plotWindow->exec();
-            // TODO: delete plotWindow when done
         }
         else if(mode==1)
         {
             if(theScene->plotWindow!=NULL)
                 theScene->plotWindow->close();
             setupXml();
-            theScene->plotWindow = new plotsDialog("",true);
+            theScene->plotWindow = new plotsDialog("",true,theMainwindow);
             this->accept();
             theScene->plotWindow->exec();
-            // TODO: delete plotWindow when done
         }
         else
             this->accept();
@@ -166,6 +164,9 @@ bool newParaPlotDialog::setupXml()
         return false;
     }
 
+    // TODO: the only usage of setupXml(), newPropPlotDialog::on_okButton_clicked(), already closed the window.
+    // So get rid of this code?
+    // Also, if this is meant to lock the XML, that's a bad implementation of a mutex.
     if(mode!=2)
     {
         if(theScene->plotWindow!=NULL)
@@ -583,7 +584,7 @@ bool newParaPlotDialog::readTheFile(QString tableName)
         }
 
     }
-    // TODO: member tablevalue is never referenced after being set in this function. Why? Is that a mistake?
+    // TODO: member tablevalue is never referenced after being set in this function. What is intent of the array?
     // TODO: dyanmically allocated arrays are created with new, stored in tablevalue, but never delete[]'d!
 
 

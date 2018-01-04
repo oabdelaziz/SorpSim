@@ -33,7 +33,7 @@ dehumEffDialog::dehumEffDialog(unit*unit, QWidget *parent) :
     myUnit = unit;
     setWindowTitle("Effectiveness Model Setup");
     dhefDialog = this;
-    setWindowFlags(Qt::Tool);
+    setWindowFlags(Qt::Dialog);
     setWindowModality(Qt::ApplicationModal);
     if(myUnit->iht ==2)//NTU
     {

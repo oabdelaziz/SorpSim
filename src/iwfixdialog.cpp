@@ -44,7 +44,7 @@ iwfixDialog::iwfixDialog(QWidget *parent) :
     ui(new Ui::iwfixDialog)
 {
     ui->setupUi(this);
-    setWindowFlags(Qt::Tool);
+    setWindowFlags(Qt::Dialog);
     setWindowModality(Qt::ApplicationModal);
     setWindowTitle("Vapor Fraction");
     ui->label->setText("Please define state points that have same vapor fraction.");
