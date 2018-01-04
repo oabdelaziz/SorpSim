@@ -82,6 +82,8 @@ Plot::Plot(QString fluid, QString subType, QString unitSystem)
     //resize(1200,1000);
     QPolygonF points[6];
     QwtPlotCurve *curve[6];
+    // TODO: d_marker gets redefined in the local scopes of if-else cases.
+    // Also, there is a member field curveMarkers, probably supposed to capture these items.
     QwtPlotMarker * d_marker[6];
 
     ////////////////// Legend
@@ -503,6 +505,9 @@ Plot::Plot(QString fluid, QString subType, QString unitSystem)
                     d_marker[i]->attach( this );
                 }
 
+                // TODO: No reference stored, in case we want to toggle these markers.
+                // However, upon its own destruction, this (inheriting QwtPlotDict)
+                // will at least autodelete these attached markers.
                 ///////////////marker
                 QwtPlotMarker * duhring_marker;
                 QString info[8]={"Pure Water","45%","50%","55%","60%","65%","70%","Crystallization line"};
@@ -640,6 +645,8 @@ Plot::Plot(QString fluid, QString subType, QString unitSystem)
                 curve_duhr3->setSamples(points3);
                 curve_duhr3->attach(this);
 
+                // TODO: reference to these markers are never stored in case we want to toggle.
+                // Also, would be nice to reduce duplication between SI/IP versions.
                 QwtPlotMarker * clapeyron_marker;
                 QString info[3]={"Pure Water","45%","70%"};
                 QPointF info_points[3]={QPointF(-0.0017,130),QPointF(-0.0015,370),QPointF(-0.0014,97)};

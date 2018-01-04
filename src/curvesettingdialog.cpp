@@ -436,26 +436,33 @@ void curvesetting::curveToggled(QListWidgetItem *item)
         {
             thisCurve->attach(set_plot);
             thisCurve->setVisible(true);
-            foreach(QwtPlotMarker*marker,set_plot->curveMarkers.at(curveIndex))
+            // TODO: this isn't working properly
+            if (set_plot->curveMarkers.size() > curveIndex)
             {
-                marker->attach(set_plot);
-                marker->setVisible(true);
+                foreach(QwtPlotMarker*marker,set_plot->curveMarkers.at(curveIndex))
+                {
+                    marker->attach(set_plot);
+                    marker->setVisible(true);
+                }
             }
-            set_plot->replot();
         }
         else if(item->checkState()==Qt::Unchecked)
         {
             thisCurve->detach();
-            set_plot->replot();
-			// TODO: next line triggers an error when user unchecks all curves
-            foreach(QwtPlotMarker*marker,set_plot->curveMarkers.at(curveIndex))
-            {
-                marker->detach();
-                marker->setVisible(false);
-            }
             thisCurve->setVisible(false);
+			// TODO: next line triggers an error when user unchecks all curves
+            // Happens because curveMarkers may not exist for this curve.
+            // See Plot::setupNewPropertyCurve (only called from plotsDialog::loadXml)
+            if (set_plot->curveMarkers.size() > curveIndex)
+            {
+                foreach(QwtPlotMarker*marker,set_plot->curveMarkers.at(curveIndex))
+                {
+                    marker->detach();
+                    marker->setVisible(false);
+                }
+            }
         }
-
+        set_plot->replot();
     }
     else
         qDebug()<<"line not found";
@@ -541,17 +548,18 @@ void curvesetting::on_deleteCurveButton_clicked()
         qDebug() << "Clearly not enough lists! Giving up gracefully.";
     }
 #endif
-    if !(myRow < markerRows)
-        return;
+    if (myRow < markerRows)
+    {
+        foreach (QwtPlotMarker * marker, set_plot->curveMarkers.at(myRow))
+            marker->detach();
+        set_plot->curveMarkers.removeAt(myRow);
+    }
 
     set_plot->curvelist.at(bgLineCount+ui->listWidget->currentIndex().row())->detach();
     set_plot->curvelist.removeAt(bgLineCount+ui->listWidget->currentIndex().row());
     set_plot->replot();
     set_plot->curvePoints.removeAt(ui->listWidget->currentIndex().row());
 
-    foreach(QwtPlotMarker*marker,set_plot->curveMarkers.at(ui->listWidget->currentRow()))
-        marker->detach();
-    set_plot->curveMarkers.removeAt(ui->listWidget->currentRow());
     ui->listWidget->takeItem(ui->listWidget->currentRow());
 
 #ifdef Q_OS_WIN32
