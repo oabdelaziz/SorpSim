@@ -82,9 +82,6 @@ Plot::Plot(QString fluid, QString subType, QString unitSystem)
     //resize(1200,1000);
     QPolygonF points[6];
     QwtPlotCurve *curve[6];
-    // TODO: d_marker gets redefined in the local scopes of if-else cases.
-    // Also, there is a member field curveMarkers, probably supposed to capture these items.
-    QwtPlotMarker * d_marker[6];
 
     ////////////////// Legend
     //    externalLegend=new QwtLegend();
@@ -283,7 +280,7 @@ Plot::Plot(QString fluid, QString subType, QString unitSystem)
 
 
                 int MarkerLabel[7]={1,5,10,50,100,200,1000};
-                float MarkerPos[7]={6.1651,31.9467,44.8407,80.2484,98.4565,118.9317,179.9};
+                double MarkerPos[7]={6.1651,31.9467,44.8407,80.2484,98.4565,118.9317,179.9};
 
                 QwtPlotMarker * d_marker[7];
                 for (int i=0;i<7;i++)
@@ -482,7 +479,7 @@ Plot::Plot(QString fluid, QString subType, QString unitSystem)
 
 
                 int MarkerLabel[7]={5,10,50,100,500,1000,7500};
-                float MarkerPos[7]={32.8,50.6,98.8,123,189.7,224.045,356};
+                double MarkerPos[7]={32.8,50.6,98.8,123,189.7,224.045,356};
 
                 QwtPlotMarker * d_marker[7];
                 for (int i=0;i<7;i++)
@@ -785,13 +782,15 @@ double Plot::cal_rt_p(double pres)
 {
     double down=0;
     double up=0;
-    for (float i=0.1;i<180;i+=0.1)
+    double i;
+    for (i=0.1;i<180;i+=0.1)
     {
         up=pow(10,(7.05-1596.49/(i+273.15)-104095.5/pow((i+273.15),2)));
         if(up>pres && down<pres) return i;
         down=up;
     }
-
+    // TODO: we gave up at 180, is that intentional?
+    return i;
 }
 
 

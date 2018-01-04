@@ -188,7 +188,17 @@ curvesetting::curvesetting(QList<QwtPlotCurve *> * curvelist, Plot *plot, QWidge
     connect(ui->radio_Legend1,SIGNAL(toggled(bool)),ui->lineEdit_legendcol,SLOT(setHidden(bool)));
     connect(ui->radio_Legend1,SIGNAL(toggled(bool)),ui->lineEdit_legendsize,SLOT(setHidden(bool)));    
 
-
+    // Triggers to update legend
+    // position combobox
+    connect(ui->positionBox,         SIGNAL(currentIndexChanged(int)),     SLOT(setuplegend()));
+    // horizontal alignment combobox
+    connect(ui->hAlignmentBox,       SIGNAL(currentIndexChanged(int)),     SLOT(setuplegend()));
+    // vertical alignment combobox
+    connect(ui->vAlignmentBox,       SIGNAL(currentIndexChanged(int)),     SLOT(setuplegend()));
+    // internal legend column line
+    connect(ui->lineEdit_legendcol,  SIGNAL(textChanged(const QString &)), SLOT(setuplegend()));
+    // internal legend size line
+    connect(ui->lineEdit_legendsize, SIGNAL(textChanged(const QString &)), SLOT(setuplegend()));
 }
 
 curvesetting::~curvesetting()
@@ -228,10 +238,10 @@ void curvesetting::on_lineEdit_linetitle_textChanged(const QString &arg1)//set c
     }
 }
 
-void curvesetting::on_comboBox_currentIndexChanged(int index)//line color combobox
+void curvesetting::on_comboBox_currentIndexChanged(QString text)//line color combobox
 {    
     int bgLineCount = ui->bgList->count();
-    QColor color(ui->comboBox->currentText());
+    QColor color(text);
     if (ui->listWidget->currentRow()<0) return;
     curvelistset->at(ui->listWidget->currentRow()+bgLineCount)->setPen(color,curvelistset->at(ui->listWidget->currentRow()+bgLineCount)->pen().width(),curvelistset->at(ui->listWidget->currentRow()+bgLineCount)->pen().style());
     set_plot->replot();
@@ -345,31 +355,6 @@ void curvesetting::on_radio_Legend2_clicked()//internal legend button
     set_plot->internalLegend->setVisible(true);
     set_plot->replot();
     set_plot->setContentsMargins(5,5,5,5);
-}
-
-void curvesetting::on_positionBox_currentIndexChanged(int index)//position combobox
-{
-    setuplegend();
-}
-
-void curvesetting::on_hAlignmentBox_currentIndexChanged(int index)//horizontal alignment combobox
-{
-    setuplegend();
-}
-
-void curvesetting::on_vAlignmentBox_currentIndexChanged(int index)//vertical alignment combobox
-{
-    setuplegend();
-}
-
-void curvesetting::on_lineEdit_legendcol_textChanged(const QString &arg1)//internal legend column line
-{
-    setuplegend();
-}
-
-void curvesetting::on_lineEdit_legendsize_textChanged(const QString &arg1)//internal legend size line
-{
-    setuplegend();
 }
 
 void curvesetting::setupmargin()//set background color
