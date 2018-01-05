@@ -33,6 +33,7 @@ extern int spnumber;
 extern QRect mainwindowSize;
 extern MainWindow*theMainwindow;
 
+// Maybe for debugging? Only counts the numbers of non-zero fixity variables.
 int nv,nt,nf,np,nc,nw;
 
 guessDialog::guessDialog(bool fromMasterDialog, QWidget *parent) :

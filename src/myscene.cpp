@@ -182,8 +182,7 @@ void myScene::mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event)
     ///we need better way to deal with plot select flag
     bool plotselect=false;
     if (sel_plot!=NULL) if(sel_plot->plotselect) plotselect=true;
-    addvalue * addsp;
-    addsp=NULL;
+    addvalue addsp;
     /////////////////////////////////////////////////////
 
     QList <QGraphicsItem *> items = this->selectedItems();
@@ -271,12 +270,11 @@ void myScene::mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event)
                             globalpara.reportError("The selected state point has zero pressure, thus can't be added to property charts.",theMainwindow);
                         else
                         {
-                            addsp=new addvalue;
-                            addsp->index=tablesp->ndum;
-                            addsp->add_pressure=convert(tablesp->pr,pressure[8],pressure[globalpara.unitindex_pressure]);
-                            addsp->add_temperature=convert(tablesp->tr,temperature[3],temperature[globalpara.unitindex_temperature]);
-                            addsp->add_enthalpy=convert(tablesp->hr,enthalpy[2],enthalpy[globalpara.unitindex_enthalpy]);
-                            addsp->add_concentration=tablesp->cr;
+                            addsp.index=tablesp->ndum;
+                            addsp.add_pressure=convert(tablesp->pr,pressure[8],pressure[globalpara.unitindex_pressure]);
+                            addsp.add_temperature=convert(tablesp->tr,temperature[3],temperature[globalpara.unitindex_temperature]);
+                            addsp.add_enthalpy=convert(tablesp->hr,enthalpy[2],enthalpy[globalpara.unitindex_enthalpy]);
+                            addsp.add_concentration=tablesp->cr;
                             sel_plot->addvaluelist<<addsp;
 
                         }

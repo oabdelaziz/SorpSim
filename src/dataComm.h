@@ -1,3 +1,12 @@
+/*!
+ * \file dataComm.h
+ * [SorpSim v1.0 source code]
+ * [developed by Zhiyao Yang and Dr. Ming Qu for ORNL]
+ *
+ * TODO(nfette): convert most floats to double to avoid loss of precision
+ * since sorpsimEngine is mostly using doubles anyway.
+ */
+
 #ifndef DATACOMM_H
 #define DATACOMM_H
 #include <QString>
@@ -22,8 +31,8 @@ struct calInputs
     int nunits;
     int maxfev;
     int msglvl;
-    float ftol;
-    float xtol;
+    double ftol;
+    double xtol;
 
 //    unit para
     int idunit[50];
@@ -149,8 +158,8 @@ struct globalparameter
     int maxfev;
     int msglvl;
     int iuflag;
-    float ftol;
-    float xtol;
+    double ftol;
+    double xtol;
     bool updateGuessValues;
 
     float cop;

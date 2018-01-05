@@ -2517,6 +2517,7 @@ void MainWindow::openPlotWindow()
 
 QMap<QString, int> MainWindow::hasTPData(bool lookForTable)
 {
+    Q_UNUSED(lookForTable);
     QFile file(globalpara.caseName);
     QDomDocument doc;
     QDomElement tableData, plotData;
@@ -4662,6 +4663,6 @@ int MainWindow::hasCopcap()
 
 void MainWindow::on_actionGuess_Value_triggered()
 {
-    guessDialog * gDialog = new guessDialog(false,this);
-    gDialog->exec();
+    guessDialog gDialog(false,this);
+    gDialog.exec();
 }

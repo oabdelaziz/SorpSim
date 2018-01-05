@@ -112,7 +112,7 @@ public:
     double cal_rt_p(double pres);
     double cal_rt_c(double c, double t);
     QList<QwtPlotCurve *> curvelist;
-    QList <addvalue *> addvaluelist;
+    QList <addvalue> addvaluelist;
     QwtLegend *externalLegend;
     LegendItem *internalLegend;
     QList<QStringList> curvePoints;

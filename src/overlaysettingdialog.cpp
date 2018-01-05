@@ -177,85 +177,75 @@ void overlaysetting::on_buttonBox_accepted()
         // TODO: start checking on usage of QList<mytype *>. See: ...
         // https://stackoverflow.com/questions/21386296/need-to-free-qlist-contents
 
-        addvalue*addSp = new addvalue;
-        addSp->index = 1;
-        addSp->add_pressure = 0.673;
-        addSp->add_enthalpy = 85.2409;
-        addSp->add_concentration = 56.7;
-        addSp->add_temperature = 32.7;
+        addvalue addSp;
+        addSp.index = 1;
+        addSp.add_pressure = 0.673;
+        addSp.add_enthalpy = 85.2409;
+        addSp.add_concentration = 56.7;
+        addSp.add_temperature = 32.7;
         overlay_plot->addvaluelist<<addSp;
 
-        addSp = new addvalue;
-        addSp->index = 6;
-        addSp->add_pressure = 0.673;
-        addSp->add_enthalpy = 141;
-        addSp->add_concentration = 62.5;
-        addSp->add_temperature = 44.7;
+        addSp.index = 6;
+        addSp.add_pressure = 0.673;
+        addSp.add_enthalpy = 141;
+        addSp.add_concentration = 62.5;
+        addSp.add_temperature = 44.7;
         overlay_plot->addvaluelist<<addSp;
 
-
-        addSp = new addvalue;
-        addSp->index = 5;
-        addSp->add_pressure = 7.445;
-        addSp->add_enthalpy = 141;
-        addSp->add_concentration = 62.5;
-        addSp->add_temperature = 53.3;
+        addSp.index = 5;
+        addSp.add_pressure = 7.445;
+        addSp.add_enthalpy = 141;
+        addSp.add_concentration = 62.5;
+        addSp.add_temperature = 53.3;
         overlay_plot->addvaluelist<<addSp;
 
-        addSp = new addvalue;
-        addSp->index = 4;
-        addSp->add_pressure = 7.445;
-        addSp->add_enthalpy = 222.5;
-        addSp->add_concentration = 62.5;
-        addSp->add_temperature =89.9;
+        addSp.index = 4;
+        addSp.add_pressure = 7.445;
+        addSp.add_enthalpy = 222.5;
+        addSp.add_concentration = 62.5;
+        addSp.add_temperature =89.9;
         overlay_plot->addvaluelist<<addSp;
 
-        addSp = new addvalue;
-        addSp->index = 7;
-        addSp->add_pressure = 7.445;
-        addSp->add_enthalpy = 2645;
-        addSp->add_concentration = 56.7;
-        addSp->add_temperature = 77;
+        addSp.index = 7;
+        addSp.add_pressure = 7.445;
+        addSp.add_enthalpy = 2645;
+        addSp.add_concentration = 56.7;
+        addSp.add_temperature = 77;
         overlay_plot->addvaluelist<<addSp;
 
-        addSp = new addvalue;
-        addSp->index = 3;
-        addSp->add_pressure = 7.445;
-        addSp->add_enthalpy = 159.3;
-        addSp->add_concentration = 56.7;
-        addSp->add_temperature = 63.3;
+        addSp.index = 3;
+        addSp.add_pressure = 7.445;
+        addSp.add_enthalpy = 159.3;
+        addSp.add_concentration = 56.7;
+        addSp.add_temperature = 63.3;
         overlay_plot->addvaluelist<<addSp;
 
-        addSp = new addvalue;
-        addSp->index = 1;
-        addSp->add_pressure = 0.673;
-        addSp->add_enthalpy = 85.2409;
-        addSp->add_concentration = 56.7;
-        addSp->add_temperature = 32.7;
+        addSp.index = 1;
+        addSp.add_pressure = 0.673;
+        addSp.add_enthalpy = 85.2409;
+        addSp.add_concentration = 56.7;
+        addSp.add_temperature = 32.7;
         overlay_plot->addvaluelist<<addSp;
 
-        addSp = new addvalue;
-        addSp->index = 9;
-        addSp->add_pressure = 0.673;
-        addSp->add_enthalpy = 168.2;
-        addSp->add_concentration = 0;
-        addSp->add_temperature = 1.3;
+        addSp.index = 9;
+        addSp.add_pressure = 0.673;
+        addSp.add_enthalpy = 168.2;
+        addSp.add_concentration = 0;
+        addSp.add_temperature = 1.3;
         overlay_plot->addvaluelist<<addSp;
 
-        addSp = new addvalue;
-        addSp->index = 8;
-        addSp->add_pressure = 7.445;
-        addSp->add_enthalpy = 168.2;
-        addSp->add_concentration = 0;
-        addSp->add_temperature = 40.2;
+        addSp.index = 8;
+        addSp.add_pressure = 7.445;
+        addSp.add_enthalpy = 168.2;
+        addSp.add_concentration = 0;
+        addSp.add_temperature = 40.2;
         overlay_plot->addvaluelist<<addSp;
 
-        addSp = new addvalue;
-        addSp->index = 7;
-        addSp->add_pressure = 7.445;
-        addSp->add_enthalpy = 2645;
-        addSp->add_concentration = 56.7;
-        addSp->add_temperature = 77;
+        addSp.index = 7;
+        addSp.add_pressure = 7.445;
+        addSp.add_enthalpy = 2645;
+        addSp.add_concentration = 56.7;
+        addSp.add_temperature = 77;
         overlay_plot->addvaluelist<<addSp;
 
     }
@@ -328,20 +318,20 @@ void overlaysetting::updateXml()
 //                qDebug()<<"creating new curve element"<<curveName<<"with point#"<<overlay_plot->addvaluelist.count();
                 thisCurve = doc.createElement(curveName);
                 thisCurve.setAttribute("type","custom");
-                addvalue* value;
+                addvalue value;
                 for(int i = 0; i < overlay_plot->addvaluelist.count();i++)
                 {
                     currentPoint = doc.createElement("point"+QString::number(i));
                     currentPoint.setAttribute("order",QString::number(i));
                     value = overlay_plot->addvaluelist.at(i);
-//                    qDebug()<<"adding point"<<value->index;
-                    currentPoint.setAttribute("index",QString::number(value->index));
-                    currentPoint.setAttribute("t",QString::number(value->add_temperature));
-                    currentPoint.setAttribute("p",QString::number(value->add_pressure));
-                    currentPoint.setAttribute("c",QString::number(value->add_concentration));
-                    currentPoint.setAttribute("h",QString::number(value->add_enthalpy));
+//                    qDebug()<<"adding point"<<value.index;
+                    currentPoint.setAttribute("index",QString::number(value.index));
+                    currentPoint.setAttribute("t",QString::number(value.add_temperature));
+                    currentPoint.setAttribute("p",QString::number(value.add_pressure));
+                    currentPoint.setAttribute("c",QString::number(value.add_concentration));
+                    currentPoint.setAttribute("h",QString::number(value.add_enthalpy));
                     thisCurve.appendChild(currentPoint);
-                    thePoints.append(QString::number(value->index));
+                    thePoints.append(QString::number(value.index));
                 }
                 currentPlot.appendChild(thisCurve);
 
@@ -434,13 +424,14 @@ void overlaysetting::drawPlot()
         double xMax=0,yMax=0;
         for (int i =0; i<overlay_plot->addvaluelist.count();i++)
         {
-            double tsol = convert(overlay_plot->addvaluelist.at(i)->add_temperature,temperature[tInd],temperature[1]), tref;
-            if (overlay_plot->addvaluelist.at(i)->add_concentration!=0)
+            addvalue addsp = overlay_plot->addvaluelist.at(i);
+            double tsol = convert(addsp.add_temperature,temperature[tInd],temperature[1]), tref;
+            if (addsp.add_concentration!=0)
             {
-                tref = overlay_plot->cal_rt_c(overlay_plot->addvaluelist.at(i)->add_concentration,tsol);
+                tref = overlay_plot->cal_rt_c(addsp.add_concentration,tsol);
                 tsol = convert(tsol,temperature[1],temperature[tInd]);
                 tref = convert(tref,temperature[1],temperature[tInd]);
-                qDebug()<<overlay_plot->addvaluelist.at(i)->index<<"tsol"<<tsol<<"tref"<<tref;
+                qDebug() << addsp.index << "tsol" << tsol << "tref" << tref;
                 points<<QPointF(tsol,tref);
                 if(tsol>xMax)
                     xMax = tsol;
@@ -450,7 +441,7 @@ void overlaysetting::drawPlot()
                 marker->setSymbol( new QwtSymbol( QwtSymbol::Ellipse,QColor(Qt::red ), QColor( Qt::red ), QSize( 12,12) ) );
                 marker->attach(overlay_plot);
                 marker->setLabelAlignment(Qt::AlignRight|Qt::AlignTop);
-                marker->setTitle(QString::number(overlay_plot->addvaluelist.at(i)->index));
+                marker->setTitle(QString::number(addsp.index));
                 text.setText(marker->title().text());
                 marker->setValue(QPointF(tsol,tref));
                 marker->setLabel(text);
@@ -465,13 +456,13 @@ void overlaysetting::drawPlot()
                 marker->setSymbol( new QwtSymbol( QwtSymbol::Ellipse,QColor(Qt::red ), QColor( Qt::red ), QSize( 12,12) ) );
                 marker->attach(overlay_plot);
                 marker->setLabelAlignment(Qt::AlignRight|Qt::AlignTop);
-                marker->setTitle(QString::number(overlay_plot->addvaluelist.at(i)->index));
+                marker->setTitle(QString::number(addsp.index));
                 text.setText(marker->title().text());
                 marker->setValue(QPointF(tsol,tref));
                 marker->setLabel(text);
             }
 
-            thePoints.append(QString::number(overlay_plot->addvaluelist.at(i)->index));
+            thePoints.append(QString::number(addsp.index));
             theMarkers.append(marker);
         }
 
@@ -501,9 +492,11 @@ void overlaysetting::drawPlot()
     {
         for (int i =0; i<overlay_plot->addvaluelist.count();i++)
         {
-            double tsol = convert(overlay_plot->addvaluelist.at(i)->add_temperature,temperature[tInd],temperature[1]),
-                    csol=overlay_plot->addvaluelist.at(i)->add_concentration,tref,Tref,y,pt;
-            if (overlay_plot->addvaluelist.at(i)->add_concentration!=0)
+            addvalue addsp = overlay_plot->addvaluelist.at(i);
+            double tsol = convert(addsp.add_temperature,temperature[tInd],temperature[1]),
+                   csol = addsp.add_concentration,
+                   tref, Tref, y, pt;
+            if (addsp.add_concentration!=0)
             {
                 tref=(tsol-(124.937-7.71649*csol+0.152286*pow(csol,2)-0.00079509*pow(csol,3)))/(-2.00755+0.16976*csol-0.003133362*pow(csol,2)+0.0000197668*pow(csol,3));
                 Tref=tref+273.15;
@@ -516,7 +509,7 @@ void overlaysetting::drawPlot()
                 marker->attach(overlay_plot);
                 marker->setLabelAlignment(Qt::AlignRight|Qt::AlignTop);
                 marker->setValue(QPointF(-1/(tsol+273.15),y));
-                marker->setTitle(QString::number(overlay_plot->addvaluelist.at(i)->index));
+                marker->setTitle(QString::number(addsp.index));
                 text.setText(marker->title().text());
                 marker->setLabel(text);
             }
@@ -532,12 +525,12 @@ void overlaysetting::drawPlot()
                 marker->attach(overlay_plot);
                 marker->setLabelAlignment(Qt::AlignRight|Qt::AlignTop);
                 marker->setValue(QPointF(-1/(tsol+273.15),y));
-                marker->setTitle(QString::number(overlay_plot->addvaluelist.at(i)->index));
+                marker->setTitle(QString::number(addsp.index));
                 text.setText(marker->title().text());
                 marker->setLabel(text);
             }
 
-            thePoints.append(QString::number(overlay_plot->addvaluelist.at(i)->index));
+            thePoints.append(QString::number(addsp.index));
             theMarkers.append(marker);
         }
     }
@@ -668,7 +661,7 @@ void overlaysetting::displaylist()//update sp list
     ui->listWidget_4->clear();
     for (int j=0;j<i;j++)
     {
-        ui->listWidget_4->addItem(QString::number(overlay_plot->addvaluelist.at(j)->index));
+        ui->listWidget_4->addItem(QString::number(overlay_plot->addvaluelist.at(j).index));
     }
 }
 
@@ -709,7 +702,7 @@ void overlaysetting::on_pushButton_2_clicked()//remove current sp from list
     if (ui->listWidget_4->currentRow()!=-1)
     {
         int temp=ui->listWidget_4->currentRow();
-        overlay_plot->addvaluelist.takeAt(temp);
+        overlay_plot->addvaluelist.removeAt(temp);
         displaylist();
         ui->listWidget_4->setCurrentRow(temp);
     }
@@ -760,12 +753,12 @@ void overlaysetting::on_pushButton_add_input_clicked()//add sp by typing in its 
                         pInd = 8;
                         hInd = 2;
                     }
-                    addvalue * addsp=new addvalue;
-                    addsp->index=temp->myNodes[j]->ndum;
-                    addsp->add_pressure=convert(temp->myNodes[j]->pr,pressure[8],pressure[pInd]);
-                    addsp->add_temperature=convert(temp->myNodes[j]->tr,temperature[3],temperature[tInd]);
-                    addsp->add_enthalpy=convert(temp->myNodes[j]->hr,enthalpy[2],enthalpy[hInd]);
-                    addsp->add_concentration=temp->myNodes[j]->cr;
+                    addvalue addsp;
+                    addsp.index=temp->myNodes[j]->ndum;
+                    addsp.add_pressure=convert(temp->myNodes[j]->pr,pressure[8],pressure[pInd]);
+                    addsp.add_temperature=convert(temp->myNodes[j]->tr,temperature[3],temperature[tInd]);
+                    addsp.add_enthalpy=convert(temp->myNodes[j]->hr,enthalpy[2],enthalpy[hInd]);
+                    addsp.add_concentration=temp->myNodes[j]->cr;
                     overlay_plot->addvaluelist<<addsp;
                     displaylist();
                     show();
@@ -854,12 +847,12 @@ void overlaysetting::on_addLoopButton_clicked()
 //                                qDebug()<<"plot is in IP, tind = 3";
                             }
 //                            qDebug()<<"system tind = "<<globalpara.unitindex_temperature;
-                            addvalue * addsp=new addvalue;
-                            addsp->index=temp->myNodes[j]->ndum;
-                            addsp->add_pressure=convert(temp->myNodes[j]->pr,pressure[8],pressure[pInd]);
-                            addsp->add_temperature=convert(temp->myNodes[j]->tr,temperature[3],temperature[tInd]);
-                            addsp->add_enthalpy=convert(temp->myNodes[j]->hr,enthalpy[2],enthalpy[hInd]);
-                            addsp->add_concentration=temp->myNodes[j]->cr;
+                            addvalue addsp;
+                            addsp.index=temp->myNodes[j]->ndum;
+                            addsp.add_pressure=convert(temp->myNodes[j]->pr,pressure[8],pressure[pInd]);
+                            addsp.add_temperature=convert(temp->myNodes[j]->tr,temperature[3],temperature[tInd]);
+                            addsp.add_enthalpy=convert(temp->myNodes[j]->hr,enthalpy[2],enthalpy[hInd]);
+                            addsp.add_concentration=temp->myNodes[j]->cr;
                             overlay_plot->addvaluelist<<addsp;
                             selectedNodes.insert(temp->myNodes[j]);
                             flag=1;

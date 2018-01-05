@@ -164,7 +164,7 @@ void editPropertyCurveDialog::displayList()
     ui->spList->clear();
     for (int j=0;j<overlay_plot->addvaluelist.count();j++)
     {
-        ui->spList->addItem(QString::number(overlay_plot->addvaluelist.at(j)->index));
+        ui->spList->addItem(QString::number(overlay_plot->addvaluelist.at(j).index));
     }
 
 }
@@ -207,7 +207,7 @@ void editPropertyCurveDialog::on_removeButton_clicked()
     if (ui->spList->currentRow()!=-1)
     {
         int temp=ui->spList->currentRow();
-        overlay_plot->addvaluelist.takeAt(temp);
+        overlay_plot->addvaluelist.removeAt(temp);
         displayList();
         ui->spList->setCurrentRow(temp);
     }
@@ -290,12 +290,12 @@ void editPropertyCurveDialog::on_addLoopButton_clicked()
                                 pInd = 8;
                                 hInd = 2;
                             }
-                            addvalue * addsp=new addvalue;
-                            addsp->index=temp->myNodes[j]->ndum;
-                            addsp->add_pressure=convert(temp->myNodes[j]->pr,pressure[8],pressure[pInd]);
-                            addsp->add_temperature=convert(temp->myNodes[j]->tr,temperature[3],temperature[tInd]);
-                            addsp->add_enthalpy=convert(temp->myNodes[j]->hr,enthalpy[2],enthalpy[hInd]);
-                            addsp->add_concentration=temp->myNodes[j]->cr;
+                            addvalue addsp;
+                            addsp.index=temp->myNodes[j]->ndum;
+                            addsp.add_pressure=convert(temp->myNodes[j]->pr,pressure[8],pressure[pInd]);
+                            addsp.add_temperature=convert(temp->myNodes[j]->tr,temperature[3],temperature[tInd]);
+                            addsp.add_enthalpy=convert(temp->myNodes[j]->hr,enthalpy[2],enthalpy[hInd]);
+                            addsp.add_concentration=temp->myNodes[j]->cr;
                             overlay_plot->addvaluelist<<addsp;
                             selectedNodes.insert(temp->myNodes[j]);
                             flag=1;
@@ -383,12 +383,12 @@ void editPropertyCurveDialog::addSP(int index)
                         pInd = 8;
                         hInd = 2;
                     }
-                    addvalue * addsp=new addvalue;
-                    addsp->index=temp->myNodes[j]->ndum;
-                    addsp->add_pressure=convert(temp->myNodes[j]->pr,pressure[8],pressure[pInd]);
-                    addsp->add_temperature=convert(temp->myNodes[j]->tr,temperature[3],temperature[tInd]);
-                    addsp->add_enthalpy=convert(temp->myNodes[j]->hr,enthalpy[2],enthalpy[hInd]);
-                    addsp->add_concentration=temp->myNodes[j]->cr;
+                    addvalue addsp;
+                    addsp.index=temp->myNodes[j]->ndum;
+                    addsp.add_pressure=convert(temp->myNodes[j]->pr,pressure[8],pressure[pInd]);
+                    addsp.add_temperature=convert(temp->myNodes[j]->tr,temperature[3],temperature[tInd]);
+                    addsp.add_enthalpy=convert(temp->myNodes[j]->hr,enthalpy[2],enthalpy[hInd]);
+                    addsp.add_concentration=temp->myNodes[j]->cr;
                     overlay_plot->addvaluelist<<addsp;
                     displayList();
                     show();
@@ -472,10 +472,11 @@ void editPropertyCurveDialog::drawPlot()
     {
         for (int i =0; i<overlay_plot->addvaluelist.count();i++)
         {
-            double tsol = convert(overlay_plot->addvaluelist.at(i)->add_temperature,temperature[tInd],temperature[1]), tref;
-            if (overlay_plot->addvaluelist.at(i)->add_concentration!=0)
+            addvalue addsp = overlay_plot->addvaluelist.at(i);
+            double tsol = convert(addsp.add_temperature,temperature[tInd],temperature[1]), tref;
+            if (addsp.add_concentration!=0)
             {
-                tref = overlay_plot->cal_rt_c(overlay_plot->addvaluelist.at(i)->add_concentration,tsol);
+                tref = overlay_plot->cal_rt_c(addsp.add_concentration,tsol);
                 tsol = convert(tsol,temperature[1],temperature[tInd]);
                 tref = convert(tref,temperature[1],temperature[tInd]);
                 points<<QPointF(tsol,tref);
@@ -484,7 +485,7 @@ void editPropertyCurveDialog::drawPlot()
                 marker->attach(overlay_plot);
                 marker->setLabelAlignment(Qt::AlignRight|Qt::AlignTop);
                 marker->setValue(QPointF(tsol,tref));
-                marker->setTitle(QString::number(overlay_plot->addvaluelist.at(i)->index));
+                marker->setTitle(QString::number(addsp.index));
                 text.setText(marker->title().text());
                 marker->setLabel(text);
             }
@@ -499,12 +500,12 @@ void editPropertyCurveDialog::drawPlot()
                 marker->attach(overlay_plot);
                 marker->setLabelAlignment(Qt::AlignRight|Qt::AlignTop);
                 marker->setValue(QPointF(tsol,tref));
-                marker->setTitle(QString::number(overlay_plot->addvaluelist.at(i)->index));
+                marker->setTitle(QString::number(addsp.index));
                 text.setText(marker->title().text());
                 marker->setLabel(text);
             }
 
-            thePoints.append(QString::number(overlay_plot->addvaluelist.at(i)->index));
+            thePoints.append(QString::number(addsp.index));
             theMarkers.append(marker);
         }
     }
@@ -512,9 +513,10 @@ void editPropertyCurveDialog::drawPlot()
     {
         for (int i =0; i<overlay_plot->addvaluelist.count();i++)
         {
-            double tsol = convert(overlay_plot->addvaluelist.at(i)->add_temperature,temperature[tInd],temperature[1]),
-                    csol=overlay_plot->addvaluelist.at(i)->add_concentration,tref,Tref,y,pt;
-            if (overlay_plot->addvaluelist.at(i)->add_concentration!=0)
+            addvalue addsp = overlay_plot->addvaluelist.at(i);
+            double tsol = convert(addsp.add_temperature,temperature[tInd],temperature[1]),
+                    csol=addsp.add_concentration,tref,Tref,y,pt;
+            if (addsp.add_concentration!=0)
             {
                 tref=(tsol-(124.937-7.71649*csol+0.152286*pow(csol,2)-0.00079509*pow(csol,3)))/(-2.00755+0.16976*csol-0.003133362*pow(csol,2)+0.0000197668*pow(csol,3));
                 Tref=tref+273.15;
@@ -527,7 +529,7 @@ void editPropertyCurveDialog::drawPlot()
                 marker->attach(overlay_plot);
                 marker->setLabelAlignment(Qt::AlignRight|Qt::AlignTop);
                 marker->setValue(QPointF(-1/(tsol+273.15),y));
-                marker->setTitle(QString::number(overlay_plot->addvaluelist.at(i)->index));
+                marker->setTitle(QString::number(addsp.index));
                 text.setText(marker->title().text());
                 marker->setLabel(text);
             }
@@ -543,12 +545,12 @@ void editPropertyCurveDialog::drawPlot()
                 marker->attach(overlay_plot);
                 marker->setLabelAlignment(Qt::AlignRight|Qt::AlignTop);
                 marker->setValue(QPointF(-1/(tsol+273.15),y));
-                marker->setTitle(QString::number(overlay_plot->addvaluelist.at(i)->index));
+                marker->setTitle(QString::number(addsp.index));
                 text.setText(marker->title().text());
                 marker->setLabel(text);
             }
 
-            thePoints.append(QString::number(overlay_plot->addvaluelist.at(i)->index));
+            thePoints.append(QString::number(addsp.index));
             theMarkers.append(marker);
         }
     }
@@ -664,19 +666,19 @@ void editPropertyCurveDialog::updateXml()
                         qDebug()<<"error! old curve node doesn't exist.";
                     }
                     thisCurve = currentPlot.elementsByTagName(curveName).at(0).toElement();
-                    addvalue* value;
+                    addvalue value;
                     for(int i = 0; i < overlay_plot->addvaluelist.count();i++)
                     {
                         currentPoint = doc.createElement("point"+QString::number(i));
                         currentPoint.setAttribute("order",QString::number(i));
                         value = overlay_plot->addvaluelist.at(i);
-                        currentPoint.setAttribute("index",QString::number(value->index));
-                        currentPoint.setAttribute("t",QString::number(value->add_temperature));
-                        currentPoint.setAttribute("p",QString::number(value->add_pressure));
-                        currentPoint.setAttribute("c",QString::number(value->add_concentration));
-                        currentPoint.setAttribute("h",QString::number(value->add_enthalpy));
+                        currentPoint.setAttribute("index",QString::number(value.index));
+                        currentPoint.setAttribute("t",QString::number(value.add_temperature));
+                        currentPoint.setAttribute("p",QString::number(value.add_pressure));
+                        currentPoint.setAttribute("c",QString::number(value.add_concentration));
+                        currentPoint.setAttribute("h",QString::number(value.add_enthalpy));
                         thisCurve.appendChild(currentPoint);
-                        thePoints.append(QString::number(value->index));
+                        thePoints.append(QString::number(value.index));
                     }
 //                    currentPlot.appendChild(thisCurve);
 //                    overlay_plot->curvePoints.append(thePoints);

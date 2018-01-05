@@ -40,7 +40,6 @@ spDialog::spDialog(Node* sp, QWidget *parent) :
 
     setWindowFlags(Qt::Dialog);
     setWindowModality(Qt::ApplicationModal);
-    reSet = reset;
     myNode = sp;
     ui->TGB->setStyleSheet("QGroupBox{ background-color:rgb(144, 202, 119); border: 1px solid black; }");
     ui->PGB->setStyleSheet("QGroupBox{ background-color:rgb(129, 198, 221); border: 1px solid black; }");

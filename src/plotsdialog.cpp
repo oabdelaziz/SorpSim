@@ -320,7 +320,7 @@ bool plotsDialog::loadXml(bool init)
                     {
                         if(currentPlot.childNodes().at(i).toElement().attribute("type")=="custom")
                         {
-                            addvalue*value;
+                            addvalue value;
                             newPlot->addvaluelist.clear();
                             currentCurve = currentPlot.childNodes().at(i).toElement();
                             QString title = currentCurve.tagName();
@@ -328,13 +328,12 @@ bool plotsDialog::loadXml(bool init)
                             {
                                 if(currentCurve.childNodes().at(j).toElement().attribute("order")==QString::number(j))
                                 {
-                                    value = new addvalue;
                                     currentPoint = currentCurve.childNodes().at(j).toElement();
-                                    value->index = currentPoint.attribute("index").toInt();
-                                    value->add_temperature = currentPoint.attribute("t").toDouble();
-                                    value->add_pressure = currentPoint.attribute("p").toDouble();
-                                    value->add_concentration = currentPoint.attribute("c").toDouble();
-                                    value->add_enthalpy = currentPoint.attribute("h").toDouble();
+                                    value.index = currentPoint.attribute("index").toInt();
+                                    value.add_temperature = currentPoint.attribute("t").toDouble();
+                                    value.add_pressure = currentPoint.attribute("p").toDouble();
+                                    value.add_concentration = currentPoint.attribute("c").toDouble();
+                                    value.add_enthalpy = currentPoint.attribute("h").toDouble();
 //                                    qDebug()<<"adding a new point"<<currentPoint.attribute("index")<<"t"<<currentPoint.attribute("t")<<"p"<<currentPoint.attribute("p")<<"c"<<currentPoint.attribute("c");
                                     newPlot->addvaluelist<<value;
                                 }

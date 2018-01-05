@@ -819,10 +819,10 @@ void Plot::setupNewPropertyCurve(QString title, bool isDuhring)
     {
         for (int i =0; i<addvaluelist.count();i++)
         {
-            double tsol = convert(addvaluelist.at(i)->add_temperature,temperature[tInd],temperature[1]), tref;
-            if (addvaluelist.at(i)->add_concentration!=0)
+            double tsol = convert(addvaluelist.at(i).add_temperature,temperature[tInd],temperature[1]), tref;
+            if (addvaluelist.at(i).add_concentration!=0)
             {
-                tref = cal_rt_c(addvaluelist.at(i)->add_concentration,tsol);
+                tref = cal_rt_c(addvaluelist.at(i).add_concentration,tsol);
                 tsol = convert(tsol,temperature[1],temperature[tInd]);
                 tref = convert(tref,temperature[1],temperature[tInd]);
                 points<<QPointF(tsol,tref);
@@ -830,7 +830,7 @@ void Plot::setupNewPropertyCurve(QString title, bool isDuhring)
                 marker->setSymbol( new QwtSymbol( QwtSymbol::Ellipse,QColor(Qt::red ), QColor( Qt::red ), QSize( 12,12) ) );
                 marker->attach(this);
                 marker->setLabelAlignment(Qt::AlignRight|Qt::AlignTop);
-                marker->setTitle(QString::number(addvaluelist.at(i)->index));
+                marker->setTitle(QString::number(addvaluelist.at(i).index));
                 marker->setValue(QPointF(tsol,tref));
                 text.setText(marker->title().text());
                 marker->setLabel(text);
@@ -846,11 +846,11 @@ void Plot::setupNewPropertyCurve(QString title, bool isDuhring)
                 marker->attach(this);
                 marker->setLabelAlignment(Qt::AlignRight|Qt::AlignTop);
                 marker->setValue(QPointF(tsol,tref));
-                marker->setTitle(QString::number(addvaluelist.at(i)->index));
+                marker->setTitle(QString::number(addvaluelist.at(i).index));
                 text.setText(marker->title().text());
                 marker->setLabel(text);
             }
-            thePoints.append(QString::number(addvaluelist.at(i)->index));
+            thePoints.append(QString::number(addvaluelist.at(i).index));
             theMarkers.append(marker);
         }
 
@@ -859,9 +859,9 @@ void Plot::setupNewPropertyCurve(QString title, bool isDuhring)
     {
         for (int i =0; i<addvaluelist.count();i++)
         {
-            double tsol = convert(addvaluelist.at(i)->add_temperature,temperature[tInd],temperature[1]),
-                    csol=addvaluelist.at(i)->add_concentration,tref,Tref,y,pt;
-            if (addvaluelist.at(i)->add_concentration!=0)
+            double tsol = convert(addvaluelist.at(i).add_temperature,temperature[tInd],temperature[1]),
+                    csol=addvaluelist.at(i).add_concentration,tref,Tref,y,pt;
+            if (addvaluelist.at(i).add_concentration!=0)
             {
                 tref=(tsol-(124.937-7.71649*csol+0.152286*pow(csol,2)-0.00079509*pow(csol,3)))/(-2.00755+0.16976*csol-0.003133362*pow(csol,2)+0.0000197668*pow(csol,3));
                 Tref=tref+273.15;
@@ -874,7 +874,7 @@ void Plot::setupNewPropertyCurve(QString title, bool isDuhring)
                 marker->attach(this);
                 marker->setLabelAlignment(Qt::AlignRight|Qt::AlignTop);
                 marker->setValue(QPointF(-1/(tsol+273.15),y));
-                marker->setTitle(QString::number(addvaluelist.at(i)->index));
+                marker->setTitle(QString::number(addvaluelist.at(i).index));
                 text.setText(marker->title().text());
                 marker->setLabel(text);
             }
@@ -890,12 +890,12 @@ void Plot::setupNewPropertyCurve(QString title, bool isDuhring)
                 marker->attach(this);
                 marker->setLabelAlignment(Qt::AlignRight|Qt::AlignTop);
                 marker->setValue(QPointF(-1/(tsol+273.15),y));
-                marker->setTitle(QString::number(addvaluelist.at(i)->index));
+                marker->setTitle(QString::number(addvaluelist.at(i).index));
                 text.setText(marker->title().text());
                 marker->setLabel(text);
             }
 
-            thePoints.append(QString::number(addvaluelist.at(i)->index));
+            thePoints.append(QString::number(addvaluelist.at(i).index));
             theMarkers.append(marker);
         }
     }

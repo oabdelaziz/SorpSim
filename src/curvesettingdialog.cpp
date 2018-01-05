@@ -250,6 +250,19 @@ void curvesetting::on_comboBox_currentIndexChanged(QString text)//line color com
 // TODO: double check that currentRow hasn't just been deleted before accessing it.
 void curvesetting::on_listWidget_currentRowChanged(int currentRow)//load current line status
 {
+int rowsInListWidget = ui->listWidget->count();
+#ifdef QT_DEBUG
+    qDebug() << "curvesetting::on_listWidget_currentRowChanged debug info:";
+    qDebug() << "Count of rows in the listWidget:" << rowsInListWidget;
+    qDebug() << "Which currentRow was passed:" << currentRow;
+    if (currentRow < rowsInListWidget)
+        qDebug() << "The currentRow is a valid index into the list.";
+    else
+    {
+        qDebug() << "Clearly not enough lists! Giving up gracefully.";
+        qDebug() << "Just to follow up, asking for the currentRow now gives" << ui->listWidget->currentRow();
+    }
+#endif
     if(ui->listWidget->count()>0&&currentRow!=-1)
     {
         ui->curveActionBox->setEnabled(true);
@@ -546,7 +559,7 @@ void curvesetting::on_deleteCurveButton_clicked()
     set_plot->replot();
     set_plot->curvePoints.removeAt(ui->listWidget->currentIndex().row());
 
-    ui->listWidget->takeItem(ui->listWidget->currentRow());
+    delete ui->listWidget->takeItem(ui->listWidget->currentRow());
 
 #ifdef Q_OS_WIN32
     QFile file("plotTemp.xml");
