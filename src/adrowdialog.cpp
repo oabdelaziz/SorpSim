@@ -20,7 +20,6 @@
 #include "mainwindow.h"
 
 extern MainWindow *theMainwindow;
-extern tableDialog*theTablewindow;
 
 adRowDialog::adRowDialog(QWidget *parent) :
     QDialog(parent),
@@ -91,20 +90,4 @@ void adRowDialog::on_cancelButton_clicked()
 {
     reject();
     adrAccepted = false;
-}
-
-bool adRowDialog::event(QEvent *e)
-{
-    if(e->type()==QEvent::ActivationChange)
-    {
-        if(qApp->activeWindow()==this)
-        {
-            theMainwindow->show();
-            theMainwindow->raise();
-            theTablewindow->raise();
-            this->raise();
-            this->setFocus();
-        }
-    }
-    return QDialog::event(e);
 }

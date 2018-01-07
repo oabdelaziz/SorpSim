@@ -52,7 +52,7 @@ void newPropPlotDialog::on_okButton_clicked()
     if(theScene->plotWindow!=NULL)
         theScene->plotWindow->close();
     setupXml();
-    theScene->plotWindow = new plotsDialog();
+    theScene->plotWindow = new plotsDialog("", false, theMainwindow);
     accept();
     theScene->plotWindow->exec();
 }

@@ -35,7 +35,6 @@ public:
     plotsDialog* plotWindow;
     QGraphicsSimpleTextItem * copcap;
     QGraphicsRectItem * copRect;
-    tableDialog *tableWindow;
     Plot * sel_plot;
     overlaysetting * overlaydialog;
     editPropertyCurveDialog*editPropDialog;

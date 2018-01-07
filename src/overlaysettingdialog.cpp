@@ -141,8 +141,15 @@ overlaysetting::overlaysetting(Plot *d_plot,QWidget *parent):
         }
         else
         {
+            // <plotData>
             plotData = doc.elementsByTagName("plotData").at(0).toElement();
 
+            // TODO: <plotData> overlay curve children are not valid XML tags
+            // Suggested:
+            // <plotData>
+            //   <curve class="overlay" title="curve_1" .../>
+            //   <curve class="overlay" title="curve_2" .../>
+            // </plotData>
             currentPlot = plotData.elementsByTagName(overlay_plot->title().text().replace(" ","")).at(0).toElement();
             if(currentPlot.attribute("plotType")!="property")
             {

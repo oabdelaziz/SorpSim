@@ -80,12 +80,10 @@ private:
     Ui::tableDialog *ui;
     unit * const myDummy;
 
-    QDialog*currentDialog;
     QList<QTableWidgetItem*> selected;
     QByteArray myByteArray;
     void adjustTableSize(bool onlySize=false);
     void showEvent(QShowEvent *e);
-    bool event(QEvent *e);
     void paste();
     QString startTName;
 };

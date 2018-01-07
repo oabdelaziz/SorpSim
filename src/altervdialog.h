@@ -36,7 +36,6 @@ private slots:
 
 private:
     Ui::altervDialog *ui;
-    bool event(QEvent *e);
 
 };
 

@@ -256,22 +256,13 @@ void editTableDialog::on_OKButton_clicked()
             inputQ.clear();
             outputQ.clear();
 
-            if(theScene->tableWindow!=NULL)
-            {
-                theScene->tableWindow->close();
-            }
-            theScene->tableWindow = new tableDialog(dummy, "", theMainwindow);
-            theScene->tableWindow->setModal(true);
+            tableDialog aTableDialog(dummy, "", theMainwindow);
             this->hide();
-            theScene->tableWindow->exec();
+            aTableDialog.exec();
             this->accept();
-
-
         }
         else
             globalpara.reportError("Fail to set up xml file for table.",this);
-
-
     }
 }
 

@@ -305,16 +305,60 @@ void MainWindow::on_actionComponent_triggered()
 
 void MainWindow::on_actionDelete_triggered()
 {
-    if (!scene->selectedItems().isEmpty())
-    {
-        QList<QGraphicsItem *> items = scene->selectedItems();
-        QMessageBox delBox(theMainwindow);
-        delBox.addButton("Delete",QMessageBox::YesRole);
-        delBox.addButton("Cancel",QMessageBox::NoRole);
-        delBox.setWindowTitle("Warning");
-        QString delMessage = "Are you sure to delete: ";
+    QList<QGraphicsItem *> items = scene->selectedItems();
 
-        if(items.first()->zValue() == 2)//for deleting units
+    // Give the user an opportunity to cancel.
+    QMessageBox delBox(theMainwindow);
+    delBox.addButton("Delete",QMessageBox::YesRole);
+    delBox.addButton("Cancel",QMessageBox::NoRole);
+    delBox.setWindowTitle("Warning");
+    QString delMessage = "Delete:\n";
+    QStringList delItems;
+    // Build a list of item names
+    foreach (QGraphicsItem * item, items)
+    {
+        // for units
+        if (item->zValue() == 2)
+        {
+            QGraphicsItem * unitItem = item->childItems().takeFirst();
+            unit * delunit = dynamic_cast<unit *>(unitItem);
+            delItems.append(QString("[%1 #%2]").arg(delunit->unitName).arg(delunit->nu));
+        }
+        // for Links
+        else if (item->zValue() == 1)
+        {
+            Link * dellink = dynamic_cast<Link *>(item->parentItem());
+            delItems.append(QString("[Node link #%1]").arg(dellink->myFromNode->ndum));
+        }
+        // for text boxes
+        else if (item->type() == 10000)
+        {
+            SimpleTextItem * text = dynamic_cast<SimpleTextItem *>(item);
+            delItems.append(QString("[text item: \"%1\"]").arg(text->text()));
+        }
+    }
+    if (delItems.count() == 0)
+    {
+        theStatusBar->showMessage("Delete: first select a component, link, or text box");
+        return;
+    }
+    delMessage.append(delItems.join('\n'))
+            .append("\nThis operation cannot be undone. Proceed?");
+    delBox.setText(delMessage);
+    delBox.exec();
+    if (delBox.buttonRole(delBox.clickedButton()) != QMessageBox::YesRole)
+        return;
+
+    foreach (QGraphicsItem * item, items)
+    {
+        // Maybe a Link got deleted during process so skip it.
+        if (!item || !scene->items().contains(item))
+        {
+            qDebug() << "The item was already removed (probably a Link to a deleted unit).";
+            continue;
+        }
+        //for deleting units
+        if (item->zValue() == 2)
         {
             // TODO: Need to do all:
             // (a) remove selected units from the global linked list (done by deleteunit)
@@ -325,49 +369,28 @@ void MainWindow::on_actionDelete_triggered()
             // though steps (d) was applied to all units. This results in a bug
             // where the user selects multiple units, deletes them, opens the master
             // dialog, and crashes the program.
-            QGraphicsRectItem * rect = dynamic_cast<QGraphicsRectItem *>(items.first());
-            QList<QGraphicsItem *> rectitem = rect->childItems();
-            unit * delunit = dynamic_cast<unit *>(rectitem.first());
-            delMessage.append("["+delunit->unitName+"] ?");
-            delBox.setText(delMessage);
-            delBox.exec();
-            if(delBox.buttonRole(delBox.clickedButton())==QMessageBox::YesRole){
-
-                deleteunit(delunit);
-                qDeleteAll(items);
-            }
-
+            QGraphicsItem * unitItem = item->childItems().takeFirst();
+            unit * delunit = dynamic_cast<unit *>(unitItem);
+            deleteunit(delunit);
+            delete item;
         }
-        else if(items.first()->zValue() == 1)//for deleting links
+        // for deleting links
+        else if (item->zValue() == 1)
         {
-            Link * dellink = dynamic_cast<Link *>(items.first()->parentItem());
-            delMessage.append("[link between sp"+QString::number(dellink->myFromNode->ndum)+"] ?");
-            delBox.setText(delMessage);
-            delBox.exec();
-            if(delBox.buttonRole(delBox.clickedButton())==QMessageBox::YesRole){
-
-                deletelink(dellink);
-                delete dellink;
-            }
-
+            Link * dellink = dynamic_cast<Link *>(item->parentItem());
+            deletelink(dellink);
+            delete dellink;
         }
-        else if(items.first()->type()==10000)
+        // for deleting text box
+        else if (item->type() == 10000)
         {
-            SimpleTextItem * text=dynamic_cast<SimpleTextItem *>(items.first());
-            delMessage.append("[text item: "+text->text()+"] ?");
-
-            delBox.setText(delMessage);
-            delBox.exec();
-            if(delBox.buttonRole(delBox.clickedButton())==QMessageBox::YesRole){
-
-                if(globalpara.sceneText.contains(text))
-                    globalpara.sceneText.removeOne(text);
-                delete text;
-            }
-
+            SimpleTextItem * text = dynamic_cast<SimpleTextItem *>(item);
+            if(globalpara.sceneText.contains(text))
+                globalpara.sceneText.removeOne(text);
+            delete text;
         }
-
     }
+    // qDeleteAll(items);
 }
 
 void MainWindow::deleteunit(unit *delunit)
@@ -2466,11 +2489,8 @@ void MainWindow::openTableWindow()
         scene->evokeTDialog();
     else
     {
-        // TODO: remove tableWindow from scene (never used)
-        if(scene->tableWindow!=NULL)
-            scene->tableWindow->close();
-        scene->tableWindow = new tableDialog(dummy, startTName, this);
-        scene->tableWindow->exec();
+        tableDialog aTableDialog(dummy, startTName, this);
+        aTableDialog.exec();
     }
 }
 
@@ -3880,7 +3900,6 @@ void MainWindow::evokeAbout()
 {
     QMessageBox aboutDialog(this);
     aboutDialog.setWindowTitle("Welcome to SorpSim");
-    aboutDialog.setWindowFlags(Qt::Tool);
     aboutDialog.setTextFormat(Qt::RichText);
     aboutDialog.setText("<p align='center'><font size = 8 color = blue style = 'italic'>SorpSim 1.0</font><br>"
                        "<br>"

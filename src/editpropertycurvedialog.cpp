@@ -650,8 +650,11 @@ void editPropertyCurveDialog::updateXml()
             }
             else
             {
+                // <plotData>
                 plotData = doc.elementsByTagName("plotData").at(0).toElement();
 
+                // TODO: this produces invalid XML for children of <plotData>
+                // See other related TODO comments
                 currentPlot = plotData.elementsByTagName(overlay_plot->title().text()).at(0).toElement();
 
                 if(currentPlot.attribute("plotType")!="property")
@@ -729,8 +732,15 @@ void editPropertyCurveDialog::removeOld()
                 }
                 else
                 {
+                    // <plotData>
                     plotData = doc.elementsByTagName("plotData").at(0).toElement();
 
+                    // TODO: produces invalid XML. Suggested change:
+                    // <plotData>
+                    //   <curve class="overlay" title="curve_1"/>
+                    //   <curve class="overlay" title="curve_2"/>
+                    // </plotData>
+                    // TODO: merge with some other property dialog in here (nearly identical)
                     currentPlot = plotData.elementsByTagName(overlay_plot->title().text()).at(0).toElement();
 
                     QDomNode oldCurveNode = currentPlot.elementsByTagName(curveName).at(0);

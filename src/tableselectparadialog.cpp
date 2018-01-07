@@ -435,17 +435,12 @@ void tableSelectParaDialog::on_OKButton_clicked()
         if(tableName.at(0).isDigit())
             tableName = "table_"+tableName;
 
-
         runs = ui->runssb->value();
 
-
-        if(theScene->tableWindow!=NULL)
-            theScene->tableWindow->close();
         setupXml();
-        theScene->tableWindow = new tableDialog(dummy, "", theMainwindow);
-        theScene->tableWindow->setModal(true);
+        tableDialog aTableDialog(dummy, "", theMainwindow);
         this->accept();
-        theScene->tableWindow->exec();
+        aTableDialog.exec();
 
         inputNumber = inputD.count();
         inputEntries.clear();

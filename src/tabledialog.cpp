@@ -87,7 +87,6 @@ bool alvAccepted = false;
 int alvMethod;
 int alvCol;
 int alvRowCount;
-tableDialog* theTablewindow;
 
 tableDialog::tableDialog(unit * dummy, QString startTable, QWidget * parent) :
     myDummy(dummy),
@@ -95,8 +94,6 @@ tableDialog::tableDialog(unit * dummy, QString startTable, QWidget * parent) :
     ui(new Ui::tableDialog)
 {
     ui->setupUi(this);
-    theTablewindow=this;
-    currentDialog = NULL;
     setWindowModality(Qt::WindowModal);
     setWindowFlags(Qt::Dialog);
 
@@ -145,7 +142,7 @@ tableDialog::tableDialog(unit * dummy, QString startTable, QWidget * parent) :
 
 tableDialog::~tableDialog()
 {
-    updateXml();
+    // updateXml();
     delete ui;
 }
 
@@ -1374,13 +1371,11 @@ void tableDialog::on_alterRunButton_clicked()
     adrDialog.setTableName(ui->tabWidget->tabText(ui->tabWidget->currentIndex()));
     adrDialog.setWindowTitle("Add/Delete Runs");
     adrDialog.exec();
-    currentDialog = &adrDialog;
     if (adrDialog.adrAccepted)
         add_or_delete_runs(adrDialog.adrIsInsert,
                            adrDialog.adrPosition,
                            adrDialog.adrIar,
                            adrDialog.adrNr);
-    currentDialog = NULL;
 }
 
 /**
@@ -1552,7 +1547,6 @@ void tableDialog::on_alterVarButton_clicked()
     alvDialog.setWindowTitle("Alter Values");
     alvDialog.exec();
 
-    currentDialog = &alvDialog;
     if(alvAccepted)
     {
 
@@ -1643,7 +1637,6 @@ void tableDialog::on_alterVarButton_clicked()
     }
     if(!reshapeXml(1, 1))
         qDebug()<<"reshape failed";
-    currentDialog = NULL;
 }
 
 void tableDialog::on_deleteTButton_clicked()
@@ -2009,27 +2002,6 @@ void tableDialog::showEvent(QShowEvent *e)
     adjustTableSize();
 }
 
-bool tableDialog::event(QEvent *e)
-{
-    if(e->type()==QEvent::ActivationChange)
-    {
-        if(qApp->activeWindow()==this)
-        {
-            theMainwindow->show();
-            theMainwindow->raise();
-            this->raise();
-            if(currentDialog!=NULL)
-            {
-                currentDialog->raise();
-                currentDialog->setFocus();
-            }
-            else
-                this->setFocus();
-        }
-    }
-    return QDialog::event(e);
-}
-
 void tableDialog::paste()
 {
     QTableWidget * currentTable = dynamic_cast<QTableWidget *>(ui->tabWidget->currentWidget());
@@ -2057,8 +2029,11 @@ void tableDialog::on_tabWidget_currentChanged(int index)
 
 void tableDialog::closeEvent(QCloseEvent *)
 {
+    // 2017-01-06: Added, because skipping this, changes are not
+    // saved if user edited input column entries but did not calculate.
+    updateXml();
+
     saveChanges();
-    theScene->tableWindow=NULL;
     theMainwindow->setTPMenu();
 }
 

@@ -31,7 +31,6 @@ extern int alvMethod;
 extern int alvCol;
 extern int alvRowCount;
 
-extern tableDialog*theTablewindow;
 extern MainWindow*theMainwindow;
 
 //THE LASTVALUE LAYOUT IS: LINEAR, INCREMENTAL, MULTIPLIER, LOG
@@ -144,20 +143,4 @@ void altervDialog::on_inputCB_currentIndexChanged(int index)
     lastValue = ranges.at(index).split(",").last().toDouble();
     ui->firstValueLE->setText(QString::number(firstValue));
     ui->lastValueLE->setText(QString::number(lastValue));
-}
-
-bool altervDialog::event(QEvent *e)
-{
-    if(e->type()==QEvent::ActivationChange)
-    {
-        if(qApp->activeWindow()==this)
-        {
-            theMainwindow->show();
-            theMainwindow->raise();
-            theTablewindow->raise();
-            this->raise();
-            this->setFocus();
-        }
-    }
-    return QDialog::event(e);
 }

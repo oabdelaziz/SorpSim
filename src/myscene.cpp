@@ -81,7 +81,6 @@ myScene::myScene(QObject *parent)
 {
     sel_plot=NULL;
     overlaydialog=NULL;
-    tableWindow = NULL;
     plotWindow = NULL;
 }
 

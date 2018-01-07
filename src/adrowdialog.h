@@ -33,7 +33,7 @@ private slots:
 
 private:
     Ui::adRowDialog *ui;
-    bool event(QEvent *e);
+
 };
 
 #endif // ADROWDIALOG_H
