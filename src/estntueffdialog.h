@@ -30,7 +30,6 @@ private:
 
     double estimatedValue;
 
-    bool event(QEvent *e);
 };
 
 #endif // ESTNTUEFFDIALOG_H

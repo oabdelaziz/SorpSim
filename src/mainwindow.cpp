@@ -360,15 +360,10 @@ void MainWindow::on_actionDelete_triggered()
         //for deleting units
         if (item->zValue() == 2)
         {
-            // TODO: Need to do all:
-            // (a) remove selected units from the global linked list (done by deleteunit)
-            // (b) delete the units (done by deleteunit) (also done by qDeleteAll)
-            // (c) remove the rects that own them from the scene
-            // (d) delete the rects (done by qDeleteAll)
-            // As it is, steps (a) and (b) were only applied to the first selected unit,
-            // though steps (d) was applied to all units. This results in a bug
-            // where the user selects multiple units, deletes them, opens the master
-            // dialog, and crashes the program.
+            // Need to do:
+            // (a) remove and delete selected units from the global linked list (done by deleteunit)
+            // (b) remove the rects that own them from the scene and delete them (delete works)
+            // Note side effects: deleting units can result in deleting Links
             QGraphicsItem * unitItem = item->childItems().takeFirst();
             unit * delunit = dynamic_cast<unit *>(unitItem);
             deleteunit(delunit);

@@ -99,21 +99,3 @@ void estNtuEffDialog::on_cancelButton_clicked()
 {
     reject();
 }
-
-// TODO: Is this necessary?
-bool estNtuEffDialog::event(QEvent *e)
-{
-
-    if(e->type()==QEvent::ActivationChange)
-    {
-        if(qApp->activeWindow()==this)
-        {
-            theMainwindow->show();
-            theMainwindow->raise();
-            dhefDialog->raise();
-            this->raise();
-            this->setFocus();
-        }
-    }
-    return QDialog::event(e);
-}
