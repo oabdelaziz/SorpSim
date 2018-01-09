@@ -4621,11 +4621,7 @@ void MainWindow::defaultTheSystem()
         delete item;
     globalpara.sceneText.clear();
 
-    QList<QGraphicsItem*> sceneItems = scene->items();
-    // TODO: is simply removing items (no delete)
-    // Should: delete and remove all items
-    foreach (QGraphicsItem* item, sceneItems)
-        scene->removeItem(item);
+    scene->clear();
 
     globalcount = 0;
     spnumber = 0;

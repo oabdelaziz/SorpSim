@@ -6023,7 +6023,7 @@ qheat(
   //C*********************************************************************
   nnl++;
   fun(nnl) = (qqp + qqn) / fcpt;//energy balance
-  unit*iterator = dummy;
+  unit*iterator = dummy->next;
   for(int i = 0;i<globalcount&&iterator->nu!=iunit;i++)
   {
       iterator = iterator->next;

@@ -3,7 +3,6 @@
 
 #include <QDialog>
 #include <QGraphicsSimpleTextItem>
-#include <QString.h>
 #include <QString>
 #include <QFont>
 namespace Ui {

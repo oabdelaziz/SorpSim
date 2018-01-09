@@ -38,9 +38,16 @@ unit::unit()
 
 }
 
-// TODO: fails to delete allocated nodes and links
+// TODO: determine if we need to delete inside links
 unit::~unit()
 {
+    for(int i = 0; i < usp; i++)
+    {
+        delete myNodes[i];
+    }
+    for(int i = 0; i< 6; i++)
+        delete myArrow[i];
+
 }
 
 
@@ -410,6 +417,7 @@ void unit::initialize()
         /// inside point
     }
 
+    // Note: these get deleted in destructor
     for(int i = 0; i < usp; i++)
     {
         myNodes[i] = new Node;

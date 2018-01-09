@@ -9,7 +9,7 @@
 
 
 
-#include "NEWPARAPLOTDIALOG.h"
+#include "newparaplotdialog.h"
 #include "ui_newparaplotdialog.h"
 #include <QFile>
 #include <QDebug>
@@ -19,7 +19,7 @@
 #include <QMessageBox>
 #include "mainwindow.h"
 #include "dataComm.h"
-#include "plotsDialog.h"
+#include "plotsdialog.h"
 
 
 extern globalparameter globalpara;

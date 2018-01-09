@@ -69,8 +69,8 @@ tableSelectParaDialog::tableSelectParaDialog(QWidget *parent) :
     setWindowModality(Qt::ApplicationModal);
     setWindowTitle("Setup new table");
 
-    inputModel = new QStringListModel;
-    outputModel = new QStringListModel;
+    inputModel = new QStringListModel(ui->inputList);
+    outputModel = new QStringListModel(ui->outputList);
 
     ui->inputList->setEditTriggers(QAbstractItemView::NoEditTriggers);
     ui->outputList->setEditTriggers(QAbstractItemView::NoEditTriggers);
@@ -471,6 +471,7 @@ bool tableSelectParaDialog::tableNameUsed(QString name)//true means there has be
         {
             globalpara.reportError("Fail to load xml document to check if the table name is used.",this);
             file.close();
+            // TODO: `return true` is not a good way to handle the error.
             return true;
         }
         else
