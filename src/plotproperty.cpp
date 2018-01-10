@@ -720,59 +720,40 @@ Plot::Plot(QMultiMap<double, double> data, QStringList xValues, int curveCount, 
             setAxisScaleEngine( QwtPlot::yLeft, log );
     }
 
-
-//    QwtSymbol *symbol = new QwtSymbol( QwtSymbol::Ellipse,QBrush( Qt::yellow ), QPen( Qt::black, 2 ), QSize( 8, 8 ) );
-
-    QList<QwtSymbol *> symbols;
-    QwtSymbol * sItem = new QwtSymbol(QwtSymbol::Ellipse,QBrush(Qt::gray),QPen(Qt::black,1),QSize(3,3));
-    symbols.append(sItem);
-    sItem = new QwtSymbol(QwtSymbol::Ellipse,QBrush(Qt::red),QPen(Qt::black,1),QSize(3,3));
-    symbols.append(sItem);
-    sItem = new QwtSymbol(QwtSymbol::Ellipse,QBrush(Qt::blue),QPen(Qt::black,1),QSize(3,3));
-    symbols.append(sItem);
-    sItem = new QwtSymbol(QwtSymbol::Ellipse,QBrush(Qt::black),QPen(Qt::black,1),QSize(3,3));
-    symbols.append(sItem);
-
-
-    // TODO: consider using std::vector or smart pointers. However, ...
-    // TODO: no need to store these in an array, since they are consumed immediately in the loop.
-    QPolygonF *points = new QPolygonF[nCurves];
-    QwtPlotCurve** curve = new QwtPlotCurve*[nCurves];
+    QList<Qt::GlobalColor> brushColors;
+    brushColors << Qt::gray << Qt::red << Qt::blue << Qt::black;
+    QList<Qt::PenStyle> penStyles;
+    penStyles << Qt::SolidLine << Qt::SolidLine << Qt::DashLine << Qt::DashLine;
+    // No need to store points or curves at this scope ...
+    // Everything is consumed immediately in the loop.
     for(int j=0;j<nCurves;j++)
     {
+        QPolygonF points;
+        QwtPlotCurve* curve;
+
         QString curveName = outAxis.at(j);
         curveName.replace("[","");
         curveName.replace("]","");
-        curve[j]=new QwtPlotCurve(curveName);
+        curve = new QwtPlotCurve(curveName);
         for(int i=0;i<nRuns;i++)
-            points[j]<<QPointF(xValues.at(i).toDouble(),data.values(xValues.at(i).toDouble()).at(nCurves-j-1));
-        //qMap inserts reversely
-        switch(j%4){
-        case 0:{
-            curve[j]->setPen(Qt::gray,2,Qt::SolidLine);
-            break;
-        }
-        case 1:{
-            curve[j]->setPen(Qt::red,2,Qt::SolidLine);
-            break;
-        }
-        case 2:{
-            curve[j]->setPen(Qt::blue,2,Qt::DashLine);
-            break;
-        }
-        case 3:{
-            curve[j]->setPen(Qt::black,2,Qt::DashLine);
-            break;
-        }
-        }
+            //qMap inserts reversely
+            points << QPointF(xValues.at(i).toDouble(),
+                              data.values(xValues.at(i).toDouble()).at(nCurves-j-1));
 
-        curve[j]->setSamples(points[j]);
-        curve[j]->setSymbol(symbols.at(j%4));
-        curve[j]->attach(this);
-        curvelist<<curve[j];
+        curve->setPen(brushColors.at(j%4), 2, penStyles.at(j%4));
+
+        // (per Qwt documentation, Note: QVector is implicitly shared)
+        curve->setSamples(points);
+        // FIXED: Cannot reuse the QwtSymbol pointer.
+        // Curve takes ownership of the symbols.
+        QwtSymbol * sItem = new QwtSymbol(QwtSymbol::Ellipse,QBrush(brushColors.at(j%4)),
+                                          QPen(Qt::black,1),QSize(3,3));
+        curve->setSymbol(sItem);
+        // this may take (revocable) ownership of the curve ...
+        // See docs for this->autoDelete() (true by default)
+        curve->attach(this);
+        curvelist<<curve;
     }
-    // These are just pointers, so deleting them doesn't affect the objects to which they point.
-    delete[] curve;
 }
 
 
