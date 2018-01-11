@@ -224,11 +224,6 @@ void curvesetting::on_lineEdit_linetitle_textChanged(const QString &arg1)//set c
         int listIndex = ui->listWidget->currentRow()+bgLineCount;
         QString oldCurveName = curvelistset->at(listIndex)->title().text();
         QString curveName = arg1;
-        // TODO: replace() removes # from automatically generated titles without user interaction.
-        // (Change is not reflected in XML until later.)
-        // Change is not reflected in this lineEdit field!
-        // Change is not reflected in list of curves, which can then be deleted!!!
-        //curveName.replace(QRegExp("[^a-zA-Z0-9_]"), "");
         if(curveName.count()==0)
             curveName = "curve_"+QString::number(ui->listWidget->currentRow());
         if(curveName.at(0).isDigit())
@@ -247,10 +242,10 @@ void curvesetting::on_comboBox_currentIndexChanged(QString text)//line color com
     set_plot->replot();
 }
 
-// TODO: double check that currentRow hasn't just been deleted before accessing it.
 void curvesetting::on_listWidget_currentRowChanged(int currentRow)//load current line status
 {
 int rowsInListWidget = ui->listWidget->count();
+// Double check that currentRow hasn't just been deleted before accessing it.
 #ifdef QT_DEBUG
     qDebug() << "curvesetting::on_listWidget_currentRowChanged debug info:";
     qDebug() << "Count of rows in the listWidget:" << rowsInListWidget;
@@ -261,6 +256,7 @@ int rowsInListWidget = ui->listWidget->count();
     {
         qDebug() << "Clearly not enough lists! Giving up gracefully.";
         qDebug() << "Just to follow up, asking for the currentRow now gives" << ui->listWidget->currentRow();
+        return;
     }
 #endif
     if(ui->listWidget->count()>0&&currentRow!=-1)
@@ -435,7 +431,7 @@ void curvesetting::curveToggled(QListWidgetItem *item)
         {
             thisCurve->attach(set_plot);
             thisCurve->setVisible(true);
-            // TODO: this isn't working properly
+            // BUG (fixed?): Sometimes get an index beyond size.
             if (set_plot->curveMarkers.size() > curveIndex)
             {
                 foreach(QwtPlotMarker*marker,set_plot->curveMarkers.at(curveIndex))
@@ -449,7 +445,7 @@ void curvesetting::curveToggled(QListWidgetItem *item)
         {
             thisCurve->detach();
             thisCurve->setVisible(false);
-			// TODO: next line triggers an error when user unchecks all curves
+            // BUG (fixed?): next line triggers an error when user unchecks all curves
             // Happens because curveMarkers may not exist for this curve.
             // See Plot::setupNewPropertyCurve (only called from plotsDialog::loadXml)
             if (set_plot->curveMarkers.size() > curveIndex)
@@ -528,24 +524,14 @@ void curvesetting::on_deleteCurveButton_clicked()
     delCurveName = set_plot->curvelist.at(bgLineCount+ui->listWidget->currentIndex().row())->title().text();
     int myRow = ui->listWidget->currentRow();
     int markerRows = set_plot->curveMarkers.count();
-    // TODO: caution here, if curve is missing somehow
+    // TODO: more permanent fix.
+    // Take caution here, if curve is missing somehow.
     // Hint: curveMakers are only created for specialty plots (Duhring, Clapeyron)
     // See Plot::setupNewPropertyCurve
 #ifdef QT_DEBUG
-
     qDebug() << "set_plot->curveMarkers debug info:";
-
     qDebug() << "Count of lists of curve markers:" << markerRows;
     qDebug() << "Looking for list number" << myRow;
-    if (myRow < markerRows)
-    {
-        qDebug() << "This list has " << set_plot->curveMarkers.at(myRow).count() << "elements.";
-        qDebug() << set_plot->curveMarkers.at(myRow);
-    }
-    else
-    {
-        qDebug() << "Clearly not enough lists! Giving up gracefully.";
-    }
 #endif
     if (myRow < markerRows)
     {

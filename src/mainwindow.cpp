@@ -2925,22 +2925,11 @@ void MainWindow::openRecentFile()
                 if(globalpara.caseName == fName)
                 {
                     QString name = QFileDialog::getSaveFileName(this,"Save current case to file:","./","XML files(*.xml)");
-                    bool noSave = false;
-                    while(name==""&&(!noSave))
+                    if(name == "")
                     {
-                        QMessageBox  mBox(this);
-                        mBox.addButton("Enter a directory",QMessageBox::YesRole);
-                        mBox.addButton("Don's save current case",QMessageBox::NoRole);
-                        mBox.setWindowTitle("Warning");
-                        mBox.setText("Please enter a directory to save the case!");
-                        mBox.setModal(true);
-                        mBox.exec();
-                        if(mBox.buttonRole(mBox.clickedButton())==QMessageBox::YesRole)
-                            name = QFileDialog::getSaveFileName(this,"Save current case to file:","./","XML files(*.xml)");
-                        else if(mBox.buttonRole(mBox.clickedButton())==QMessageBox::NoRole)
-                            noSave = true;
+                        break;
                     }
-                    if(!noSave)
+                    else
                     {
                         globalpara.caseName = name;
                         QFile tempFile(fName);
@@ -2956,11 +2945,8 @@ void MainWindow::openRecentFile()
             case 2://discard and proceed
                 loadCase(fileDir);
             }
-
-
         }
     }
-
 }
 
 void MainWindow::resizeEvent(QResizeEvent *e)
@@ -3150,22 +3136,9 @@ void MainWindow::on_actionOpen_triggered()
         {
             // TODO: The following control flow is easily confusing to a user.
             QString name = QFileDialog::getSaveFileName(this,"Save current case to file:","./","XML files(*.xml)");
-            bool noSave = false;
-            while(name==""&&(!noSave))
-            {
-                QMessageBox mBox(this);
-                mBox.addButton("Enter a directory",QMessageBox::YesRole);
-                mBox.addButton("Don's save current case",QMessageBox::NoRole);
-                mBox.setWindowTitle("Warning");
-                mBox.setText("Please enter a directory to save the case!");
-                mBox.setModal(true);
-                mBox.exec();
-                if(mBox.buttonRole(mBox.clickedButton())==QMessageBox::YesRole)
-                    name = QFileDialog::getSaveFileName(this,"Save current case to file:","./","XML files(*.xml)");
-                else if(mBox.buttonRole(mBox.clickedButton())==QMessageBox::NoRole)
-                    noSave = true;
-            }
-            if(!noSave)
+            if(name == "")
+                break;
+            else
             {
                 globalpara.caseName = name;
                 QFile tempFile(fName);

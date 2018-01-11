@@ -21,7 +21,7 @@
 extern dehumEffDialog*dhefDialog;
 extern MainWindow*theMainwindow;
 
-// TODO: provide initial values?
+// TODO: new feature - provide initial values?
 estNtuEffDialog::estNtuEffDialog(Node *airInlet, QWidget *parent) :
     QDialog(parent),
     ui(new Ui::estNtuEffDialog),
