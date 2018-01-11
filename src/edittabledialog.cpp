@@ -63,6 +63,7 @@ editTableDialog::editTableDialog(QString theTableName, QWidget *parent) :
     ui->setupUi(this);
     setWindowFlags(Qt::Dialog);
     setWindowModality(Qt::ApplicationModal);
+    setAttribute(Qt::WA_DeleteOnClose);
     setWindowTitle("Edit Table");
 
     inputModel = new QStringListModel;
@@ -255,11 +256,10 @@ void editTableDialog::on_OKButton_clicked()
             outputEntries.clear();
             inputQ.clear();
             outputQ.clear();
-
-            tableDialog aTableDialog(dummy, "", theMainwindow);
-            this->hide();
-            aTableDialog.exec();
-            this->accept();
+            // After accept(), this will close and send its finished(int) signal
+            // to the tableDialog that spawned it.
+            // It will also get automatically deleted.
+            accept();
         }
         else
             globalpara.reportError("Fail to set up xml file for table.",this);

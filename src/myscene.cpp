@@ -947,7 +947,7 @@ void myScene::evokeTDialog()
     // This is a member so that theMainwindow can trigger it from a key press.
     tDialog = new tableSelectParaDialog(theMainwindow);
     tDialog->setModal(true);
-    tDialog->exec();
+    tDialog->show();
 }
 
 

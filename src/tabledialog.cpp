@@ -96,7 +96,7 @@ tableDialog::tableDialog(unit * dummy, QString startTable, QWidget * parent) :
     ui->setupUi(this);
     setWindowModality(Qt::WindowModal);
     setWindowFlags(Qt::Dialog);
-
+    setAttribute(Qt::WA_DeleteOnClose);
 
     setWindowTitle("Parametric Tables");
 
@@ -216,6 +216,7 @@ bool tableDialog::setupTables(bool init)
                 for(int i = 0; i < tableCount; i++)
                 {
                     QDomElement currentTable = tableData.childNodes().at(i).toElement();
+                    // TODO: inputEntries and outputEntries conflicts with same names at global scope
                     QStringList inputEntries = currentTable.elementsByTagName("inputEntries").at(0).toElement().text().split(";");
                     QStringList outputEntries = currentTable.elementsByTagName("outputEntries").at(0).toElement().text().split(";");
                     QStringList tHeader = currentTable.elementsByTagName("header").at(0).toElement().text().split(";");
@@ -690,7 +691,8 @@ bool tableDialog::updateXml()
                     QDomNodeList values = currentInput.elementsByTagName("value");
                     QDomElement oldValue = values.at(0).toElement();
                     QDomElement newValue = doc.createElement("value");
-                    QDomText text = doc.createTextNode(QString::number(tableToUpdate->item(i,j)->data(Qt::DisplayRole).toDouble()));
+                    QDomText text = doc.createTextNode(QString::number(tableToUpdate
+                        ->item(i,j)->data(Qt::DisplayRole).toDouble()));
                     newValue.appendChild(text);
                     currentInput.appendChild(newValue);
                     currentInput.replaceChild(newValue,oldValue);
@@ -702,8 +704,8 @@ bool tableDialog::updateXml()
                     QDomNodeList values = currentOutput.elementsByTagName("value");
                     QDomElement oldValue = values.at(0).toElement();
                     QDomElement newValue = doc.createElement("value");
-                    QDomText text =
-                            doc.createTextNode(QString::number(tableToUpdate->item(i,j+inputEntries.count())->data(Qt::DisplayRole).toDouble()));
+                    QDomText text = doc.createTextNode(QString::number(tableToUpdate
+                        ->item(i,j+inputEntries.count())->data(Qt::DisplayRole).toDouble()));
                     newValue.appendChild(text);
                     currentOutput.appendChild(newValue);
                     currentOutput.replaceChild(newValue,oldValue);
@@ -2021,6 +2023,14 @@ void tableDialog::paste()
 
 }
 
+/*
+bool tableDialog::event(QEvent *e)
+{
+    qDebug() << e;
+    return QDialog::event(e);
+}
+*/
+
 void tableDialog::on_tabWidget_currentChanged(int index)
 {
 //    if(index>=0)
@@ -2031,6 +2041,8 @@ void tableDialog::closeEvent(QCloseEvent *)
 {
     // 2017-01-06: Added, because skipping this, changes are not
     // saved if user edited input column entries but did not calculate.
+    // Note, make sure that "edit columns" operations updates this GUI,
+    // otherwise this will overwrite the tableTemp.xml.
     updateXml();
 
     saveChanges();
@@ -2089,7 +2101,20 @@ bool tableDialog::saveChanges()
 
 void tableDialog::on_editColumnButton_clicked()
 {
+    // Get ready to pass off control to the next dialog
+    this->hide();
     QString tableName = ui->tabWidget->tabText(ui->tabWidget->currentIndex());
-    theScene->etDialog = new editTableDialog(tableName,theMainwindow);
-    theScene->etDialog->exec();
+    theScene->etDialog = new editTableDialog(tableName,this);
+    connect(theScene->etDialog, SIGNAL(finished(int)), this, SLOT(on_editColumnButton_finished(int)));
+    theScene->etDialog->show();
+}
+
+void tableDialog::on_editColumnButton_finished(int result)
+{
+    this->show();
+    qDebug() << "editTableDialog finished with result" << result;
+    if (result == QDialog::Accepted)
+    {
+        setupTables(false);
+    }
 }

@@ -67,6 +67,7 @@ tableSelectParaDialog::tableSelectParaDialog(QWidget *parent) :
     ui->setupUi(this);
     setWindowFlags(Qt::Dialog);
     setWindowModality(Qt::ApplicationModal);
+    setAttribute(Qt::WA_DeleteOnClose);
     setWindowTitle("Setup new table");
 
     inputModel = new QStringListModel(ui->inputList);
@@ -438,19 +439,16 @@ void tableSelectParaDialog::on_OKButton_clicked()
         runs = ui->runssb->value();
 
         setupXml();
-        tableDialog aTableDialog(dummy, "", theMainwindow);
+        tableDialog * aTableDialog = new tableDialog(dummy, "", theMainwindow);
         this->accept();
-        aTableDialog.exec();
+        aTableDialog->show();
 
         inputNumber = inputD.count();
-        inputEntries.clear();
-        outputEntries.clear();
+        //inputEntries.clear();
+        //outputEntries.clear();
         inputD.clear();
         outputD.clear();
     }
-
-
-
 }
 
 bool tableSelectParaDialog::tableNameUsed(QString name)//true means there has been one

@@ -76,16 +76,19 @@ private slots:
 
     void on_editColumnButton_clicked();
 
+    void on_editColumnButton_finished(int result);
+
 private:
     Ui::tableDialog *ui;
     unit * const myDummy;
+    QString startTName;
 
     QList<QTableWidgetItem*> selected;
     QByteArray myByteArray;
     void adjustTableSize(bool onlySize=false);
     void showEvent(QShowEvent *e);
     void paste();
-    QString startTName;
+
 };
 
 #endif // TABLEDIALOG_H

@@ -2484,8 +2484,9 @@ void MainWindow::openTableWindow()
         scene->evokeTDialog();
     else
     {
-        tableDialog aTableDialog(dummy, startTName, this);
-        aTableDialog.exec();
+        // Plans to hide itself for edit columns operation, so don't create in local scope.
+        tableDialog * aTableDialog = new tableDialog(dummy, startTName, this);
+        aTableDialog->show();
     }
 }
 
