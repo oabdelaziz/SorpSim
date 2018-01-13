@@ -198,6 +198,7 @@ void myScene::mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event)
     }
 
     //for selecting parameters for table****************************
+    // TODO: implement via signal/slot
     if(sceneActionIndex==2||sceneActionIndex==4)
     {
         if (!items.isEmpty())

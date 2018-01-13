@@ -419,6 +419,7 @@ void tableSelectParaDialog::on_addInputButton_clicked()
     istableinput = true;
     QApplication::setOverrideCursor(QCursor(Qt::CrossCursor));
     theStatusBar->showMessage("Double click on a state point or component to add its parameters as table input.\nOr press ESC to cancel.");
+    // TODO: add a callback to handle ESC key press
 }
 
 void tableSelectParaDialog::on_OKButton_clicked()
@@ -493,6 +494,7 @@ void tableSelectParaDialog::on_addOutputButton_clicked()
     istableinput = false;
     QApplication::setOverrideCursor(QCursor(Qt::CrossCursor));
     theStatusBar->showMessage("Double click on a state point or component to add its parameters as table output.\nOr press ESC to cancel.");
+    // TODO: add a callback to handle ESC key press
 }
 
 void tableSelectParaDialog::on_removeInputButton_clicked()

@@ -146,13 +146,7 @@ void editTableDialog::on_addInputButton_clicked()
     istableinput = true;
     QApplication::setOverrideCursor(QCursor(Qt::CrossCursor));
     theStatusBar->showMessage("Double click on a state point or component to add its parameters as table input.\nOr press ESC to cancel.");
-}
-
-void editTableDialog::on_removeInputButton_clicked()
-{
-    int currentIndex = ui->inputList->currentIndex().row();
-    inputModel->removeRows(currentIndex,1);
-    inputEntries.removeAt(currentIndex);
+    // TODO: add a callback to handle ESC key press
 }
 
 void editTableDialog::on_addOutputButton_clicked()
@@ -165,6 +159,20 @@ void editTableDialog::on_addOutputButton_clicked()
     QApplication::setOverrideCursor(QCursor(Qt::CrossCursor));
     theStatusBar->showMessage("Double click on a state point or component "
                               "to add its parameters as table output.\nOr press ESC to cancel.");
+    // TODO: add a callback to handle ESC key press
+}
+
+void editTableDialog::on_cancel_mouse_select()
+{
+    this->show();
+
+}
+
+void editTableDialog::on_removeInputButton_clicked()
+{
+    int currentIndex = ui->inputList->currentIndex().row();
+    inputModel->removeRows(currentIndex,1);
+    inputEntries.removeAt(currentIndex);
 }
 
 void editTableDialog::on_addCOPButton_clicked()

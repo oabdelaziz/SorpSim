@@ -232,6 +232,8 @@ bool newParaPlotDialog::setupXml()
 //            for(int i = 0;i<plotData.childNodes().count();i++)
 //                qDebug()<<"plot"<<i<<plotData.childNodes().at(i).toElement().tagName();
 //            qDebug()<<plotName;
+
+            // TODO: write valid XML for children of <plotData>
             if(!plotData.elementsByTagName(plotName).isEmpty())//check if the plot name is already used, if not, create the new element
             {
                 globalpara.reportError("This plot name is already used.",this);
@@ -244,6 +246,8 @@ bool newParaPlotDialog::setupXml()
                     currentTable = tableData.elementsByTagName(ui->tableCB->currentText()).at(0).toElement();
                 else if(mode>0)
                     currentTable = tableData.elementsByTagName(tName).at(0).toElement();
+                // TODO: write valid XML for children of <plotData>
+                // TODO: plotName.replace() is not necessary
                 plotName.replace(QRegExp("[^a-zA-Z0-9_]"), "");
                 newPlot = doc.createElement(plotName);
                 plotData.appendChild(newPlot);

@@ -55,6 +55,10 @@ public:
     void resultShow();
     void switchToSelect();
 
+signals:
+
+    void cancel_mouse_select_operation();
+
 private slots:
 
     void on_actionNew_triggered();

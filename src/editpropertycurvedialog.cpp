@@ -136,6 +136,8 @@ editPropertyCurveDialog::editPropertyCurveDialog(Plot*d_plot, QList<QwtPlotCurve
         {
             plotData = doc.elementsByTagName("plotData").at(0).toElement();
 
+            // TODO: make <plotData> children have valid XML tag names etc.
+            // (See comments elsewhere in code)
             currentPlot = plotData.elementsByTagName(overlay_plot->title().text().replace(" ","")).at(0).toElement();
             if(currentPlot.attribute("plotType")!="property")
             {

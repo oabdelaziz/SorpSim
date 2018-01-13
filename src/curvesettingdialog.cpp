@@ -581,6 +581,12 @@ void curvesetting::on_deleteCurveButton_clicked()
         {
             plotData = doc.elementsByTagName("plotData").at(0).toElement();
 
+            // TODO: <plotData> children need valid XML tag names and title, eg
+            // <plotData>
+            //   <plot title="plot_1" plotType="property">
+            //     <curveList/>
+            //   </plot>
+            // </plotData>
             currentPlot = plotData.elementsByTagName(set_plot->title().text().replace(" ","")).at(0).toElement();
             if(currentPlot.attribute("plotType")!="property")
             {

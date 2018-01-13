@@ -2687,6 +2687,7 @@ bool MainWindow::setTPMenu()
                 }
                 else
                 {
+                    // TODO: correct reading of child nodes of <plotData> to new, valid XML
                     QDomElement plotData = doc.elementsByTagName("plotData").at(0).toElement();
                     int pCount = plotData.childNodes().count();
                     for(int i = 0; i < pCount; i++)
@@ -4272,16 +4273,21 @@ void MainWindow::keyPressEvent(QKeyEvent *event)
         {
             theStatusBar->showMessage("Adding new component cancelled.");
             QApplication::restoreOverrideCursor();
+
         }
         else if(sceneActionIndex==2)
         {
+            // TODO: add a callback to handle ESC key press
             scene->tDialog->show();
             QApplication::restoreOverrideCursor();
+            emit cancel_mouse_select_operation();
         }
         else if(sceneActionIndex==4)
         {
+            // TODO: add a callback to handle ESC key press
             scene->etDialog->show();
             QApplication::restoreOverrideCursor();
+            emit cancel_mouse_select_operation();
         }
         sceneActionIndex=0;
         theToolBar->setEnabled(true);

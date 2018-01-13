@@ -24,9 +24,11 @@ private slots:
 
     void on_addInputButton_clicked();
 
-    void on_removeInputButton_clicked();
-
     void on_addOutputButton_clicked();
+
+    void on_cancel_mouse_select();
+
+    void on_removeInputButton_clicked();
 
     void on_addCOPButton_clicked();
 

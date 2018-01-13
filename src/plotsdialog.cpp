@@ -270,6 +270,7 @@ bool plotsDialog::loadXml(bool init)
             plotCount = plotData.childNodes().count();
             for(int i = 0; i < plotCount;i++)
             {
+                // TODO: update to read valid new form of xml for <plotData>
                 currentPlot = plotData.childNodes().at(i).toElement();
                 QString plotTitle = currentPlot.tagName();
                 qDebug() << "Loading from XML plot with title \"" << plotTitle << "\".";
@@ -732,6 +733,7 @@ void plotsDialog::on_dataSelectButton_clicked()
         }
         else
         {
+            // TODO: make valid XML for <plotData>
             //look for the original table that generated the plot
             QDomElement tableData = doc.elementsByTagName("TableData").at(0).toElement();
             QDomElement plotData = doc.elementsByTagName("plotData").at(0).toElement();
