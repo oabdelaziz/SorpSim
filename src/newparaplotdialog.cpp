@@ -106,11 +106,12 @@ void newParaPlotDialog::on_okButton_clicked()
             theScene->plotWindow->exec();
         }
         else
+        {
+            // TODO: need to setupXml()
+            setupXml();
             this->accept();
         }
-
-
-
+    }
 }
 
 bool newParaPlotDialog::setupXml()
@@ -658,7 +659,7 @@ bool newParaPlotDialog::setTable()
         QDomElement tables = doc.elementsByTagName("TableData").at(0).toElement();
         QStringList myTables;
         for(int i = 0; i < tables.childNodes().count();i++)
-            myTables.append(tables.childNodes().at(i).toElement().tagName());
+            myTables.append(tables.childNodes().at(i).toElement().attribute("title"));
 
         ui->tableCB->addItems(myTables);
         ui->tableCB->setCurrentIndex(0);

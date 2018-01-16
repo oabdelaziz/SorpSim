@@ -339,7 +339,7 @@ void overlaysetting::updateXml()
                 file.close();
                 return;
             }
-            currentPlot = plotsByTitle.value(plotTitle).toElement();
+            currentPlot = plotsByTitle.value(plotTitle);
 
             if(currentPlot.attribute("plotType")!="property")
             {

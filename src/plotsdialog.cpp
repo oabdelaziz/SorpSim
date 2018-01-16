@@ -496,7 +496,7 @@ bool plotsDialog::loadXml(bool init)
                 }
 
 
-                tabs->insertTab(-1,newPlot,currentPlot.tagName());
+                tabs->insertTab(-1,newPlot,currentPlot.attribute("title"));
                 newPlot->replot();
             }
             file.close();
@@ -608,6 +608,8 @@ void plotsDialog::deleteCurrentPlot()
     if(askBox.buttonRole(askBox.clickedButton())==QMessageBox::YesRole)
     {
         Plot* plotToDelete = dynamic_cast<Plot*>(tabs->currentWidget());
+        //QString plotTitle = tabs->tabText(tabs->currentIndex());
+        QString plotTitle = plotToDelete->title();
     #ifdef Q_OS_WIN32
         QFile file("plotTemp.xml");
     #endif
@@ -638,16 +640,14 @@ void plotsDialog::deleteCurrentPlot()
             else
             {
                 QDomElement plotData = doc.elementsByTagName("plotData").at(0).toElement();
-                QDomElement curveList = plotData.elementsByTagName("curveList").at(0).toElement();
-                QDomNodeList curves = curveList.elementsByTagName("curve");
-                QMap<QString, QDomElement> curvesByTitle;
-                for (int i = 0; i < curves.length(); i++)
+                QDomNodeList plots = plotData.elementsByTagName("plot");
+                QMap<QString, QDomElement> plotsByTitle;
+                for (int i = 0; i < plots.length(); i++)
                 {
-                    QDomElement curve = curves.at(i).toElement();
-                    curvesByTitle.insert(curve.attribute("title"), curve);
+                    QDomElement plot = plots.at(i).toElement();
+                    plotsByTitle.insert(plot.attribute("title"), plot);
                 }
-                QString curveTitle = tabs->tabText(tabs->currentIndex());
-                plotData.removeChild(curvesByTitle.value(curveTitle));
+                plotData.removeChild(plotsByTitle.value(plotTitle));
             }
             file.resize(0);
             doc.save(stream,4);
@@ -1071,11 +1071,21 @@ void plotsDialog::savePlotSettings()
         else
         {
             plotData = doc.elementsByTagName("plotData").at(0).toElement();
+            QDomNodeList plots = plotData.elementsByTagName("plot");
+            QMap<QString, QDomElement> plotsByTitle;
+            for (int i = 0; i < plots.length(); i++)
+            {
+                QDomElement plot = plots.item(i).toElement();
+                plotsByTitle.insert(plot.attribute("title"), plot);
+            }
 
             for(int i = 0; i < tabs->count();i++)
             {
                 Plot* set_plot = dynamic_cast<Plot*>(tabs->widget(i));
-                currentPlot = plotData.elementsByTagName(tabs->tabText(i)).at(0).toElement();
+                // The plot's own title is preferable to the tab text.
+                QString tabTitle = tabs->tabText(i);
+                QString plotTitle = set_plot->title().text();
+                currentPlot = plotsByTitle.value(plotTitle);
 
                 //general
                 if(currentPlot.elementsByTagName("general").count()==0)

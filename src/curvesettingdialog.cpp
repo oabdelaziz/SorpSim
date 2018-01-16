@@ -564,7 +564,6 @@ void curvesetting::on_deleteCurveButton_clicked()
     stream.setDevice(&file);
     QDomDocument doc;
     QDomElement plotData, currentPlot;
-    QDomNode thisCurve;
 
     if(!file.open(QIODevice::ReadWrite | QIODevice::Text))
     {
@@ -615,15 +614,18 @@ void curvesetting::on_deleteCurveButton_clicked()
             }
             else
             {
-                QDomNodeList curveNodeList = currentPlot.elementsByTagName("curveList").at(0).childNodes();
+                // <curveList>
+                QDomElement curveListNode = currentPlot.elementsByTagName("curveList").at(0).toElement();
+                // <curve>
+                QDomNodeList curves = curveListNode.elementsByTagName("curve");
                 bool found = false;
-                for (int i = 0; i < curveNodeList.count(); ++i)
+                for (int i = 0; i < curves.count(); ++i)
                 {
-                    thisCurve = curveNodeList.at(i);
-                    if (thisCurve.toElement().attribute("title") == delCurveName)
+                    QDomElement thisCurve = curves.at(i).toElement();
+                    if (thisCurve.attribute("title") == delCurveName)
                     {
                         qDebug()<<"Delete curve:revoming curve"<<delCurveName;
-                        currentPlot.removeChild(thisCurve);
+                        curveListNode.removeChild(thisCurve);
                         found = true;
                     }
                 }

@@ -9,7 +9,6 @@
 #include <cmath>
 #include <qwt_plot_zoomer.h>
 #include <qwt_plot_panner.h>
-#include <pixmap.h>
 #include <unitconvert.h>
 #include <qwt_scale_draw.h>
 #include <qwt_picker_machine.h>

@@ -10,7 +10,6 @@
 #include <qwt_plot_zoomer.h>
 #include <stdlib.h>
 #include <qwt_plot_panner.h>
-#include <pixmap.h>
 #include <unitconvert.h>
 #include <QList>
 #include <qlist.h>
