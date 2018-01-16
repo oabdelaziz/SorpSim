@@ -547,6 +547,8 @@ void curvesetting::on_deleteCurveButton_clicked()
 
     delete ui->listWidget->takeItem(ui->listWidget->currentRow());
 
+    QString plotTitle = set_plot->title().text();
+
 #ifdef Q_OS_WIN32
     QFile file("plotTemp.xml");
 #endif
@@ -581,16 +583,33 @@ void curvesetting::on_deleteCurveButton_clicked()
         {
             plotData = doc.elementsByTagName("plotData").at(0).toElement();
 
-            // TODO: <plotData> children need valid XML tag names and title, eg
+            // FIXED: <plotData> children need valid XML tag names and title, eg
             // <plotData>
             //   <plot title="plot_1" plotType="property">
             //     <curveList/>
             //   </plot>
             // </plotData>
-            currentPlot = plotData.elementsByTagName(set_plot->title().text().replace(" ","")).at(0).toElement();
+            //currentPlot = plotData.elementsByTagName(set_plot->title().text().replace(" ","")).at(0).toElement();
+            QMap<QString, QDomElement> plotsByTitle;
+            QDomNodeList plots = plotData.elementsByTagName("plot");
+            for (int i = 0; i < plots.length(); i++)
+            {
+                QDomElement node = plots.at(i).toElement();
+                QString nodeTitle = node.attribute("title");
+                plotsByTitle.insert(nodeTitle, node);
+            }
+            if (!plotsByTitle.contains(plotTitle))
+            {
+                qDebug() << "Delete curve: Specified <plot> not found in XML <plotData>. We shouldn't even be here.";
+                file.close();
+                return;
+            }
+            currentPlot = plotsByTitle.value(plotTitle);
+
             if(currentPlot.attribute("plotType")!="property")
             {
-                qDebug()<<"wrong plot type";
+                qDebug()<<"Delete curve: wrong plot type";
+                // But we already removed a curve in the GUI, wtf?
                 file.close();
                 return;
             }
@@ -603,7 +622,7 @@ void curvesetting::on_deleteCurveButton_clicked()
                     thisCurve = curveNodeList.at(i);
                     if (thisCurve.toElement().attribute("title") == delCurveName)
                     {
-                        qDebug()<<"revoming curve"<<delCurveName;
+                        qDebug()<<"Delete curve:revoming curve"<<delCurveName;
                         currentPlot.removeChild(thisCurve);
                         found = true;
                     }

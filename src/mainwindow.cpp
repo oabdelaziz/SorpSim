@@ -2687,19 +2687,19 @@ bool MainWindow::setTPMenu()
                 }
                 else
                 {
-                    // TODO: correct reading of child nodes of <plotData> to new, valid XML
+                    // FIXED: correct reading of child nodes of <plotData> to new, valid XML
                     QDomElement plotData = doc.elementsByTagName("plotData").at(0).toElement();
                     int pCount = plotData.childNodes().count();
                     for(int i = 0; i < pCount; i++)
                     {
                         QDomElement currentPlot = plotData.childNodes().at(i).toElement();
-                        plotList<<currentPlot.tagName();
+                        plotList << currentPlot.attribute("title");
                     }
                 }
             }
         }
         QAction *tempAction;
-        foreach(QString plotName,plotList)
+        foreach (QString plotName, plotList)
         {
             tempAction = ui->menuPlot_Windows->addAction(plotName);
             connect(tempAction,SIGNAL(triggered()),SLOT(openPlotWindow()));

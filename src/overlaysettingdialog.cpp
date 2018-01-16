@@ -145,15 +145,27 @@ overlaysetting::overlaysetting(Plot *d_plot,QWidget *parent):
             plotData = doc.elementsByTagName("plotData").at(0).toElement();
 
             // TODO: <plotData> overlay curve children are not valid XML tags
-            // Suggested:
-            // <plotData>
-            //   <curve class="overlay" title="curve_1" .../>
-            //   <curve class="overlay" title="curve_2" .../>
-            // </plotData>
-            currentPlot = plotData.elementsByTagName(overlay_plot->title().text().replace(" ","")).at(0).toElement();
+            QString plotTitle = overlay_plot->title().text();
+            //currentPlot = plotData.elementsByTagName(plotTitle.replace(" ","")).at(0).toElement();
+            QMap<QString, QDomElement> plotsByTitle;
+            QDomNodeList plots = plotData.elementsByTagName("plot");
+            for (int i = 0; i < plots.length(); i++)
+            {
+                QDomElement node = plots.at(i).toElement();
+                QString nodeTitle = node.attribute("title");
+                plotsByTitle.insert(nodeTitle, node);
+            }
+            if (!plotsByTitle.contains(plotTitle))
+            {
+                qDebug() << "Overlay setting: Specified <plot> not found in XML <plotData>.";
+                file.close();
+                return;
+            }
+            currentPlot = plotsByTitle.value(plotTitle);
+
             if(currentPlot.attribute("plotType")!="property")
             {
-                qDebug()<<"wrong plot type";
+                qDebug()<<"Overlay setting: invalid plotType attribute in given <plot>";
                 file.close();
                 return;
             }
@@ -282,6 +294,7 @@ void overlaysetting::updateXml()
     stream.setDevice(&file);
     QDomDocument doc;
     QDomElement plotData, currentPlot, thisCurve, currentPoint;
+    QDomElement curveList;
 
     QStringList thePoints;
 
@@ -303,7 +316,6 @@ void overlaysetting::updateXml()
             plotData = doc.elementsByTagName("plotData").at(0).toElement();
 
             QString curveName = newCurve->title().text();
-            curveName.replace(QRegExp("[^a-zA-Z0-9_]"), "");
             if(curveName.count()==0)
             {
                 for(int i = 1;curveNameUsed(curveName);i++)
@@ -312,7 +324,22 @@ void overlaysetting::updateXml()
             if(curveName.at(0).isDigit())
                 curveName = "curve_"+curveName;
 
-            currentPlot = plotData.elementsByTagName(overlay_plot->title().text()).at(0).toElement();
+            // TODO <plotData>
+            QString plotTitle = overlay_plot->title().text();
+            QMap<QString, QDomElement> plotsByTitle;
+            QDomNodeList plots = plotData.elementsByTagName("plot");
+            for (int i = 0; i < plots.length(); i++)
+            {
+                QDomElement node = plots.at(i).toElement();
+                plotsByTitle.insert(node.attribute("title"), node);
+            }
+            if (!plotsByTitle.contains(plotTitle))
+            {
+                qDebug() << "Overlay setting: <plot> with the given title not found in XML.";
+                file.close();
+                return;
+            }
+            currentPlot = plotsByTitle.value(plotTitle).toElement();
 
             if(currentPlot.attribute("plotType")!="property")
             {
@@ -322,12 +349,15 @@ void overlaysetting::updateXml()
             }
             else
             {
+                curveList = currentPlot.elementsByTagName("curveList").at(0).toElement();
 //                qDebug()<<"creating new curve element"<<curveName<<"with point#"<<overlay_plot->addvaluelist.count();
-                thisCurve = doc.createElement(curveName);
+                thisCurve = doc.createElement("curve");
+                thisCurve.setAttribute("title", curveName);
                 thisCurve.setAttribute("type","custom");
                 addvalue value;
                 for(int i = 0; i < overlay_plot->addvaluelist.count();i++)
                 {
+                    // TODO: <curve><point1/><point2/></curve> is not valid XML unless there is a max. number of points
                     currentPoint = doc.createElement("point"+QString::number(i));
                     currentPoint.setAttribute("order",QString::number(i));
                     value = overlay_plot->addvaluelist.at(i);
@@ -340,7 +370,7 @@ void overlaysetting::updateXml()
                     thisCurve.appendChild(currentPoint);
                     thePoints.append(QString::number(value.index));
                 }
-                currentPlot.appendChild(thisCurve);
+                curveList.appendChild(thisCurve);
 
                 file.resize(0);
                 doc.save(stream,4);
@@ -387,14 +417,15 @@ bool overlaysetting::curveNameUsed(QString name)
         else
         {
             QDomElement plotData = doc.elementsByTagName("plotData").at(0).toElement();
-            QDomElement currentPlot = plotData.elementsByTagName(overlay_plot->title().text()).at(0).toElement();
-
-            if(!currentPlot.elementsByTagName(name).isEmpty())
-                return true;
-            else
-                return false;
+            QDomNodeList thePlots = plotData.elementsByTagName("plot");
+            QMap<QString, QDomElement> plotsByTitle;
+            for (int i = 0; i < thePlots.length(); i++) {
+                QDomElement iPlot = thePlots.at(i).toElement();
+                plotsByTitle.insert(iPlot.attribute("title"), iPlot);
+            }
+            file.close();
+            return plotsByTitle.contains(name);
         }
-        file.close();
     }
 
 }

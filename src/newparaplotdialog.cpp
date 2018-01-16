@@ -65,6 +65,7 @@ newParaPlotDialog::~newParaPlotDialog()
     delete ui;
 }
 
+// TODO: fails to have any effect if mode==2?
 void newParaPlotDialog::on_okButton_clicked()
 {
     if(ui->xList->selectedItems().count()==0 || ui->yList->selectedItems().count()==0)
@@ -73,6 +74,7 @@ void newParaPlotDialog::on_okButton_clicked()
     {
         if(mode<2)
         {
+            // TODO: don't need to replace
             plotName = ui->plotNameLine->text().replace(QRegExp("[^a-zA-Z0-9_]"), "");
             if(plotName.count()==0)
             {
@@ -229,14 +231,20 @@ bool newParaPlotDialog::setupXml()
             else
                 plotData = doc.elementsByTagName("plotData").at(0).toElement();
 
-//            for(int i = 0;i<plotData.childNodes().count();i++)
-//                qDebug()<<"plot"<<i<<plotData.childNodes().at(i).toElement().tagName();
-//            qDebug()<<plotName;
-
             // TODO: write valid XML for children of <plotData>
-            if(!plotData.elementsByTagName(plotName).isEmpty())//check if the plot name is already used, if not, create the new element
+            // Check if the plot name is not already used, then create the new element, else raise an error.
+            QMap<QString, QDomElement> plotsByTitle;
+            QDomNodeList plots = plotData.elementsByTagName("plot");
+            for (int i = 0; i < plots.length(); i++)
             {
-                globalpara.reportError("This plot name is already used.",this);
+                QDomElement node = plots.at(i).toElement();
+                QString nodeTitle = node.attribute("title");
+                plotsByTitle.insert(nodeTitle, node);
+            }
+
+            if (plotsByTitle.contains(plotName))
+            {
+                globalpara.reportError("This <plot> title is already used.",this);
                 file.close();
                 return false;
             }
@@ -248,9 +256,10 @@ bool newParaPlotDialog::setupXml()
                     currentTable = tableData.elementsByTagName(tName).at(0).toElement();
                 // TODO: write valid XML for children of <plotData>
                 // TODO: plotName.replace() is not necessary
-                plotName.replace(QRegExp("[^a-zA-Z0-9_]"), "");
-                newPlot = doc.createElement(plotName);
+                // <plot title="{plotName}" plotType="parametric">
+                newPlot = doc.createElement("plot");
                 plotData.appendChild(newPlot);
+                newPlot.setAttribute("title",plotName);
                 newPlot.setAttribute("plotType","parametric");
                 if(mode==0)
                     newPlot.setAttribute("tableName",ui->tableCB->currentText());
@@ -385,12 +394,15 @@ bool newParaPlotDialog::plotNameUsed(QString name)
         else
         {
             QDomElement plotData = doc.elementsByTagName("plotData").at(0).toElement();
-            if(!plotData.elementsByTagName(name).isEmpty())
-                return true;
-            else
-                return false;
+            QDomNodeList thePlots = plotData.elementsByTagName("plot");
+            QMap<QString, QDomElement> plotsByTitle;
+            for (int i = 0; i < thePlots.length(); i++) {
+                QDomElement iPlot = thePlots.at(i).toElement();
+                plotsByTitle.insert(iPlot.attribute("title"), iPlot);
+            }
+            file.close();
+            return plotsByTitle.contains(name);
         }
-        file.close();
     }
 }
 

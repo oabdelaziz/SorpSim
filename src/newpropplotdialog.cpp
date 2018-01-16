@@ -94,7 +94,8 @@ bool newPropPlotDialog::setupXml()
             else
                 plotData = doc.elementsByTagName("plotData").at(0).toElement();
 
-            if(!plotData.elementsByTagName(plotName).isEmpty())//check if the plot name is already used, if not, create the new element
+            // If the plot name is not already used, then create the new element, else abort.
+            if (plotNameUsed(plotName))
             {
                 globalpara.reportError("This plot name is already used.",this);
                 file.close();
@@ -102,8 +103,10 @@ bool newPropPlotDialog::setupXml()
             }
             else
             {
-                newPlot = doc.createElement(plotName);
+                // <plot title="{plotName}" plotType="property">
+                newPlot = doc.createElement("plot");
                 plotData.appendChild(newPlot);
+                newPlot.setAttribute("title",plotName);
                 newPlot.setAttribute("plotType","property");
                 QString fluid,subType;
                 fluid = "LiBr";
@@ -150,11 +153,14 @@ bool newPropPlotDialog::plotNameUsed(QString name)
         else
         {
             QDomElement plotData = doc.elementsByTagName("plotData").at(0).toElement();
-            if(!plotData.elementsByTagName(name).isEmpty())
-                return true;
-            else
-                return false;
+            QDomNodeList thePlots = plotData.elementsByTagName("plot");
+            QMap<QString, QDomElement> plotsByTitle;
+            for (int i = 0; i < thePlots.length(); i++) {
+                QDomElement iPlot = thePlots.at(i).toElement();
+                plotsByTitle.insert(iPlot.attribute("title"), iPlot);
+            }
+            file.close();
+            return plotsByTitle.contains(name);
         }
-        file.close();
     }
 }
