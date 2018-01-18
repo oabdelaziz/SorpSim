@@ -157,6 +157,7 @@ void plotsDialog::refreshThePlot()
     QPoint pos(this->width()/2,this->height()/2);
 
     QMouseEvent*event1 = new QMouseEvent((QEvent::MouseButtonPress),pos,Qt::LeftButton,Qt::LeftButton,Qt::NoModifier);
+    QCoreApplication::postEvent(this, event1);
     qApp->processEvents();
 }
 
@@ -271,7 +272,7 @@ bool plotsDialog::loadXml(bool init)
             // Read each <plot>
             for(int i = 0; i < plotCount;i++)
             {
-                // TODO: update to read valid new form of xml for <plotData>
+                // FIXED: update to read valid new form of xml for <plotData>
                 currentPlot = plotData.childNodes().at(i).toElement();
                 QString plotTitle = currentPlot.attribute("title");
                 qDebug() << "Loading from XML plot with title \"" << plotTitle << "\".";
@@ -386,7 +387,12 @@ bool plotsDialog::loadXml(bool init)
 
                 }
 
-                //legend
+                // <legend>
+                // Attributes: plotLegend=on|off,
+                //             extInt=ext|int,
+                //             extPos=0|1|2|3, (see QwtPlot::LegendPosition)
+                //             nCol=integer,
+                //             legendSize=integer
                 if(currentPlot.elementsByTagName("legend").count()>0)
                 {
                     legend = currentPlot.elementsByTagName("legend").at(0).toElement();
@@ -534,7 +540,11 @@ void plotsDialog::edit()
     curvesetting * dialog = new curvesetting(&currentPlot->curvelist,currentPlot,this);
     dialog->setModal(true);
     if (dialog->exec()== QDialog::Accepted)
+    {
+        // TODO: sometimes, changes are lost, particularly curve deletion
+        // maybe need to savePlotSettings() and setupPlots()?
         currentPlot->replot();
+    }
 }
 
 void plotsDialog::print()
@@ -609,7 +619,7 @@ void plotsDialog::deleteCurrentPlot()
     {
         Plot* plotToDelete = dynamic_cast<Plot*>(tabs->currentWidget());
         //QString plotTitle = tabs->tabText(tabs->currentIndex());
-        QString plotTitle = plotToDelete->title();
+        QString plotTitle = plotToDelete->title().text();
     #ifdef Q_OS_WIN32
         QFile file("plotTemp.xml");
     #endif
@@ -712,7 +722,7 @@ void plotsDialog::on_exportMenuButton_triggered(QAction *arg1)
 //        qDebug()<<"They want data!";
 }
 
-// TODO: strange things happen after this action
+// FIXED: strange things happen after this action
 // Also, this is the strangest piece of code I have yet seen in here.
 // Well, let's guess the intent.
 // Here are some possible cases that may justify this action:
@@ -728,9 +738,13 @@ void plotsDialog::on_exportMenuButton_triggered(QAction *arg1)
 //     * The dialog has the user pick table columns for x and y axes
 //     * The dialog should save the results for the modified plot: overwriting plotTemp.xml with a new copy of the case file, then modifying it
 //                  ^----- Here is the bug
-//       When constructed with mode=2, the dialog never actually does anything!
+//       When constructed with mode=2, the dialog never actually does anything! (FIXED)
 //   * If the dialog was rejected, we attempt to restore the current plot
 //   * If the dialog was accepted, we saveChanges and setupPlots(init=false)
+//
+// After fixing, the changes suggested by the newParaPlotDialog are received.
+// However, they are not applied because "there is already a plot with this name".
+// That seems like reasonable behavior, so for now that functions reasonably well.
 void plotsDialog::on_dataSelectButton_clicked()
 {
     QString pName = tabs->tabText(tabs->currentIndex());
@@ -767,7 +781,7 @@ void plotsDialog::on_dataSelectButton_clicked()
         }
         else
         {
-            // TODO: make valid XML for <plotData>
+            // FIXED: make valid XML for <plotData>
             //look for the original table that generated the plot
             QDomElement tableData = doc.elementsByTagName("TableData").at(0).toElement();
             QDomElement plotData = doc.elementsByTagName("plotData").at(0).toElement();
@@ -1087,7 +1101,8 @@ void plotsDialog::savePlotSettings()
                 QString plotTitle = set_plot->title().text();
                 currentPlot = plotsByTitle.value(plotTitle);
 
-                //general
+                // <general>
+                // Attributes: tMargin, lMargin, xTitle, yTitle, rMargin, plotTitle, bMargin, bgColor
                 if(currentPlot.elementsByTagName("general").count()==0)
                 {
                     general = doc.createElement("general");
@@ -1122,7 +1137,7 @@ void plotsDialog::savePlotSettings()
                     else if(set_plot->externalLegend!=NULL)
                     {
                         legend.setAttribute("extInt","ext");
-                        legend.setAttribute("extPos",0);
+                        legend.setAttribute("extPos",set_plot->plotLayout()->legendPosition());
                     }
                 }
                 else legend.setAttribute("plotLegend","off");

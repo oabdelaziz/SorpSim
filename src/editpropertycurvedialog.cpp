@@ -136,7 +136,7 @@ editPropertyCurveDialog::editPropertyCurveDialog(Plot*d_plot, QList<QwtPlotCurve
         {
             plotData = doc.elementsByTagName("plotData").at(0).toElement();
 
-            // TODO: make <plotData> children have valid XML tag names etc.
+            // FIXED: make <plotData> children have valid XML tag names etc.
             // (See comments elsewhere in code)
             //currentPlot = plotData.elementsByTagName(overlay_plot->title().text().replace(" ","")).at(0).toElement();
             QString plotTitle = overlay_plot->title().text();
@@ -671,8 +671,7 @@ void editPropertyCurveDialog::updateXml()
                 // <plotData>
                 plotData = doc.elementsByTagName("plotData").at(0).toElement();
 
-                // TODO: this produces invalid XML for children of <plotData>
-                // See other related TODO comments
+                // FIXED: valid XML for children of <plotData>
                 //currentPlot = plotData.elementsByTagName(overlay_plot->title().text()).at(0).toElement();
                 QString plotTitle = overlay_plot->title().text();
                 QMap<QString, QDomElement> plotsByTitle;
@@ -779,11 +778,7 @@ void editPropertyCurveDialog::removeOld()
                     // <plotData>
                     plotData = doc.elementsByTagName("plotData").at(0).toElement();
 
-                    // TODO: produces invalid XML. Suggested change:
-                    // <plotData>
-                    //   <curve class="overlay" title="curve_1"/>
-                    //   <curve class="overlay" title="curve_2"/>
-                    // </plotData>
+                    // FIXED: produces valid XML.
                     // TODO: merge with some other property dialog in here (nearly identical)
                     //currentPlot = plotData.elementsByTagName(overlay_plot->title().text()).at(0).toElement();
                     QString plotTitle = overlay_plot->title().text();

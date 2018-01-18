@@ -244,21 +244,20 @@ void curvesetting::on_comboBox_currentIndexChanged(QString text)//line color com
 
 void curvesetting::on_listWidget_currentRowChanged(int currentRow)//load current line status
 {
-int rowsInListWidget = ui->listWidget->count();
-// Double check that currentRow hasn't just been deleted before accessing it.
-#ifdef QT_DEBUG
-    qDebug() << "curvesetting::on_listWidget_currentRowChanged debug info:";
-    qDebug() << "Count of rows in the listWidget:" << rowsInListWidget;
-    qDebug() << "Which currentRow was passed:" << currentRow;
-    if (currentRow < rowsInListWidget)
-        qDebug() << "The currentRow is a valid index into the list.";
-    else
+    // TODO: consider disconnecting signals to here while operating on the listWidget
+    // Double check that currentRow hasn't just been deleted before accessing it.
+    int numberCurves = curvelistset->length();
+    int rowsInListWidget = ui->listWidget->count();
+    if (currentRow >= rowsInListWidget || currentRow >= numberCurves)
     {
-        qDebug() << "Clearly not enough lists! Giving up gracefully.";
-        qDebug() << "Just to follow up, asking for the currentRow now gives" << ui->listWidget->currentRow();
+        qDebug() << "curvesetting::on_listWidget_currentRowChanged debug info:";
+        qDebug() << "Count of the list of curves:" << numberCurves;
+        qDebug() << "Count of rows in the listWidget:" << rowsInListWidget;
+        qDebug() << "Which currentRow was passed:" << currentRow;
+        qDebug() << "curvesetting::on_listWidget_currentRowChanged ignoring signal.";
         return;
     }
-#endif
+
     if(ui->listWidget->count()>0&&currentRow!=-1)
     {
         ui->curveActionBox->setEnabled(true);
@@ -545,7 +544,10 @@ void curvesetting::on_deleteCurveButton_clicked()
     set_plot->replot();
     set_plot->curvePoints.removeAt(ui->listWidget->currentIndex().row());
 
-    delete ui->listWidget->takeItem(ui->listWidget->currentRow());
+    qDebug() << "Curve items in list:" << ui->listWidget->count();
+    QListWidgetItem * listItem = ui->listWidget->takeItem(myRow);
+    qDebug() << "Curve items in list:" << ui->listWidget->count();
+    delete listItem;
 
     QString plotTitle = set_plot->title().text();
 
@@ -605,38 +607,30 @@ void curvesetting::on_deleteCurveButton_clicked()
             }
             currentPlot = plotsByTitle.value(plotTitle);
 
-            if(currentPlot.attribute("plotType")!="property")
+            // <curveList>
+            QDomElement curveListNode = currentPlot.elementsByTagName("curveList").at(0).toElement();
+            // <curve>
+            QDomNodeList curves = curveListNode.elementsByTagName("curve");
+            bool found = false;
+            for (int i = 0; i < curves.count(); ++i)
             {
-                qDebug()<<"Delete curve: wrong plot type";
-                // But we already removed a curve in the GUI, wtf?
-                file.close();
-                return;
-            }
-            else
-            {
-                // <curveList>
-                QDomElement curveListNode = currentPlot.elementsByTagName("curveList").at(0).toElement();
-                // <curve>
-                QDomNodeList curves = curveListNode.elementsByTagName("curve");
-                bool found = false;
-                for (int i = 0; i < curves.count(); ++i)
+                QDomElement thisCurve = curves.at(i).toElement();
+                if (thisCurve.attribute("title") == delCurveName)
                 {
-                    QDomElement thisCurve = curves.at(i).toElement();
-                    if (thisCurve.attribute("title") == delCurveName)
-                    {
-                        qDebug()<<"Delete curve:revoming curve"<<delCurveName;
-                        curveListNode.removeChild(thisCurve);
-                        found = true;
-                    }
+                    qDebug()<<"Delete curve:revoming curve"<<delCurveName;
+                    curveListNode.removeChild(thisCurve);
+                    found = true;
                 }
-                if (!found) {
-                    qDebug() << "Failed to find in XML any <curve> with title" << delCurveName << ".";
-                }
-                file.resize(0);
-                doc.save(stream,4);
-                file.close();
-                return;
             }
+            // TODO: update the indicated attribute <plot yAxisName="{}"/>
+            // Otherwise the curve will be re-created when the plot is reloaded.
+            if (!found) {
+                qDebug() << "Failed to find in XML any <curve> with title" << delCurveName << ".";
+            }
+            file.resize(0);
+            doc.save(stream,4);
+            file.close();
+            return;
         }
     }
 }

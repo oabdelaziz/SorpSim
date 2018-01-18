@@ -39,8 +39,6 @@ public:
     QPointF getPosition();
 
     QGraphicsSimpleTextItem * text;     // Text box to show this node's index on the display
-    // QGraphicsSimpleTextItem * parameters;  // Unused. See unit::spParameter. TODO - delete.
-    // bool real; // Unused. TODO - delete.
 
     int ndum;       // Index of this node in global list of nodes
     int ksub;       // Index into fluid inventory (see Link::setColor)

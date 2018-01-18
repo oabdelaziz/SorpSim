@@ -65,7 +65,6 @@ newParaPlotDialog::~newParaPlotDialog()
     delete ui;
 }
 
-// TODO: fails to have any effect if mode==2?
 void newParaPlotDialog::on_okButton_clicked()
 {
     if(ui->xList->selectedItems().count()==0 || ui->yList->selectedItems().count()==0)
@@ -105,9 +104,10 @@ void newParaPlotDialog::on_okButton_clicked()
             this->accept();
             theScene->plotWindow->exec();
         }
-        else
+        else // eg. mode 2 or 4 (edit columns)
         {
-            // TODO: need to setupXml()
+            // TODO: need to apply changes
+            // This setupXml() call doesn't quite work, since there is already such a plot.
             setupXml();
             this->accept();
         }
@@ -232,7 +232,7 @@ bool newParaPlotDialog::setupXml()
             else
                 plotData = doc.elementsByTagName("plotData").at(0).toElement();
 
-            // TODO: write valid XML for children of <plotData>
+            // FIXED: write valid XML for children of <plotData>
             // Check if the plot name is not already used, then create the new element, else raise an error.
             QMap<QString, QDomElement> plotsByTitle;
             QDomNodeList plots = plotData.elementsByTagName("plot");
@@ -255,8 +255,8 @@ bool newParaPlotDialog::setupXml()
                     currentTable = tableData.elementsByTagName(ui->tableCB->currentText()).at(0).toElement();
                 else if(mode>0)
                     currentTable = tableData.elementsByTagName(tName).at(0).toElement();
-                // TODO: write valid XML for children of <plotData>
-                // TODO: plotName.replace() is not necessary
+                // FIXED: write valid XML for children of <plotData>
+                // Note: plotName.replace() is not necessary
                 // <plot title="{plotName}" plotType="parametric">
                 newPlot = doc.createElement("plot");
                 plotData.appendChild(newPlot);

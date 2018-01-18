@@ -2222,6 +2222,7 @@ void MainWindow::createGroupFromIfix()
 
 bool MainWindow::noChangeMade()
 {
+    // TODO: implement comparison or operator==() for objects being compared
     bool nChanged = true;
     QFile ofile(globalpara.caseName);
 #ifdef Q_OS_WIN32
@@ -3135,7 +3136,7 @@ void MainWindow::on_actionOpen_triggered()
 #endif
         if(globalpara.caseName == fName)
         {
-            // TODO: The following control flow is easily confusing to a user.
+            // FIXED: Simplified flow for user's sake.
             QString name = QFileDialog::getSaveFileName(this,"Save current case to file:","./","XML files(*.xml)");
             if(name == "")
                 break;
@@ -3873,10 +3874,13 @@ void MainWindow::evokeAbout()
     aboutDialog.setTextFormat(Qt::RichText);
     aboutDialog.setText("<p align='center'><font size = 8 color = blue style = 'italic'>SorpSim 1.0</font><br>"
                        "<br>"
+                        // TODO: Create a plaintext file for license
+                        // TODO: update copyright holders to match code
                        "<font size = 2>Copyright 2015, UT-Battelle, LLC<br>"
                        "All rights reserved<br>"
                        "Sorption system Simulation program (SorpSim), Version 1.0<br>"
                        "OPEN SOURCE LICENSE</font></p>"
+                        // TODO: update license
                         // TODO: wrap with scroll area from here ...
                        "<p align = 'left'><font size = 2>Subject to the conditions of this License, UT-Bettelle, LLC (the 'Licensor')\
  hereby grants, free of charge, to any person (the 'Licensee')obtaining a copy of this software and associated documentation files (the 'Software'), \
@@ -3898,6 +3902,7 @@ OTHER PROPRIETARY RIGHTS, OR THAT THE SOFTWARE WILL ACCOMPLISH THE INTENDED RESU
 RESPONSIBILITY FOR ALL LIABILITIES, PENALTIES, FINES, CLAIMS, CAUSES OF ACTION, AND COSTS AND EXPENSES, CAUSED BY RESULTSING FROM OR ARISING OUT OF, IN WHOLE OR IN PART \
 THE USE, STORAGE OR DISPOSAL OF THE SOFTWARE.</font></p>"
                        "<p align='center'> <font size = 3>********************************************************</font><br>"
+                        // Get actual license text for ABSIMW 5.0 -- may override the above since this is a derivative work
                        "<font size = 2><align = 'center'>This program is based on ABSIMW Version 5.0, initiated and developed by Prof. Gershon Grossman of the Technion -- Israel Institute of Technology, \
 for the Oak Ridge National Laboratory under funding of the U.S. Department of Energy Building Equipment Technology Program <br>"
                        "<br>"

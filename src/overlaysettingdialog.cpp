@@ -144,7 +144,7 @@ overlaysetting::overlaysetting(Plot *d_plot,QWidget *parent):
             // <plotData>
             plotData = doc.elementsByTagName("plotData").at(0).toElement();
 
-            // TODO: <plotData> overlay curve children are not valid XML tags
+            // FIXED: <plotData> overlay curve children are not valid XML tags
             QString plotTitle = overlay_plot->title().text();
             //currentPlot = plotData.elementsByTagName(plotTitle.replace(" ","")).at(0).toElement();
             QMap<QString, QDomElement> plotsByTitle;
