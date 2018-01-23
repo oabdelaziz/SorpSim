@@ -1,17 +1,20 @@
-/*unit.cpp
- * [SorpSim v1.0 source code]
- * [developed by Zhiyao Yang and Dr. Ming Qu for ORNL]
- * [last updated: 10/12/15]
- *
- * class to draw/transform the components and store component data
- * new components are drawn using more elementary graphics features such as lines and nodes
- * each component holds its state points as members
- * relationships of state points within the same components are also defined in the drawing code
- * component also holds the simple text items to display its own results as well as all its state points' result parameters
- * stored in a linked list in cases, using pointers to link
- * called by various classes in this project
- */
+/*! \file unit.cpp
+    \brief draw/transform the components and store component data
 
+    [SorpSim v1.0 source code]
+    [developed by Zhiyao Yang and Dr. Ming Qu for ORNL]
+
+    Provides a class to draw/transform the components and store component data.
+    New components are drawn using more elementary graphics features such as lines and nodes.
+    Each component holds its state points as members.
+    Relationships of state points within the same components are also defined in the drawing code.
+    Component also holds the simple text items to display its own results as well as all its state points' result parameters.
+    In SorpSim, units are stored in a linked list in cases, using pointers to link.
+
+    \author Zhiyao Yang (zhiyaoYang)
+    \author Dr. Ming Qu
+    \author Nicholas Fette (nfette)
+*/
 
 
 
@@ -5278,7 +5281,7 @@ void unit::drawUnit()
         myNodes[2]->addToSet(myNodes[3],"fluid");
         myNodes[2]->addToSet(myNodes[4],"fluid");
 
-        // TODO: adiabatic analyzer has only 5 nodes!
+        // FIXED: adiabatic analyzer has only 5 nodes!
         myNodes[3]->addToSet(myNodes[1],"fc");
         myNodes[3]->addToSet(myNodes[0],"fc");
         myNodes[3]->addToSet(myNodes[2],"fc");
