@@ -111,7 +111,6 @@ HEADERS  += \
     resultdisplaydialog.h \
     resultdialog.h \
     plotproperty.h \
-    pixmap.h \
     node.h \
     myview.h \
     myscene.h \

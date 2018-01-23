@@ -1,20 +1,30 @@
-/*mainwindow.cpp
- * [SorpSim v1.0 source code]
- * [developed by Zhiyao Yang and Dr. Ming Qu for ORNL]
- * [last updated: 10/12/15]
- * ================================================
- * The mainwindow is the major operating interface of SorpSim, the first window to show when the program
- * launches, and last when users close SorpSim.
- *
- * The mainwindow class subclasses the QMainwindow class, with custom methods and data members defined
- * to handle actions triggered by button click or mouse/keyboard operations.
- *
- * The buttons of the menu bar are defined using Qt Creator and edited in the corresponding mainwindow.ui,
- * while the bottons on the tool bar are defined in the mainwindow constructor "Mainwindow::Mainwindow (QWidget* parent){}".
- *
- * The operating panel below the toolbar is consisted of a myView (subclass of QGraphicsView, defined in myview.cpp/h) and a
- * myScene (subclass of QGraphicsScene, defined in myscene.cpp/h). The "myView" was added onto the mainwindow in the constructor
- * function, and the "myScene" is added onto the "myView" after that. (refer to Qt documentations about View and Scene operations)
+/*! \file mainwindow.cpp
+    \brief draw/transform the components and store component data
+
+    [SorpSim v1.0 source code]
+    [developed by Zhiyao Yang and Dr. Ming Qu for ORNL]
+
+    The mainwindow is the major operating interface of SorpSim, the first window
+    to show when the program launches, and last when users close SorpSim.
+
+    The mainwindow class subclasses the QMainwindow class, with custom methods
+    and data members defined to handle actions triggered by button click or
+    mouse/keyboard operations.
+
+    The buttons of the menu bar are defined using Qt Creator and edited in the
+    corresponding mainwindow.ui, while the bottons on the tool bar are defined
+    in the mainwindow constructor "Mainwindow::Mainwindow (QWidget* parent){}".
+
+    The operating panel below the toolbar is consisted of a myView (subclass of
+    QGraphicsView, defined in myview.cpp/h) and a myScene (subclass of
+    QGraphicsScene, defined in myscene.cpp/h). The "myView" was added onto the
+    mainwindow in the constructor function, and the "myScene" is added onto the
+    "myView" after that. (refer to Qt documentations about View and Scene
+    operations)
+
+    \author Zhiyao Yang (zhiyaoYang)
+    \author Dr. Ming Qu
+    \author Nicholas Fette (nfette)
 */
 
 #include <vector>
@@ -103,15 +113,37 @@
 #include "guessdialog.h"
 
 
-int globalcount = 0;                    // number of units
-int spnumber = 0;                       // number of state points
-int linkcount = 0;                      // number of links between state points (write-only, for debugging?)
-// Linked list of units is implemented with pointers (unit::next)
-unit* head =NULL;                       // often the first unit in the list (after dummy)
-unit* dummy = NULL;                     // a placeholder before the first unit
-QString fname;
-unit * tableunit = NULL;
-Node * tablesp = NULL;
+/*! \name Units and links
+
+    Linked list of units is implemented with pointers (unit::next)
+*/
+//! \{
+
+//! number of units
+int globalcount = 0;
+
+//! number of state points
+int spnumber = 0;
+
+//! number of links between state points (write-only, for debugging?)
+int linkcount = 0;
+
+//! often the first unit in the list (after dummy) but subject to change
+unit* head =NULL;
+
+//! a placeholder before the first unit
+unit* dummy = NULL;
+//! \}
+
+
+//TODO: remove
+// unit * tableunit = NULL;
+
+// TODO: remove
+// Node * tablesp = NULL;
+
+//! The myScene holds all the graphics items (including units and links) for
+//! display in the MainWindow.
 myScene * theScene;
 
 QStatusBar * theStatusBar;
@@ -124,16 +156,26 @@ globalparameter globalpara;
 extern double mousex;
 extern double mousey;
 unit * tempUnit;
+
+/// \brief sceneActionIndex: current state of operation for theScene.
+/// Used by dialogs that interact with theScene (for selecting and creating items).
 ///
-/// \brief sceneActionIndex:
-///0,evoke property; 1,draw component; 2,table select; 3,add link
+/// * 0, evoke property (rest state);
+/// * 1, draw (add) component (on mouse click);
+/// * 2, table select inputs/outputs (on double click, for creating a table);
+/// * 3, add link (on double click);
+/// * 4, table edit (on double click, to modify existing table);
+/// * 5, plot select node (on double click)
 ///
+/// MainWindow responds to any key press event of "ESC" and sets the mode back to 0.
+/// myScene responds to mouse click signals.
 ///
 int sceneActionIndex;
 
 extern calOutputs outputs;
 
-///
+/// Used by editTableDialog and tableSelectParaDialog to instruct
+/// selectParaDialog how to behave when user selects something in theScene.
 bool istableinput;
 
 MainWindow::MainWindow(QWidget *parent) :
@@ -2527,9 +2569,8 @@ void MainWindow::openPlotWindow()
     else
     {
         scene->plotWindow = new plotsDialog(startPName, false, this);
-        scene->plotWindow ->exec();
+        scene->plotWindow ->show();
     }
-
 }
 
 QMap<QString, int> MainWindow::hasTPData(bool lookForTable)
@@ -3049,7 +3090,7 @@ void MainWindow::on_actionRun_triggered()
 
         if(gDialog.exec() == QDialog::Accepted)
         {
-            fname = "Project";
+            QString fname = "Project";
             // 2017-12-30: removed this field from mainwindow (used only locally)
             // TODO: why is it a class?
             calculate mycal(dummy);
@@ -3972,7 +4013,7 @@ void MainWindow::on_actionNew_Property_Plot_triggered()
 {
     switchToSelect();
     disableResult();
-    newPropPlotDialog  pDialog(this);
+    newPropPlotDialog pDialog(this);
     pDialog.setWindowTitle("Property Plot");
     pDialog.setModal(true);
     pDialog.exec();
