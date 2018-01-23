@@ -14,6 +14,8 @@
 
 #include "overlaysettingdialog.h"
 #include "ui_overlaysettingdialog.h"
+#include "sorputils.h"
+
 #include <myscene.h>
 #include <mainwindow.h>
 #include <qwt_plot_marker.h>
@@ -32,6 +34,7 @@ extern int spnumber;
 
 extern myScene * theScene;
 extern MainWindow* theMainwindow;
+extern int sceneActionIndex;
 
 double cal_T1(double t)
 {
@@ -182,7 +185,7 @@ overlaysetting::overlaysetting(Plot *d_plot,QWidget *parent):
 
 void overlaysetting::on_buttonBox_rejected()
 {
-    overlay_plot->plotselect = false;
+    sceneActionIndex = 0;
     QApplication::restoreOverrideCursor();
 }
 
@@ -273,7 +276,7 @@ void overlaysetting::on_buttonBox_accepted()
         drawPlot();
         updateXml();
     }
-    overlay_plot->plotselect = false;
+    sceneActionIndex = 0;
     QApplication::restoreOverrideCursor();
 }
 
@@ -349,7 +352,13 @@ void overlaysetting::updateXml()
             }
             else
             {
-                curveList = currentPlot.elementsByTagName("curveList").at(0).toElement();
+                if (currentPlot.elementsByTagName("curveList").length() > 0)
+                    curveList = currentPlot.elementsByTagName("curveList").at(0).toElement();
+                else
+                {
+                    curveList = doc.createElement("curveList");
+                    currentPlot.appendChild(curveList);
+                }
 //                qDebug()<<"creating new curve element"<<curveName<<"with point#"<<overlay_plot->addvaluelist.count();
                 thisCurve = doc.createElement("curve");
                 thisCurve.setAttribute("title", curveName);
@@ -417,14 +426,12 @@ bool overlaysetting::curveNameUsed(QString name)
         else
         {
             QDomElement plotData = doc.elementsByTagName("plotData").at(0).toElement();
-            QDomNodeList thePlots = plotData.elementsByTagName("plot");
-            QMap<QString, QDomElement> plotsByTitle;
-            for (int i = 0; i < thePlots.length(); i++) {
-                QDomElement iPlot = thePlots.at(i).toElement();
-                plotsByTitle.insert(iPlot.attribute("title"), iPlot);
-            }
+            QString plotTitle = overlay_plot->title().text();
+            auto plotsByTitle = Sorputils::mapElementsByAttribute(plotData.childNodes(), "title");
+            QDomElement curveList = plotsByTitle.value(plotTitle).elementsByTagName("curveList").at(0).toElement();
+            auto curvesByTitle = Sorputils::mapElementsByAttribute(curveList.childNodes(), "title");
             file.close();
-            return plotsByTitle.contains(name);
+            return curvesByTitle.contains(name);
         }
     }
 
@@ -674,18 +681,18 @@ void overlaysetting::debugg()
 
 void overlaysetting::on_pushButton_clicked()//start select
 {
-    if(overlay_plot->plotselect)
+    if(sceneActionIndex == 5)
     {
         ui->pushButton->setText("Start Selecting State Points From Cycle");
         displaylist();
-        overlay_plot->plotselect = false;
+        sceneActionIndex = 0;
         QApplication::restoreOverrideCursor();
         qDebug()<<"cursor restored";
     }
     else
     {
         ui->pushButton->setText("Stop Selecting State Points From Cycle");
-        overlay_plot->plotselect=true;
+        sceneActionIndex = 5;
         theScene->sel_plot=overlay_plot;
         theScene->overlaydialog=this;
         theMainwindow->raise();
@@ -813,7 +820,7 @@ void overlaysetting::on_pushButton_add_input_clicked()//add sp by typing in its 
 
 void overlaysetting::closeEvent(QCloseEvent *event)
 {
-    overlay_plot->plotselect = false;
+    sceneActionIndex = 0;
     QApplication::restoreOverrideCursor();
 
     QDialog::closeEvent(event);

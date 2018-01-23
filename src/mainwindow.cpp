@@ -2668,7 +2668,9 @@ bool MainWindow::setTPMenu()
                     for(int i = 0; i < tCount; i++)
                     {
                         QDomElement currentTable = tableData.childNodes().at(i).toElement();
-                        tableList<<currentTable.tagName();
+                        QString tableTitle = currentTable.attribute("title");
+                        //tableList << currentTable.tagName();
+                        tableList << tableTitle;
                     }
                 }
             }

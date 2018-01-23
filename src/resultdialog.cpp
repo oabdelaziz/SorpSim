@@ -32,7 +32,6 @@
 #include "sorpsimEngine.h"
 #include "unitconvert.h"
 
-extern QString fname;
 extern int globalcount;
 extern int spnumber;
 extern calOutputs outputs;

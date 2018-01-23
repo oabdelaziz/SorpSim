@@ -28,6 +28,7 @@
 #include "myscene.h"
 #include "unit.h"
 #include "node.h"
+#include "sorputils.h"
 
 #include <QStringList>
 #include <QListView>
@@ -38,8 +39,8 @@
 
 extern int sceneActionIndex;
 extern bool istableinput;
-extern unit * tableunit;
-extern Node * tablesp;
+//extern unit * tableunit;
+//extern Node * tablesp;
 extern QStringList inputEntries;
 extern QStringList outputEntries;
 extern globalparameter globalpara;
@@ -315,7 +316,9 @@ bool editTableDialog::setupXml()
     else
     {
         QDomElement tableData = doc.elementsByTagName("TableData").at(0).toElement();
-        if(!(tableName==oldTableName||tableData.elementsByTagName(tableName).isEmpty()))//check if the table name is already used, if not, create the new element
+        auto tablesByTitle = Sorputils::mapElementsByAttribute(tableData.childNodes(), "title");
+        // check if the table name is already used, if not, create the new element
+        if(!(tableName == oldTableName || !tablesByTitle.contains(tableName)))
         {
             globalpara.reportError("This table name is already used.",this);
             file.close();
@@ -323,8 +326,8 @@ bool editTableDialog::setupXml()
         }
         else
         {
-            QDomElement newTable = tableData.elementsByTagName(oldTableName).at(0).toElement();
-            newTable.setTagName(tableName);
+            QDomElement newTable = tablesByTitle[oldTableName];
+            newTable.setAttribute("title", tableName);
 
             QDomNode tableHeader = newTable.elementsByTagName("header").at(0);
             newTable.removeChild(tableHeader);
@@ -479,7 +482,8 @@ bool editTableDialog::loadTheTable()
     else
     {
         QDomElement tableData = doc.elementsByTagName("TableData").at(0).toElement();
-        if(tableData.elementsByTagName(tableName).isEmpty())
+        auto tablesByTitle = Sorputils::mapElementsByAttribute(tableData.childNodes(), "title");
+        if (!tablesByTitle.contains(tableName))
         {
             globalpara.reportError("Fail to find the table data.",this);
             file.close();
@@ -487,7 +491,7 @@ bool editTableDialog::loadTheTable()
         }
         else
         {
-            QDomElement theTable = tableData.elementsByTagName(tableName).at(0).toElement();
+            QDomElement theTable = tablesByTitle.value(tableName);
             QString iEntries = theTable.elementsByTagName("inputEntries").at(0).toElement().text();
             QString oEntries = theTable.elementsByTagName("outputEntries").at(0).toElement().text();
             QString runsCount = theTable.attribute("runs");
@@ -695,7 +699,8 @@ bool editTableDialog::tableNameUsed(QString name)
             else
             {
                 QDomElement tableData = doc.elementsByTagName("TableData").at(0).toElement();
-                if(!tableData.elementsByTagName(tableName).isEmpty())
+                auto tablesByTitle = Sorputils::mapElementsByAttribute(tableData.childNodes(), "title");
+                if(!tablesByTitle.contains(tableName))
                     return true;
                 else
                     return false;

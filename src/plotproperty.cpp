@@ -69,7 +69,6 @@ static double cal_p2(double t)
 //
 Plot::Plot(QString fluid, QString subType, QString unitSystem)
 {
-    plotselect=false;
     isParametric = false;
     //public var and setting
     double x,y;
@@ -677,7 +676,6 @@ Plot::Plot(QMultiMap<double, double> data, QStringList xValues, int curveCount, 
     QStringList outAxis(axis_name);
     QString inAxis = outAxis.takeFirst();
 
-    plotselect=false;
     isParametric = true;
 
     internalLegend= new LegendItem();
@@ -756,6 +754,10 @@ Plot::Plot(QMultiMap<double, double> data, QStringList xValues, int curveCount, 
     }
 }
 
+Plot::~Plot()
+{
+    qDebug() << "Plot: destroying now at Plot" << this;
+}
 
 double Plot::cal_rt_p(double pres)
 {

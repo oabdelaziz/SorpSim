@@ -102,12 +102,15 @@ public:
     }
 };
 
-
+// Note that QwtPlot inherits QFrame (which inherits QWidget) and so on.
+// So should pass a parent?
 class Plot : public QwtPlot
 {
 public:
+    // TODO: pass in parent?
     Plot(QString fluid, QString subType, QString unitSystem);
     Plot(QMultiMap<double,double> data, QStringList xValues, int curveCount, int*axis_info, QStringList axis_name);
+    ~Plot();
     double cal_rt_p(double pres);
     double cal_rt_c(double c, double t);
     QList<QwtPlotCurve *> curvelist;
@@ -117,7 +120,6 @@ public:
     QList<QStringList> curvePoints;
     QList<QList<QwtPlotMarker *> > curveMarkers;
     int axis_typeinfo[2];
-    bool plotselect;
     QwtPlotGrid *grid;
     bool isParametric;
 

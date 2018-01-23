@@ -30,8 +30,8 @@
 
 extern globalparameter globalpara;
 extern MainWindow*theMainwindow;
-extern unit* tableunit;
-extern Node* tablesp;
+//extern unit* tableunit;
+//extern Node* tablesp;
 extern QStringList inputEntries;
 extern QStringList outputEntries;
 extern bool istableinput;
@@ -56,8 +56,9 @@ selectParaDialog::~selectParaDialog()
 
 }
 
-void selectParaDialog::setUnit(unit *)
+void selectParaDialog::setUnit(unit * const tableunit)
 {
+    this->tableunit = tableunit;
 
     if(istableinput)
     {
@@ -200,8 +201,10 @@ void selectParaDialog::setUnit(unit *)
     }
 }
 
-void selectParaDialog::setStatePoint(Node *)
+void selectParaDialog::setStatePoint(Node * const tablesp)
 {
+    this->tablesp = tablesp;
+
     ui->locationlb->setText("You have selected State Point#"+QString::number(tablesp->ndum));
 
     if(istableinput)

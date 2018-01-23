@@ -54,7 +54,7 @@ void newPropPlotDialog::on_okButton_clicked()
     setupXml();
     theScene->plotWindow = new plotsDialog("", false, theMainwindow);
     accept();
-    theScene->plotWindow->exec();
+    theScene->plotWindow->show();
 }
 
 void newPropPlotDialog::on_cancelButton_clicked()

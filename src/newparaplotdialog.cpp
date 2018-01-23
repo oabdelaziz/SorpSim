@@ -20,7 +20,7 @@
 #include "mainwindow.h"
 #include "dataComm.h"
 #include "plotsdialog.h"
-
+#include "sorputils.h"
 
 extern globalparameter globalpara;
 extern myScene * theScene;
@@ -223,6 +223,7 @@ bool newParaPlotDialog::setupXml()
         else
         {
             tableData = doc.elementsByTagName("TableData").at(0).toElement();
+            auto tablesByTitle = Sorputils::mapElementsByAttribute(tableData.childNodes(), "title");
             if(doc.elementsByTagName("plotData").count()==0)
             {
                 plotData = doc.createElement("plotData");
@@ -252,9 +253,9 @@ bool newParaPlotDialog::setupXml()
             else
             {
                 if(mode==0)
-                    currentTable = tableData.elementsByTagName(ui->tableCB->currentText()).at(0).toElement();
+                    currentTable = tablesByTitle.value(ui->tableCB->currentText());
                 else if(mode>0)
-                    currentTable = tableData.elementsByTagName(tName).at(0).toElement();
+                    currentTable = tablesByTitle.value(tName);
                 // FIXED: write valid XML for children of <plotData>
                 // Note: plotName.replace() is not necessary
                 // <plot title="{plotName}" plotType="parametric">
@@ -522,7 +523,14 @@ bool newParaPlotDialog::readTheFile(QString tableName)
 
 
     QDomElement tables = doc.elementsByTagName("TableData").at(0).toElement();
-    QDomElement currentTable = tables.elementsByTagName(tableName).at(0).toElement();
+    auto tablesByTitle = Sorputils::mapElementsByAttribute(tables.childNodes(), "title");
+    if (!tablesByTitle.contains(tableName))
+    {
+        globalpara.reportError("Failed to load specified table from xml .",this);
+        file.close();
+        return false;
+    }
+    QDomElement currentTable = tablesByTitle.value(tableName);
 
 
     QDomNodeList Runs = currentTable.elementsByTagName("Run");

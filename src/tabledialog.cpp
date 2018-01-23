@@ -42,7 +42,7 @@
 #include "dataComm.h"
 #include "sorpsimEngine.h"
 #include "edittabledialog.h"
-
+#include "sorputils.h"
 
 #include <QStringList>
 #include <QString>
@@ -216,6 +216,7 @@ bool tableDialog::setupTables(bool init)
                 for(int i = 0; i < tableCount; i++)
                 {
                     QDomElement currentTable = tableData.childNodes().at(i).toElement();
+                    QString tableTitle = currentTable.attribute("title");
                     // TODO: inputEntries and outputEntries conflicts with same names at global scope
                     QStringList inputEntries = currentTable.elementsByTagName("inputEntries").at(0).toElement().text().split(";");
                     QStringList outputEntries = currentTable.elementsByTagName("outputEntries").at(0).toElement().text().split(";");
@@ -223,7 +224,8 @@ bool tableDialog::setupTables(bool init)
                     QTableWidget * newTable = new QTableWidget();
                     int runs = currentTable.attribute("runs").toInt();
 
-                    ui->tabWidget->insertTab(-1,newTable,currentTable.tagName());
+                    //ui->tabWidget->insertTab(-1,newTable,currentTable.tagName());
+                    ui->tabWidget->insertTab(-1,newTable,tableTitle);
                     newTable->setColumnCount(inputEntries.count()+outputEntries.count());
                     newTable->setHorizontalHeaderLabels(tHeader);
                     newTable->setRowCount(runs);
@@ -479,8 +481,10 @@ bool tableDialog::reshapeXml(int adrPosition, int adrIar)
         }
 
         QDomElement tableData = doc.elementsByTagName("TableData").at(0).toElement();
-        QDomElement currentTable =
-                tableData.elementsByTagName(ui->tabWidget->tabText(ui->tabWidget->currentIndex())).at(0).toElement();
+        auto tablesByTitle = Sorputils::mapElementsByAttribute(tableData.childNodes(), "title");
+        QString tableTitle = ui->tabWidget->tabText(ui->tabWidget->currentIndex());
+        QDomElement currentTable = tablesByTitle[tableTitle];
+        // ...       tableData.elementsByTagName(ui->tabWidget->tabText(ui->tabWidget->currentIndex())).at(0).toElement();
         QStringList inputEntries = currentTable.elementsByTagName("inputEntries").at(0).toElement().text().split(";");
         QStringList outputEntries = currentTable.elementsByTagName("outputEntries").at(0).toElement().text().split(";");
 
@@ -617,10 +621,13 @@ void tableDialog::copyTable()
         else
         {
             QDomElement tableData = doc.elementsByTagName("TableData").at(0).toElement();
-            if(!tableData.elementsByTagName(tName).isEmpty())
+            auto tablesByTitle = Sorputils::mapElementsByAttribute(tableData.childNodes(), "title");
+            //if(!tableData.elementsByTagName(tName).isEmpty())
+            if (tablesByTitle.contains(tName))
             {
-                QDomNode newNode = tableData.elementsByTagName(tName).at(0).cloneNode(true);
-                newNode.toElement().setTagName(newName);
+                //QDomNode newNode = tableData.elementsByTagName(tName).at(0).cloneNode(true);
+                QDomNode newNode = tablesByTitle.value(tName).cloneNode(true);
+                newNode.toElement().setAttribute("title", newName);
                 tableData.appendChild(newNode);
             }
         }
@@ -673,8 +680,10 @@ bool tableDialog::updateXml()
         else
         {
             QDomElement tableData = doc.elementsByTagName("TableData").at(0).toElement();
-            QDomElement currentTable =
-                    tableData.elementsByTagName(ui->tabWidget->tabText(ui->tabWidget->currentIndex())).at(0).toElement();
+            QString tableTitle = ui->tabWidget->tabText(ui->tabWidget->currentIndex());
+            auto tablesByTitle = Sorputils::mapElementsByAttribute(tableData.childNodes(), "title");
+            QDomElement currentTable = tablesByTitle[tableTitle];
+            // ...        tableData.elementsByTagName(ui->tabWidget->tabText(ui->tabWidget->currentIndex())).at(0).toElement();
             QStringList inputEntries = currentTable.elementsByTagName("inputEntries").at(0).toElement().text().split(";");
             QStringList outputEntries = currentTable.elementsByTagName("outputEntries").at(0).toElement().text().split(";");
             currentTable.setAttribute("runs",tableToUpdate->rowCount());
@@ -959,8 +968,10 @@ void tableDialog::calcTable()
 
     }
     QDomElement tableData = doc.elementsByTagName("TableData").at(0).toElement();
-    QDomElement currentTable =
-            tableData.elementsByTagName(ui->tabWidget->tabText(ui->tabWidget->currentIndex())).at(0).toElement();
+    QString tableTitle = ui->tabWidget->tabText(ui->tabWidget->currentIndex());
+    auto tablesByTitle = Sorputils::mapElementsByAttribute(tableData.childNodes(), "title");
+    QDomElement currentTable = tablesByTitle[tableTitle];
+    // ...        tableData.elementsByTagName(ui->tabWidget->tabText(ui->tabWidget->currentIndex())).at(0).toElement();
     int tUnit = currentTable.attribute("tUnit").toInt(),
             pUnit = currentTable.attribute("pUnit").toInt(),
             fUnit = currentTable.attribute("fUnit").toInt(),
@@ -1522,8 +1533,10 @@ void tableDialog::on_alterVarButton_clicked()
         else
         {
             QDomElement tableData = doc.elementsByTagName("TableData").at(0).toElement();
-            QDomElement thisTable =
-                    tableData.elementsByTagName(ui->tabWidget->tabText(ui->tabWidget->currentIndex())).at(0).toElement();
+            auto tablesByTitle = Sorputils::mapElementsByAttribute(tableData.childNodes(), "title");
+            QString tableTitle = ui->tabWidget->tabText(ui->tabWidget->currentIndex());
+            QDomElement thisTable = tablesByTitle.value(tableTitle);
+            // ...        tableData.elementsByTagName(ui->tabWidget->tabText(ui->tabWidget->currentIndex())).at(0).toElement();
             QStringList list = thisTable.elementsByTagName("inputEntries").at(0).toElement().text().split(";");
             inputCount = list.count();
             int rowCount = currentTable->rowCount();
@@ -1683,7 +1696,10 @@ void tableDialog::on_deleteTButton_clicked()
             {
 
                 QDomElement tableData = doc.elementsByTagName("TableData").at(0).toElement();
-                tableData.removeChild(tableData.elementsByTagName(ui->tabWidget->tabText(ui->tabWidget->currentIndex())).at(0));
+                QString tableTitle = ui->tabWidget->tabText(ui->tabWidget->currentIndex());
+                auto tablesByTitle = Sorputils::mapElementsByAttribute(tableData.childNodes(), "title");
+                //tableData.removeChild(tableData.elementsByTagName(ui->tabWidget->tabText(ui->tabWidget->currentIndex())).at(0));
+                tableData.removeChild(tablesByTitle[tableTitle]);
             }
             file.resize(0);
             doc.save(stream,4);

@@ -56,8 +56,8 @@ extern unit* head;
 extern unit * dummy;
 extern int linkcount;
 extern unit * tempUnit;
-extern unit * tableunit;
-extern Node * tablesp;
+//extern unit * tableunit;
+//extern Node * tablesp;
 extern QStatusBar *theStatusBar;
 extern globalparameter globalpara;
 extern MainWindow* theMainwindow;
@@ -176,14 +176,6 @@ void myScene::mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event)
     theView = dynamic_cast<myView*>(views().first());
     QGraphicsScene::mouseDoubleClickEvent(event);
 
-    ////////////////////////////////////////////////
-    /// \brief plotselect
-    ///we need better way to deal with plot select flag
-    bool plotselect=false;
-    if (sel_plot!=NULL) if(sel_plot->plotselect) plotselect=true;
-    addvalue addsp;
-    /////////////////////////////////////////////////////
-
     QList <QGraphicsItem *> items = this->selectedItems();
     if(!items.isEmpty())
     {
@@ -203,10 +195,13 @@ void myScene::mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event)
     {
         if (!items.isEmpty())
         {
+            // TODO: split selectParaDialog into two classes for units and components.
+            // Pass (unit * tableunit) and (Node * tablesp) as an argument in the constructor.
             selectParaDialog* seleDialog = new selectParaDialog(theMainwindow);
             seleDialog->setModal(true);
             if(items.first()->zValue() == 2)//if a component is selected
             {
+                unit * tableunit;
                 tableunit = dynamic_cast<unit*>(items.first()->childItems().first());
 
                 QApplication::restoreOverrideCursor();
@@ -225,7 +220,7 @@ void myScene::mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event)
             }
             else if(items.first()->zValue() == 3)//if a state point is selected
             {
-                tablesp = dynamic_cast<Node*>(items.first());
+                Node * tablesp = dynamic_cast<Node*>(items.first());
                 QApplication::restoreOverrideCursor();
                 seleDialog->setStatePoint(tablesp);
                 seleDialog->isunit = false;
@@ -254,38 +249,41 @@ void myScene::mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event)
 
     }//****************************for selecting parameters for table
 
-    else if(plotselect)//******************for selecting parameters for plot
+    //******************for selecting parameters for plot VVV
+    else if(sceneActionIndex == 5)
+    {
+        if (!items.isEmpty())
         {
-            if (!items.isEmpty())
+            if(items.first()->zValue() == 3)
             {
-
-                if(items.first()->zValue() == 3)
+                Node * nodeToPlot = dynamic_cast<Node*>(items.first());
+                if(nodeToPlot->ksub!=1&&nodeToPlot->ksub!=3)
+                    globalpara.reportError("This state point is not using LiBr/Water as working fluid.",theMainwindow);
+                else
                 {
-                    tablesp = dynamic_cast<Node*>(items.first());
-                    if(tablesp->ksub!=1&&tablesp->ksub!=3)
-                        globalpara.reportError("This state point is not using LiBr/Water as working fluid.",theMainwindow);
+                    if(nodeToPlot->pr-0<0.001)
+                        globalpara.reportError("The selected state point has zero pressure, thus can't be added to property charts.",theMainwindow);
                     else
                     {
-                        if(tablesp->pr-0<0.001)
-                            globalpara.reportError("The selected state point has zero pressure, thus can't be added to property charts.",theMainwindow);
-                        else
-                        {
-                            addsp.index=tablesp->ndum;
-                            addsp.add_pressure=convert(tablesp->pr,pressure[8],pressure[globalpara.unitindex_pressure]);
-                            addsp.add_temperature=convert(tablesp->tr,temperature[3],temperature[globalpara.unitindex_temperature]);
-                            addsp.add_enthalpy=convert(tablesp->hr,enthalpy[2],enthalpy[globalpara.unitindex_enthalpy]);
-                            addsp.add_concentration=tablesp->cr;
-                            sel_plot->addvaluelist<<addsp;
+                        addvalue addsp;
+                        addsp.index=nodeToPlot->ndum;
+                        addsp.add_pressure=convert(nodeToPlot->pr,pressure[8],pressure[globalpara.unitindex_pressure]);
+                        addsp.add_temperature=convert(nodeToPlot->tr,temperature[3],temperature[globalpara.unitindex_temperature]);
+                        addsp.add_enthalpy=convert(nodeToPlot->hr,enthalpy[2],enthalpy[globalpara.unitindex_enthalpy]);
+                        addsp.add_concentration=nodeToPlot->cr;
+                        sel_plot->addvaluelist<<addsp;
 
-                        }
+                        overlaydialog->raise();
+                        overlaydialog->displaylist();
+                        overlaydialog->setFocus();
 
+                        sceneActionIndex = 0;
                     }
                 }
-                overlaydialog->raise();
-                overlaydialog->displaylist();
-                overlaydialog->setFocus();
             }
         }
+    }
+    //******************for selecting parameters for plot ^^^
 
     //for adding links*******************************************************
     else if(sceneActionIndex==3)

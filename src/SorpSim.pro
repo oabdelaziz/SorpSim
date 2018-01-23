@@ -97,7 +97,8 @@ SOURCES += main.cpp \
     unitsettingdialog.cpp \
     curvesettingdialog.cpp \
     editpropertycurvedialog.cpp \
-    ifixdialog.cpp
+    ifixdialog.cpp \
+    sorputils.cpp
 
 HEADERS  += \
     unitconvert.h \
@@ -162,7 +163,8 @@ HEADERS  += \
     texteditdialog.h \
     unitsettingdialog.h \
     curvesettingdialog.h \
-    ifixdialog.h
+    ifixdialog.h \
+    sorputils.h
 
 FORMS    += \
     treedialog.ui \

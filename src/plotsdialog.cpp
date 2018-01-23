@@ -47,6 +47,7 @@
 #include "myscene.h"
 #include "mainwindow.h"
 #include "newparaplotdialog.h"
+#include "sorputils.h"
 
 extern myScene * theScene;
 extern MainWindow * theMainwindow;
@@ -530,8 +531,11 @@ void plotsDialog::overlay()
 {
     Plot* currentPlot = dynamic_cast<Plot*>(tabs->currentWidget());
     overlaysetting * dialog= new overlaysetting(currentPlot,this);
-    dialog->exec();
-
+    connect(dialog, SIGNAL(finished(int)), this, SLOT(onOverlayFinished(int)));
+    // Plans to hide itself, so create with show() and self-destruct.
+    this->hide();
+    // TODO: somebody needs to show this later. Add a callback?
+    dialog->show();
 }
 
 void plotsDialog::edit()
@@ -785,17 +789,10 @@ void plotsDialog::on_dataSelectButton_clicked()
             //look for the original table that generated the plot
             QDomElement tableData = doc.elementsByTagName("TableData").at(0).toElement();
             QDomElement plotData = doc.elementsByTagName("plotData").at(0).toElement();
-            QDomElement curveList = plotData.elementsByTagName("curveList").at(0).toElement();
-            QDomNodeList curves = curveList.elementsByTagName("curve");
-            QMap<QString, QDomElement> curvesByTitle;
-            for (int i = 0; i < curves.length(); i++)
-            {
-                QDomElement curve = curves.at(i).toElement();
-                curvesByTitle.insert(curve.attribute("title"), curve);
-            }
             //tableName = plotData.elementsByTagName(pName).at(0).toElement().attribute("tableName");
-            tableName = curvesByTitle.value(pName).attribute("tableName");
-            if(tableData.elementsByTagName(tableName).count()==0)
+            auto plotsByTitle = Sorputils::mapElementsByAttribute(plotData.childNodes(), "title");
+            auto tablesByTitle = Sorputils::mapElementsByAttribute(tableData.childNodes(), "title");
+            if(!tablesByTitle.contains(tableName))
             {
                 noTable = true;
                 file.close();
@@ -803,7 +800,8 @@ void plotsDialog::on_dataSelectButton_clicked()
             else
             {
                 noTable = false;
-                QDomElement oldPlot = plotData.elementsByTagName(pName).at(0).toElement();
+                //QDomElement oldPlot = plotData.elementsByTagName(pName).at(0).toElement();
+                QDomElement oldPlot = plotsByTitle[pName];
                 oldPlot.setTagName("tempNode");
                 file.resize(0);
                 doc.save(stream,4);
@@ -892,7 +890,9 @@ void plotsDialog::on_dataSelectButton_clicked()
                 {
                     QDomElement plotData = doc.elementsByTagName("plotData").at(0).toElement();
                     QDomElement oldPlot = plotData.elementsByTagName("tempNode").at(0).toElement();
-                    oldPlot.setTagName(pName);
+                    //oldPlot.setTagName(pName);
+                    oldPlot.setTagName("plot");
+                    oldPlot.setAttribute("title", pName);
                 }
                 file.resize(0);
                 doc.save(stream,4);
@@ -941,13 +941,14 @@ void plotsDialog::on_copyButton_clicked()
         else
         {
             QDomElement plotData = doc.elementsByTagName("plotData").at(0).toElement();
-            if(!plotData.elementsByTagName(pName).isEmpty())
+            auto plotsByTitle = Sorputils::mapElementsByAttribute(plotData.childNodes(), "title");
+            //if(!plotData.elementsByTagName(pName).isEmpty())
+            if (plotsByTitle.contains(pName))
             {
-
-                QDomNode newNode = plotData.elementsByTagName(pName).at(0).cloneNode(true);
-                newNode.toElement().setTagName(newName);
+                //QDomNode newNode = plotData.elementsByTagName(pName).at(0).cloneNode(true);
+                QDomNode newNode = plotsByTitle.value(pName).cloneNode(true);
+                newNode.toElement().setAttribute("title", newName);
                 plotData.appendChild(newNode);
-
             }
         }
         file.resize(0);
@@ -1212,12 +1213,22 @@ void plotsDialog::savePlotSettings()
 
                 //curve
                 QDomNode const oldCurveSettings = currentPlot.elementsByTagName("curveList").at(0);
+                QMap<QString, QDomElement> oldCurvesByTitle;
+                QDomNodeList oldCurveNodes = oldCurveSettings.toElement().elementsByTagName("curve");
+                for (int j = 0; j < oldCurveNodes.length(); j++)
+                {
+                    QDomElement el = oldCurveNodes.at(j).toElement();
+                    oldCurvesByTitle.insert(el.attribute("title"), el);
+                }
+#ifdef QT_DEBUG
+                qDebug() << "Old curve titles:" << oldCurvesByTitle.keys();
+#endif
                 currentPlot.removeChild(oldCurveSettings);
                 curveList = doc.createElement("curveList");
                 currentPlot.appendChild(curveList);
                 QDomElement currentCurve;
                 QwtPlotCurve *dumpCurve;
-                for(int i = 0; i < set_plot->curvelist.count();i++)
+                for(int j = 0; j < set_plot->curvelist.count();j++)
                 {
                     // FIXED: generates valid XML
                     // Suggested fix: structure xml like this:
@@ -1226,7 +1237,7 @@ void plotsDialog::savePlotSettings()
                     // </curveList>
                     currentCurve = doc.createElement("curve");
                     curveList.appendChild(currentCurve);
-                    dumpCurve = set_plot->curvelist[i];
+                    dumpCurve = set_plot->curvelist[j];
 
                     QMap<QString, QString> myMap;
                     myMap["title"] = dumpCurve->title().text();
@@ -1243,6 +1254,28 @@ void plotsDialog::savePlotSettings()
                     {
                         currentCurve.setAttribute(myIter.key(),myIter.value());
                         ++myIter;
+                    }
+
+                    // Check for type attribute (apparently generated by overlaysetting::updateXml()).
+                    // If "custom" then copy child nodes (<point1><point2>...)
+                    // that are not stored in memory by the program.
+                    // TODO: make custom curves a new subclass of QwtPlotCurve with a field to store points.
+                    if (oldCurvesByTitle.contains(myMap["title"]))
+                    {
+                        QDomElement el = oldCurvesByTitle.value(myMap["title"]);
+                        if (el.attribute("type") == "custom")
+                        {
+                            currentCurve.setAttribute("type","custom");
+                            QDomNodeList pointChildren = el.childNodes();
+#ifdef QT_DEBUG
+                            qDebug() << "Custom curve: retaining" << pointChildren.length() << "points from XML.";
+#endif
+                            while (pointChildren.length() > 0)
+                            {
+                                // pops the element from pointChildren since QDomNodeList is live
+                                currentCurve.appendChild(pointChildren.at(0));
+                            }
+                        }
                     }
                 }
             }
@@ -1263,4 +1296,9 @@ void plotsDialog::on_editButton_clicked()
 void plotsDialog::on_zoomButton_toggled(bool checked)
 {
     enableZoomMode(checked);
+}
+
+void plotsDialog::onOverlayFinished(int)
+{
+    this->show();
 }

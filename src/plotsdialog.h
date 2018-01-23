@@ -74,6 +74,8 @@ private slots:
 
     void on_zoomButton_toggled(bool checked);
 
+    void onOverlayFinished(int);
+
 private:
     Ui::plotsDialog *ui;
     QTabWidget* tabs;

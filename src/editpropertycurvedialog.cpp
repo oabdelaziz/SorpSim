@@ -31,6 +31,7 @@ extern int spnumber;
 
 extern myScene * theScene;
 extern MainWindow* theMainwindow;
+extern int sceneActionIndex;
 
 double cal_T11(double t)
 {
@@ -234,19 +235,20 @@ void editPropertyCurveDialog::on_removeButton_clicked()
 
 void editPropertyCurveDialog::on_seleCycleButton_clicked()
 {
-    if(overlay_plot->plotselect)
+    if(sceneActionIndex == 5)
     {
         ui->seleCycleButton->setText("Start Selecting State Points From Cycle");
         displayList();
-        overlay_plot->plotselect = false;
+        sceneActionIndex = 0;
         QApplication::restoreOverrideCursor();
     }
     else
     {
         ui->seleCycleButton->setText("Stop Selecting State Points From Cycle");
-        overlay_plot->plotselect=true;
-        theScene->sel_plot=overlay_plot;
-        theScene->editPropDialog=this;
+        sceneActionIndex = 5;
+        // TODO: this looks very sketchy
+        theScene->sel_plot = overlay_plot;
+        theScene->editPropDialog = this;
         theMainwindow->raise();
         QApplication::setOverrideCursor(QCursor(Qt::CrossCursor));
     }
@@ -334,14 +336,14 @@ void editPropertyCurveDialog::on_addLoopButton_clicked()
 
 void editPropertyCurveDialog::on_cancelButton_clicked()
 {
-    overlay_plot->plotselect = false;
+    sceneActionIndex = 0;
     QApplication::restoreOverrideCursor();
     reject();
 }
 
 void editPropertyCurveDialog::closeEvent(QCloseEvent *event)
 {
-    overlay_plot->plotselect = false;
+    sceneActionIndex = 0;
     QApplication::restoreOverrideCursor();
 
     QDialog::closeEvent(event);
@@ -625,7 +627,7 @@ void editPropertyCurveDialog::on_okButton_clicked()
         removeOld();
         drawPlot();
         updateXml();
-        overlay_plot->plotselect = false;
+        sceneActionIndex = 0;
         QApplication::restoreOverrideCursor();
 
         accept();

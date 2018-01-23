@@ -18,7 +18,6 @@
 #include <QDebug>
 #include "dataComm.h"
 
-extern QString fname;
 extern int globalcount;
 extern int spnumber;
 unit * iterator;

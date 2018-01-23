@@ -16,8 +16,8 @@ class selectParaDialog : public QDialog
 public:
     explicit selectParaDialog(QWidget *parent = 0);
     ~selectParaDialog();
-    void setUnit(unit*);
-    void setStatePoint(Node*);
+    void setUnit(unit * const);
+    void setStatePoint(Node * const);
     bool isunit;
     
 private slots:
@@ -29,6 +29,8 @@ private slots:
 private:
     Ui::selectParaDialog *ui;
     bool event(QEvent *e);
+    unit * tableunit;
+    Node * tablesp;
 };
 
 #endif // SELECTPARADIALOG_H

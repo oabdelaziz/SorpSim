@@ -28,6 +28,7 @@
 #include "dataComm.h"
 #include "myscene.h"
 #include "unit.h"
+#include "sorputils.h"
 
 #include <QStringList>
 #include <QListView>
@@ -39,8 +40,8 @@
 
 extern int sceneActionIndex;
 extern bool istableinput;
-extern unit * tableunit;
-extern Node * tablesp;
+// extern unit * tableunit;
+// extern Node * tablesp;
 extern QStringList inputEntries;
 extern QStringList outputEntries;
 extern globalparameter globalpara;
@@ -158,7 +159,10 @@ bool tableSelectParaDialog::setupXml()
     else
     {
         QDomElement tableData = doc.elementsByTagName("TableData").at(0).toElement();
-        if(!tableData.elementsByTagName(tableName).isEmpty())//check if the table name is already used, if not, create the new element
+        auto tablesByTitle = Sorputils::mapElementsByAttribute(tableData.childNodes(), "title");
+        //check if the table name is already used, if not, create the new element
+        //if(!tableData.elementsByTagName(tableName).isEmpty())
+        if (tablesByTitle.contains(tableName))
         {
             QMessageBox * existBox = new QMessageBox;
             existBox->setWindowTitle("Warning");
@@ -169,7 +173,8 @@ bool tableSelectParaDialog::setupXml()
         }
         else
         {
-            QDomElement newTable = doc.createElement(tableName);
+            QDomElement newTable = doc.createElement("table");
+            newTable.setAttribute("title", tableName);
             newTable.setAttribute("runs",runs);
             newTable.setAttribute("tUnit",globalpara.unitindex_temperature);
             newTable.setAttribute("pUnit",globalpara.unitindex_pressure);
@@ -476,12 +481,11 @@ bool tableSelectParaDialog::tableNameUsed(QString name)//true means there has be
         else
         {
             QDomElement tableData = doc.elementsByTagName("TableData").at(0).toElement();
-            if(!tableData.elementsByTagName(tableName).isEmpty())
-                return true;
-            else
-                return false;
+            auto tablesByTitle = Sorputils::mapElementsByAttribute(tableData.childNodes(), "title");
+            //if(!tableData.elementsByTagName(tableName).isEmpty())
+            file.close();
+            return tablesByTitle.contains(tableName);
         }
-        file.close();
     }
 }
 
