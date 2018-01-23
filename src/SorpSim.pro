@@ -8,7 +8,7 @@ QT       += core gui
 QT       += xml
 QT       += printsupport
 
-CONFIG   += qwt
+CONFIG   += qwt console
 
 INCLUDEPATH += $$(QWTPATH)/src
 DEPENDPATH += $$(QWTPATH)/src
