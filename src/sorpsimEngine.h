@@ -1,3 +1,16 @@
+/// \file sorpsimEngine.h
+/// \brief Heart of SorpSim: the simulation engine
+///
+/// Developed by Zhiyao Yang and Dr. Ming Qu for ORNL.
+///
+/// \author Zhiyao Yang (zhiyaoYang)
+/// \author Dr. Ming Qu
+/// \author Nicholas Fette (nfette)
+///
+/// \copyright 2015, UT-Battelle, LLC
+/// \copyright 2017-2018, Nicholas Fette
+
+
 #ifndef SORPSIMENGINE_H
 #define SORPSIMENGINE_H
 
@@ -510,7 +523,11 @@ double calcSolEnthalpy(sorpsim4l::common& cmn,
 double calcEnthalpy(sorpsim4l::common& cmn, int ksub, double t,
                     double p, double c, double w);
 
-
+/// \brief The entry point for starting a simulation calculation
+///
+/// Loads myCal into inputs, then calls program_sorpsimEngine.
+/// Does not handle outputs but returns and error code from the simulation program.
+///
 int absdCal(int argc, char const* argv[], const calInputs &myCal, bool print=false);
 
 #endif // SORPSIMENGINE_H

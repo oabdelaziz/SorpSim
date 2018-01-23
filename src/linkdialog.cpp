@@ -1,16 +1,17 @@
-/*linkdialog.cpp
- * [SorpSim v1.0 source code]
- * [developed by Zhiyao Yang and Dr. Ming Qu for ORNL]
- * [last updated: 10/12/15]
- *
- * dialog to select the common parameter settings/values once two points of the new link is selected
- * the user can either choose one point's all parameters to overwrite the other one's
- * or re-define the parameters in a subsequent spdialog
- * called by myscene.cpp
- */
+/*! \file linkdialog.cpp
 
+    This file is part of SorpSim and is distributed under terms in the file LICENSE.
 
+    Developed by Zhiyao Yang and Dr. Ming Qu for ORNL.
 
+    \author Zhiyao Yang (zhiyaoYang)
+    \author Dr. Ming Qu
+    \author Nicholas Fette (nfette)
+
+    \copyright 2015, UT-Battelle, LLC
+    \copyright 2017-2018, Nicholas Fette
+
+*/
 
 
 #include "linkdialog.h"

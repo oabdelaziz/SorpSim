@@ -1,21 +1,27 @@
-/*sorpsimEngine.cpp
- * [SorpSim v1.0 source code]
- * [developed by Zhiyao Yang and Dr. Ming Qu for ORNL]
- * [last updated: 10/12/15]
- *
- * class that contains the simulation engine inherited from ABSIMW Version 5.0
- * the original code of the simulation engine was written in FORTRAN
- * the FABLE software was used to convert the FORTRAN code into this large C++ class
- * the simulation engine is controlled by the subroutine at the end of this file
- * data communication is made available between this simulation engine and calculation command using inputs/outputs struct (declared in this class)
- * all variable values in this class are in british units
- * many subroutines in this class have been changed from the original converted code from ABSIMW Version 5.0
- * subroutines are added for fluid property calculation and component governing equations
- * if further subroutines are to be added, follow the template of existing ones
- * called by calculate.cpp
- */
-
-
+/// \file sorpsimEngine.cpp
+/// \brief Heart of SorpSim: the simulation engine
+///
+/// Developed by Zhiyao Yang and Dr. Ming Qu for ORNL.
+///
+/// * class that contains the simulation engine inherited from ABSIMW Version 5.0
+/// * the original code of the simulation engine was written in FORTRAN
+/// * the FABLE software was used to convert the FORTRAN code into this large C++ class
+/// * the simulation engine is controlled by the subroutine at the end of this file
+/// * data communication is made available between this simulation engine and calculation command using inputs/outputs struct (declared in this class)
+/// * all variable values in this class are in british units
+/// * many subroutines in this class have been changed from the original converted code from ABSIMW Version 5.0
+/// * subroutines are added for fluid property calculation and component governing equations
+/// * if further subroutines are to be added, follow the template of existing ones
+/// * called by calculate.cpp
+///
+/// \author Zhiyao Yang (zhiyaoYang)
+/// \author Dr. Ming Qu
+/// \author Nicholas Fette (nfette)
+/// \author Authors of prior work, ABSIM
+///
+/// \copyright 1991-2001, possibly prior and later, Gommed, Zaltash, Grossman, et al.
+/// \copyright 2015, UT-Battelle, LLC
+/// \copyright 2017-2018, Nicholas Fette
 
 
 #include "sorpsimEngine.h"
@@ -34,8 +40,8 @@
 #include "unit.h"
 #include "node.h"
 
-calInputs inputs;
-calOutputs outputs;
+calInputs inputs;     ///< Used to pass simulation inputs
+calOutputs outputs;   ///< Used to pass simulation outputs
 bool printOut = true;
 using namespace sorpsim4l;
 extern int globalcount;
@@ -48,9 +54,6 @@ bool isLinked[150];
 bool calcLink[150];
 QSet<Node*> chosenNodes;
 QSet<int> chosenIndexes;
-int argc1;
-char const** argv1;
-
 
 
 //C***********************************************************************
@@ -6325,9 +6328,19 @@ fcons(
   }
 }
 
+/// \name Component subroutines
 ///
-/// \brief starting point of component subroutines
-///
+/// This comment indicates the starting point of component subroutines.
+/// * jflag is mode index
+/// * jflag = 1 is counting number of governing equations, use nonlin++ to add to the count
+/// * jflag = 2 and 3 is applying temperature constraints, if there is any, use
+///   cons(T_low,T_high) to make sure that T_low is always lower than T_high
+/// * jflag = 4 is evaluating governing equations, implement the calculation here
+/// * jflag = 5 is calculating overall performance of the component,
+///   at this point all the parameters of all state points are calculated, so
+///   parameters such as heat duty, effectiveness can be calculated and inserted to
+///   outputs data structure
+/// \{
 
 struct absorb_save
 {
@@ -8058,6 +8071,7 @@ struct analys_save
   {}
 };
 
+/// Analyser
 //C*********************************************************************
 void
 analys(
@@ -14351,19 +14365,27 @@ regenerator_heated(
   outputs.humeff[iunit] = (wao-wai)/(wsati-wai);
 }
 
+// This comment indicates the end of component subroutines.
+//
+// To add new component subroutine, add the subroutine above this comment
+// with the same format as previous subroutines.
+/// \}
 
-///to add new component subroutine, add the subroutine above this comment
-/// with the same format as previous subroutines.
-/// jflag is mode index
-/// jflag = 1 is counting number of governing equations, use nonlin++ to add to the count
-/// jflag = 2 and 3 is applying temperature constraints, if there is any, use
-/// cons(T_low,T_high) to make sure that T_low is always lower than T_high
-/// jflag = 4 is evaluating governing equations, implement the calculation here
-/// jflag = 5 is calculating overall performance of the component,
-/// at this point all the parameters of all state points are calculated, so
-/// parameters such as heat duty, effectiveness can be calculated and inserted to
-/// outputs data structure
+/// \name ABSIM calculation engine routines
+///
+/// \{
 
+
+/// \brief Multipurpose routine for system level calculations
+///
+/// Loops over all the units and performs the specified calculation.
+///
+/// \param jjf Switch the mode of calculation
+/// * IN CASE THE NUMBER OF EQUATIONS IS CALCULATED  (JJF=1)
+/// * IN CASE OF TEMPERATURE CONSTRAINTS ENFORCEMENT (JJF=1,2,3)
+/// * IN CASE RESIDUE FUNCTIONS ARE TO BE ESTIMATED  (JJF=3,4)
+/// * IN CASE TO CALCULATE HEAT TRANSFER QUANTITIES  (JJF=5)
+///
 //C*********************************************************************
 void
 fcn1(
@@ -14414,10 +14436,10 @@ fcn1(
       case 18: goto statement_180;
       case 19: goto statement_190;
       default: break;
-        ///to add new component, add a new case corresponding to
-        /// the component type index (no sub-index) here, and
-        /// call the new component subroutine in corresponding
-        /// statement below with the same format as others
+        // to add new component, add a new case corresponding to
+        // the component type index (no sub-index) here, and
+        // call the new component subroutine in corresponding
+        // statement below with the same format as others
     }
     statement_10:
     absorb(cmn, iunit, isp(i, 1), isp(i, 2), isp(i, 3), isp(i, 4),
@@ -15383,6 +15405,9 @@ struct hybrdm_save
   {}
 };
 
+/// \brief Performs the linear algebra solve.
+///
+/// Appears to use a newton-dogleg approach.
 void
 hybrdm(
   common& cmn,
@@ -16006,6 +16031,7 @@ hybrdm(
   //C                                                                       HYB03890
 }
 
+/// \brief Sets up entry into the hybrid solver hybrdm().
 //C
 //C     //ABSORB JOB (MERGE01,E121),ELIZ,MSGCLASS=9                       HYB00010
 //C     /*R UL                                                            HYB00020
@@ -16751,6 +16777,14 @@ redun(
     statement_30:;
   }
 }
+
+
+// This comment indicates the end of ABSIM calculation engine routines.
+/// \}
+
+/// \name SorpSim engine programs
+///
+/// \{
 
 struct program_sorpsimEngine_save
 {
@@ -17808,9 +17842,7 @@ int absdCal(int argc,char const* argv[], const calInputs &myCalInput, bool print
     printOut = print;
     inputs = myCalInput;
     first = true;
-    argc1 = argc;
-    argv1 = argv;
-    int code = fem::main_with_catch(argc1, argv1,program_sorpsimEngine);
+    int code = fem::main_with_catch(argc, argv, program_sorpsimEngine);
 
     return code;
 }
@@ -17944,3 +17976,7 @@ double calcEnthalpy(common &cmn, int ksub, double t, double p, double c, double 
 //    qDebug()<<"hsol="<<hsol<<"hvap="<<hvap<<"h="<<h(i);
     return h;
 }
+
+/// End of sorpsim engine main program
+/// \}
+

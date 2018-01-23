@@ -1,3 +1,19 @@
+/*! \file altervdialog.h
+    \brief Alter variable dialog for SorpSim
+
+    This file is part of SorpSim and is distributed under terms in the file LICENSE.
+
+    Developed by Zhiyao Yang and Dr. Ming Qu for ORNL.
+
+    \author Zhiyao Yang (zhiyaoYang)
+    \author Dr. Ming Qu
+    \author Nicholas Fette (nfette)
+
+    \copyright 2015, UT-Battelle, LLC
+    \copyright 2017-2018, Nicholas Fette
+*/
+
+
 #ifndef ALTERVDIALOG_H
 #define ALTERVDIALOG_H
 

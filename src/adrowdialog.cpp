@@ -1,14 +1,22 @@
-/*adrowdialog.cpp
- * [SorpSim v1.0 source code]
- * [developed by Zhiyao Yang and Dr. Ming Qu for ORNL]
- * [last updated: 10/12/15]
- *
- * dialog to edit the number of rows in an existing parametric table
- * collects the user input at the dialog, change the global boolean variable accordingly
- * the change in table and XML file is enforced in the tableDialog.cpp
- *
- * called by tabledialog.cpp
- */
+/*! \file adrowdialog.cpp
+    \brief describe me!
+
+    dialog to edit the number of rows in an existing parametric table
+    - collects the user input at the dialog, change the global boolean variable accordingly
+    - the change in table and XML file is enforced in the tableDialog.cpp
+    - called by tabledialog.cpp
+
+    This file is part of SorpSim and is distributed under terms in the file LICENSE.
+
+    Developed by Zhiyao Yang and Dr. Ming Qu for ORNL.
+
+    \author Zhiyao Yang (zhiyaoYang)
+    \author Dr. Ming Qu
+    \author Nicholas Fette (nfette)
+
+    \copyright 2015, UT-Battelle, LLC
+    \copyright 2017-2018, Nicholas Fette
+*/
 
 
 

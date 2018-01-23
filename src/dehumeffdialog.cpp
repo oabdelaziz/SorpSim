@@ -1,16 +1,18 @@
-/*dehumeffdialog.cpp
- * [SorpSim v1.0 source code]
- * [developed by Zhiyao Yang and Dr. Ming Qu for ORNL]
- * [last updated: 05/24/16]
- *
- * extend effectiveness value precision to 7 digits after decimal point
- *
- * dialog to edit the properties of an adiabatic liquid desiccant component
- * either effectiveness or NTU value is given
- * called by myscene.cpp
- */
+/*! \file dehumeffdialog.cpp
+    \brief Dialog used to specify liquid desiccant component heat/mass transfer
 
+    This file is part of SorpSim and is distributed under terms in the file LICENSE.
 
+    Developed by Zhiyao Yang and Dr. Ming Qu for ORNL.
+
+    \author Zhiyao Yang (zhiyaoYang)
+    \author Dr. Ming Qu
+    \author Nicholas Fette (nfette)
+
+    \copyright 2015, UT-Battelle, LLC
+    \copyright 2017-2018, Nicholas Fette
+
+*/
 
 
 #include "dehumeffdialog.h"

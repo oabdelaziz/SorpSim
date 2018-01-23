@@ -1,3 +1,18 @@
+/*! \file newpropplotdialog.h
+
+    This file is part of SorpSim and is distributed under terms in the file LICENSE.
+
+    Developed by Zhiyao Yang and Dr. Ming Qu for ORNL.
+
+    \author Zhiyao Yang (zhiyaoYang)
+    \author Dr. Ming Qu
+    \author Nicholas Fette (nfette)
+
+    \copyright 2015, UT-Battelle, LLC
+    \copyright 2017-2018, Nicholas Fette
+
+*/
+
 #ifndef NEWPROPPLOTDIALOG_H
 #define NEWPROPPLOTDIALOG_H
 
@@ -16,6 +31,9 @@ namespace Ui {
 class newPropPlotDialog;
 }
 
+/// dialog to start defining a new property plot
+/// - select Duhring chart of Clapyron chart for LiBr solution
+/// - called by mainwindow.cpp
 class newPropPlotDialog : public QDialog
 {
     Q_OBJECT

@@ -1,12 +1,18 @@
-/*curvesettingdialog.cpp
- * [SorpSim v1.0 source code]
- * [developed by Zhiyao Yang and Dr. Ming Qu for ORNL]
- * [last updated: 10/12/15]
- *
- * dialog to edit the properties of an existing plot and curves in that plot
- * access the Plot object and make changes to the curves instantly
- * called by plotsdialog.cpp
- */
+/*! \file curvesettingdialog.cpp
+    \brief Dialog to edit existing plot for SorpSim
+
+    This file is part of SorpSim and is distributed under terms in the file LICENSE.
+
+    Developed by Zhiyao Yang and Dr. Ming Qu for ORNL.
+
+    \author Zhiyao Yang (zhiyaoYang)
+    \author Dr. Ming Qu
+    \author Nicholas Fette (nfette)
+
+    \copyright 2015, UT-Battelle, LLC
+    \copyright 2017-2018, Nicholas Fette
+
+*/
 
 
 #include "curvesettingdialog.h"
@@ -635,6 +641,7 @@ void curvesetting::on_deleteCurveButton_clicked()
     }
 }
 
+/// \todo find a better way to flag specialized plots, eg. subclass the plot
 void curvesetting::setLists()
 {
     ui->bgList->clear();

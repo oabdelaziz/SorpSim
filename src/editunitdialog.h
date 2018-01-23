@@ -1,3 +1,17 @@
+/*! \file editunitdialog.cpp
+    \brief dialog to edit the properties of an absorption heat exchange component
+
+    This file is part of SorpSim and is distributed under terms in the file LICENSE.
+
+    Developed by Zhiyao Yang and Dr. Ming Qu for ORNL.
+
+    \author Zhiyao Yang (zhiyaoYang)
+    \author Dr. Ming Qu
+
+    \copyright 2015, UT-Battelle, LLC
+
+*/
+
 #ifndef EDITUNITDIALOG_H
 #define EDITUNITDIALOG_H
 
@@ -8,6 +22,8 @@ namespace Ui {
 class editUnitDialog;
 }
 
+/// Dialog to edit the properties of an absorption heat exchange component
+/// - called by myscene.cpp
 class editUnitDialog : public QDialog
 {
     Q_OBJECT

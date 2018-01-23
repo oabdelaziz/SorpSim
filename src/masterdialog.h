@@ -1,3 +1,16 @@
+/*! \file masterdialog.cpp
+
+    This file is part of SorpSim and is distributed under terms in the file LICENSE.
+
+    Developed by Zhiyao Yang and Dr. Ming Qu for ORNL.
+
+    \author Zhiyao Yang (zhiyaoYang)
+    \author Dr. Ming Qu
+
+    \copyright 2015, UT-Battelle, LLC
+
+*/
+
 #ifndef MASTERDIALOG_H
 #define MASTERDIALOG_H
 
@@ -13,6 +26,9 @@ namespace Ui {
 class masterDialog;
 }
 
+/// dialog to edit the properties of an adiabatic liquid desiccant component
+/// - either effectiveness or NTU value is given
+/// - called by myscene.cpp
 class masterDialog : public QDialog
 {
     Q_OBJECT

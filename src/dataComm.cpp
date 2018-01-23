@@ -1,16 +1,18 @@
-/*dataComm.cpp
- * [SorpSim v1.0 source code]
- * [developed by Zhiyao Yang and Dr. Ming Qu for ORNL]
- * [last updated: 10/12/15]
- *
- * custom class to store variables and subroutines to edit those variables
- * consisted of 3 structs:
- * globalparameter that store globally accessible variables and subroutines
- * esp. (1)number of components to assist search through the component linked-list in the case data structure
- * (2) variable groups and related subroutines
- * inputs/outputs that store case configuration and parameter values during calculation procedure
- * called by most other classes in the project
- */
+/*! \file dataComm.cpp
+    \brief Interface classes between SorpSim and ABSIM
+
+    This file is part of SorpSim and is distributed under terms in the file LICENSE.
+
+    Developed by Zhiyao Yang and Dr. Ming Qu for ORNL.
+
+    \author Zhiyao Yang (zhiyaoYang)
+    \author Dr. Ming Qu
+    \author Nicholas Fette (nfette)
+
+    \copyright 2015, UT-Battelle, LLC
+    \copyright 2017-2018, Nicholas Fette
+
+*/
 
 #include "dataComm.h"
 #include <QString>

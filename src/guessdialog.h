@@ -1,3 +1,18 @@
+/*! \file guessdialog.h
+
+    This file is part of SorpSim and is distributed under terms in the file LICENSE.
+
+    Developed by Zhiyao Yang and Dr. Ming Qu for ORNL.
+
+    \author Zhiyao Yang (zhiyaoYang)
+    \author Dr. Ming Qu
+    \author Nicholas Fette (nfette)
+
+    \copyright 2015, UT-Battelle, LLC
+    \copyright 2017-2018, Nicholas Fette
+
+*/
+
 #ifndef GUESSDIALOG_H
 #define GUESSDIALOG_H
 
@@ -8,6 +23,8 @@ namespace Ui {
 class guessDialog;
 }
 
+/// Dialog to review and edit the guess value for un-fixed variables in the current case
+/// - called by mainwindow.cpp, masterdialog.cpp
 class guessDialog : public QDialog
 {
     Q_OBJECT

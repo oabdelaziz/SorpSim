@@ -1,13 +1,18 @@
-/*estntueffdialog.cpp
- * [SorpSim v1.0 source code]
- * [developed by Zhiyao Yang and Dr. Ming Qu for ORNL]
- * [last updated: 10/12/15]
- *
- * dialog to estimate the mass transfer NTU value for a liquid desiccant component using effectiveness model
- * estimation is based on current parameter values and expectation of performance
- * called by dehumeffdialog.cpp
- */
+/*! \file estntueffdialog.cpp
+    \brief Dialog to estimate the mass transfer NTU value for a liquid desiccant component using effectiveness model
 
+    This file is part of SorpSim and is distributed under terms in the file LICENSE.
+
+    Developed by Zhiyao Yang and Dr. Ming Qu for ORNL.
+
+    \author Zhiyao Yang (zhiyaoYang)
+    \author Dr. Ming Qu
+    \author Nicholas Fette (nfette)
+
+    \copyright 2015, UT-Battelle, LLC
+    \copyright 2017-2018, Nicholas Fette
+
+*/
 
 
 #include "estntueffdialog.h"

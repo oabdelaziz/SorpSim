@@ -1,3 +1,20 @@
+/*! \file curvesettingdialog.h
+    \brief Dialog to edit existing plot for SorpSim
+
+    This file is part of SorpSim and is distributed under terms in the file LICENSE.
+
+    Developed by Zhiyao Yang and Dr. Ming Qu for ORNL.
+
+    \author Zhiyao Yang (zhiyaoYang)
+    \author Dr. Ming Qu
+    \author Nicholas Fette (nfette)
+
+    \copyright 2015, UT-Battelle, LLC
+    \copyright 2017-2018, Nicholas Fette
+
+*/
+
+
 #ifndef CURVESETTING_H
 #define CURVESETTING_H
 
@@ -22,7 +39,12 @@ namespace Ui {
 class curvesetting;
 }
 
+/*! \brief Dialog to edit existing plot
 
+    Dialog to edit the properties of an existing plot and curves in that plot
+    * access the Plot object and make changes to the curves instantly
+    * called by plotsdialog.cpp
+ */
 class curvesetting : public QDialog
 {
     Q_OBJECT

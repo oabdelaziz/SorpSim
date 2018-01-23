@@ -1,3 +1,18 @@
+/*! \file node.h
+
+    This file is part of SorpSim and is distributed under terms in the file LICENSE.
+
+    Developed by Zhiyao Yang and Dr. Ming Qu for ORNL.
+
+    \author Zhiyao Yang (zhiyaoYang)
+    \author Dr. Ming Qu
+    \author Nicholas Fette (nfette)
+
+    \copyright 2015, UT-Battelle, LLC
+    \copyright 2017-2018, Nicholas Fette
+
+*/
+
 #ifndef NODE_H
 #define NODE_H
 #include <QGraphicsItem>
@@ -15,6 +30,12 @@ class Link;
 class unit;
 class insideLink;
 
+/// Custom class based on QGrphicItem to represent state points on the operating panel
+/// - include data structure to store state point parameters
+/// - include extra parameters to identify if it's inside a component/as inlet/outlet, etc.
+/// - include graphicsSimpleTextItem to display its index, the results are displayed in textItem of its parent components
+/// - include methods to change color/edit links
+/// - called by various classes in the project
 class Node : public QGraphicsItem
 {
 public:
@@ -38,30 +59,41 @@ public:
 
     QPointF getPosition();
 
-    QGraphicsSimpleTextItem * text;     // Text box to show this node's index on the display
+    QGraphicsSimpleTextItem * text;     ///< Text box to show this node's index on the display
 
-    int ndum;       // Index of this node in global list of nodes
-    int ksub;       // Index into fluid inventory (see Link::setColor)
-    int itfix;
-    float t;        // temperature
-    int iffix;
-    float f;        // flow rate
-    int icfix;
-    float c;        // concentration
-    int ipfix;
-    float p;        // pressure
-    int iwfix;
-    float w;        // vapor fraction?
+    int ndum;       ///< Index of this node in global list of nodes
+    int ksub;       ///< Index into fluid inventory (see Link::setColor)
 
-    // Calculation results
+    /// \name Properties of state and fixity
+    ///
+    /// \{
+    int itfix;      ///< temperature fixity
+    float t;        ///< temperature
+    int iffix;      ///< flow rate fixity
+    float f;        ///< flow rate
+    int icfix;      ///< concentration fixity
+    float c;        ///< concentration
+    int ipfix;      ///< pressure fixity
+    float p;        ///< pressure
+    int iwfix;      ///< vapor fraction? fixity
+    float w;        ///< vapor fraction?
+    /// \}
+
+    /// \name Calculation results
+    ///
+    /// \{
     float tr;
     float fr;
     float cr;
     float pr;
     float wr;
-    float hr;       // probably enthalpy
+    float hr;       ///< probably enthalpy
+    /// \}
 
-    // For table mode. Maybe some of these have to do with guess values?
+    /// \name For table mode
+    ///  Maybe some of these have to do with guess values?
+    ///
+    /// \{
     float tT;
     float fT;
     float cT;
@@ -74,46 +106,54 @@ public:
     float pTr;
     float wTr;
     float hTr;
+    /// \}
 
-    // Links
-    // A link is like a pipe between units. It goes from one node (that should
-    // be an outlet for its unit) to another node.
-    // If a node is "inside" the unit, any linking should be done with the
-    // insideLink class, which differentiates the inside and outside links.
-    bool linked;                        // Presumably, whether there is a link from this node to another
+    /// \name Links
+    /// A link is like a pipe between units. It goes from one node (that should
+    /// be an outlet for its unit) to another node.
+    /// If a node is "inside" the unit, any linking should be done with the
+    /// insideLink class, which differentiates the inside and outside links.
+    /// \{
+    bool linked;                        ///< Presumably, whether there is a link from this node to another
     bool insideLinked;
-    bool isOutlet;                      // Whether this Node is intended as an outlet for myUnit.
-    int unitindex;                      // Copied from parent's unit::nu.
-                                        //   Note: set by TreeDialog::on_selectButton_clicked(),
-                                        //   MainWindow::deleteunit, loadCase, and loadOutFile.
-                                        //   (We could ask unit to be responsible for that...)
-    bool isinside;                      // Whether this Node is intended to be internal/inside
-                                        //   (a candidate to merge with a corresponding inlet,
-                                        //   not to be linked to another unit).
-    bool linklowerflag;//means current one is larger
-    int localindex;//starting 1
-    QSet <Link*> myLinks;               // This is problematic. All client code converts
-                                        //   the set to a list and looks at the first element.
-                                        //   TODO: change to a (smart) point to Link.
+    bool isOutlet;                      ///< Whether this Node is intended as an outlet for myUnit.
+    int unitindex;                      ///< Copied from parent's unit::nu.
+                                        ///<   Note: set by TreeDialog::on_selectButton_clicked(),
+                                        ///<   MainWindow::deleteunit, loadCase, and loadOutFile.
+                                        ///<   (We could ask unit to be responsible for that...)
+    bool isinside;                      ///< Whether this Node is intended to be internal/inside
+                                        ///<   (a candidate to merge with a corresponding inlet,
+                                        ///<   not to be linked to another unit).
+    bool linklowerflag; ///< means current one is larger
+    int localindex;     ///< starting 1
+    QSet <Link*> myLinks;               ///< This is problematic. All client code converts
+                                        ///< the set to a list and looks at the first element.
+                                        ///< TODO: change to a (smart) point to Link.
     insideLink * myInsideLink;
-    unit* myUnit;                       // Points back to the unit to which this Node belongs.
-                                        //   Note: set by myScene::drawAUnit().
+    unit* myUnit;                       ///< Points back to the unit to which this Node belongs.
+                                        ///< Note: set by myScene::drawAUnit().
+    /// \}
 
-    bool isHighlighted;       // For the display, whether the node is highlighted, appearing with a different color.
+    bool isHighlighted;       ///< For the display, whether the node is highlighted, appearing with a different color.
     bool lineHighlighted;     //
 
-    // These sets are used to convey information about flow through the unit.
-    // They represent a directional graph in which target nodes receive
-    // flow or state properties, with the same letter abbreviations as above.
+    /// \name Flow linkage
+    /// These sets are used to convey information about flow through the unit.
+    /// They represent a directional graph in which target nodes receive
+    /// flow or state properties, with the same letter abbreviations as above.
+    ///
+    /// \{
     QSet<Node*> FSet;
     QSet<Node*> CSet;
     QSet<Node*> FluidSet;
     QSet<Node*> PSet;
     QSet<Node*> TSet;
     QSet<Node*> WSet;
-    // This set is slightly different, in that it does not have an analogous
-    // node property. The only known client is editPropertyCurveDialog::updateLoopList.
+
+    /// This set is slightly different, in that it does not have an analogous
+    /// node property. The only known client is editPropertyCurveDialog::updateLoopList.
     QSet<Node*> FCSet;
+    /// \}
 
     void setColor();
     void showFluid(bool toShow);

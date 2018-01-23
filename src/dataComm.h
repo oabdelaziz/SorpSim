@@ -1,11 +1,36 @@
 /*!
- * \file dataComm.h
- * [SorpSim v1.0 source code]
- * [developed by Zhiyao Yang and Dr. Ming Qu for ORNL]
- *
- * TODO(nfette): convert most floats to double to avoid loss of precision
- * since sorpsimEngine is mostly using doubles anyway.
- */
+\file dataComm.h
+\brief Interface classes between SorpSim and ABSIM
+
+Common data structures
+
+Custom classes to store variables and subroutines to edit those variables.
+These are mostly used to communicate between SorpSim GUI and ABSIM engine.
+This module consists of 3 structs.
+    - globalparameter that store globally accessible variables and subroutines, esp.
+        1. number of components to assist search through the component linked-list in the case data structure
+        2. variable groups and related subroutines
+    - inputs that store case configuration and parameter values during calculation procedure
+    - outputs from calculation
+
+These classes are used extensively throughout SorpSim.
+
+\todo convert most floats to double to avoid loss of precision
+since sorpsimEngine is mostly using doubles anyway.
+
+This file is part of SorpSim and is distributed under terms in the file LICENSE.
+
+Developed by Zhiyao Yang and Dr. Ming Qu for ORNL.
+
+\author Zhiyao Yang (zhiyaoYang)
+\author Dr. Ming Qu
+\author Nicholas Fette (nfette)
+
+\copyright 2015, UT-Battelle, LLC
+\copyright 2017-2018, Nicholas Fette
+
+*/
+
 
 #ifndef DATACOMM_H
 #define DATACOMM_H
@@ -17,6 +42,8 @@
 #include "node.h"
 #include <QMessageBox>
 #include <QMultiMap>
+
+/// \{
 
 struct calInputs
 {
@@ -231,5 +258,7 @@ struct globalparameter
 
 
 };
+
+/// \}
 
 #endif // DATACOMM_H
