@@ -1,30 +1,17 @@
 /*! \file mainwindow.cpp
     \brief draw/transform the components and store component data
 
-    [SorpSim v1.0 source code]
-    [developed by Zhiyao Yang and Dr. Ming Qu for ORNL]
+    This file is part of SorpSim and is distributed under terms in the file LICENSE.
 
-    The mainwindow is the major operating interface of SorpSim, the first window
-    to show when the program launches, and last when users close SorpSim.
-
-    The mainwindow class subclasses the QMainwindow class, with custom methods
-    and data members defined to handle actions triggered by button click or
-    mouse/keyboard operations.
-
-    The buttons of the menu bar are defined using Qt Creator and edited in the
-    corresponding mainwindow.ui, while the bottons on the tool bar are defined
-    in the mainwindow constructor "Mainwindow::Mainwindow (QWidget* parent){}".
-
-    The operating panel below the toolbar is consisted of a myView (subclass of
-    QGraphicsView, defined in myview.cpp/h) and a myScene (subclass of
-    QGraphicsScene, defined in myscene.cpp/h). The "myView" was added onto the
-    mainwindow in the constructor function, and the "myScene" is added onto the
-    "myView" after that. (refer to Qt documentations about View and Scene
-    operations)
+    Developed by Zhiyao Yang and Dr. Ming Qu for ORNL.
 
     \author Zhiyao Yang (zhiyaoYang)
     \author Dr. Ming Qu
     \author Nicholas Fette (nfette)
+
+    \copyright 2015, UT-Battelle, LLC
+    \copyright 2017-2018, Nicholas Fette
+
 */
 
 #include <vector>
@@ -180,7 +167,8 @@ bool istableinput;
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
-    ui(new Ui::MainWindow)
+    ui(new Ui::MainWindow),
+    theMode(SceneActionIndex::Default)
 {
     ui->setupUi(this);
 
@@ -2509,6 +2497,58 @@ void MainWindow::switchToSelect()
     view->setInteractive(true);
 }
 
+// TODO: implement the future!
+void MainWindow::setSceneMode(MainWindow::SceneActionIndex index,
+                              QObject * caller)
+{
+    theMode = index;
+    if (index != SceneActionIndex::Default)
+        connect(caller, SIGNAL(destroyed(QObject*)), this, SLOT(defaultMode()));
+
+    switch (index)
+    {
+    case SceneActionIndex::Default:
+    {
+        QApplication::restoreOverrideCursor();
+        setActionsEnabled(true);
+        statusBar()->clearMessage();
+        break;
+    }
+    case SceneActionIndex::DrawUnit:
+    {
+        break;
+    }
+    case SceneActionIndex::DrawLink:
+    {
+        break;
+    }
+    case SceneActionIndex::PlotSelect:
+    {
+        break;
+    }
+    case SceneActionIndex::TableSelect:
+    {
+        break;
+    }
+    }
+}
+
+void MainWindow::defaultMode()
+{
+    setSceneMode(SceneActionIndex::Default);
+}
+
+MainWindow::SceneActionIndex MainWindow::getSceneMode() const
+{
+    return theMode;
+}
+
+void MainWindow::setActionsEnabled(bool enableActions)
+{
+    theToolBar->setEnabled(enableActions);
+    theMenuBar->setEnabled(enableActions);
+}
+
 void MainWindow::openTableWindow()
 {
     switchToSelect();
@@ -3917,11 +3957,12 @@ void MainWindow::evokeAbout()
     aboutDialog.setTextFormat(Qt::RichText);
     aboutDialog.setText("<p align='center'><font size = 8 color = blue style = 'italic'>SorpSim 1.0</font><br>"
                        "<br>"
-                        // TODO: Create a plaintext file for license
+                        // fixed: Create a plaintext file for license
                         // TODO: update copyright holders to match code
                        "<font size = 2>Copyright 2015, UT-Battelle, LLC<br>"
+                        "Copyright 2018-2018, Nicholas Fette<br>"
                        "All rights reserved<br>"
-                       "Sorption system Simulation program (SorpSim), Version 1.0<br>"
+                       "Sorption system Simulation program (SorpSim), Version 1.1<br>"
                        "OPEN SOURCE LICENSE</font></p>"
                         // TODO: update license
                         // TODO: wrap with scroll area from here ...
@@ -4334,6 +4375,11 @@ void MainWindow::keyPressEvent(QKeyEvent *event)
         {
             // TODO: add a callback to handle ESC key press
             scene->etDialog->show();
+            QApplication::restoreOverrideCursor();
+            emit cancel_mouse_select_operation();
+        }
+        else if (sceneActionIndex==5)
+        {
             QApplication::restoreOverrideCursor();
             emit cancel_mouse_select_operation();
         }

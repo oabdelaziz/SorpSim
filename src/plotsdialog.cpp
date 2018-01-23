@@ -532,6 +532,7 @@ void plotsDialog::overlay()
     Plot* currentPlot = dynamic_cast<Plot*>(tabs->currentWidget());
     overlaysetting * dialog= new overlaysetting(currentPlot,this);
     connect(dialog, SIGNAL(finished(int)), this, SLOT(onOverlayFinished(int)));
+    connect(theMainwindow, SIGNAL(cancel_mouse_select_operation()), dialog, SLOT(on_pushButton_clicked()));
     // Plans to hide itself, so create with show() and self-destruct.
     this->hide();
     // TODO: somebody needs to show this later. Add a callback?
@@ -1300,5 +1301,6 @@ void plotsDialog::on_zoomButton_toggled(bool checked)
 
 void plotsDialog::onOverlayFinished(int)
 {
+    theMainwindow->setSceneMode(MainWindow::SceneActionIndex::Default);
     this->show();
 }

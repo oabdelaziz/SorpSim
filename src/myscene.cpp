@@ -1,15 +1,17 @@
-/*myscene.cpp
- * [SorpSim v1.0 source code]
- * [developed by Zhiyao Yang and Dr. Ming Qu for ORNL]
- * [last updated: 10/12/15]
- * =======================================================================
- * custom class based on QGraphicsScene
- * object is created and setup in myView (QGraphicsView)
- * operations in the operating panel is handled via myScene including:
- * mouse press, double click on items
- * called by various classes in the project
- */
+/*! \file myscene.cpp
 
+    This file is part of SorpSim and is distributed under terms in the file LICENSE.
+
+    Developed by Zhiyao Yang and Dr. Ming Qu for ORNL.
+
+    \author Zhiyao Yang (zhiyaoYang)
+    \author Dr. Ming Qu
+    \author Nicholas Fette (nfette)
+
+    \copyright 2015, UT-Battelle, LLC
+    \copyright 2017-2018, Nicholas Fette
+
+*/
 
 
 #include "myscene.h"
@@ -276,8 +278,6 @@ void myScene::mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event)
                         overlaydialog->raise();
                         overlaydialog->displaylist();
                         overlaydialog->setFocus();
-
-                        sceneActionIndex = 0;
                     }
                 }
             }

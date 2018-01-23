@@ -1,3 +1,18 @@
+/*! \file myscene.h
+
+    This file is part of SorpSim and is distributed under terms in the file LICENSE.
+
+    Developed by Zhiyao Yang and Dr. Ming Qu for ORNL.
+
+    \author Zhiyao Yang (zhiyaoYang)
+    \author Dr. Ming Qu
+    \author Nicholas Fette (nfette)
+
+    \copyright 2015, UT-Battelle, LLC
+    \copyright 2017-2018, Nicholas Fette
+
+*/
+
 #ifndef MYSCENE_H
 #define MYSCENE_H
 #include <QObject>
@@ -8,6 +23,7 @@
 #include <QGraphicsEllipseItem>
 #include <QGraphicsItem>
 #include <QGraphicsTextItem>
+#include <QGraphicsSceneMouseEvent>
 #include "node.h"
 #include "link.h"
 #include "unit.h"
@@ -20,12 +36,11 @@
 #include "editpropertycurvedialog.h"
 #include "edittabledialog.h"
 
-QT_BEGIN_NAMESPACE
-
-class QGraphicsSceneMouseEvent;
-
-QT_END_NAMESPACE
-
+/// Custom class based on QGraphicsScene
+/// - object is created and setup in myView (QGraphicsView)
+/// - operations in the operating panel is handled via myScene including:
+/// - mouse press, double click on items
+/// - called by various classes in the project
 class myScene :public  QGraphicsScene
 {
 public:

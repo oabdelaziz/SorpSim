@@ -1,3 +1,18 @@
+/*! \file overlaysettingdialog.cpp
+
+    This file is part of SorpSim and is distributed under terms in the file LICENSE.
+
+    Developed by Zhiyao Yang and Dr. Ming Qu for ORNL.
+
+    \author Zhiyao Yang (zhiyaoYang)
+    \author Dr. Ming Qu
+    \author Nicholas Fette (nfette)
+
+    \copyright 2015, UT-Battelle, LLC
+    \copyright 2017-2018, Nicholas Fette
+
+*/
+
 #ifndef OVERLAYSETTING_H
 #define OVERLAYSETTING_H
 
@@ -16,13 +31,16 @@
 #include <qwt_legend.h>
 #include <qwt_plot_legenditem.h>
 #include "plotsdialog.h"
+
+
 namespace Ui {
 class overlaysetting;
 }
 
 
-
-
+/// Dialog to edit the existing curves in an existing property plot in a similar way as
+/// a new curve is overlayed onto the property chart.
+/// - called by plotsdialog.cpp
 class overlaysetting : public QDialog
 {
     Q_OBJECT

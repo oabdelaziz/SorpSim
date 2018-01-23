@@ -1,3 +1,20 @@
+/*! \file mainwindow.h
+    \brief draw/transform the components and store component data
+
+    This file is part of SorpSim and is distributed under terms in the file LICENSE.
+
+    Developed by Zhiyao Yang and Dr. Ming Qu for ORNL.
+
+    \author Zhiyao Yang (zhiyaoYang)
+    \author Dr. Ming Qu
+    \author Nicholas Fette (nfette)
+
+    \copyright 2015, UT-Battelle, LLC
+    \copyright 2017-2018, Nicholas Fette
+
+*/
+
+
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 
@@ -27,6 +44,25 @@ class MainWindow;
 }
 
 
+/*!
+The mainwindow is the major operating interface of SorpSim, the first window
+to show when the program launches, and last when users close SorpSim.
+
+The mainwindow class subclasses the QMainwindow class, with custom methods
+and data members defined to handle actions triggered by button click or
+mouse/keyboard operations.
+
+The buttons of the menu bar are defined using Qt Creator and edited in the
+corresponding mainwindow.ui, while the bottons on the tool bar are defined
+in the mainwindow constructor "Mainwindow::Mainwindow (QWidget* parent){}".
+
+The operating panel below the toolbar is consisted of a myView (subclass of
+QGraphicsView, defined in myview.cpp/h) and a myScene (subclass of
+QGraphicsScene, defined in myscene.cpp/h). The "myView" was added onto the
+mainwindow in the constructor function, and the "myScene" is added onto the
+"myView" after that. (refer to Qt documentations about View and Scene
+operations)
+*/
 class MainWindow : public QMainWindow
 {
     Q_OBJECT
@@ -55,9 +91,50 @@ public:
     void resultShow();
     void switchToSelect();
 
+    /*! \name Mouse selection modes
+
+        When say a dialog wants to perform a mouse selection through the scene, but
+        disable other actions (menus and toolbars), it can call setSceneMode.
+        The actions are re-enabled after the dialog is destroyed.
+        The dialog can sign up to be notified when user presses ESC.
+
+        \todo This attribute is intended to replace sceneActionIndex. However,
+        it is not yet fully implemented.
+    */
+    //! \{
+
+    /// \brief SceneActionIndex: state of operation for mouse selection.
+    ///
+    /// Used by dialogs that interact with theScene (for selecting and creating items).
+    /// MainWindow responds to any key press event of "ESC" and sets the mode back to 0.
+    /// myScene responds to mouse click signals.
+    enum class SceneActionIndex {
+        Default,      ///< Default: double-click to open a property dialog
+        DrawUnit,     ///< single-click to draw/add a new component
+        DrawLink,     ///< double-click state points (two to be linked)
+        TableSelect,  ///< double-click state point or component to select an input/output variable
+        PlotSelect    ///< double-click state point to overlay on property plot
+    };
+private:
+    SceneActionIndex theMode; ///< The current state of operation.
+public:
+    /// Setter for theMode.
+    void setSceneMode(SceneActionIndex index, QObject *caller = 0);
+    /// Equivalent to setSceneMode(SceneActionIndex::Default).
+    void defaultMode();
+    /// Getter for theMode.
+    SceneActionIndex getSceneMode() const;
+    /// Enables/disables the menubar and toolbar.
+    ///
+    /// \todo Make private
+    void setActionsEnabled(bool enableActions);
+
 signals:
 
+    /// \brief Emitted when user presses ESC during mouse selection mode.
     void cancel_mouse_select_operation();
+
+    //! \}
 
 private slots:
 

@@ -1,15 +1,17 @@
-/*overlaysettingdialog.cpp
- * [SorpSim v1.0 source code]
- * [developed by Zhiyao Yang and Dr. Ming Qu for ORNL]
- * [last updated: 10/12/15]
- *
- * dialog to edit the existing curves in an existing property plot in a similar way as
- * a new curve is overlayed onto the property chart
- * called by plotsdialog.cpp
- */
+/*! \file overlaysettingdialog.cpp
 
+    This file is part of SorpSim and is distributed under terms in the file LICENSE.
 
+    Developed by Zhiyao Yang and Dr. Ming Qu for ORNL.
 
+    \author Zhiyao Yang (zhiyaoYang)
+    \author Dr. Ming Qu
+    \author Nicholas Fette (nfette)
+
+    \copyright 2015, UT-Battelle, LLC
+    \copyright 2017-2018, Nicholas Fette
+
+*/
 
 
 #include "overlaysettingdialog.h"
@@ -679,22 +681,34 @@ void overlaysetting::debugg()
 {
 }
 
-void overlaysetting::on_pushButton_clicked()//start select
+// toggle mode to select points from scene
+void overlaysetting::on_pushButton_clicked()
 {
     if(sceneActionIndex == 5)
     {
         ui->pushButton->setText("Start Selecting State Points From Cycle");
         displaylist();
+        this->hide();
+        this->setModal(true);
+        this->show();
+
         sceneActionIndex = 0;
+        theMainwindow->setActionsEnabled(true);
+        theMainwindow->statusBar()->clearMessage();
         QApplication::restoreOverrideCursor();
-        qDebug()<<"cursor restored";
     }
     else
     {
         ui->pushButton->setText("Stop Selecting State Points From Cycle");
-        sceneActionIndex = 5;
         theScene->sel_plot=overlay_plot;
         theScene->overlaydialog=this;
+        this->hide();
+        this->setModal(false);
+        this->show();
+
+        sceneActionIndex = 5;
+        theMainwindow->setActionsEnabled(false);
+        theMainwindow->statusBar()->showMessage("[ESC] Cancel | [Double-Click] Select state points to overlay on plot.");
         theMainwindow->raise();
         QApplication::setOverrideCursor(QCursor(Qt::CrossCursor));
     }
