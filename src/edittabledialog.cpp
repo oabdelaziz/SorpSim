@@ -61,7 +61,7 @@ editTableDialog::editTableDialog(QString theTableName, QWidget *parent) :
     ui(new Ui::editTableDialog)
 {
     ui->setupUi(this);
-    setWindowFlags(Qt::Tool);
+    setWindowFlags(Qt::Dialog);
     setWindowModality(Qt::ApplicationModal);
     setWindowTitle("Edit Table");
 
@@ -256,22 +256,13 @@ void editTableDialog::on_OKButton_clicked()
             inputQ.clear();
             outputQ.clear();
 
-            if(theScene->tableWindow!=NULL)
-            {
-                theScene->tableWindow->close();
-            }
-            theScene->tableWindow = new tableDialog();
-            theScene->tableWindow->setModal(true);
+            tableDialog aTableDialog(dummy, "", theMainwindow);
             this->hide();
-            theScene->tableWindow->exec();
+            aTableDialog.exec();
             this->accept();
-
-
         }
         else
             globalpara.reportError("Fail to set up xml file for table.",this);
-
-
     }
 }
 

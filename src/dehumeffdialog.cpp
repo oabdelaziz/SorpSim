@@ -22,7 +22,6 @@
 #include "estntueffdialog.h"
 #include "mainwindow.h"
 
-double estimatedNTU;
 extern MainWindow*theMainwindow;
 dehumEffDialog*dhefDialog;
 
@@ -34,7 +33,7 @@ dehumEffDialog::dehumEffDialog(unit*unit, QWidget *parent) :
     myUnit = unit;
     setWindowTitle("Effectiveness Model Setup");
     dhefDialog = this;
-    setWindowFlags(Qt::Tool);
+    setWindowFlags(Qt::Dialog);
     setWindowModality(Qt::ApplicationModal);
     if(myUnit->iht ==2)//NTU
     {
@@ -73,6 +72,7 @@ dehumEffDialog::dehumEffDialog(unit*unit, QWidget *parent) :
 
 dehumEffDialog::~dehumEffDialog()
 {
+    dhefDialog = NULL;
     delete ui;
 }
 
@@ -101,21 +101,16 @@ void dehumEffDialog::on_cancelButton_clicked()
 
 void dehumEffDialog::on_estNTUButton_clicked()
 {
-    estNtuEffDialog*eDialog = new estNtuEffDialog(myUnit->myNodes[3],this);
-    eDialog->setModal(true);
-    if(eDialog->exec()==QDialog::Accepted)
-        ui->NTULine->setText(QString::number(estimatedNTU,'g',4));
+    estNtuEffDialog eDialog(myUnit->myNodes[3],this);
+    if(eDialog.exec()==QDialog::Accepted)
+        ui->NTULine->setText(QString::number(eDialog.getNTUestimate(),'g',4));
 }
 
 void dehumEffDialog::on_effLine_textEdited(const QString &arg1)
 {
     if(arg1.toDouble()>1)
     {
-        QMessageBox * mBox = new QMessageBox;
-        mBox->setWindowTitle("Warning");
-        mBox->setText("Effectiveness can not be larger than 1!");
-        mBox->setModal(true);
-        mBox->exec();
+        QMessageBox::warning(this, "Warning", "Effectiveness can not be larger than 1. Please revise.");
         ui->effLine->clear();
     }
 }

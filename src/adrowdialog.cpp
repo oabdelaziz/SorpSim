@@ -19,24 +19,21 @@
 #include <QLayout>
 #include "mainwindow.h"
 
-
-extern bool adrIsInsert;
-extern int adrPosition;//1 = top, 2 = bottom, 3 = after adrIar
-extern int adrIar;
-extern int adrNr;//number of runs
-extern bool adrAccepted;
-
 extern MainWindow *theMainwindow;
-extern tableDialog*theTablewindow;
 
 adRowDialog::adRowDialog(QWidget *parent) :
     QDialog(parent),
-    ui(new Ui::adRowDialog)
+    ui(new Ui::adRowDialog),
+    adrAccepted(false),
+    adrIsInsert(true),
+    adrPosition(1),
+    adrIar(0),
+    adrNr(0)
 {
     ui->setupUi(this);
     ui->insertButton->setChecked(true);
     ui->atTopButton->setChecked(true);
-    setWindowFlags(Qt::Tool);
+    setWindowFlags(Qt::Dialog);
     ui->noRunsb->setMinimum(0);
     ui->aftetsb->setMinimum(0);
 
@@ -81,10 +78,10 @@ void adRowDialog::on_OKButton_clicked()
     }
     else// CAN ADD DETAILED DIRECTION TO WHERE THE PROBLEM IS
     {
-        QMessageBox * adrBox = new QMessageBox;
-        adrBox->setWindowTitle("Warning!");
-        adrBox->setText("Please finish all sections!");
-        adrBox->exec();
+        QMessageBox adrBox;
+        adrBox.setWindowTitle("Warning!");
+        adrBox.setText("Please finish all sections!");
+        adrBox.exec();
     }
 
 }
@@ -93,20 +90,4 @@ void adRowDialog::on_cancelButton_clicked()
 {
     reject();
     adrAccepted = false;
-}
-
-bool adRowDialog::event(QEvent *e)
-{
-    if(e->type()==QEvent::ActivationChange)
-    {
-        if(qApp->activeWindow()==this)
-        {
-            theMainwindow->show();
-            theMainwindow->raise();
-            theTablewindow->raise();
-            this->raise();
-            this->setFocus();
-        }
-    }
-    return QDialog::event(e);
 }

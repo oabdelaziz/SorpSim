@@ -47,7 +47,7 @@ fluidDialog::fluidDialog(QWidget *parent) :
         listItem->setCheckState(Qt::Unchecked);
     }
 
-    setWindowFlags(Qt::Tool);
+    setWindowFlags(Qt::Dialog);
     setWindowModality(Qt::ApplicationModal);
     setWindowTitle("Working Fluid Specification");
 

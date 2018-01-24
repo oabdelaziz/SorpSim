@@ -60,7 +60,6 @@ private:
     Ui::spDialog *ui;
     QStringList sysFluids;
     Node* myNode;
-    bool reSet;
 
     int oItfix, oIffix, oIcfix, oIpfix, oIwfix, oksub;
     double oT,oF,oC,oP,oW;

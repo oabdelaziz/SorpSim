@@ -27,7 +27,7 @@ VICheckDialog::VICheckDialog(bool isCalc, QWidget *parent) :
     ui(new Ui::VICheckDialog)
 {
     ui->setupUi(this);
-    setWindowFlags(Qt::Tool);
+    setWindowFlags(Qt::Dialog);
     setWindowModality(Qt::ApplicationModal);
     setWindowTitle("Variable Groups");
     ui->label->setText("Please define additional equations\nfor the each parameter:");

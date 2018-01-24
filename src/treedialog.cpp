@@ -48,7 +48,7 @@ TreeDialog::TreeDialog(QWidget *parent) :
     ui->setupUi(this);
     ui->selectButton->setEnabled(false);
 
-    setWindowFlags(Qt::Tool);
+    setWindowFlags(Qt::Dialog);
     setWindowModality(Qt::ApplicationModal);
     setWindowTitle("Select a Component");
 

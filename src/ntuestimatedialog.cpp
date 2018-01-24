@@ -31,23 +31,25 @@
 #include <QValidator>
 #include <QDoubleValidator>
 
-extern double NTUEstimation;
 extern globalparameter globalpara;
 extern LDACcompDialog*ldacDialog;
 extern MainWindow*theMainwindow;
 
 NTUestimateDialog::NTUestimateDialog(unit *estUnit, QWidget *parent) :
     QDialog(parent),
-    ui(new Ui::NTUestimateDialog)
+    ui(new Ui::NTUestimateDialog),
+    NTUEstimation(-1)
 {
     ui->setupUi(this);
     myUnit = estUnit;
 
-    setWindowFlags(Qt::Tool);
+    setWindowFlags(Qt::Dialog);
     setWindowModality(Qt::ApplicationModal);
-    setWindowTitle("NTU estimation");
+    setWindowTitle("Automatic NTU estimation");
 
-    myScene = new spScene;
+    // Note: "the view does not take ownership of scene." ...
+    // So we pass ownership of the spScene to this for automatic deletion by ~QObject.
+    myScene = new spScene(this);
     ui->myView->setScene(myScene);
     ui->myView->setRenderHint(QPainter::TextAntialiasing);
 
@@ -131,18 +133,19 @@ NTUestimateDialog::NTUestimateDialog(unit *estUnit, QWidget *parent) :
         ui->msiMrrLine->setText(QString::number(myUnit->myNodes[si]->f));
 
 
+        // TODO: document intent and make this consistent
         switch (myUnit->myNodes[0]->ksub)
         {
         case 1:
         {
             ui->FluidBox->setCurrentText("LiBr-water");
-            ui->FluidBox_2->setCurrentText("LiBr-water");
+            ui->FluidBox_2->setCurrentText("LiBr-water"); // matching
             break;
         }
         case 9:
         {
             ui->FluidBox->setCurrentText("LiCl-water");
-            ui->FluidBox_2->setCurrentText("LiBr-water");
+            ui->FluidBox_2->setCurrentText("LiBr-water"); // not matching
             break;
         }
         }
@@ -198,6 +201,11 @@ NTUestimateDialog::~NTUestimateDialog()
     delete ui;
 }
 
+double NTUestimateDialog::getNTUEstimation()
+{
+    return NTUEstimation;
+}
+
 void NTUestimateDialog::displayComponent(int idunit)
 {
     myScene->clear();
@@ -208,6 +216,7 @@ void NTUestimateDialog::displayComponent(int idunit)
     for(int i = 0; i < disUnit->usp;i++)
         disUnit->myNodes[i]->text->setText(QString::number(i+1));
 
+    // This call will pass ownership of unit to the scene.
     myScene->drawUnit(disUnit);
 
     ui->myView->centerOn(disUnit);
@@ -235,6 +244,7 @@ void NTUestimateDialog::updateInfo()
     }
 }
 
+// TODO: Is this necessary?
 bool NTUestimateDialog::event(QEvent *e)
 {
     if(e->type()==QEvent::ActivationChange)
@@ -254,23 +264,16 @@ bool NTUestimateDialog::event(QEvent *e)
 
 void NTUestimateDialog::on_estimateButton_clicked()
 {
-    QMessageBox* aBox = new QMessageBox(this);
-    aBox->setWindowTitle("Warning");
-    if(ui->inletoutletButton->isChecked()&&ui->FluidBox->currentText()=="Select desiccant")
+    if ((ui->inletoutletButton->isChecked()&&ui->FluidBox->currentText()=="Select desiccant")
+            || (ui->moistureButton->isChecked()&&ui->FluidBox_2->currentText()=="Select desiccant"))
     {
-        aBox->setText("Please select desiccant");
-        aBox->exec();
-    }
-    else if(ui->moistureButton->isChecked()&&ui->FluidBox_2->currentText()=="Select desiccant")
-    {
-        aBox->setText("Please select desiccant");
-        aBox->exec();
+        QMessageBox::warning(this,"Warning","Please select desiccant.");
     }
     else
     {
         updateInfo();
         using namespace sorpsim4l;
-        int argc;
+        int argc = 0;
         char const* argv[1];
         common cmn(argc,argv);
 
@@ -315,10 +318,7 @@ void NTUestimateDialog::on_estimateButton_clicked()
             double temp = dehum(tsi,xsi,ms,tai,wai,ma,mrrEst,ksub);
             if(temp == -1)
             {
-                QMessageBox *mBox = new QMessageBox(this);
-                mBox->setWindowTitle("Warning");
-                mBox->setText("Estimation error, please modify the input values.");
-                mBox->exec();
+                QMessageBox::warning(this, "Warning", "Estimation error, please modify the input values.");
             }
             else
                 ui->NTUmmr->setText(QString::number(temp));
@@ -359,17 +359,14 @@ void NTUestimateDialog::on_applyButton_clicked()
     }
     else
     {
-        QMessageBox *mBox = new QMessageBox(this);
-        mBox->setWindowTitle("Warning");
-        mBox->setText("Please first acquire a valid NTU number");
-        mBox->exec();
+        QMessageBox::warning(this, "Warning", "Please first acquire a valid NTU number");
     }
 }
 
 double NTUestimateDialog::dehum(double tsoli, double xsoli, double msol, double tairi, double wairi, double mairi, double mrate, int ksub)
 {
     using namespace sorpsim4l;
-    int argc;
+    int argc = 0;
     char const* argv[1];
     common cmn(argc,argv);
 
@@ -381,7 +378,7 @@ double NTUestimateDialog::dehum(double tsoli, double xsoli, double msol, double 
     double delta_z = h/n;
     double mrateTemp = 0;
 
-    double ts[n+2],ta[n+2],wa[n+2],ha[n+2],xs[n+2],ms[n+2],hsat[n+2];
+    std::vector<double> ts(n+2),ta(n+2),wa(n+2),ha(n+2),xs(n+2),ms(n+2),hsat(n+2);
     ts[1] = tsoli;
     ta[1] = tairi;
     wa[1] = wairi;
@@ -449,10 +446,7 @@ void NTUestimateDialog::on_mrrLine_editingFinished()
     {
         if(mrrTemp>ma*wai)
         {
-            QMessageBox *mBox = new QMessageBox(this);
-            mBox->setWindowTitle("Warning");
-            mBox->setText("The moisture removal rate can not be larger than the moisture content in the air.");
-            mBox->exec();
+            QMessageBox::warning(this, "Warning", "The moisture removal rate can not be larger than the moisture content in the air.");
             ui->waoEstLine->clear();
             ui->mrrLine->clear();
         }
@@ -476,10 +470,7 @@ void NTUestimateDialog::on_waoEstLine_editingFinished()
     {
         if(mrrTemp>ma*wai)
         {
-            QMessageBox *mBox = new QMessageBox(this);
-            mBox->setWindowTitle("Warning");
-            mBox->setText("The moisture removal rate can not be larger than the moisture content in the air.");
-            mBox->exec();
+            QMessageBox::warning(this, "Warning", "The moisture removal rate cannot be larger than the moisture content in the air.");
             ui->waoEstLine->clear();
             ui->mrrLine->clear();
         }

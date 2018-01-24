@@ -43,7 +43,7 @@ Node::Node()
     myBackgroundColor = Qt::gray;
     linked = false;
     insideLinked = false;
-    real = true;
+    //real = true;
 
     setZValue(3);
 

@@ -31,7 +31,6 @@ extern int alvMethod;
 extern int alvCol;
 extern int alvRowCount;
 
-extern tableDialog*theTablewindow;
 extern MainWindow*theMainwindow;
 
 //THE LASTVALUE LAYOUT IS: LINEAR, INCREMENTAL, MULTIPLIER, LOG
@@ -53,7 +52,7 @@ altervDialog::altervDialog(QWidget *parent) :
     ui->firstValueLE->setValidator(regExpValidator);
     ui->lastValueLE->setValidator(regExpValidator);
 
-    setWindowFlags(Qt::Tool);
+    setWindowFlags(Qt::Dialog);
     QLayout *mainLayout = layout();
     mainLayout->setSizeConstraint(QLayout::SetFixedSize);
 
@@ -119,10 +118,7 @@ void altervDialog::on_okButton_clicked()
         }
         else// CAN ADD DETAILED DIRECTION TO WHERE THE PROBLEM IS
         {
-            QMessageBox * alvBox = new QMessageBox;
-            alvBox->setWindowTitle("Warning!");
-            alvBox->setText("Please check your settings!");
-            alvBox->exec();
+            QMessageBox::warning(this, "Warning", "Invalid input. Please try again.");
         }
 }
 
@@ -147,20 +143,4 @@ void altervDialog::on_inputCB_currentIndexChanged(int index)
     lastValue = ranges.at(index).split(",").last().toDouble();
     ui->firstValueLE->setText(QString::number(firstValue));
     ui->lastValueLE->setText(QString::number(lastValue));
-}
-
-bool altervDialog::event(QEvent *e)
-{
-    if(e->type()==QEvent::ActivationChange)
-    {
-        if(qApp->activeWindow()==this)
-        {
-            theMainwindow->show();
-            theMainwindow->raise();
-            theTablewindow->raise();
-            this->raise();
-            this->setFocus();
-        }
-    }
-    return QDialog::event(e);
 }

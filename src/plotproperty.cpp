@@ -82,7 +82,6 @@ Plot::Plot(QString fluid, QString subType, QString unitSystem)
     //resize(1200,1000);
     QPolygonF points[6];
     QwtPlotCurve *curve[6];
-    QwtPlotMarker * d_marker[6];
 
     ////////////////// Legend
     //    externalLegend=new QwtLegend();
@@ -281,7 +280,7 @@ Plot::Plot(QString fluid, QString subType, QString unitSystem)
 
 
                 int MarkerLabel[7]={1,5,10,50,100,200,1000};
-                float MarkerPos[7]={6.1651,31.9467,44.8407,80.2484,98.4565,118.9317,179.9};
+                double MarkerPos[7]={6.1651,31.9467,44.8407,80.2484,98.4565,118.9317,179.9};
 
                 QwtPlotMarker * d_marker[7];
                 for (int i=0;i<7;i++)
@@ -480,7 +479,7 @@ Plot::Plot(QString fluid, QString subType, QString unitSystem)
 
 
                 int MarkerLabel[7]={5,10,50,100,500,1000,7500};
-                float MarkerPos[7]={32.8,50.6,98.8,123,189.7,224.045,356};
+                double MarkerPos[7]={32.8,50.6,98.8,123,189.7,224.045,356};
 
                 QwtPlotMarker * d_marker[7];
                 for (int i=0;i<7;i++)
@@ -503,6 +502,9 @@ Plot::Plot(QString fluid, QString subType, QString unitSystem)
                     d_marker[i]->attach( this );
                 }
 
+                // TODO: No reference stored, in case we want to toggle these markers.
+                // However, upon its own destruction, this (inheriting QwtPlotDict)
+                // will at least autodelete these attached markers.
                 ///////////////marker
                 QwtPlotMarker * duhring_marker;
                 QString info[8]={"Pure Water","45%","50%","55%","60%","65%","70%","Crystallization line"};
@@ -640,6 +642,8 @@ Plot::Plot(QString fluid, QString subType, QString unitSystem)
                 curve_duhr3->setSamples(points3);
                 curve_duhr3->attach(this);
 
+                // TODO: reference to these markers are never stored in case we want to toggle.
+                // Also, would be nice to reduce duplication between SI/IP versions.
                 QwtPlotMarker * clapeyron_marker;
                 QString info[3]={"Pure Water","45%","70%"};
                 QPointF info_points[3]={QPointF(-0.0017,130),QPointF(-0.0015,370),QPointF(-0.0014,97)};
@@ -668,11 +672,10 @@ Plot::Plot(QString fluid, QString subType, QString unitSystem)
 
 Plot::Plot(QMultiMap<double, double> data, QStringList xValues, int curveCount, int *axis_info, QStringList axis_name)
 {
-    int nRuns = xValues.count(), nCurves = curveCount;
-    QString inAxis = axis_name.at(0);
-    QStringList outAxis;
-    for(int i = 1; i < axis_name.count();i++)
-        outAxis<<axis_name.at(i);
+    const int nRuns = xValues.count();
+    const int nCurves = curveCount;
+    QStringList outAxis(axis_name);
+    QString inAxis = outAxis.takeFirst();
 
     plotselect=false;
     isParametric = true;
@@ -730,8 +733,11 @@ Plot::Plot(QMultiMap<double, double> data, QStringList xValues, int curveCount, 
     sItem = new QwtSymbol(QwtSymbol::Ellipse,QBrush(Qt::black),QPen(Qt::black,1),QSize(3,3));
     symbols.append(sItem);
 
+
+    // TODO: consider using std::vector or smart pointers. However, ...
+    // TODO: no need to store these in an array, since they are consumed immediately in the loop.
     QPolygonF *points = new QPolygonF[nCurves];
-    QwtPlotCurve * curve[nCurves];
+    QwtPlotCurve** curve = new QwtPlotCurve*[nCurves];
     for(int j=0;j<nCurves;j++)
     {
         QString curveName = outAxis.at(j);
@@ -765,7 +771,8 @@ Plot::Plot(QMultiMap<double, double> data, QStringList xValues, int curveCount, 
         curve[j]->attach(this);
         curvelist<<curve[j];
     }
-
+    // These are just pointers, so deleting them doesn't affect the objects to which they point.
+    delete[] curve;
 }
 
 
@@ -773,13 +780,15 @@ double Plot::cal_rt_p(double pres)
 {
     double down=0;
     double up=0;
-    for (float i=0.1;i<180;i+=0.1)
+    double i;
+    for (i=0.1;i<180;i+=0.1)
     {
         up=pow(10,(7.05-1596.49/(i+273.15)-104095.5/pow((i+273.15),2)));
         if(up>pres && down<pres) return i;
         down=up;
     }
-
+    // TODO: we gave up at 180, is that the intent?
+    return i;
 }
 
 
@@ -810,10 +819,10 @@ void Plot::setupNewPropertyCurve(QString title, bool isDuhring)
     {
         for (int i =0; i<addvaluelist.count();i++)
         {
-            double tsol = convert(addvaluelist.at(i)->add_temperature,temperature[tInd],temperature[1]), tref;
-            if (addvaluelist.at(i)->add_concentration!=0)
+            double tsol = convert(addvaluelist.at(i).add_temperature,temperature[tInd],temperature[1]), tref;
+            if (addvaluelist.at(i).add_concentration!=0)
             {
-                tref = cal_rt_c(addvaluelist.at(i)->add_concentration,tsol);
+                tref = cal_rt_c(addvaluelist.at(i).add_concentration,tsol);
                 tsol = convert(tsol,temperature[1],temperature[tInd]);
                 tref = convert(tref,temperature[1],temperature[tInd]);
                 points<<QPointF(tsol,tref);
@@ -821,7 +830,7 @@ void Plot::setupNewPropertyCurve(QString title, bool isDuhring)
                 marker->setSymbol( new QwtSymbol( QwtSymbol::Ellipse,QColor(Qt::red ), QColor( Qt::red ), QSize( 12,12) ) );
                 marker->attach(this);
                 marker->setLabelAlignment(Qt::AlignRight|Qt::AlignTop);
-                marker->setTitle(QString::number(addvaluelist.at(i)->index));
+                marker->setTitle(QString::number(addvaluelist.at(i).index));
                 marker->setValue(QPointF(tsol,tref));
                 text.setText(marker->title().text());
                 marker->setLabel(text);
@@ -837,11 +846,11 @@ void Plot::setupNewPropertyCurve(QString title, bool isDuhring)
                 marker->attach(this);
                 marker->setLabelAlignment(Qt::AlignRight|Qt::AlignTop);
                 marker->setValue(QPointF(tsol,tref));
-                marker->setTitle(QString::number(addvaluelist.at(i)->index));
+                marker->setTitle(QString::number(addvaluelist.at(i).index));
                 text.setText(marker->title().text());
                 marker->setLabel(text);
             }
-            thePoints.append(QString::number(addvaluelist.at(i)->index));
+            thePoints.append(QString::number(addvaluelist.at(i).index));
             theMarkers.append(marker);
         }
 
@@ -850,9 +859,9 @@ void Plot::setupNewPropertyCurve(QString title, bool isDuhring)
     {
         for (int i =0; i<addvaluelist.count();i++)
         {
-            double tsol = convert(addvaluelist.at(i)->add_temperature,temperature[tInd],temperature[1]),
-                    csol=addvaluelist.at(i)->add_concentration,tref,Tref,y,pt;
-            if (addvaluelist.at(i)->add_concentration!=0)
+            double tsol = convert(addvaluelist.at(i).add_temperature,temperature[tInd],temperature[1]),
+                    csol=addvaluelist.at(i).add_concentration,tref,Tref,y,pt;
+            if (addvaluelist.at(i).add_concentration!=0)
             {
                 tref=(tsol-(124.937-7.71649*csol+0.152286*pow(csol,2)-0.00079509*pow(csol,3)))/(-2.00755+0.16976*csol-0.003133362*pow(csol,2)+0.0000197668*pow(csol,3));
                 Tref=tref+273.15;
@@ -865,7 +874,7 @@ void Plot::setupNewPropertyCurve(QString title, bool isDuhring)
                 marker->attach(this);
                 marker->setLabelAlignment(Qt::AlignRight|Qt::AlignTop);
                 marker->setValue(QPointF(-1/(tsol+273.15),y));
-                marker->setTitle(QString::number(addvaluelist.at(i)->index));
+                marker->setTitle(QString::number(addvaluelist.at(i).index));
                 text.setText(marker->title().text());
                 marker->setLabel(text);
             }
@@ -881,12 +890,12 @@ void Plot::setupNewPropertyCurve(QString title, bool isDuhring)
                 marker->attach(this);
                 marker->setLabelAlignment(Qt::AlignRight|Qt::AlignTop);
                 marker->setValue(QPointF(-1/(tsol+273.15),y));
-                marker->setTitle(QString::number(addvaluelist.at(i)->index));
+                marker->setTitle(QString::number(addvaluelist.at(i).index));
                 text.setText(marker->title().text());
                 marker->setLabel(text);
             }
 
-            thePoints.append(QString::number(addvaluelist.at(i)->index));
+            thePoints.append(QString::number(addvaluelist.at(i).index));
             theMarkers.append(marker);
         }
     }
@@ -897,4 +906,18 @@ void Plot::setupNewPropertyCurve(QString title, bool isDuhring)
     curvelist<<thisCurve;
     curvePoints.append(thePoints);
     curveMarkers.append(theMarkers);
+}
+
+void Plot::getCurveByTitle(const QString &title, QwtPlotCurve * &result, int &i)
+{
+    for (i = 0; i < curvelist.size(); ++i)
+    {
+        result = curvelist.at(i);
+        if (title == result->title().text())
+        {
+            return;
+        }
+    }
+    result = NULL;
+    i = -1;
 }

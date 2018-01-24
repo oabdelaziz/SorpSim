@@ -188,7 +188,17 @@ curvesetting::curvesetting(QList<QwtPlotCurve *> * curvelist, Plot *plot, QWidge
     connect(ui->radio_Legend1,SIGNAL(toggled(bool)),ui->lineEdit_legendcol,SLOT(setHidden(bool)));
     connect(ui->radio_Legend1,SIGNAL(toggled(bool)),ui->lineEdit_legendsize,SLOT(setHidden(bool)));    
 
-
+    // Triggers to update legend
+    // position combobox
+    connect(ui->positionBox,         SIGNAL(currentIndexChanged(int)),     SLOT(setuplegend()));
+    // horizontal alignment combobox
+    connect(ui->hAlignmentBox,       SIGNAL(currentIndexChanged(int)),     SLOT(setuplegend()));
+    // vertical alignment combobox
+    connect(ui->vAlignmentBox,       SIGNAL(currentIndexChanged(int)),     SLOT(setuplegend()));
+    // internal legend column line
+    connect(ui->lineEdit_legendcol,  SIGNAL(textChanged(const QString &)), SLOT(setuplegend()));
+    // internal legend size line
+    connect(ui->lineEdit_legendsize, SIGNAL(textChanged(const QString &)), SLOT(setuplegend()));
 }
 
 curvesetting::~curvesetting()
@@ -211,27 +221,48 @@ void curvesetting::on_lineEdit_linetitle_textChanged(const QString &arg1)//set c
     if(ui->listWidget->count()>0&&ui->listWidget->currentRow()!=-1)
     {
         int bgLineCount = ui->bgList->count();
+        int listIndex = ui->listWidget->currentRow()+bgLineCount;
+        QString oldCurveName = curvelistset->at(listIndex)->title().text();
         QString curveName = arg1;
-        curveName.replace(QRegExp("[^a-zA-Z0-9_]"), "");
+        // TODO: replace() removes # from automatically generated titles without user interaction.
+        // (Change is not reflected in XML until later.)
+        // Change is not reflected in this lineEdit field!
+        // Change is not reflected in list of curves, which can then be deleted!!!
+        //curveName.replace(QRegExp("[^a-zA-Z0-9_]"), "");
         if(curveName.count()==0)
             curveName = "curve_"+QString::number(ui->listWidget->currentRow());
         if(curveName.at(0).isDigit())
             curveName = "curve_"+curveName;
-        curvelistset->at(ui->listWidget->currentRow()+bgLineCount)->setTitle(curveName);
+        curvelistset->at(listIndex)->setTitle(curveName);
+        ui->lineEdit_linetitle->setText(curveName);
     }
 }
 
-void curvesetting::on_comboBox_currentIndexChanged(int index)//line color combobox
+void curvesetting::on_comboBox_currentIndexChanged(QString text)//line color combobox
 {    
     int bgLineCount = ui->bgList->count();
-    QColor color(ui->comboBox->currentText());
+    QColor color(text);
     if (ui->listWidget->currentRow()<0) return;
     curvelistset->at(ui->listWidget->currentRow()+bgLineCount)->setPen(color,curvelistset->at(ui->listWidget->currentRow()+bgLineCount)->pen().width(),curvelistset->at(ui->listWidget->currentRow()+bgLineCount)->pen().style());
     set_plot->replot();
 }
 
+// TODO: double check that currentRow hasn't just been deleted before accessing it.
 void curvesetting::on_listWidget_currentRowChanged(int currentRow)//load current line status
 {
+int rowsInListWidget = ui->listWidget->count();
+#ifdef QT_DEBUG
+    qDebug() << "curvesetting::on_listWidget_currentRowChanged debug info:";
+    qDebug() << "Count of rows in the listWidget:" << rowsInListWidget;
+    qDebug() << "Which currentRow was passed:" << currentRow;
+    if (currentRow < rowsInListWidget)
+        qDebug() << "The currentRow is a valid index into the list.";
+    else
+    {
+        qDebug() << "Clearly not enough lists! Giving up gracefully.";
+        qDebug() << "Just to follow up, asking for the currentRow now gives" << ui->listWidget->currentRow();
+    }
+#endif
     if(ui->listWidget->count()>0&&currentRow!=-1)
     {
         ui->curveActionBox->setEnabled(true);
@@ -340,31 +371,6 @@ void curvesetting::on_radio_Legend2_clicked()//internal legend button
     set_plot->setContentsMargins(5,5,5,5);
 }
 
-void curvesetting::on_positionBox_currentIndexChanged(int index)//position combobox
-{
-    setuplegend();
-}
-
-void curvesetting::on_hAlignmentBox_currentIndexChanged(int index)//horizontal alignment combobox
-{
-    setuplegend();
-}
-
-void curvesetting::on_vAlignmentBox_currentIndexChanged(int index)//vertical alignment combobox
-{
-    setuplegend();
-}
-
-void curvesetting::on_lineEdit_legendcol_textChanged(const QString &arg1)//internal legend column line
-{
-    setuplegend();
-}
-
-void curvesetting::on_lineEdit_legendsize_textChanged(const QString &arg1)//internal legend size line
-{
-    setuplegend();
-}
-
 void curvesetting::setupmargin()//set background color
 {
     QColor color(ui->comboBox_backcolor->currentText());
@@ -429,25 +435,33 @@ void curvesetting::curveToggled(QListWidgetItem *item)
         {
             thisCurve->attach(set_plot);
             thisCurve->setVisible(true);
-            foreach(QwtPlotMarker*marker,set_plot->curveMarkers.at(curveIndex))
+            // TODO: this isn't working properly
+            if (set_plot->curveMarkers.size() > curveIndex)
             {
-                marker->attach(set_plot);
-                marker->setVisible(true);
+                foreach(QwtPlotMarker*marker,set_plot->curveMarkers.at(curveIndex))
+                {
+                    marker->attach(set_plot);
+                    marker->setVisible(true);
+                }
             }
-            set_plot->replot();
         }
         else if(item->checkState()==Qt::Unchecked)
         {
             thisCurve->detach();
-            set_plot->replot();
-            foreach(QwtPlotMarker*marker,set_plot->curveMarkers.at(curveIndex))
-            {
-                marker->detach();
-                marker->setVisible(false);
-            }
             thisCurve->setVisible(false);
+			// TODO: next line triggers an error when user unchecks all curves
+            // Happens because curveMarkers may not exist for this curve.
+            // See Plot::setupNewPropertyCurve (only called from plotsDialog::loadXml)
+            if (set_plot->curveMarkers.size() > curveIndex)
+            {
+                foreach(QwtPlotMarker*marker,set_plot->curveMarkers.at(curveIndex))
+                {
+                    marker->detach();
+                    marker->setVisible(false);
+                }
+            }
         }
-
+        set_plot->replot();
     }
     else
         qDebug()<<"line not found";
@@ -496,8 +510,8 @@ void curvesetting::bgCurveToggled(QListWidgetItem *item)
 void curvesetting::on_editCurveButton_clicked()
 {
     int bgLineCount = ui->bgList->count();
-    editPropertyCurveDialog*eDialog = new editPropertyCurveDialog(set_plot,curvelistset,ui->listWidget->currentIndex().row(),bgLineCount,this);
-    eDialog->exec();
+    editPropertyCurveDialog eDialog(set_plot,curvelistset,ui->listWidget->currentIndex().row(),bgLineCount,this);
+    eDialog.exec();
 }
 
 void curvesetting::on_lineWidthSB_valueChanged(int arg1)//line width SpinBox
@@ -512,14 +526,40 @@ void curvesetting::on_deleteCurveButton_clicked()
     QString delCurveName;
     int bgLineCount = ui->bgList->count();
     delCurveName = set_plot->curvelist.at(bgLineCount+ui->listWidget->currentIndex().row())->title().text();
+    int myRow = ui->listWidget->currentRow();
+    int markerRows = set_plot->curveMarkers.count();
+    // TODO: caution here, if curve is missing somehow
+    // Hint: curveMakers are only created for specialty plots (Duhring, Clapeyron)
+    // See Plot::setupNewPropertyCurve
+#ifdef QT_DEBUG
+
+    qDebug() << "set_plot->curveMarkers debug info:";
+
+    qDebug() << "Count of lists of curve markers:" << markerRows;
+    qDebug() << "Looking for list number" << myRow;
+    if (myRow < markerRows)
+    {
+        qDebug() << "This list has " << set_plot->curveMarkers.at(myRow).count() << "elements.";
+        qDebug() << set_plot->curveMarkers.at(myRow);
+    }
+    else
+    {
+        qDebug() << "Clearly not enough lists! Giving up gracefully.";
+    }
+#endif
+    if (myRow < markerRows)
+    {
+        foreach (QwtPlotMarker * marker, set_plot->curveMarkers.at(myRow))
+            marker->detach();
+        set_plot->curveMarkers.removeAt(myRow);
+    }
+
     set_plot->curvelist.at(bgLineCount+ui->listWidget->currentIndex().row())->detach();
     set_plot->curvelist.removeAt(bgLineCount+ui->listWidget->currentIndex().row());
     set_plot->replot();
     set_plot->curvePoints.removeAt(ui->listWidget->currentIndex().row());
-    foreach(QwtPlotMarker*marker,set_plot->curveMarkers.at(ui->listWidget->currentRow()))
-        marker->detach();
-    set_plot->curveMarkers.removeAt(ui->listWidget->currentRow());
-    ui->listWidget->takeItem(ui->listWidget->currentRow());
+
+    delete ui->listWidget->takeItem(ui->listWidget->currentRow());
 
 #ifdef Q_OS_WIN32
     QFile file("plotTemp.xml");
@@ -564,9 +604,21 @@ void curvesetting::on_deleteCurveButton_clicked()
             }
             else
             {
-                thisCurve = currentPlot.elementsByTagName(delCurveName).at(0);
-                qDebug()<<"revoming curve"<<delCurveName;
-                currentPlot.removeChild(thisCurve);
+                QDomNodeList curveNodeList = currentPlot.elementsByTagName("curveList").at(0).childNodes();
+                bool found = false;
+                for (int i = 0; i < curveNodeList.count(); ++i)
+                {
+                    thisCurve = curveNodeList.at(i);
+                    if (thisCurve.toElement().attribute("title") == delCurveName)
+                    {
+                        qDebug()<<"revoming curve"<<delCurveName;
+                        currentPlot.removeChild(thisCurve);
+                        found = true;
+                    }
+                }
+                if (!found) {
+                    qDebug() << "Failed to find in XML any <curve> with title" << delCurveName << ".";
+                }
                 file.resize(0);
                 doc.save(stream,4);
                 file.close();
@@ -584,6 +636,7 @@ void curvesetting::setLists()
     disconnect(ui->bgList,SIGNAL(itemChanged(QListWidgetItem*)),this,SLOT(bgCurveToggled(QListWidgetItem*)));
     //background list and curve list widget
 //    QwtPlotCurve* thisCurve;
+    // TODO: find a better way to flag specialized plots
     if(curvelistset->count()>=28)//duhring
     {
         for(int i = 0; i < 28; i++)

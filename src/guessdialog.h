@@ -32,7 +32,6 @@ private:
     void adjustTableSize();
     void showEvent(QShowEvent *e);
 
-    bool event(QEvent *e);
 
     bool fromMDialog;
     QByteArray myByteArray;

@@ -29,13 +29,12 @@ QT_END_NAMESPACE
 class myScene :public  QGraphicsScene
 {
 public:
-    myScene();
+    myScene(QObject * parent = NULL);
     tableSelectParaDialog * tDialog;
     editTableDialog * etDialog;
     plotsDialog* plotWindow;
     QGraphicsSimpleTextItem * copcap;
     QGraphicsRectItem * copRect;
-    tableDialog *tableWindow;
     Plot * sel_plot;
     overlaysetting * overlaydialog;
     editPropertyCurveDialog*editPropDialog;

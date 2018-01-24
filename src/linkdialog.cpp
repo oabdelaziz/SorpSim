@@ -41,7 +41,7 @@ linkDialog::linkDialog(Node *sp1, Node *sp2, QWidget *parent) :
     ui->setupUi(this);
 
     setWindowTitle("Linking");
-    setWindowFlags(Qt::Tool);
+    setWindowFlags(Qt::Dialog);
     setWindowModality(Qt::ApplicationModal);
 
     QApplication::restoreOverrideCursor();
@@ -317,8 +317,8 @@ void linkDialog::on_okButton_clicked()
 void linkDialog::on_redefineButton_clicked()
 {
     hide();
-    spDialog*sDialog = new spDialog(mySp1);
-    if(sDialog->exec()==QDialog::Accepted)
+    spDialog sDialog(mySp1, this);
+    if(sDialog.exec()==QDialog::Accepted)
     {
         ui->sp1Button->setChecked(true);
         allHide = false;

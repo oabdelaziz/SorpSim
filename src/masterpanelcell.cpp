@@ -23,6 +23,12 @@ masterPanelCell::masterPanelCell(Node *node, QWidget *parent) :
     QLineEdit(parent)
 {
     myNode = node;
+    myType = -1;
+    myValue = -1;
+    previousValue = -1;
+
+    spIndex = -1;
+    paraName = "None";
 
     QObject::connect(this,SIGNAL(focussed(bool)),this,SLOT(recordPreviousValues(bool)));
 

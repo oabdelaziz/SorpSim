@@ -44,7 +44,7 @@ textedit::textedit(QWidget *parent, SimpleTextItem * textitem):
 
     }
     ui->comboBox_color->setCurrentIndex(ui->comboBox_color->findData(textitem->brush().color(), Qt::DecorationRole));
-    setWindowFlags(Qt::Tool);
+    setWindowFlags(Qt::Dialog);
     setWindowModality(Qt::ApplicationModal);
     QLayout *mainLayout = layout();
     mainLayout->setSizeConstraint(QLayout::SetFixedSize);

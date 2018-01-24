@@ -15,6 +15,8 @@ class estNtuEffDialog : public QDialog
 public:
     explicit estNtuEffDialog(Node* airInlet, QWidget *parent = 0);
     ~estNtuEffDialog();
+
+    double getNTUestimate();
     
 private slots:
     void calculate(QString string);
@@ -28,7 +30,6 @@ private:
 
     double estimatedValue;
 
-    bool event(QEvent *e);
 };
 
 #endif // ESTNTUEFFDIALOG_H

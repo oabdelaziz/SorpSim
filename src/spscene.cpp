@@ -16,7 +16,8 @@
 #include "mainwindow.h"
 
 
-spScene::spScene()
+spScene::spScene(QObject *parent)
+    : QGraphicsScene(parent)
 {
     this->setSceneRect(-65,-65,130,130);
 }
@@ -32,9 +33,11 @@ void spScene::drawUnit(unit *unit)
     }
 
     QPen pen(Qt::white);
+    // Creates a rectangled owned by this (deleted upon destruction, unless removed).
     rect = this->addRect(-60,-60,+120,+120);
     rect->setPen(pen);
     rect->setZValue(2);
 
+    // Passes ownership of unit to rect.
     unit->setParentItem(rect);
 }

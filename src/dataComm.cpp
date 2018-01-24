@@ -242,11 +242,7 @@ void globalparameter::resetIfixes(const char parameter)
 
 void globalparameter::reportError(QString errorMessage, QWidget *parent)
 {
-    QMessageBox *mBox = new QMessageBox(parent);
-    mBox->setWindowTitle("Warning");
-    mBox->setText(errorMessage);
-    mBox->setModal(true);
-    mBox->exec();
+    QMessageBox::warning(parent, "Warning", errorMessage);
 }
 
 void globalparameter::addGroup(const char parameter, QSet<Node *> spSet)

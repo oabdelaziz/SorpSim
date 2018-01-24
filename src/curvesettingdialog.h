@@ -16,6 +16,7 @@
 #include <qwt_plot_curve.h>
 #include "plotproperty.h"
 #include <QListWidgetItem>
+#include <QString>
 
 namespace Ui {
 class curvesetting;
@@ -35,7 +36,7 @@ private slots:
 
     void on_pushButton_2_clicked();
 
-    void on_comboBox_currentIndexChanged(int index);
+    void on_comboBox_currentIndexChanged(QString text);
 
     void on_listWidget_currentRowChanged(int currentRow);
 
@@ -48,16 +49,6 @@ private slots:
     void on_radio_Legend1_clicked();
 
     void on_radio_Legend2_clicked();
-
-    void on_positionBox_currentIndexChanged(int index);
-
-    void on_hAlignmentBox_currentIndexChanged(int index);
-
-    void on_vAlignmentBox_currentIndexChanged(int index);
-
-    void on_lineEdit_legendcol_textChanged(const QString &arg1);
-    
-    void on_lineEdit_legendsize_textChanged(const QString &arg1);
 
     void setupmargin();
     

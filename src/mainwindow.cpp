@@ -17,6 +17,7 @@
  * function, and the "myScene" is added onto the "myView" after that. (refer to Qt documentations about View and Scene operations)
 */
 
+#include <vector>
 
 #include <QTabWidget>
 #include <QApplication>
@@ -33,6 +34,7 @@
 #include <QGraphicsSceneMouseEvent>
 #include <QFile>
 #include <QFileDialog>
+#include <QFileInfo>
 #include <QtXml>
 #include <QtXml/qdom.h>
 #include <QtXml/QDomDocument>
@@ -61,6 +63,7 @@
 #include <QMenuBar>
 #include <QDialogButtonBox>
 #include <QTextBrowser>
+#include <QTemporaryFile>
 
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
@@ -100,18 +103,12 @@
 #include "guessdialog.h"
 
 
-bool gocalc = false;
-bool setupNew = false;
-
-int templateindex = 0;
-int globalcount = 0;
-int spnumber = 0;
-int linkcount = 0;
-unit* head =NULL;
-unit* prev =NULL;
-unit* temp1 =NULL;
-unit* temp2 = NULL;
-unit* dummy = NULL;
+int globalcount = 0;                    // number of units
+int spnumber = 0;                       // number of state points
+int linkcount = 0;                      // number of links between state points (write-only, for debugging?)
+// Linked list of units is implemented with pointers (unit::next)
+unit* head =NULL;                       // often the first unit in the list (after dummy)
+unit* dummy = NULL;                     // a placeholder before the first unit
 QString fname;
 unit * tableunit = NULL;
 Node * tablesp = NULL;
@@ -148,7 +145,7 @@ MainWindow::MainWindow(QWidget *parent) :
     setWindowTitle("SorpSim");
     theMainwindow=this;
     view = new myView(this);
-    scene = new myScene();
+    scene = new myScene(this);
     theScene = scene;
     scene->setSceneRect(-100000,-100000,200000,200000);
     view->setScene(scene);
@@ -308,60 +305,87 @@ void MainWindow::on_actionComponent_triggered()
 
 void MainWindow::on_actionDelete_triggered()
 {
-    if (!scene->selectedItems().isEmpty())
+    QList<QGraphicsItem *> items = scene->selectedItems();
+
+    // Give the user an opportunity to cancel.
+    QMessageBox delBox(theMainwindow);
+    delBox.addButton("Delete",QMessageBox::YesRole);
+    delBox.addButton("Cancel",QMessageBox::NoRole);
+    delBox.setWindowTitle("Warning");
+    QString delMessage = "Delete:\n";
+    QStringList delItems;
+    // Build a list of item names
+    foreach (QGraphicsItem * item, items)
     {
-        QList<QGraphicsItem *> items = scene->selectedItems();
-        QMessageBox * delBox = new QMessageBox(theMainwindow);
-        delBox->addButton("Delete",QMessageBox::YesRole);
-        delBox->addButton("Cancel",QMessageBox::NoRole);
-        delBox->setWindowTitle("Warning");
-        QString delMessage = "Are you sure to delete: ";
-
-        if(items.first()->zValue() == 2)//for deleting units
+        // for units
+        if (item->zValue() == 2)
         {
-            QGraphicsRectItem * rect = dynamic_cast<QGraphicsRectItem *>(items.first());
-            QList<QGraphicsItem *> rectitem = rect->childItems();
-            unit * delunit = dynamic_cast<unit *>(rectitem.first());
-            delMessage.append("["+delunit->unitName+"] ?");
-            delBox->setText(delMessage);
-            delBox->exec();
-            if(delBox->buttonRole(delBox->clickedButton())==QMessageBox::YesRole){
-
-                deleteunit(delunit);
-                qDeleteAll(items);
-            }
-
+            QGraphicsItem * unitItem = item->childItems().takeFirst();
+            unit * delunit = dynamic_cast<unit *>(unitItem);
+            delItems.append(QString("[%1 #%2]").arg(delunit->unitName).arg(delunit->nu));
         }
-        else if(items.first()->zValue() == 1)//for deleting links
+        // for Links
+        else if (item->zValue() == 1)
         {
-            Link * dellink = dynamic_cast<Link *>(items.first()->parentItem());
-            delMessage.append("[link between sp"+QString::number(dellink->myFromNode->ndum)+"] ?");
-            delBox->setText(delMessage);
-            delBox->exec();
-            if(delBox->buttonRole(delBox->clickedButton())==QMessageBox::YesRole){
-
-                deletelink(dellink);
-                delete dellink;
-            }
-
+            Link * dellink = dynamic_cast<Link *>(item->parentItem());
+            delItems.append(QString("[Node link #%1]").arg(dellink->myFromNode->ndum));
         }
-        else if(items.first()->type()==10000)
+        // for text boxes
+        else if (item->type() == 10000)
         {
-            SimpleTextItem * text=dynamic_cast<SimpleTextItem *>(items.first());
-            delMessage.append("[text item: "+text->text()+"] ?");
-
-            delBox->setText(delMessage);
-            delBox->exec();
-            if(delBox->buttonRole(delBox->clickedButton())==QMessageBox::YesRole){
-
-                if(globalpara.sceneText.contains(text))
-                    globalpara.sceneText.removeOne(text);
-                delete text;
-            }
-
+            SimpleTextItem * text = dynamic_cast<SimpleTextItem *>(item);
+            delItems.append(QString("[text item: \"%1\"]").arg(text->text()));
         }
-
     }
+    if (delItems.count() == 0)
+    {
+        theStatusBar->showMessage("Delete: first select a component, link, or text box");
+        return;
+    }
+    delMessage.append(delItems.join('\n'))
+            .append("\nThis operation cannot be undone. Proceed?");
+    delBox.setText(delMessage);
+    delBox.exec();
+    if (delBox.buttonRole(delBox.clickedButton()) != QMessageBox::YesRole)
+        return;
+
+    foreach (QGraphicsItem * item, items)
+    {
+        // Maybe a Link got deleted during process so skip it.
+        if (!item || !scene->items().contains(item))
+        {
+            qDebug() << "The item was already removed (probably a Link to a deleted unit).";
+            continue;
+        }
+        //for deleting units
+        if (item->zValue() == 2)
+        {
+            // Need to do:
+            // (a) remove and delete selected units from the global linked list (done by deleteunit)
+            // (b) remove the rects that own them from the scene and delete them (delete works)
+            // Note side effects: deleting units can result in deleting Links
+            QGraphicsItem * unitItem = item->childItems().takeFirst();
+            unit * delunit = dynamic_cast<unit *>(unitItem);
+            deleteunit(delunit);
+            delete item;
+        }
+        // for deleting links
+        else if (item->zValue() == 1)
+        {
+            Link * dellink = dynamic_cast<Link *>(item->parentItem());
+            deletelink(dellink);
+            delete dellink;
+        }
+        // for deleting text box
+        else if (item->type() == 10000)
+        {
+            SimpleTextItem * text = dynamic_cast<SimpleTextItem *>(item);
+            if(globalpara.sceneText.contains(text))
+                globalpara.sceneText.removeOne(text);
+            delete text;
+        }
+    }
+    // qDeleteAll(items);
 }
 
 void MainWindow::deleteunit(unit *delunit)
@@ -384,15 +408,6 @@ void MainWindow::deleteunit(unit *delunit)
                 set.remove(theNode);
                 if(set.count()>1){
                     globalpara.fGroup.append(set);
-                }
-            }
-        }
-        foreach(QSet<Node*>set,globalpara.cGroup){
-            if(set.contains(theNode)){
-                globalpara.cGroup.removeOne(set);
-                set.remove(theNode);
-                if(set.count()>1){
-                    globalpara.cGroup.append(set);
                 }
             }
         }
@@ -431,7 +446,7 @@ void MainWindow::deleteunit(unit *delunit)
         }
     }
 
-
+    // Remove unit from linked list of units.
     head = dummy;
     int diff;
     int changes=0;
@@ -443,7 +458,7 @@ void MainWindow::deleteunit(unit *delunit)
 
         if  (head->next==delunit)
         {
-
+            unit* temp1 =NULL;
             if(head->next->next==NULL)
                 {
                     temp1 = head->next;
@@ -458,6 +473,7 @@ void MainWindow::deleteunit(unit *delunit)
                 }
             else
                 {
+                    unit* temp2 = NULL;
                     temp1 = head;
                     temp2 = head->next;
                     temp1->next = temp2->next;
@@ -471,7 +487,8 @@ void MainWindow::deleteunit(unit *delunit)
         }
         else    head = head->next;
 
-
+        // The deleted unit was not at the end of the list,
+        // so renumber all the units and nodes that follow.
         if(delflag)
         {
             head->nu = head->nu - 1;
@@ -686,9 +703,9 @@ void MainWindow::startWindow()
 {
 
     globalpara.startOption = "close";
-    startDialog * sDialog = new startDialog(this);
-    sDialog->setModal(true);
-    sDialog->exec();
+    startDialog sDialog(this);
+    sDialog.setModal(true);
+    sDialog.exec();
     if(globalpara.startOption=="new")
         newCase();
     else if(globalpara.startOption=="browse")
@@ -832,14 +849,14 @@ void MainWindow::newCase()
     //clear the scene and global parameters
 
 
-    unitsetting* uDialog = new unitsetting(this);
-    uDialog->setWindowTitle("Unit System");
-    uDialog->setModal(true);
-    if(uDialog->exec()==QDialog::Accepted)
+    unitsetting uDialog(this);
+    uDialog.setWindowTitle("Unit System");
+    uDialog.setModal(true);
+    if(uDialog.exec()==QDialog::Accepted)
     {
-        fluidDialog *fDialog = new fluidDialog(this);
-        fDialog->setModal(true);
-        if(fDialog->exec()==QDialog::Accepted)
+        fluidDialog fDialog(this);
+        fDialog.setModal(true);
+        if(fDialog.exec()==QDialog::Accepted)
         {
             QFile file(globalpara.caseName);
             QTextStream stream;
@@ -899,6 +916,9 @@ void MainWindow::newCase()
                 QPen pen(Qt::white);
                 pen.setWidth(0);
                 scene->copRect->setPen(pen);
+                // Note: memory of scene->copcap (COP and capacity caption) ...
+                // and memory of parent, scene->copRect ...
+                // are now owned by scene. MainWindow::defaultTheSystem will clear scene.
                 scene->copcap = new QGraphicsSimpleTextItem(scene->copRect);
                 scene->copcap->setFont(font);
                 scene->copcap->setBrush(Qt::magenta);
@@ -935,19 +955,19 @@ int MainWindow::askToSave()
     disableResult();
     if(!noChangeMade())
     {
-        QMessageBox* askSaveBox = new QMessageBox(this);
-        askSaveBox->addButton(QMessageBox::Ok);
-        askSaveBox->addButton(QMessageBox::No);
-        askSaveBox->addButton(QMessageBox::Cancel);
-        askSaveBox->setWindowTitle("Please select...");
-        askSaveBox->setText("Save current case?");
-        askSaveBox->exec();
-        if(askSaveBox->result()==QMessageBox::Ok)
+        QMessageBox askSaveBox(this);
+        askSaveBox.addButton(QMessageBox::Ok);
+        askSaveBox.addButton(QMessageBox::No);
+        askSaveBox.addButton(QMessageBox::Cancel);
+        askSaveBox.setWindowTitle("Please select...");
+        askSaveBox.setText("Save current case?");
+        askSaveBox.exec();
+        if(askSaveBox.result()==QMessageBox::Ok)
         {
             //save current and proceed
             return 1;
         }
-        else if(askSaveBox->result()==QMessageBox::No)
+        else if(askSaveBox.result()==QMessageBox::No)
         {
             //discard current and proceed
             return 2;
@@ -964,9 +984,9 @@ int MainWindow::askToSave()
 bool MainWindow::loadCase(QString name)
 {
 
-    unitsetting* uDialog = new unitsetting(this);
-    uDialog->setWindowTitle("Unit System");
-    if(uDialog->exec()== QDialog::Accepted)
+    unitsetting uDialog(this);
+    uDialog.setWindowTitle("Unit System");
+    if(uDialog.exec()== QDialog::Accepted)
     {
         globalpara.caseName = name;
 
@@ -980,8 +1000,8 @@ bool MainWindow::loadCase(QString name)
         QList<QSet<Node*> >linkList;
         if(!ofile.open(QIODevice::ReadOnly|QIODevice::Text))
         {
-            return false;
             globalpara.reportError("Failed to open and load the case file.",this);
+            return false;
         }
         else
         {
@@ -1129,6 +1149,7 @@ bool MainWindow::loadCase(QString name)
                 loadingUnit->initialize();
 
 
+                // TODO: add default case to catch bad input
                 if(unitData.attribute("insideMerged")=="T")
                     loadingUnit->insideMerged = true;
                 else if(unitData.attribute("insideMerged")=="F")
@@ -1380,14 +1401,16 @@ bool MainWindow::preprocessOutFile(QString fileName)
     QFile ofile(newName);
     if(!ifile.open(QIODevice::ReadOnly|QIODevice::Text))
     {
-        globalpara.reportError("Failed to open original file during preprocessing.",this);
+        globalpara.reportError(QString("During preprocessing, failed to open original file:\n'%1'")
+                               .arg(fileName),this);
         return false;
     }
     if(ofile.exists())
         ofile.remove();
     if(!ofile.open(QIODevice::WriteOnly|QIODevice::Text))
     {
-        globalpara.reportError("Failed to open original file during preprocessing.",this);
+        globalpara.reportError(QString("During preprocessing, failed to open the new file:\n'%1'")
+                               .arg(newName),this);
         return false;
     }
     else
@@ -1558,9 +1581,9 @@ bool MainWindow::loadOutFile()
 
         defaultTheSystem();
 
-        unitsetting* uDialog = new unitsetting(this);
-        uDialog->setWindowTitle("Unit System");
-        if(uDialog->exec()== QDialog::Accepted)
+        unitsetting uDialog(this);
+        uDialog.setWindowTitle("Unit System");
+        if(uDialog.exec()== QDialog::Accepted)
         {
             int unitCount, spCount, largestID;
             unit * loadUnit, * iterator, * nodeFinder;
@@ -1571,7 +1594,8 @@ bool MainWindow::loadOutFile()
 //            QFile ofile(name);
             if(!ofile.open(QIODevice::ReadOnly|QIODevice::Text))
             {
-                globalpara.reportError("Failed to open original file.",this);
+                globalpara.reportError(QString("After preprocessing, failed to re-open the new file:\n'%1'")
+                                       .arg(newName),this);
                 return false;
             }
             else
@@ -1646,7 +1670,7 @@ bool MainWindow::loadOutFile()
                 }while(!line.contains("NO. OF UNITS"));
                 line.replace("NO. OF UNITS:","");
                 unitCount = line.toInt();
-                int sps[unitCount][7];
+                std::vector<int[7]> sps(unitCount);
 
                 do
                 {
@@ -1660,6 +1684,9 @@ bool MainWindow::loadOutFile()
                     line = stream.readLine();
                 }while(!line.contains("INPUT"));
 
+                // Note: Does this block ever store loadUnit? ...
+                // Yes, the code `scene->drawAUnit(loadUnit);` has a side effect of storing the pointer
+                // in a rect belonging to the scene.
                 //load components
                 for(int i = 0; i < unitCount; i ++)
                 {
@@ -1738,8 +1765,8 @@ bool MainWindow::loadOutFile()
 
                 //load state points
                 int const spNm = spCount+1;
-                int ksub[spNm],itfix[spNm],iffix[spNm],icfix[spNm],ipfix[spNm],iwfix[spNm];
-                double t[spNm],f[spNm],c[spNm],p[spNm],w[spNm];
+                std::vector<int> ksub(spNm),itfix(spNm),iffix(spNm),icfix(spNm),ipfix(spNm),iwfix(spNm);
+                std::vector<double> t(spNm),f(spNm),c(spNm),p(spNm),w(spNm);
 
                 for(int h = 0; h < spCount; h++)
                 {
@@ -1795,7 +1822,7 @@ bool MainWindow::loadOutFile()
                 line = stream.readLine();
 
                 //load state points
-                double tr[spNm],fr[spNm],cr[spNm],pr[spNm],wr[spNm],hr[spNm];
+                std::vector<double> tr(spNm),fr(spNm),cr(spNm),pr(spNm),wr(spNm),hr(spNm);
 
                 for(int h = 0; h < spCount; h++)
                 {
@@ -2003,7 +2030,7 @@ bool MainWindow::loadOutFile()
                     {
                         if(iterator->myNodes[n]->ndum==i+1)
                         {
-                            Node*tNode = iterator->myNodes[n];
+//                            Node*tNode = iterator->myNodes[n];
 //                            qDebug()<<i+1<<tNode->itfix<<tNode->iffix<<tNode->icfix<<tNode->ipfix<<tNode->iwfix;
                             found = true;
                         }
@@ -2021,10 +2048,10 @@ bool MainWindow::loadOutFile()
 
 void MainWindow::manageGroups()
 {
-    VICheckDialog *vDialog = new VICheckDialog(true,this);
-    vDialog->setWindowTitle("Manage Additional Equations");
-    vDialog->setModal(true);
-    vDialog->exec();
+    VICheckDialog vDialog(true,this);
+    vDialog.setWindowTitle("Manage Additional Equations");
+    vDialog.setModal(true);
+    vDialog.exec();
 }
 
 void MainWindow::createGroupFromIfix()
@@ -2457,10 +2484,8 @@ void MainWindow::openTableWindow()
         scene->evokeTDialog();
     else
     {
-        if(scene->tableWindow!=NULL)
-            scene->tableWindow->close();
-        scene->tableWindow = new tableDialog(startTName);
-        scene->tableWindow->exec();
+        tableDialog aTableDialog(dummy, startTName, this);
+        aTableDialog.exec();
     }
 }
 
@@ -2485,21 +2510,21 @@ void MainWindow::openPlotWindow()
     {
         if(tableCount>0)
         {
-            newParaPlotDialog* pDialog = new newParaPlotDialog(0,"","",this);
-            pDialog->exec();
+            newParaPlotDialog pDialog(0,"","",this);
+            pDialog.exec();
         }
         else
         {
-            QMessageBox* mBox = new QMessageBox(this);
-            mBox->setWindowTitle("Warning");
-            mBox->setText("There is no table/plot data in the current case file!");
-            mBox->setModal(true);
-            mBox->exec();
+            QMessageBox mBox(this);
+            mBox.setWindowTitle("Warning");
+            mBox.setText("There is no table/plot data in the current case file!");
+            mBox.setModal(true);
+            mBox.exec();
         }
     }
     else
     {
-        scene->plotWindow = new plotsDialog(startPName);
+        scene->plotWindow = new plotsDialog(startPName, false, this);
         scene->plotWindow ->exec();
     }
 
@@ -2507,45 +2532,42 @@ void MainWindow::openPlotWindow()
 
 QMap<QString, int> MainWindow::hasTPData(bool lookForTable)
 {
+    Q_UNUSED(lookForTable);
     QFile file(globalpara.caseName);
     QDomDocument doc;
     QDomElement tableData, plotData;
-    QMessageBox *mBox = new QMessageBox;
+    QMessageBox mBox;
     QString string;
     QMap<QString,int> results;
-    if(lookForTable)
-        string = "table";
-    else string = "plot";
-    mBox->setWindowTitle("Warning");
-    mBox->setModal(true);
+    results.insert("plot", 0);
+    results.insert("table",0);
+
+    mBox.setWindowTitle("Warning");
+    mBox.setModal(true);
     if(!file.open(QIODevice::ReadOnly | QIODevice::Text))
     {
-        mBox->setText("Fail to open case file.");
-        mBox->exec();
-        results.insert(string,0);
-        return results;
+        mBox.setText("Fail to open case file.");
+        mBox.exec();
     }
     else
     {
         if(!doc.setContent(&file))
         {
-            mBox->setText("Fail to load "+string+" data.");
-            mBox->exec();
-            results.insert(string,0);
-            return results;
+            mBox.setText("Fail to load "+string+" data.");
+            mBox.exec();
         }
         else
         {
             results.clear();
             tableData = doc.elementsByTagName("TableData").at(0).toElement();
             plotData = doc.elementsByTagName("plotData").at(0).toElement();
-            results.insert("table",tableData.childNodes().count());
-            results.insert("plot",plotData.childNodes().count());
-            return results;
+            results["table"] = tableData.childNodes().count();
+            results["plot"] = plotData.childNodes().count();
 
             file.close();
         }
     }
+    return results;
 }
 
 bool MainWindow::setTPMenu()
@@ -2584,8 +2606,8 @@ bool MainWindow::setTPMenu()
         {
             if(!file.open(QIODevice::ReadOnly|QIODevice::Text))
             {
-                return false;
                 globalpara.reportError("Fail to open case file for table data.",this);
+                return false;
             }
             else
             {
@@ -2682,8 +2704,17 @@ bool MainWindow::setTPMenu()
         }
     }
 
+    return true;
 }
 
+/**
+ * @brief MainWindow::setRecentFiles
+ *
+ * Sets the list of recent files in the user profile. As a side effect in case
+ * of I/O errors, issues a helpful warning message.
+ *
+ * @return Whether the operation succeeded.
+ */
 bool MainWindow::setRecentFiles()
 {
 #ifdef Q_OS_WIN32
@@ -2698,6 +2729,7 @@ bool MainWindow::setRecentFiles()
     if(!ofile.open(QIODevice::ReadOnly|QIODevice::Text))
     {
         globalpara.reportError("Failed to open and load recent file.",this);
+        return false;
     }
     else
     {
@@ -2705,6 +2737,7 @@ bool MainWindow::setRecentFiles()
         {
             globalpara.reportError("Failed to load recent file directories from xml file.",this);
             ofile.close();
+            return false;
         }
     }
 
@@ -2730,6 +2763,7 @@ bool MainWindow::setRecentFiles()
             connect(tempAction,SIGNAL(triggered()),SLOT(openRecentFile()));
         }
     }
+    return true;
 }
 
 bool MainWindow::saveRecentFile(QString fileDir)
@@ -2893,16 +2927,16 @@ void MainWindow::openRecentFile()
                     bool noSave = false;
                     while(name==""&&(!noSave))
                     {
-                        QMessageBox * mBox = new QMessageBox(this);
-                        mBox->addButton("Enter a directory",QMessageBox::YesRole);
-                        mBox->addButton("Don's save current case",QMessageBox::NoRole);
-                        mBox->setWindowTitle("Warning");
-                        mBox->setText("Please enter a directory to save the case!");
-                        mBox->setModal(true);
-                        mBox->exec();
-                        if(mBox->buttonRole(mBox->clickedButton())==QMessageBox::YesRole)
+                        QMessageBox  mBox(this);
+                        mBox.addButton("Enter a directory",QMessageBox::YesRole);
+                        mBox.addButton("Don's save current case",QMessageBox::NoRole);
+                        mBox.setWindowTitle("Warning");
+                        mBox.setText("Please enter a directory to save the case!");
+                        mBox.setModal(true);
+                        mBox.exec();
+                        if(mBox.buttonRole(mBox.clickedButton())==QMessageBox::YesRole)
                             name = QFileDialog::getSaveFileName(this,"Save current case to file:","./","XML files(*.xml)");
-                        else if(mBox->buttonRole(mBox->clickedButton())==QMessageBox::NoRole)
+                        else if(mBox.buttonRole(mBox.clickedButton())==QMessageBox::NoRole)
                             noSave = true;
                     }
                     if(!noSave)
@@ -2932,6 +2966,13 @@ void MainWindow::resizeEvent(QResizeEvent *e)
 {
     QMainWindow::changeEvent(e);
     mainwindowSize = geometry();
+}
+
+QFile * MainWindow::SSGetTempFileName()
+{
+    //QString tempPath = QDir::tempPath();
+    QTemporaryFile * myTempFile = new QTemporaryFile(this);
+    return myTempFile;
 }
 
 
@@ -3002,10 +3043,9 @@ void MainWindow::on_actionRun_triggered()
     }
     if(wfPoints.count()>0)
     {
-        QMessageBox * wfBox = new QMessageBox(this);
-        wfBox->setWindowTitle("Warning");
-        wfBox->setText("Need to define working fluid for the following state point(s):\n#"+wfPoints.join(", #"));
-        wfBox->exec();
+        QMessageBox::warning(this,
+                             "Warning",
+                             "Need to define working fluid for the following state point(s):\n#"+wfPoints.join(", #"));
     }
     else
     {
@@ -3014,19 +3054,18 @@ void MainWindow::on_actionRun_triggered()
         globalpara.resetIfixes('c');
         globalpara.resetIfixes('p');
         globalpara.resetIfixes('w');
-        GlobalDialog *gDialog = new GlobalDialog(this);
+        GlobalDialog gDialog(this);
 
         disableResult();
 
-        if(gDialog->exec() == QDialog::Accepted)
+        if(gDialog.exec() == QDialog::Accepted)
         {
             fname = "Project";
-            mycal = new calculate;
-            mycal->calc(dummy,globalpara,fname);
-            delete mycal;
-
+            // 2017-12-30: removed this field from mainwindow (used only locally)
+            // TODO: why is it a class?
+            calculate mycal(dummy);
+            mycal.calc(globalpara,fname);
         }
-//        }
     }
 
     if(hasCopcap()>0){
@@ -3108,20 +3147,21 @@ void MainWindow::on_actionOpen_triggered()
 #endif
         if(globalpara.caseName == fName)
         {
+            // TODO: The following control flow is easily confusing to a user.
             QString name = QFileDialog::getSaveFileName(this,"Save current case to file:","./","XML files(*.xml)");
             bool noSave = false;
             while(name==""&&(!noSave))
             {
-                QMessageBox * mBox = new QMessageBox(this);
-                mBox->addButton("Enter a directory",QMessageBox::YesRole);
-                mBox->addButton("Don's save current case",QMessageBox::NoRole);
-                mBox->setWindowTitle("Warning");
-                mBox->setText("Please enter a directory to save the case!");
-                mBox->setModal(true);
-                mBox->exec();
-                if(mBox->buttonRole(mBox->clickedButton())==QMessageBox::YesRole)
+                QMessageBox mBox(this);
+                mBox.addButton("Enter a directory",QMessageBox::YesRole);
+                mBox.addButton("Don's save current case",QMessageBox::NoRole);
+                mBox.setWindowTitle("Warning");
+                mBox.setText("Please enter a directory to save the case!");
+                mBox.setModal(true);
+                mBox.exec();
+                if(mBox.buttonRole(mBox.clickedButton())==QMessageBox::YesRole)
                     name = QFileDialog::getSaveFileName(this,"Save current case to file:","./","XML files(*.xml)");
-                else if(mBox->buttonRole(mBox->clickedButton())==QMessageBox::NoRole)
+                else if(mBox.buttonRole(mBox.clickedButton())==QMessageBox::NoRole)
                     noSave = true;
             }
             if(!noSave)
@@ -3487,12 +3527,7 @@ void MainWindow::on_actionSave_As_triggered()
     }
     else
     {
-        QMessageBox * mBox = new QMessageBox(this);
-        mBox->setWindowTitle("Warning");
-        mBox->setText("The case is not saved!");
-        mBox->setModal(true);
-        mBox->exec();
-
+        QMessageBox::warning(this, "Warning", "The case is not saved!");
     }
 }
 
@@ -3566,9 +3601,9 @@ void MainWindow::on_actionPrint_triggered()
 
 void MainWindow::on_actionContent_And_Index_triggered()
 {
-    helpDialog * hDialog = new helpDialog(this);
-    hDialog->setModal(true);
-    hDialog->exec();
+    helpDialog  hDialog(this);
+    hDialog.setModal(true);
+    hDialog.exec();
 }
 
 void MainWindow::on_actionChoose_Results_triggered()
@@ -3578,9 +3613,8 @@ void MainWindow::on_actionChoose_Results_triggered()
 
 void MainWindow::chooseResults()
 {
-    resultDisplayDialog *resDialog = new resultDisplayDialog(this);
-    resDialog->setModal(true);
-    if(resDialog->exec()==QDialog::Accepted)
+    resultDisplayDialog resDialog(this);
+    if(resDialog.exec()==QDialog::Accepted)
     {
         bool hasSelectedRes = globalpara.spResSelected()|globalpara.compResSelected()
                 |globalpara.resCOP|globalpara.resCAP;
@@ -3859,16 +3893,16 @@ void MainWindow::debugging()
 
 void MainWindow::evokeAbout()
 {
-    QMessageBox * aboutDialog = new QMessageBox(this);
-    aboutDialog->setWindowTitle("Welcome to SorpSim");
-    aboutDialog->setWindowFlags(Qt::Tool);
-    aboutDialog->setTextFormat(Qt::RichText);
-    aboutDialog->setText("<p align='center'><font size = 8 color = blue style = 'italic'>SorpSim 1.0</font><br>"
+    QMessageBox aboutDialog(this);
+    aboutDialog.setWindowTitle("Welcome to SorpSim");
+    aboutDialog.setTextFormat(Qt::RichText);
+    aboutDialog.setText("<p align='center'><font size = 8 color = blue style = 'italic'>SorpSim 1.0</font><br>"
                        "<br>"
                        "<font size = 2>Copyright 2015, UT-Battelle, LLC<br>"
                        "All rights reserved<br>"
                        "Sorption system Simulation program (SorpSim), Version 1.0<br>"
                        "OPEN SOURCE LICENSE</font></p>"
+                        // TODO: wrap with scroll area from here ...
                        "<p align = 'left'><font size = 2>Subject to the conditions of this License, UT-Bettelle, LLC (the 'Licensor')\
  hereby grants, free of charge, to any person (the 'Licensee')obtaining a copy of this software and associated documentation files (the 'Software'), \
 a perpetual, worldwide, non-exclusive, no-charge, royalty-free irrevocable copyright license to use, copy, modify, merge, publish, distribute, and/or \
@@ -3893,8 +3927,9 @@ THE USE, STORAGE OR DISPOSAL OF THE SOFTWARE.</font></p>"
 for the Oak Ridge National Laboratory under funding of the U.S. Department of Energy Building Equipment Technology Program <br>"
                        "<br>"
                         "SorpSim is developed using open source Qt under LGPL license.</font></p>"
+                        // TODO: ... to here.
                        "<a href=\"https://github.com/oabdelaziz/SorpSim\">Source code, license, and more information...</a><br>");
-    aboutDialog->exec();
+    aboutDialog.exec();
 }
 
 void MainWindow::printPreview(QPrinter *printer)
@@ -3938,19 +3973,16 @@ void MainWindow::on_actionNew_Parametric_Plot_triggered()
         QDomElement tableData = doc.elementsByTagName("TableData").at(0).toElement();
         if(tableData.childNodes().isEmpty())//check if there is any table
         {
-            QMessageBox * existBox = new QMessageBox(this);
-            existBox->setWindowTitle("Warning");
-            existBox->setText("There is no table, please first create parametric tables.");
-            existBox->exec();
+            QMessageBox::warning(this, "Warning", "There is no table, please first create parametric tables.");
             file.close();
             return;
         }
         else
         {
-            newParaPlotDialog*pDialog = new newParaPlotDialog(0,"","",this);
-            pDialog->setWindowTitle("Parametric Plot");
-            pDialog->setModal(true);
-            pDialog->exec();
+            newParaPlotDialog pDialog(0,"","",this);
+            pDialog.setWindowTitle("Parametric Plot");
+            //pDialog.setModal(true);
+            pDialog.exec();
         }
     }
 
@@ -3960,10 +3992,10 @@ void MainWindow::on_actionNew_Property_Plot_triggered()
 {
     switchToSelect();
     disableResult();
-    newPropPlotDialog * pDialog = new newPropPlotDialog(this);
-    pDialog->setWindowTitle("Property Plot");
-    pDialog->setModal(true);
-    pDialog->exec();
+    newPropPlotDialog  pDialog(this);
+    pDialog.setWindowTitle("Property Plot");
+    pDialog.setModal(true);
+    pDialog.exec();
 }
 
 void MainWindow::on_actionLine_triggered()
@@ -3977,14 +4009,14 @@ void MainWindow::on_actionLine_triggered()
         }
         iterator = iterator->next;
     }
-    QMessageBox * mBox = new QMessageBox(this);
-    mBox->addButton("OK",QMessageBox::YesRole);
-    mBox->addButton("Cancel",QMessageBox::NoRole);
-    mBox->setWindowTitle("Making links");
-    mBox->setText("Please double click to select the 1st state point of the new link.");
-    mBox->setModal(true);
-    mBox->exec();
-    if(mBox->buttonRole(mBox->clickedButton())==QMessageBox::YesRole)
+    QMessageBox mBox(this);
+    mBox.addButton("OK",QMessageBox::YesRole);
+    mBox.addButton("Cancel",QMessageBox::NoRole);
+    mBox.setWindowTitle("Making links");
+    mBox.setText("Please double click to select the 1st state point of the new link.");
+    mBox.setModal(true);
+    mBox.exec();
+    if(mBox.buttonRole(mBox.clickedButton())==QMessageBox::YesRole)
     {
         sceneActionIndex=3;
         theToolBar->setEnabled(false);
@@ -4000,6 +4032,8 @@ void MainWindow::on_actionLine_triggered()
         theMenuBar->setEnabled(true);
         QApplication::restoreOverrideCursor();
     }
+    // The selection process continues thus: theScene waits for user to double click a point,
+    // and then we go to myScene::mouseDoubleClickEvent().
 }
 
 void MainWindow::on_actionMaster_Control_Panel_triggered()
@@ -4013,8 +4047,8 @@ void MainWindow::on_actionMaster_Control_Panel_triggered()
             globalpara.LDACcount += 1;
     }
 
-    masterDialog * mDialog = new masterDialog(this);
-    mDialog->exec();
+    masterDialog mDialog(this);
+    mDialog.exec();
 
     globalpara.resetIfixes('t');
     globalpara.resetIfixes('f');
@@ -4049,22 +4083,8 @@ void MainWindow::on_actionImport_out_File_triggered()//this function needs to be
         if(globalpara.caseName == fName)
         {
             QString name = QFileDialog::getSaveFileName(this,"Save current case to file:","./","XML files(*.xml)");
-            bool noSave = false;
-            while(name==""&&(!noSave))
-            {
-                QMessageBox * mBox = new QMessageBox(this);
-                mBox->addButton("Enter a directory",QMessageBox::YesRole);
-                mBox->addButton("Don's save current case",QMessageBox::NoRole);
-                mBox->setWindowTitle("Warning");
-                mBox->setText("Please enter a directory to save the case!");
-                mBox->setModal(true);
-                mBox->exec();
-                if(mBox->buttonRole(mBox->clickedButton())==QMessageBox::YesRole)
-                    name = QFileDialog::getSaveFileName(this,"Save current case to file:","./","XML files(*.xml)");
-                else if(mBox->buttonRole(mBox->clickedButton())==QMessageBox::NoRole)
-                    noSave = true;
-            }
-            if(!noSave)
+            bool cancel = name.isNull();
+            if(!cancel)
             {
                 globalpara.caseName = name;
                 QFile tempFile(fName);
@@ -4072,9 +4092,15 @@ void MainWindow::on_actionImport_out_File_triggered()//this function needs to be
                 newFile.remove();
                 tempFile.copy(globalpara.caseName);
                 tempFile.remove();
+
+                loadOutFile();
             }
         }
-        loadOutFile();
+        else
+        {
+            loadOutFile();
+        }
+
         break;
     }
     case 2:
@@ -4103,10 +4129,8 @@ void MainWindow::on_actionZoom_To_Fit_triggered()
 
 void MainWindow::on_actionSystem_Settings_triggered()
 {
-    sysSettingDialog * sysDialog = new sysSettingDialog(this);
-    sysDialog->setWindowTitle("System Settings");
-    sysDialog->setModal(true);
-    sysDialog->exec();
+    sysSettingDialog sysDialog(this);
+    sysDialog.exec();
 }
 
 void MainWindow::closeEvent(QCloseEvent *event)
@@ -4138,22 +4162,8 @@ void MainWindow::closeEvent(QCloseEvent *event)
         if(globalpara.caseName == fName)
         {
             QString name = QFileDialog::getSaveFileName(this,"Save current case to file:","./","XML files(*.xml)");
-            bool noSave = false;
-            while(name==""&&(!noSave))
-            {
-                QMessageBox * mBox = new QMessageBox(this);
-                mBox->addButton("Enter a directory",QMessageBox::YesRole);
-                mBox->addButton("Don's save current case",QMessageBox::NoRole);
-                mBox->setWindowTitle("Warning");
-                mBox->setText("Please enter a directory to save the case!");
-                mBox->setModal(true);
-                mBox->exec();
-                if(mBox->buttonRole(mBox->clickedButton())==QMessageBox::YesRole)
-                    name = QFileDialog::getSaveFileName(this,"Save current case to file:","./","XML files(*.xml)");
-                else if(mBox->buttonRole(mBox->clickedButton())==QMessageBox::NoRole)
-                    noSave = true;
-            }
-            if(!noSave)
+            bool cancel = name.isNull();
+            if(!cancel)
             {
                 globalpara.caseName = name;
                 QFile tempFile(fName);
@@ -4161,8 +4171,11 @@ void MainWindow::closeEvent(QCloseEvent *event)
                 newFile.remove();
                 tempFile.copy(globalpara.caseName);
                 tempFile.remove();
-                exit(0);
-                break;
+                event->accept();
+            }
+            else
+            {
+                event->ignore();
             }
         }
         else
@@ -4170,27 +4183,29 @@ void MainWindow::closeEvent(QCloseEvent *event)
             QFile tempFile(fName);
             if(tempFile.exists())
                 tempFile.remove();
-            exit(0);
-            break;
+            event->accept();
         }
+        break;
     }
     case 2:
     {
         QFile tempFile(fName);
         if(tempFile.exists())
             tempFile.remove();
-        exit(0);
+        event->accept();
     }
     }
 }
 
+// TODO: implementation seems unfinished.
+// Print action works to provide a PDF on modern platforms.
 void MainWindow::on_actionExport_to_File_triggered()
 {
-    QFileDialog * fDialog = new QFileDialog(this);
-    QString fileName = "setTheNameForExport";
-    fileName = fDialog->getSaveFileName(this,"Export system diagram as..","./","Image(*.png);;PDF File(*.pdf)");
+    QString fileName = QFileDialog::getSaveFileName(this,"Export system diagram as..","./","Image(*.png);;PDF File(*.pdf)");
     if(fileName!="")
     {
+        QString suffix = QFileInfo(fileName).suffix().toLower();
+
         zoomToFit();
         double xmin=0,ymin=0,xmax = 0, ymax = 0;
         unit * iterator = dummy;
@@ -4227,26 +4242,32 @@ void MainWindow::on_actionExport_to_File_triggered()
         QRectF target = QRect(QPoint(0,0),QPoint(m_pageWidth,m_pageHeight));
 
 
-        //if pdf
+        if (suffix == "pdf")
+        {
+            myPrinter.setOutputFormat(QPrinter::PdfFormat);
+            myPrinter.setOutputFileName(fileName);
 
-        myPrinter.setOutputFormat(QPrinter::PdfFormat);
-        myPrinter.setOutputFileName(fileName);
+            QPainter myPainter(&myPrinter);
+            myPainter.setViewport(0, 0, m_pageWidth, m_pageHeight);
+            myPainter.setRenderHint(QPainter::Antialiasing);
+            scene->render(&myPainter, target, source);
+            myPainter.end();
 
-
-        QPainter myPainter(&myPrinter);
-        myPainter.setViewport(0, 0, m_pageWidth, m_pageHeight);
-        myPainter.setRenderHint(QPainter::Antialiasing);
-        scene->render(&myPainter, target, source);
-        myPainter.end();
-
-        //if image
-        QImage image(m_pageWidth,m_pageHeight,QImage::Format_ARGB32_Premultiplied);
-        QPainter imgPainter;
-        imgPainter.begin(&image);
-        imgPainter.setRenderHint(QPainter::Antialiasing);
-        scene->render(&imgPainter,target,source);
-        imgPainter.end();
-        image.save(fileName);
+        }
+        else if (suffix == "png")
+        {
+            QImage image(m_pageWidth,m_pageHeight,QImage::Format_ARGB32_Premultiplied);
+            QPainter imgPainter;
+            imgPainter.begin(&image);
+            imgPainter.setRenderHint(QPainter::Antialiasing);
+            scene->render(&imgPainter,target,source);
+            imgPainter.end();
+            image.save(fileName);
+        }
+        else
+        {
+            qDebug() << "Unimplemented export file type (" << suffix << ") in: " << fileName;
+        }
     }
 
 
@@ -4301,8 +4322,8 @@ void MainWindow::on_actionText_triggered()
     newTextItem->setBrush(Qt::black);
     newTextItem->setFlags(QGraphicsItem::ItemIsMovable|QGraphicsItem::ItemIsSelectable);
 
-    textedit * dialog= new textedit(this,newTextItem);
-    if(dialog->exec()!=QDialog::Accepted)
+    textedit dialog(this,newTextItem);
+    if (dialog.exec() != QDialog::Accepted)
         delete newTextItem;
     else
     {
@@ -4320,6 +4341,7 @@ void MainWindow::on_actionAdditional_equations_triggered()
     manageGroups();
 }
 
+// TODO: decide if user wants to rotate all selected, or just "first" (appears random)
 void MainWindow::on_actionRotate_Clockwise_triggered()
 {
 
@@ -4336,14 +4358,11 @@ void MainWindow::on_actionRotate_Clockwise_triggered()
     }
     if(!done)
     {
-        QMessageBox*mBox = new QMessageBox(this);
-        mBox->setModal(true);
-        mBox->setWindowTitle("Warning");
-        mBox->setText("Please select a component to apply the rotation!");
+        theStatusBar->showMessage("Rotate: select a component first");
     }
-
 }
 
+// TODO: decide if user wants to rotate all selected, or just "first" (appears random)
 void MainWindow::on_actionFlip_Horizontally_triggered()
 {
     bool done = false;
@@ -4357,16 +4376,9 @@ void MainWindow::on_actionFlip_Horizontally_triggered()
             done = true;
         }
     }
-    if(!done)
-    {
-        QMessageBox*mBox = new QMessageBox(this);
-        mBox->setModal(true);
-        mBox->setWindowTitle("Warning");
-        mBox->setText("Please select a component to apply the horizontal flip!");
-    }
-
 }
 
+// TODO: decide if user wants to rotate all selected, or just "first" (appears random)
 void MainWindow::on_actionFlip_Vertically_triggered()
 {
     bool done = false;
@@ -4380,21 +4392,13 @@ void MainWindow::on_actionFlip_Vertically_triggered()
             done = true;
         }
     }
-    if(!done)
-    {
-        QMessageBox*mBox = new QMessageBox(this);
-        mBox->setModal(true);
-        mBox->setWindowTitle("Warning");
-        mBox->setText("Please select a component to apply the vertical flip!");
-    }
-
 }
 
 void MainWindow::on_actionCalculation_Details_triggered()
 {
     scene->resetPointedComp();
-    calcDetailDialog*dDialog = new calcDetailDialog(this);
-    dDialog->exec();
+    calcDetailDialog dDialog(this);
+    dDialog.exec();
 }
 
 void MainWindow::loadExampleCase()
@@ -4464,29 +4468,17 @@ void MainWindow::loadExampleCase()
                 if(globalpara.caseName == fName)
                 {
                     QString name = QFileDialog::getSaveFileName(this,"Save current case to file:","./","XML files(*.xml)");
-                    bool noSave = false;
-                    while(name==""&&(!noSave))
-                    {
-                        QMessageBox * mBox = new QMessageBox(this);
-                        mBox->addButton("Enter a directory",QMessageBox::YesRole);
-                        mBox->addButton("Don's save current case",QMessageBox::NoRole);
-                        mBox->setWindowTitle("Warning");
-                        mBox->setText("Please enter a directory to save the case!");
-                        mBox->setModal(true);
-                        mBox->exec();
-                        if(mBox->buttonRole(mBox->clickedButton())==QMessageBox::YesRole)
-                            name = QFileDialog::getSaveFileName(this,"Save current case to file:","./","XML files(*.xml)");
-                        else if(mBox->buttonRole(mBox->clickedButton())==QMessageBox::NoRole)
-                            noSave = true;
-                    }
-                    if(!noSave)
+                    bool cancel = name.isNull();
+                    if (!cancel)
                     {
                         globalpara.caseName = name;
                         QFile tempFile(fName);
                         QFile newFile(name);
-                        newFile.remove();
-                        tempFile.copy(globalpara.caseName);
-                        tempFile.remove();
+                        if (!(newFile.remove() && tempFile.copy(globalpara.caseName) && tempFile.remove()))
+                        {
+                            globalpara.reportError("Failed to save to file " + name, this);
+                            return;
+                        }
                     }
                     else
                         return;
@@ -4516,6 +4508,7 @@ void MainWindow::loadExampleCase()
             }
             }
 #endif
+// TODO: condense code for multiple platforms into one, using new utility function
 #ifdef Q_OS_MAC
             int askSave = askToSave();
             saveFile(globalpara.caseName,false);
@@ -4597,9 +4590,9 @@ void MainWindow::loadExampleCase()
 
 void MainWindow::on_actionResults_Table_triggered()
 {
-    resultDialog* resDialog = new resultDialog(this);
-    resDialog->setModal(true);
-    resDialog->exec();
+    resultDialog resDialog(this);
+    resDialog.setModal(true);
+    resDialog.exec();
 }
 
 void MainWindow::defaultTheSystem()
@@ -4628,9 +4621,7 @@ void MainWindow::defaultTheSystem()
         delete item;
     globalpara.sceneText.clear();
 
-    QList<QGraphicsItem*> sceneItems = scene->items();
-    foreach (QGraphicsItem* item, sceneItems)
-        scene->removeItem(item);
+    scene->clear();
 
     globalcount = 0;
     spnumber = 0;
@@ -4682,6 +4673,6 @@ int MainWindow::hasCopcap()
 
 void MainWindow::on_actionGuess_Value_triggered()
 {
-    guessDialog * gDialog = new guessDialog(false,this);
-    gDialog->exec();
+    guessDialog gDialog(false,this);
+    gDialog.exec();
 }

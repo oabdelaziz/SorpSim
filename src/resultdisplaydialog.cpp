@@ -33,7 +33,7 @@ resultDisplayDialog::resultDisplayDialog(QWidget *parent) :
 
     ui->setupUi(this);
 
-    setWindowFlags(Qt::Tool);
+    setWindowFlags(Qt::Dialog);
     setWindowModality(Qt::ApplicationModal);
     setWindowTitle("Results");
 

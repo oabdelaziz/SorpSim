@@ -13,20 +13,26 @@ namespace Ui {
 class tableDialog;
 }
 
+/**
+ * @brief The tableDialog class shows a parametric table with input and output columns.
+ *
+ */
 class tableDialog : public QDialog
 {
     Q_OBJECT
     
 public:
-    explicit tableDialog(QString startTable = "",QWidget *parent = 0);
+    explicit tableDialog(unit * dummy, QString startTable = "",QWidget *parent = 0);
     ~tableDialog();
 
-    bool calc(unit*dummy, globalparameter globalpara, QString fileName,int run);
+    bool calc(globalparameter globalpara, QString fileName, int run);
 
     bool updateXml();
     void calcTable();
 
     bool saveChanges();
+
+    bool add_or_delete_runs(bool adrIsInsert, int adrPosition, int adrIar, int adrNr);
 
 private slots:
 
@@ -44,7 +50,11 @@ private slots:
 
     QString translateOutput(QStringList outputEntries, int index, int item);
 
-    bool reshapeXml();
+    /**
+     * @brief reshapeXml Apply (guessed) recent changes of the table in memory to the XML shadow copy.
+     * @return Whether the operation succeeded.
+     */
+    bool reshapeXml(int adrPosition, int adrIar);
 
     void copyTable();
 
@@ -68,15 +78,12 @@ private slots:
 
 private:
     Ui::tableDialog *ui;
-    unit * myHead;
-    unit * myDummy;
-    QString myFileName;
-    QDialog*currentDialog;
+    unit * const myDummy;
+
     QList<QTableWidgetItem*> selected;
     QByteArray myByteArray;
     void adjustTableSize(bool onlySize=false);
     void showEvent(QShowEvent *e);
-    bool event(QEvent *e);
     void paste();
     QString startTName;
 };

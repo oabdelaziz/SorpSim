@@ -44,7 +44,7 @@ ifixDialog::ifixDialog(QWidget *parent) :
     ui(new Ui::ifixDialog)
 {
     ui->setupUi(this);
-    setWindowFlags(Qt::Tool);
+    setWindowFlags(Qt::Dialog);
     setWindowModality(Qt::ApplicationModal);
     setWindowTitle("Temperature");
     ui->label->setText("Please define state points that have same temperature.");
@@ -350,10 +350,9 @@ void ifixDialog::on_addButton_clicked()
 
 void ifixDialog::on_removeButton_clicked()
 {
-    QMessageBox * removeBox = new QMessageBox;
     QMessageBox::StandardButton reply;
     bool confirmed;
-    reply = QMessageBox::question(removeBox,"Warning",
+    reply = QMessageBox::question(this,"Warning",
                                   "Are you sure to remove this group?",
                                   QMessageBox::Yes|QMessageBox::No);
     confirmed = (reply == QMessageBox::Yes);

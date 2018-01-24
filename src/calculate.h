@@ -13,17 +13,24 @@
 class calculate
 {
 public:
-    calculate();
+    calculate(unit * dummy);
 
-    void calc(unit*dummy, globalparameter globalpara, QString fileName);
+    void calc(globalparameter globalpara, QString fileName);
+    // TODO: is called internally only, maybe make private
     bool updateSystem();
 
 private:
-    unit * myHead;
-    unit * myDummy;
-    QString myFileName;
+    unit * const myDummy;
 
-    bool checkEV();
+    /**
+     * @brief checkEV
+     *
+     * A debugging function called by calculate::calc().
+     * Appears to count equations and/or nodes and vertices in the drawing.
+     *
+     * @return Nothing useful
+     */
+    void checkEV();
 };
 
 #endif // CALCULATE_H

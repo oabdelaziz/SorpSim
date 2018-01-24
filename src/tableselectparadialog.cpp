@@ -65,12 +65,12 @@ tableSelectParaDialog::tableSelectParaDialog(QWidget *parent) :
     ui(new Ui::tableSelectParaDialog)
 {
     ui->setupUi(this);
-    setWindowFlags(Qt::Tool);
+    setWindowFlags(Qt::Dialog);
     setWindowModality(Qt::ApplicationModal);
     setWindowTitle("Setup new table");
 
-    inputModel = new QStringListModel;
-    outputModel = new QStringListModel;
+    inputModel = new QStringListModel(ui->inputList);
+    outputModel = new QStringListModel(ui->outputList);
 
     ui->inputList->setEditTriggers(QAbstractItemView::NoEditTriggers);
     ui->outputList->setEditTriggers(QAbstractItemView::NoEditTriggers);
@@ -435,17 +435,12 @@ void tableSelectParaDialog::on_OKButton_clicked()
         if(tableName.at(0).isDigit())
             tableName = "table_"+tableName;
 
-
         runs = ui->runssb->value();
 
-
-        if(theScene->tableWindow!=NULL)
-            theScene->tableWindow->close();
         setupXml();
-        theScene->tableWindow = new tableDialog();
-        theScene->tableWindow->setModal(true);
+        tableDialog aTableDialog(dummy, "", theMainwindow);
         this->accept();
-        theScene->tableWindow->exec();
+        aTableDialog.exec();
 
         inputNumber = inputD.count();
         inputEntries.clear();
@@ -476,6 +471,7 @@ bool tableSelectParaDialog::tableNameUsed(QString name)//true means there has be
         {
             globalpara.reportError("Fail to load xml document to check if the table name is used.",this);
             file.close();
+            // TODO: `return true` is not a good way to handle the error.
             return true;
         }
         else
