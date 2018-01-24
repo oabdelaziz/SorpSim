@@ -1,12 +1,17 @@
-/*syssettingdialog.cpp
- * [SorpSim v1.0 source code]
- * [developed by Zhiyao Yang and Dr. Ming Qu for ORNL]
- * [last updated: 10/12/15]
- *
- * dialog to edit the available working fluid and unit system of current case
- * the fluid/unit system tab operates similar to fluiddialg and editunitdialog
- * called by mainwindow.cpp
- */
+/*! \file syssettingdialog.cpp
+
+    This file is part of SorpSim and is distributed under terms in the file LICENSE.
+
+    Developed by Zhiyao Yang and Dr. Ming Qu for ORNL.
+
+    \author Zhiyao Yang (zhiyaoYang)
+    \author Dr. Ming Qu
+    \author Nicholas Fette (nfette)
+
+    \copyright 2015, UT-Battelle, LLC
+    \copyright 2017-2018, Nicholas Fette
+
+*/
 
 
 
@@ -33,8 +38,8 @@ sysSettingDialog::sysSettingDialog(QWidget *parent) :
 {
     ui->setupUi(this);
 
-    setWindowTitle("System setting");
-    setWindowFlags(Qt::Tool);
+    setWindowTitle("System Settings");
+    setWindowFlags(Qt::Dialog);
     setWindowModality(Qt::ApplicationModal);
 
 //    this->setStyleSheet("background:white");

@@ -1,15 +1,19 @@
-/*qgraphicsarc.cpp
- * [SorpSim v1.0 source code]
- * [developed by Zhiyao Yang and Dr. Ming Qu for ORNL]
- * [last updated: 10/12/15]
- *
- * custom drawing of an arc that can be used to draw cylindar-shape components
- * implemented to be used on desiccant wheel component, but the component model was not finished
- * thus this class is not accessible to end-user
- * called by unit.cpp, the desiccant wheel drawing can be found in unit.cpp, only need to change the "treedialog" to make it visible to end users
- */
+/*! \file qgraphicsarc.cpp
+    \brief Provides the class QGraphicsArc.
+    \todo Implement desiccant wheel to go along with this.
 
+    This file is part of SorpSim and is distributed under terms in the file LICENSE.
 
+    Developed by Zhiyao Yang and Dr. Ming Qu for ORNL.
+
+    \author Zhiyao Yang (zhiyaoYang)
+    \author Dr. Ming Qu
+    \author Nicholas Fette (nfette)
+
+    \copyright 2015, UT-Battelle, LLC
+    \copyright 2017-2018, Nicholas Fette
+
+*/
 
 #include "qgraphicsarc.h"
 

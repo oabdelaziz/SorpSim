@@ -1,9 +1,25 @@
+/*! \file masterpanelcell.h
+
+    This file is part of SorpSim and is distributed under terms in the file LICENSE.
+
+    Developed by Zhiyao Yang and Dr. Ming Qu for ORNL.
+
+    \author Zhiyao Yang (zhiyaoYang)
+    \author Dr. Ming Qu
+
+    \copyright 2015, UT-Battelle, LLC
+
+*/
+
+
 #ifndef MASTERPANELCELL_H
 #define MASTERPANELCELL_H
 
 #include <QLineEdit>
 #include "node.h"
 
+/// custom class based on QLineEdit to add features (bg color, edit-access)
+/// - called by masterdialog.cpp
 class masterPanelCell : public QLineEdit
 {
     Q_OBJECT

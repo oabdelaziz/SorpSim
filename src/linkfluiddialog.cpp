@@ -1,15 +1,17 @@
-/*linkfluiddialog.cpp
- * [SorpSim v1.0 source code]
- * [developed by Zhiyao Yang and Dr. Ming Qu for ORNL]
- * [last updated: 10/12/15]
- *
- * dialog to define the working fluid in the new link
- * only the working fluids made available in the "fluidDialog" for the current case is available to choose
- * called by myscene.cpp
- */
+/*! \file linkfluiddialog.cpp
 
+    This file is part of SorpSim and is distributed under terms in the file LICENSE.
 
+    Developed by Zhiyao Yang and Dr. Ming Qu for ORNL.
 
+    \author Zhiyao Yang (zhiyaoYang)
+    \author Dr. Ming Qu
+    \author Nicholas Fette (nfette)
+
+    \copyright 2015, UT-Battelle, LLC
+    \copyright 2017-2018, Nicholas Fette
+
+*/
 
 
 #include "linkfluiddialog.h"
@@ -32,7 +34,7 @@ linkFluidDialog::linkFluidDialog(Node *node1, Node *node2, bool withBox, QWidget
     QApplication::restoreOverrideCursor();
     ui->setupUi(this);
     setWindowTitle("Setup fluid in link");
-    setWindowFlags(Qt::Tool);
+    setWindowFlags(Qt::Dialog);
     setWindowModality(Qt::ApplicationModal);
     myNode1 = node1;
     myNode2 = node2;
@@ -102,11 +104,7 @@ void linkFluidDialog::on_okButton_clicked()
     {
         if(ui->fluidCB->currentText()=="Choose fluid..")
         {
-            QMessageBox *mBox = new QMessageBox(this);
-            mBox->setWindowTitle("Warning");
-            mBox->setText("Please choose a working fluid for the new link.");
-            mBox->setModal(true);
-            mBox->exec();
+            QMessageBox::warning(this, "Warning", "Please choose a working fluid for the new link.");
         }
         else
         {
@@ -152,13 +150,10 @@ void linkFluidDialog::on_okButton_clicked()
             }
             if(sps.count()>2)
             {
-                QMessageBox * mBox = new QMessageBox;
-                mBox->addButton("OK",QMessageBox::YesRole);
-                mBox->addButton("Cancel",QMessageBox::NoRole);
-                mBox->setWindowTitle("Setting Fluid");
-                mBox->setText("The change will affect "+sps.join(","));
-                mBox->exec();
-                if(mBox->buttonRole(mBox->clickedButton())!=QMessageBox::YesRole)
+                QMessageBox::StandardButton result = QMessageBox::question(
+                            this, "Setting Fluid", "The change will affect "+sps.join(",") + ".\n"
+                            + "OK to continue?");
+                if(result != QMessageBox::Yes)
                     reject();
                 else
                 {
@@ -226,17 +221,16 @@ void linkFluidDialog::on_okButton_clicked()
         }
         if(sps.count()>1)
         {
-            QMessageBox * mBox = new QMessageBox;
-            mBox->addButton("OK",QMessageBox::YesRole);
-            mBox->addButton("Cancel",QMessageBox::NoRole);
-            mBox->setWindowTitle("Setting Fluid");
-            mBox->setText("The change will affect "+sps.join(","));
-            mBox->exec();
-            if(mBox->buttonRole(mBox->clickedButton())==QMessageBox::YesRole)
+            QMessageBox::StandardButton result = QMessageBox::question(
+                        this, "Setting Fluid", "The change will affect "+sps.join(",") + ".\n"
+                        + "OK to continue?");
+            if(result == QMessageBox::Yes)
             {
                 selectedKsub = newKsub;
                 accept();
             }
+            else
+                reject();
         }
         else
         {

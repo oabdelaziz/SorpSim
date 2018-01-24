@@ -1,24 +1,17 @@
-/*tableselectparadialog.cpp
- * [SorpSim v1.0 source code]
- * [developed by Zhiyao Yang and Dr. Ming Qu for ORNL]
- * [last updated: 10/12/15]
- *
- * dialog to select (add/remove) column variables in a parametric table
- * called by myScene.cpp
- */
+/*! \file tableselectparadialog.cpp
 
+    This file is part of SorpSim and is distributed under terms in the file LICENSE.
 
+    Developed by Zhiyao Yang and Dr. Ming Qu for ORNL.
 
+    \author Zhiyao Yang (zhiyaoYang)
+    \author Dr. Ming Qu
+    \author Nicholas Fette (nfette)
 
+    \copyright 2015, UT-Battelle, LLC
+    \copyright 2017-2018, Nicholas Fette
 
-/*naming pattern:
- *for input,
- *  unit parameter, "U"+unit index+UA/NT/EF/CA/LM/HT//WT/NM/NW/NA
- *  state point parameter, "P"+sp uindex+lindex+T/P/W/F/C
- *for output,
- *  unit parameter, "U"+unit index+HM/HV/TP/CC
- *  state point parameter, "P"+sp index+H/T/P/W/F/C
- */
+*/
 
 
 #include "tableselectparadialog.h"
@@ -28,6 +21,7 @@
 #include "dataComm.h"
 #include "myscene.h"
 #include "unit.h"
+#include "sorputils.h"
 
 #include <QStringList>
 #include <QListView>
@@ -39,8 +33,6 @@
 
 extern int sceneActionIndex;
 extern bool istableinput;
-extern unit * tableunit;
-extern Node * tablesp;
 extern QStringList inputEntries;
 extern QStringList outputEntries;
 extern globalparameter globalpara;
@@ -65,12 +57,13 @@ tableSelectParaDialog::tableSelectParaDialog(QWidget *parent) :
     ui(new Ui::tableSelectParaDialog)
 {
     ui->setupUi(this);
-    setWindowFlags(Qt::Tool);
+    setWindowFlags(Qt::Dialog);
     setWindowModality(Qt::ApplicationModal);
+    setAttribute(Qt::WA_DeleteOnClose);
     setWindowTitle("Setup new table");
 
-    inputModel = new QStringListModel;
-    outputModel = new QStringListModel;
+    inputModel = new QStringListModel(ui->inputList);
+    outputModel = new QStringListModel(ui->outputList);
 
     ui->inputList->setEditTriggers(QAbstractItemView::NoEditTriggers);
     ui->outputList->setEditTriggers(QAbstractItemView::NoEditTriggers);
@@ -157,7 +150,10 @@ bool tableSelectParaDialog::setupXml()
     else
     {
         QDomElement tableData = doc.elementsByTagName("TableData").at(0).toElement();
-        if(!tableData.elementsByTagName(tableName).isEmpty())//check if the table name is already used, if not, create the new element
+        auto tablesByTitle = Sorputils::mapElementsByAttribute(tableData.childNodes(), "title");
+        //check if the table name is already used, if not, create the new element
+        //if(!tableData.elementsByTagName(tableName).isEmpty())
+        if (tablesByTitle.contains(tableName))
         {
             QMessageBox * existBox = new QMessageBox;
             existBox->setWindowTitle("Warning");
@@ -168,7 +164,8 @@ bool tableSelectParaDialog::setupXml()
         }
         else
         {
-            QDomElement newTable = doc.createElement(tableName);
+            QDomElement newTable = doc.createElement("table");
+            newTable.setAttribute("title", tableName);
             newTable.setAttribute("runs",runs);
             newTable.setAttribute("tUnit",globalpara.unitindex_temperature);
             newTable.setAttribute("pUnit",globalpara.unitindex_pressure);
@@ -418,6 +415,7 @@ void tableSelectParaDialog::on_addInputButton_clicked()
     istableinput = true;
     QApplication::setOverrideCursor(QCursor(Qt::CrossCursor));
     theStatusBar->showMessage("Double click on a state point or component to add its parameters as table input.\nOr press ESC to cancel.");
+    // TODO: add a callback to handle ESC key press
 }
 
 void tableSelectParaDialog::on_OKButton_clicked()
@@ -435,27 +433,19 @@ void tableSelectParaDialog::on_OKButton_clicked()
         if(tableName.at(0).isDigit())
             tableName = "table_"+tableName;
 
-
         runs = ui->runssb->value();
 
-
-        if(theScene->tableWindow!=NULL)
-            theScene->tableWindow->close();
         setupXml();
-        theScene->tableWindow = new tableDialog();
-        theScene->tableWindow->setModal(true);
+        tableDialog * aTableDialog = new tableDialog(dummy, "", theMainwindow);
         this->accept();
-        theScene->tableWindow->exec();
+        aTableDialog->show();
 
         inputNumber = inputD.count();
-        inputEntries.clear();
-        outputEntries.clear();
+        //inputEntries.clear();
+        //outputEntries.clear();
         inputD.clear();
         outputD.clear();
     }
-
-
-
 }
 
 bool tableSelectParaDialog::tableNameUsed(QString name)//true means there has been one
@@ -476,17 +466,17 @@ bool tableSelectParaDialog::tableNameUsed(QString name)//true means there has be
         {
             globalpara.reportError("Fail to load xml document to check if the table name is used.",this);
             file.close();
+            // TODO: `return true` is not a good way to handle the error.
             return true;
         }
         else
         {
             QDomElement tableData = doc.elementsByTagName("TableData").at(0).toElement();
-            if(!tableData.elementsByTagName(tableName).isEmpty())
-                return true;
-            else
-                return false;
+            auto tablesByTitle = Sorputils::mapElementsByAttribute(tableData.childNodes(), "title");
+            //if(!tableData.elementsByTagName(tableName).isEmpty())
+            file.close();
+            return tablesByTitle.contains(tableName);
         }
-        file.close();
     }
 }
 
@@ -499,6 +489,7 @@ void tableSelectParaDialog::on_addOutputButton_clicked()
     istableinput = false;
     QApplication::setOverrideCursor(QCursor(Qt::CrossCursor));
     theStatusBar->showMessage("Double click on a state point or component to add its parameters as table output.\nOr press ESC to cancel.");
+    // TODO: add a callback to handle ESC key press
 }
 
 void tableSelectParaDialog::on_removeInputButton_clicked()

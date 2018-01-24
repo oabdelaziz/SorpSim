@@ -1,12 +1,16 @@
-/*packings.cpp
- * [SorpSim v1.0 source code]
- * [developed by Zhiyao Yang and Dr. Ming Qu for ORNL]
- * [last updated: 10/12/15]
- *
- * custom drawing to indicate packed bed in adiabatic liquid desiccant components
- * called by unit.cpp
- */
+/*! \file packings.cpp
+    \brief Provides the class packings.
 
+    This file is part of SorpSim and is distributed under terms in the file LICENSE.
+
+    Developed by Zhiyao Yang and Dr. Ming Qu for ORNL.
+
+    \author Zhiyao Yang (zhiyaoYang)
+    \author Dr. Ming Qu
+
+    \copyright 2015, UT-Battelle, LLC
+
+*/
 
 
 #include "packings.h"

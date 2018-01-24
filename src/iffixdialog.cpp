@@ -1,15 +1,16 @@
-/*iffixdialog.cpp
- * [SorpSim v1.0 source code]
- * [developed by Zhiyao Yang and Dr. Ming Qu for ORNL]
- * [last updated: 10/12/15]
- *
- * dialog to edit mass flow rate variable groups
- * called by vicheckdialog.cpp
- */
+/*! \file iffixdialog.cpp
+    \brief Provides the class iffixDialog.
 
+    This file is part of SorpSim and is distributed under terms in the file LICENSE.
 
+    Developed by Zhiyao Yang and Dr. Ming Qu for ORNL.
 
+    \author Zhiyao Yang (zhiyaoYang)
+    \author Dr. Ming Qu
 
+    \copyright 2015, UT-Battelle, LLC
+
+*/
 
 #include "iffixdialog.h"
 #include "ui_iffixdialog.h"
@@ -32,7 +33,6 @@
 extern unit * dummy;
 extern int globalcount;
 extern globalparameter globalpara;
-extern QSet<Node*> spOnline;
 extern MainWindow*theMainwindow;
 extern VICheckDialog*theVIDialog;
 
@@ -46,7 +46,7 @@ iffixDialog::iffixDialog(QWidget *parent) :
     ui(new Ui::iffixDialog)
 {
     ui->setupUi(this);
-    setWindowFlags(Qt::Tool);
+    setWindowFlags(Qt::Dialog);
     setWindowModality(Qt::ApplicationModal);
     setWindowTitle("Mass Flow Rate");
     ui->label->setText("Please define state points that have same mass flow rate.");
@@ -348,10 +348,9 @@ void iffixDialog::on_addButton_clicked()
 
 void iffixDialog::on_removeButton_clicked()
 {
-    QMessageBox * removeBox = new QMessageBox;
     QMessageBox::StandardButton reply;
     bool confirmed;
-    reply = QMessageBox::question(removeBox,"Warning",
+    reply = QMessageBox::question(this,"Warning",
                                   "Are you sure to remove this group?",
                                   QMessageBox::Yes|QMessageBox::No);
     confirmed = (reply == QMessageBox::Yes);

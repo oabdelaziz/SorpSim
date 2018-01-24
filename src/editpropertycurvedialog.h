@@ -1,3 +1,19 @@
+/*! \file editpropertycurvedialog.h
+    \brief dialog to edit an existing curve on the current property dialog
+
+    This file is part of SorpSim and is distributed under terms in the file LICENSE.
+
+    Developed by Zhiyao Yang and Dr. Ming Qu for ORNL.
+
+    \author Zhiyao Yang (zhiyaoYang)
+    \author Dr. Ming Qu
+    \author Nicholas Fette (nfette)
+
+    \copyright 2015, UT-Battelle, LLC
+    \copyright 2017-2018, Nicholas Fette
+
+*/
+
 #ifndef EDITPROPERTYCURVEDIALOG_H
 #define EDITPROPERTYCURVEDIALOG_H
 
@@ -11,7 +27,6 @@
 #include <cmath>
 #include <qwt_plot_zoomer.h>
 #include <qwt_plot_panner.h>
-#include <pixmap.h>
 #include <unitconvert.h>
 #include <qwt_scale_draw.h>
 #include <qwt_picker_machine.h>
@@ -25,6 +40,10 @@ namespace Ui {
 class editPropertyCurveDialog;
 }
 
+/// Dialog to edit the state points to plot on an existing curve on the current property dialog
+/// * state points are selected/deselected the same way as a new property plot is configured
+/// * the Plot object is instantly updated
+/// * called by curvesettingdialog.cpp
 class editPropertyCurveDialog : public QDialog
 {
     Q_OBJECT

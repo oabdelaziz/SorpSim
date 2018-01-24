@@ -1,16 +1,17 @@
-/*linkdialog.cpp
- * [SorpSim v1.0 source code]
- * [developed by Zhiyao Yang and Dr. Ming Qu for ORNL]
- * [last updated: 10/12/15]
- *
- * dialog to select the common parameter settings/values once two points of the new link is selected
- * the user can either choose one point's all parameters to overwrite the other one's
- * or re-define the parameters in a subsequent spdialog
- * called by myscene.cpp
- */
+/*! \file linkdialog.cpp
 
+    This file is part of SorpSim and is distributed under terms in the file LICENSE.
 
+    Developed by Zhiyao Yang and Dr. Ming Qu for ORNL.
 
+    \author Zhiyao Yang (zhiyaoYang)
+    \author Dr. Ming Qu
+    \author Nicholas Fette (nfette)
+
+    \copyright 2015, UT-Battelle, LLC
+    \copyright 2017-2018, Nicholas Fette
+
+*/
 
 
 #include "linkdialog.h"
@@ -41,7 +42,7 @@ linkDialog::linkDialog(Node *sp1, Node *sp2, QWidget *parent) :
     ui->setupUi(this);
 
     setWindowTitle("Linking");
-    setWindowFlags(Qt::Tool);
+    setWindowFlags(Qt::Dialog);
     setWindowModality(Qt::ApplicationModal);
 
     QApplication::restoreOverrideCursor();
@@ -317,8 +318,8 @@ void linkDialog::on_okButton_clicked()
 void linkDialog::on_redefineButton_clicked()
 {
     hide();
-    spDialog*sDialog = new spDialog(mySp1);
-    if(sDialog->exec()==QDialog::Accepted)
+    spDialog sDialog(mySp1, this);
+    if(sDialog.exec()==QDialog::Accepted)
     {
         ui->sp1Button->setChecked(true);
         allHide = false;

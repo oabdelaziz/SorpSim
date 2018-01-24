@@ -1,18 +1,17 @@
-/*unit.cpp
- * [SorpSim v1.0 source code]
- * [developed by Zhiyao Yang and Dr. Ming Qu for ORNL]
- * [last updated: 10/12/15]
- *
- * class to draw/transform the components and store component data
- * new components are drawn using more elementary graphics features such as lines and nodes
- * each component holds its state points as members
- * relationships of state points within the same components are also defined in the drawing code
- * component also holds the simple text items to display its own results as well as all its state points' result parameters
- * stored in a linked list in cases, using pointers to link
- * called by various classes in this project
- */
+/*! \file unit.cpp
 
+    This file is part of SorpSim and is distributed under terms in the file LICENSE.
 
+    Developed by Zhiyao Yang and Dr. Ming Qu for ORNL.
+
+    \author Zhiyao Yang (zhiyaoYang)
+    \author Dr. Ming Qu
+    \author Nicholas Fette (nfette)
+
+    \copyright 2015, UT-Battelle, LLC
+    \copyright 2017-2018, Nicholas Fette
+
+*/
 
 
 #include "unit.h"
@@ -38,8 +37,16 @@ unit::unit()
 
 }
 
+// TODO: determine if we need to delete inside links
 unit::~unit()
 {
+    for(int i = 0; i < usp; i++)
+    {
+        delete myNodes[i];
+    }
+    for(int i = 0; i< 6; i++)
+        delete myArrow[i];
+
 }
 
 
@@ -409,6 +416,7 @@ void unit::initialize()
         /// inside point
     }
 
+    // Note: these get deleted in destructor
     for(int i = 0; i < usp; i++)
     {
         myNodes[i] = new Node;
@@ -5237,73 +5245,62 @@ void unit::drawUnit()
         spParameter[4]->moveBy(-65,-30);
 
         myNodes[0]->addToSet(myNodes[1],"fc");
+        myNodes[0]->addToSet(myNodes[2],"fc");
+        myNodes[0]->addToSet(myNodes[3],"fc");
         myNodes[0]->addToSet(myNodes[4],"fc");
-        myNodes[0]->addToSet(myNodes[5],"fc");
-        myNodes[0]->addToSet(myNodes[6],"fc");
-        myNodes[0]->addToSet(myNodes[4],"fluid");
+        myNodes[0]->addToSet(myNodes[2],"fluid");
         myNodes[0]->addToSet(myNodes[1],"fluid");
-        myNodes[0]->addToSet(myNodes[5],"fluid");
-        myNodes[0]->addToSet(myNodes[6],"fluid");
+        myNodes[0]->addToSet(myNodes[3],"fluid");
+        myNodes[0]->addToSet(myNodes[4],"fluid");
 
         myNodes[1]->addToSet(myNodes[0],"fc");
+        myNodes[1]->addToSet(myNodes[2],"fc");
+        myNodes[1]->addToSet(myNodes[3],"fc");
         myNodes[1]->addToSet(myNodes[4],"fc");
-        myNodes[1]->addToSet(myNodes[5],"fc");
-        myNodes[1]->addToSet(myNodes[6],"fc");
+        myNodes[1]->addToSet(myNodes[2],"p");
+        myNodes[1]->addToSet(myNodes[3],"p");
         myNodes[1]->addToSet(myNodes[4],"p");
-        myNodes[1]->addToSet(myNodes[5],"p");
-        myNodes[1]->addToSet(myNodes[6],"p");
-        myNodes[1]->addToSet(myNodes[4],"fluid");
+        myNodes[1]->addToSet(myNodes[2],"fluid");
         myNodes[1]->addToSet(myNodes[0],"fluid");
-        myNodes[1]->addToSet(myNodes[5],"fluid");
-        myNodes[1]->addToSet(myNodes[6],"fluid");
+        myNodes[1]->addToSet(myNodes[3],"fluid");
+        myNodes[1]->addToSet(myNodes[4],"fluid");
 
+        myNodes[2]->addToSet(myNodes[1],"fc");
+        myNodes[2]->addToSet(myNodes[0],"fc");
         myNodes[2]->addToSet(myNodes[3],"fc");
+        myNodes[2]->addToSet(myNodes[4],"fc");
+        myNodes[2]->addToSet(myNodes[1],"p");
+        myNodes[2]->addToSet(myNodes[4],"p");
         myNodes[2]->addToSet(myNodes[3],"p");
-        myNodes[2]->addToSet(myNodes[3],"f");
-        myNodes[2]->addToSet(myNodes[3],"c");
+        myNodes[2]->addToSet(myNodes[0],"fluid");
+        myNodes[2]->addToSet(myNodes[1],"fluid");
         myNodes[2]->addToSet(myNodes[3],"fluid");
+        myNodes[2]->addToSet(myNodes[4],"fluid");
 
+        // FIXED: adiabatic analyzer has only 5 nodes!
+        myNodes[3]->addToSet(myNodes[1],"fc");
+        myNodes[3]->addToSet(myNodes[0],"fc");
         myNodes[3]->addToSet(myNodes[2],"fc");
+        myNodes[3]->addToSet(myNodes[4],"fc");
+        myNodes[3]->addToSet(myNodes[1],"p");
+        myNodes[3]->addToSet(myNodes[4],"p");
         myNodes[3]->addToSet(myNodes[2],"p");
-        myNodes[3]->addToSet(myNodes[2],"f");
-        myNodes[3]->addToSet(myNodes[2],"c");
+        myNodes[3]->addToSet(myNodes[0],"fluid");
+        myNodes[3]->addToSet(myNodes[1],"fluid");
         myNodes[3]->addToSet(myNodes[2],"fluid");
+        myNodes[3]->addToSet(myNodes[4],"fluid");
 
-        myNodes[4]->addToSet(myNodes[1],"fc");
-        myNodes[4]->addToSet(myNodes[0],"fc");
-        myNodes[4]->addToSet(myNodes[5],"fc");
-        myNodes[4]->addToSet(myNodes[6],"fc");
         myNodes[4]->addToSet(myNodes[1],"p");
-        myNodes[4]->addToSet(myNodes[6],"p");
-        myNodes[4]->addToSet(myNodes[5],"p");
+        myNodes[4]->addToSet(myNodes[3],"p");
+        myNodes[4]->addToSet(myNodes[2],"p");
         myNodes[4]->addToSet(myNodes[0],"fluid");
         myNodes[4]->addToSet(myNodes[1],"fluid");
-        myNodes[4]->addToSet(myNodes[5],"fluid");
-        myNodes[4]->addToSet(myNodes[6],"fluid");
-
-        myNodes[5]->addToSet(myNodes[1],"fc");
-        myNodes[5]->addToSet(myNodes[0],"fc");
-        myNodes[5]->addToSet(myNodes[4],"fc");
-        myNodes[5]->addToSet(myNodes[6],"fc");
-        myNodes[5]->addToSet(myNodes[1],"p");
-        myNodes[5]->addToSet(myNodes[6],"p");
-        myNodes[5]->addToSet(myNodes[4],"p");
-        myNodes[5]->addToSet(myNodes[0],"fluid");
-        myNodes[5]->addToSet(myNodes[1],"fluid");
-        myNodes[5]->addToSet(myNodes[4],"fluid");
-        myNodes[5]->addToSet(myNodes[6],"fluid");
-
-        myNodes[6]->addToSet(myNodes[1],"p");
-        myNodes[6]->addToSet(myNodes[5],"p");
-        myNodes[6]->addToSet(myNodes[4],"p");
-        myNodes[6]->addToSet(myNodes[0],"fluid");
-        myNodes[6]->addToSet(myNodes[1],"fluid");
-        myNodes[6]->addToSet(myNodes[4],"fluid");
-        myNodes[6]->addToSet(myNodes[5],"fluid");
-        myNodes[6]->addToSet(myNodes[0],"fc");
-        myNodes[6]->addToSet(myNodes[1],"fc");
-        myNodes[6]->addToSet(myNodes[4],"fc");
-        myNodes[6]->addToSet(myNodes[5],"fc");
+        myNodes[4]->addToSet(myNodes[2],"fluid");
+        myNodes[4]->addToSet(myNodes[3],"fluid");
+        myNodes[4]->addToSet(myNodes[0],"fc");
+        myNodes[4]->addToSet(myNodes[1],"fc");
+        myNodes[4]->addToSet(myNodes[2],"fc");
+        myNodes[4]->addToSet(myNodes[3],"fc");
 
 
         utext->moveBy(-20,18);

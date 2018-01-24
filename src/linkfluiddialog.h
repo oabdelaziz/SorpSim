@@ -1,3 +1,16 @@
+/*! \file linkfluiddialog.cpp
+
+    This file is part of SorpSim and is distributed under terms in the file LICENSE.
+
+    Developed by Zhiyao Yang and Dr. Ming Qu for ORNL.
+
+    \author Zhiyao Yang (zhiyaoYang)
+    \author Dr. Ming Qu
+
+    \copyright 2015, UT-Battelle, LLC
+
+*/
+
 #ifndef LINKFLUIDDIALOG_H
 #define LINKFLUIDDIALOG_H
 
@@ -8,6 +21,9 @@ namespace Ui {
 class linkFluidDialog;
 }
 
+/// dialog to define the working fluid in the new link
+/// - only the working fluids made available in the "fluidDialog" for the current case is available to choose
+/// - called by myscene.cpp
 class linkFluidDialog : public QDialog
 {
     Q_OBJECT

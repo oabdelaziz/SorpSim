@@ -1,13 +1,18 @@
-/*estntueffdialog.cpp
- * [SorpSim v1.0 source code]
- * [developed by Zhiyao Yang and Dr. Ming Qu for ORNL]
- * [last updated: 10/12/15]
- *
- * dialog to estimate the mass transfer NTU value for a liquid desiccant component using effectiveness model
- * estimation is based on current parameter values and expectation of performance
- * called by dehumeffdialog.cpp
- */
+/*! \file estntueffdialog.cpp
+    \brief Dialog to estimate the mass transfer NTU value for a liquid desiccant component using effectiveness model
 
+    This file is part of SorpSim and is distributed under terms in the file LICENSE.
+
+    Developed by Zhiyao Yang and Dr. Ming Qu for ORNL.
+
+    \author Zhiyao Yang (zhiyaoYang)
+    \author Dr. Ming Qu
+    \author Nicholas Fette (nfette)
+
+    \copyright 2015, UT-Battelle, LLC
+    \copyright 2017-2018, Nicholas Fette
+
+*/
 
 
 #include "estntueffdialog.h"
@@ -18,18 +23,19 @@
 #include <QDoubleValidator>
 #include "mainwindow.h"
 
-extern double estimatedNTU;
 extern dehumEffDialog*dhefDialog;
 extern MainWindow*theMainwindow;
 
+// TODO: new feature - provide initial values?
 estNtuEffDialog::estNtuEffDialog(Node *airInlet, QWidget *parent) :
     QDialog(parent),
-    ui(new Ui::estNtuEffDialog)
+    ui(new Ui::estNtuEffDialog),
+    estimatedValue(0)
 {
     ui->setupUi(this);
     QString mai = QString::number(airInlet->f,'f',4);
     ui->maLine->setText(mai);
-    setWindowFlags(Qt::Tool);
+    setWindowFlags(Qt::Dialog);
     setWindowModality(Qt::WindowModal);
     setWindowTitle("Estimate NTU");
     connect(ui->maLine,SIGNAL(textEdited(QString)),this,SLOT(calculate(QString)));
@@ -59,6 +65,11 @@ estNtuEffDialog::~estNtuEffDialog()
     delete ui;
 }
 
+double estNtuEffDialog::getNTUestimate()
+{
+    return estimatedValue;
+}
+
 void estNtuEffDialog::calculate(QString string)
 {
     double hd = ui->hdLine->text().toDouble();
@@ -85,7 +96,6 @@ void estNtuEffDialog::on_OKButton_clicked()
 {
     if(estimatedValue!=0)
     {
-        estimatedNTU = estimatedValue;
         accept();
     }
 }
@@ -93,21 +103,4 @@ void estNtuEffDialog::on_OKButton_clicked()
 void estNtuEffDialog::on_cancelButton_clicked()
 {
     reject();
-}
-
-bool estNtuEffDialog::event(QEvent *e)
-{
-
-    if(e->type()==QEvent::ActivationChange)
-    {
-        if(qApp->activeWindow()==this)
-        {
-            theMainwindow->show();
-            theMainwindow->raise();
-            dhefDialog->raise();
-            this->raise();
-            this->setFocus();
-        }
-    }
-    return QDialog::event(e);
 }

@@ -1,15 +1,20 @@
-/*newparaplotdialog.cpp
- * [SorpSim v1.0 source code]
- * [developed by Zhiyao Yang and Dr. Ming Qu for ORNL]
- * [last updated: 10/12/15]
- *
- * dialog to define the x and y axis variables for a new parametric plot
- * can be called directly from mainwindow or from tabledialog (different in mode, which determines the source table)
- */
+/*! \file newparaplotdialog.cpp
+
+    This file is part of SorpSim and is distributed under terms in the file LICENSE.
+
+    Developed by Zhiyao Yang and Dr. Ming Qu for ORNL.
+
+    \author Zhiyao Yang (zhiyaoYang)
+    \author Dr. Ming Qu
+    \author Nicholas Fette (nfette)
+
+    \copyright 2015, UT-Battelle, LLC
+    \copyright 2017-2018, Nicholas Fette
+
+*/
 
 
-
-#include "NEWPARAPLOTDIALOG.h"
+#include "newparaplotdialog.h"
 #include "ui_newparaplotdialog.h"
 #include <QFile>
 #include <QDebug>
@@ -19,8 +24,8 @@
 #include <QMessageBox>
 #include "mainwindow.h"
 #include "dataComm.h"
-#include "plotsDialog.h"
-
+#include "plotsdialog.h"
+#include "sorputils.h"
 
 extern globalparameter globalpara;
 extern myScene * theScene;
@@ -61,6 +66,7 @@ ui(new Ui::newParaPlotDialog)
 
 newParaPlotDialog::~newParaPlotDialog()
 {
+
     delete ui;
 }
 
@@ -72,6 +78,7 @@ void newParaPlotDialog::on_okButton_clicked()
     {
         if(mode<2)
         {
+            // TODO: don't need to replace
             plotName = ui->plotNameLine->text().replace(QRegExp("[^a-zA-Z0-9_]"), "");
             if(plotName.count()==0)
             {
@@ -89,7 +96,7 @@ void newParaPlotDialog::on_okButton_clicked()
             if(theScene->plotWindow!=NULL)
                 theScene->plotWindow->close();
             setupXml();
-            theScene->plotWindow = new plotsDialog();
+            theScene->plotWindow = new plotsDialog("",false,theMainwindow);
             this->accept();
             theScene->plotWindow->exec();
         }
@@ -98,22 +105,25 @@ void newParaPlotDialog::on_okButton_clicked()
             if(theScene->plotWindow!=NULL)
                 theScene->plotWindow->close();
             setupXml();
-            theScene->plotWindow = new plotsDialog("",true);
+            theScene->plotWindow = new plotsDialog("",true,theMainwindow);
             this->accept();
             theScene->plotWindow->exec();
         }
-        else
+        else // eg. mode 2 or 4 (edit columns)
+        {
+            // TODO: need to apply changes
+            // This setupXml() call doesn't quite work, since there is already such a plot.
+            setupXml();
             this->accept();
         }
-
-
-
+    }
 }
 
 bool newParaPlotDialog::setupXml()
 {
     int num=ui->xList->count(),inputIndex;
     int outputCount=ui->yList->selectedItems().count();
+    // Needs to be deleted at end of this scope.
     int * outputIndexes = new int[outputCount];
 
     int j=0;
@@ -162,6 +172,9 @@ bool newParaPlotDialog::setupXml()
         return false;
     }
 
+    // TODO: the only usage of setupXml(), newPropPlotDialog::on_okButton_clicked(), already closed the window.
+    // So get rid of this code?
+    // Also, if this is meant to lock the XML, that's a bad implementation of a mutex.
     if(mode!=2)
     {
         if(theScene->plotWindow!=NULL)
@@ -215,6 +228,7 @@ bool newParaPlotDialog::setupXml()
         else
         {
             tableData = doc.elementsByTagName("TableData").at(0).toElement();
+            auto tablesByTitle = Sorputils::mapElementsByAttribute(tableData.childNodes(), "title");
             if(doc.elementsByTagName("plotData").count()==0)
             {
                 plotData = doc.createElement("plotData");
@@ -224,24 +238,35 @@ bool newParaPlotDialog::setupXml()
             else
                 plotData = doc.elementsByTagName("plotData").at(0).toElement();
 
-//            for(int i = 0;i<plotData.childNodes().count();i++)
-//                qDebug()<<"plot"<<i<<plotData.childNodes().at(i).toElement().tagName();
-//            qDebug()<<plotName;
-            if(!plotData.elementsByTagName(plotName).isEmpty())//check if the plot name is already used, if not, create the new element
+            // FIXED: write valid XML for children of <plotData>
+            // Check if the plot name is not already used, then create the new element, else raise an error.
+            QMap<QString, QDomElement> plotsByTitle;
+            QDomNodeList plots = plotData.elementsByTagName("plot");
+            for (int i = 0; i < plots.length(); i++)
             {
-                globalpara.reportError("This plot name is already used.",this);
+                QDomElement node = plots.at(i).toElement();
+                QString nodeTitle = node.attribute("title");
+                plotsByTitle.insert(nodeTitle, node);
+            }
+
+            if (plotsByTitle.contains(plotName))
+            {
+                globalpara.reportError("This <plot> title is already used.",this);
                 file.close();
                 return false;
             }
             else
             {
                 if(mode==0)
-                    currentTable = tableData.elementsByTagName(ui->tableCB->currentText()).at(0).toElement();
+                    currentTable = tablesByTitle.value(ui->tableCB->currentText());
                 else if(mode>0)
-                    currentTable = tableData.elementsByTagName(tName).at(0).toElement();
-                plotName.replace(QRegExp("[^a-zA-Z0-9_]"), "");
-                newPlot = doc.createElement(plotName);
+                    currentTable = tablesByTitle.value(tName);
+                // FIXED: write valid XML for children of <plotData>
+                // Note: plotName.replace() is not necessary
+                // <plot title="{plotName}" plotType="parametric">
+                newPlot = doc.createElement("plot");
                 plotData.appendChild(newPlot);
+                newPlot.setAttribute("title",plotName);
                 newPlot.setAttribute("plotType","parametric");
                 if(mode==0)
                     newPlot.setAttribute("tableName",ui->tableCB->currentText());
@@ -331,8 +356,8 @@ bool newParaPlotDialog::setupXml()
 
         }
 
-     }
-
+    }
+    delete[] outputIndexes;
 }
 
 bool newParaPlotDialog::plotNameUsed(QString name)
@@ -376,12 +401,15 @@ bool newParaPlotDialog::plotNameUsed(QString name)
         else
         {
             QDomElement plotData = doc.elementsByTagName("plotData").at(0).toElement();
-            if(!plotData.elementsByTagName(name).isEmpty())
-                return true;
-            else
-                return false;
+            QDomNodeList thePlots = plotData.elementsByTagName("plot");
+            QMap<QString, QDomElement> plotsByTitle;
+            for (int i = 0; i < thePlots.length(); i++) {
+                QDomElement iPlot = thePlots.at(i).toElement();
+                plotsByTitle.insert(iPlot.attribute("title"), iPlot);
+            }
+            file.close();
+            return plotsByTitle.contains(name);
         }
-        file.close();
     }
 }
 
@@ -500,7 +528,14 @@ bool newParaPlotDialog::readTheFile(QString tableName)
 
 
     QDomElement tables = doc.elementsByTagName("TableData").at(0).toElement();
-    QDomElement currentTable = tables.elementsByTagName(tableName).at(0).toElement();
+    auto tablesByTitle = Sorputils::mapElementsByAttribute(tables.childNodes(), "title");
+    if (!tablesByTitle.contains(tableName))
+    {
+        globalpara.reportError("Failed to load specified table from xml .",this);
+        file.close();
+        return false;
+    }
+    QDomElement currentTable = tablesByTitle.value(tableName);
 
 
     QDomNodeList Runs = currentTable.elementsByTagName("Run");
@@ -579,6 +614,9 @@ bool newParaPlotDialog::readTheFile(QString tableName)
         }
 
     }
+    // TODO: member tablevalue is never referenced after being set in this function. What is intent of the array?
+    // TODO: dyanmically allocated arrays are created with new, stored in tablevalue, but never delete[]'d!
+
 
     return true;
 }
@@ -634,7 +672,7 @@ bool newParaPlotDialog::setTable()
         QDomElement tables = doc.elementsByTagName("TableData").at(0).toElement();
         QStringList myTables;
         for(int i = 0; i < tables.childNodes().count();i++)
-            myTables.append(tables.childNodes().at(i).toElement().tagName());
+            myTables.append(tables.childNodes().at(i).toElement().attribute("title"));
 
         ui->tableCB->addItems(myTables);
         ui->tableCB->setCurrentIndex(0);

@@ -1,13 +1,17 @@
-/*altervdialog.cpp
- * [SorpSim v1.0 source code]
- * [developed by Zhiyao Yang and Dr. Ming Qu for ORNL]
- * [last updated: 10/12/15]
- *
- * dialog to edit the values of cells in an existing parametric table
- * collects the user input at the dialog, change the global boolean and numeric variables accordingly
- * the change in table and XML file is enforced in the tableDialog.cpp
- * called by tabledialog.cpp
- */
+/*! \file altervdialog.cpp
+    \brief Alter variable dialog for SorpSim
+
+    This file is part of SorpSim and is distributed under terms in the file LICENSE.
+
+    Developed by Zhiyao Yang and Dr. Ming Qu for ORNL.
+
+    \author Zhiyao Yang (zhiyaoYang)
+    \author Dr. Ming Qu
+    \author Nicholas Fette (nfette)
+
+    \copyright 2015, UT-Battelle, LLC
+    \copyright 2017-2018, Nicholas Fette
+*/
 
 
 #include "altervdialog.h"
@@ -31,10 +35,9 @@ extern int alvMethod;
 extern int alvCol;
 extern int alvRowCount;
 
-extern tableDialog*theTablewindow;
 extern MainWindow*theMainwindow;
 
-//THE LASTVALUE LAYOUT IS: LINEAR, INCREMENTAL, MULTIPLIER, LOG
+
 
 altervDialog::altervDialog(QWidget *parent) :
     QDialog(parent),
@@ -53,7 +56,7 @@ altervDialog::altervDialog(QWidget *parent) :
     ui->firstValueLE->setValidator(regExpValidator);
     ui->lastValueLE->setValidator(regExpValidator);
 
-    setWindowFlags(Qt::Tool);
+    setWindowFlags(Qt::Dialog);
     QLayout *mainLayout = layout();
     mainLayout->setSizeConstraint(QLayout::SetFixedSize);
 
@@ -74,6 +77,8 @@ void altervDialog::setInputs(QStringList inputs)
     ui->inputCB->insertItems(0,inputs);
 }
 
+
+/// \todo CAN ADD DETAILED DIRECTION TO WHERE THE PROBLEM IS
 void altervDialog::on_okButton_clicked()
 {
     if((ui->firstRowSB->value()<ui->lastRowSB->value()&&ui->firstRowSB->value()>0)&&(ui->clearValueCB->isChecked()||ui->enterValueCB->isChecked())
@@ -117,12 +122,9 @@ void altervDialog::on_okButton_clicked()
             accept();
             alvAccepted = true;
         }
-        else// CAN ADD DETAILED DIRECTION TO WHERE THE PROBLEM IS
+        else // CAN ADD DETAILED DIRECTION TO WHERE THE PROBLEM IS
         {
-            QMessageBox * alvBox = new QMessageBox;
-            alvBox->setWindowTitle("Warning!");
-            alvBox->setText("Please check your settings!");
-            alvBox->exec();
+            QMessageBox::warning(this, "Warning", "Invalid input. Please try again.");
         }
 }
 
@@ -147,20 +149,4 @@ void altervDialog::on_inputCB_currentIndexChanged(int index)
     lastValue = ranges.at(index).split(",").last().toDouble();
     ui->firstValueLE->setText(QString::number(firstValue));
     ui->lastValueLE->setText(QString::number(lastValue));
-}
-
-bool altervDialog::event(QEvent *e)
-{
-    if(e->type()==QEvent::ActivationChange)
-    {
-        if(qApp->activeWindow()==this)
-        {
-            theMainwindow->show();
-            theMainwindow->raise();
-            theTablewindow->raise();
-            this->raise();
-            this->setFocus();
-        }
-    }
-    return QDialog::event(e);
 }

@@ -1,3 +1,18 @@
+/*! \file iffixdialog.h
+    \brief Provides the class iffixDialog.
+
+    This file is part of SorpSim and is distributed under terms in the file LICENSE.
+
+    Developed by Zhiyao Yang and Dr. Ming Qu for ORNL.
+
+    \author Zhiyao Yang (zhiyaoYang)
+    \author Dr. Ming Qu
+
+    \copyright 2015, UT-Battelle, LLC
+
+*/
+
+
 #ifndef IFFIXDIALOG_H
 #define IFFIXDIALOG_H
 
@@ -10,6 +25,9 @@ namespace Ui {
 class iffixDialog;
 }
 
+
+/// dialog to edit mass flow rate variable groups
+/// - called by vicheckdialog.cpp
 class iffixDialog : public QDialog
 {
     Q_OBJECT

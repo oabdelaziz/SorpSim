@@ -1,14 +1,17 @@
-/*newpropplotdialog.cpp
- * [SorpSim v1.0 source code]
- * [developed by Zhiyao Yang and Dr. Ming Qu for ORNL]
- * [last updated: 10/12/15]
- *
- * dialog to start defining a new property plot
- * select Duhring chart of Clapyron chart for LiBr solution
- * called by mainwindow.cpp
- */
+/*! \file newpropplotdialog.cpp
 
+    This file is part of SorpSim and is distributed under terms in the file LICENSE.
 
+    Developed by Zhiyao Yang and Dr. Ming Qu for ORNL.
+
+    \author Zhiyao Yang (zhiyaoYang)
+    \author Dr. Ming Qu
+    \author Nicholas Fette (nfette)
+
+    \copyright 2015, UT-Battelle, LLC
+    \copyright 2017-2018, Nicholas Fette
+
+*/
 
 
 #include "newpropplotdialog.h"
@@ -52,9 +55,9 @@ void newPropPlotDialog::on_okButton_clicked()
     if(theScene->plotWindow!=NULL)
         theScene->plotWindow->close();
     setupXml();
-    theScene->plotWindow = new plotsDialog();
+    theScene->plotWindow = new plotsDialog("", false, theMainwindow);
     accept();
-    theScene->plotWindow->exec();
+    theScene->plotWindow->show();
 }
 
 void newPropPlotDialog::on_cancelButton_clicked()
@@ -94,7 +97,8 @@ bool newPropPlotDialog::setupXml()
             else
                 plotData = doc.elementsByTagName("plotData").at(0).toElement();
 
-            if(!plotData.elementsByTagName(plotName).isEmpty())//check if the plot name is already used, if not, create the new element
+            // If the plot name is not already used, then create the new element, else abort.
+            if (plotNameUsed(plotName))
             {
                 globalpara.reportError("This plot name is already used.",this);
                 file.close();
@@ -102,8 +106,10 @@ bool newPropPlotDialog::setupXml()
             }
             else
             {
-                newPlot = doc.createElement(plotName);
+                // <plot title="{plotName}" plotType="property">
+                newPlot = doc.createElement("plot");
                 plotData.appendChild(newPlot);
+                newPlot.setAttribute("title",plotName);
                 newPlot.setAttribute("plotType","property");
                 QString fluid,subType;
                 fluid = "LiBr";
@@ -150,11 +156,14 @@ bool newPropPlotDialog::plotNameUsed(QString name)
         else
         {
             QDomElement plotData = doc.elementsByTagName("plotData").at(0).toElement();
-            if(!plotData.elementsByTagName(name).isEmpty())
-                return true;
-            else
-                return false;
+            QDomNodeList thePlots = plotData.elementsByTagName("plot");
+            QMap<QString, QDomElement> plotsByTitle;
+            for (int i = 0; i < thePlots.length(); i++) {
+                QDomElement iPlot = thePlots.at(i).toElement();
+                plotsByTitle.insert(iPlot.attribute("title"), iPlot);
+            }
+            file.close();
+            return plotsByTitle.contains(name);
         }
-        file.close();
     }
 }

@@ -1,3 +1,16 @@
+/*! \file newparaplotdialog.h
+
+    This file is part of SorpSim and is distributed under terms in the file LICENSE.
+
+    Developed by Zhiyao Yang and Dr. Ming Qu for ORNL.
+
+    \author Zhiyao Yang (zhiyaoYang)
+    \author Dr. Ming Qu
+
+    \copyright 2015, UT-Battelle, LLC
+
+*/
+
 #ifndef NEWPARAPLOTDIALOG_H
 #define NEWPARAPLOTDIALOG_H
 
@@ -11,6 +24,8 @@ namespace Ui {
 class newParaPlotDialog;
 }
 
+/// Dialog to define the x and y axis variables for a new parametric plot
+/// - can be called directly from mainwindow or from tabledialog (different in mode, which determines the source table)
 class newParaPlotDialog : public QDialog
 {
     Q_OBJECT

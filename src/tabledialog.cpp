@@ -1,27 +1,17 @@
-/*tabledialog.cpp
- * [SorpSim v1.0 source code]
- * [developed by Zhiyao Yang and Dr. Ming Qu for ORNL]
- * [last updated: 10/12/15]
- *
- * dialog to edit all existing tables in current case and display calculated table outputs
- * table can be edited (change row, column variables, copy, delete)
- * each row of table is one run of simulation using the input values given in the cell
- * if calculation is not successful in one row, it is stopped and the problematic row is highlighted
- * if the table inputs are changing gradualy, it is recommended to check the "update guess values" to update the guess value
- * after each successful row so that it's more likely to achieve a successful calculation for next row
- * called by mainwindow.cpp
- */
+/*! \file tabledialog.cpp
 
+    This file is part of SorpSim and is distributed under terms in the file LICENSE.
 
+    Developed by Zhiyao Yang and Dr. Ming Qu for ORNL.
 
-/*naming pattern:
- *for input,
- *  unit parameter, "U"+unit index+UA/NT/EF/CA/LM/HT//WT/NM/NW/NA
- *  state point parameter, "P"+sp uindex+lindex+T/P/W/F/C
- *for output,
- *  unit parameter, "U"+unit index+HM/HV/TP/CC
- *  state point parameter, "P"+sp index+H/T/P/W/F/C
- */
+    \author Zhiyao Yang (zhiyaoYang)
+    \author Dr. Ming Qu
+    \author Nicholas Fette (nfette)
+
+    \copyright 2015, UT-Battelle, LLC
+    \copyright 2017-2018, Nicholas Fette
+
+*/
 
 #include "tabledialog.h"
 #include "ui_tabledialog.h"
@@ -42,7 +32,7 @@
 #include "dataComm.h"
 #include "sorpsimEngine.h"
 #include "edittabledialog.h"
-
+#include "sorputils.h"
 
 #include <QStringList>
 #include <QString>
@@ -78,12 +68,6 @@ extern MainWindow*theMainwindow;
 extern int inputNumber;
 extern QRect mainwindowSize;
 
-bool adrIsInsert = true;
-int adrPosition;//1 = top, 2 = bottom, 3 = after adrIar
-int adrIar;
-int adrNr;//number of runs
-bool adrAccepted = false;
-
 bool alvIsEnter = true;
 int alvFirstRow;
 int alvLastRow;
@@ -93,18 +77,16 @@ bool alvAccepted = false;
 int alvMethod;
 int alvCol;
 int alvRowCount;
-QDialog* theTablewindow;
 
-tableDialog::tableDialog(QString startTable, QWidget *parent) :
+tableDialog::tableDialog(unit * dummy, QString startTable, QWidget * parent) :
+    myDummy(dummy),
     QDialog(parent),
     ui(new Ui::tableDialog)
 {
     ui->setupUi(this);
-    theTablewindow=this;
-    currentDialog = NULL;
     setWindowModality(Qt::WindowModal);
-    setWindowFlags(Qt::Window);
-
+    setWindowFlags(Qt::Dialog);
+    setAttribute(Qt::WA_DeleteOnClose);
 
     setWindowTitle("Parametric Tables");
 
@@ -150,7 +132,7 @@ tableDialog::tableDialog(QString startTable, QWidget *parent) :
 
 tableDialog::~tableDialog()
 {
-    updateXml();
+    // updateXml();
     delete ui;
 }
 
@@ -224,13 +206,16 @@ bool tableDialog::setupTables(bool init)
                 for(int i = 0; i < tableCount; i++)
                 {
                     QDomElement currentTable = tableData.childNodes().at(i).toElement();
+                    QString tableTitle = currentTable.attribute("title");
+                    // TODO: inputEntries and outputEntries conflicts with same names at global scope
                     QStringList inputEntries = currentTable.elementsByTagName("inputEntries").at(0).toElement().text().split(";");
                     QStringList outputEntries = currentTable.elementsByTagName("outputEntries").at(0).toElement().text().split(";");
                     QStringList tHeader = currentTable.elementsByTagName("header").at(0).toElement().text().split(";");
                     QTableWidget * newTable = new QTableWidget();
                     int runs = currentTable.attribute("runs").toInt();
 
-                    ui->tabWidget->insertTab(-1,newTable,currentTable.tagName());
+                    //ui->tabWidget->insertTab(-1,newTable,currentTable.tagName());
+                    ui->tabWidget->insertTab(-1,newTable,tableTitle);
                     newTable->setColumnCount(inputEntries.count()+outputEntries.count());
                     newTable->setHorizontalHeaderLabels(tHeader);
                     newTable->setRowCount(runs);
@@ -453,7 +438,7 @@ QString tableDialog::translateOutput(QStringList outputEntries, int index, int i
 
 }
 
-bool tableDialog::reshapeXml()
+bool tableDialog::reshapeXml(int adrPosition, int adrIar)
 {
     QTableWidget * tableToUpdate = dynamic_cast<QTableWidget *>(ui->tabWidget->currentWidget());
 #ifdef Q_OS_WIN32
@@ -486,13 +471,16 @@ bool tableDialog::reshapeXml()
         }
 
         QDomElement tableData = doc.elementsByTagName("TableData").at(0).toElement();
-        QDomElement currentTable =
-                tableData.elementsByTagName(ui->tabWidget->tabText(ui->tabWidget->currentIndex())).at(0).toElement();
+        auto tablesByTitle = Sorputils::mapElementsByAttribute(tableData.childNodes(), "title");
+        QString tableTitle = ui->tabWidget->tabText(ui->tabWidget->currentIndex());
+        QDomElement currentTable = tablesByTitle[tableTitle];
+        // ...       tableData.elementsByTagName(ui->tabWidget->tabText(ui->tabWidget->currentIndex())).at(0).toElement();
         QStringList inputEntries = currentTable.elementsByTagName("inputEntries").at(0).toElement().text().split(";");
         QStringList outputEntries = currentTable.elementsByTagName("outputEntries").at(0).toElement().text().split(";");
 
         if(currentTable.elementsByTagName("Run").count() > tableToUpdate->rowCount())
         {
+            qDebug()<<"Guessing that rows were deleting, so repeating that.";
             int step = currentTable.elementsByTagName("Run").count()-tableToUpdate->rowCount();
             switch(adrPosition)
             {
@@ -523,7 +511,7 @@ bool tableDialog::reshapeXml()
 
         if(currentTable.elementsByTagName("Run").count() < tableToUpdate->rowCount())
         {
-            qDebug()<<"expanding";
+            qDebug()<<"Expanding, maybe at the end, why not?, haha!";
             int step = tableToUpdate->rowCount()-currentTable.elementsByTagName("Run").count();
             for(int i = 1; i <= step; i++)
             {
@@ -623,10 +611,13 @@ void tableDialog::copyTable()
         else
         {
             QDomElement tableData = doc.elementsByTagName("TableData").at(0).toElement();
-            if(!tableData.elementsByTagName(tName).isEmpty())
+            auto tablesByTitle = Sorputils::mapElementsByAttribute(tableData.childNodes(), "title");
+            //if(!tableData.elementsByTagName(tName).isEmpty())
+            if (tablesByTitle.contains(tName))
             {
-                QDomNode newNode = tableData.elementsByTagName(tName).at(0).cloneNode(true);
-                newNode.toElement().setTagName(newName);
+                //QDomNode newNode = tableData.elementsByTagName(tName).at(0).cloneNode(true);
+                QDomNode newNode = tablesByTitle.value(tName).cloneNode(true);
+                newNode.toElement().setAttribute("title", newName);
                 tableData.appendChild(newNode);
             }
         }
@@ -679,8 +670,10 @@ bool tableDialog::updateXml()
         else
         {
             QDomElement tableData = doc.elementsByTagName("TableData").at(0).toElement();
-            QDomElement currentTable =
-                    tableData.elementsByTagName(ui->tabWidget->tabText(ui->tabWidget->currentIndex())).at(0).toElement();
+            QString tableTitle = ui->tabWidget->tabText(ui->tabWidget->currentIndex());
+            auto tablesByTitle = Sorputils::mapElementsByAttribute(tableData.childNodes(), "title");
+            QDomElement currentTable = tablesByTitle[tableTitle];
+            // ...        tableData.elementsByTagName(ui->tabWidget->tabText(ui->tabWidget->currentIndex())).at(0).toElement();
             QStringList inputEntries = currentTable.elementsByTagName("inputEntries").at(0).toElement().text().split(";");
             QStringList outputEntries = currentTable.elementsByTagName("outputEntries").at(0).toElement().text().split(";");
             currentTable.setAttribute("runs",tableToUpdate->rowCount());
@@ -697,7 +690,8 @@ bool tableDialog::updateXml()
                     QDomNodeList values = currentInput.elementsByTagName("value");
                     QDomElement oldValue = values.at(0).toElement();
                     QDomElement newValue = doc.createElement("value");
-                    QDomText text = doc.createTextNode(QString::number(tableToUpdate->item(i,j)->data(Qt::DisplayRole).toDouble()));
+                    QDomText text = doc.createTextNode(QString::number(tableToUpdate
+                        ->item(i,j)->data(Qt::DisplayRole).toDouble()));
                     newValue.appendChild(text);
                     currentInput.appendChild(newValue);
                     currentInput.replaceChild(newValue,oldValue);
@@ -709,8 +703,8 @@ bool tableDialog::updateXml()
                     QDomNodeList values = currentOutput.elementsByTagName("value");
                     QDomElement oldValue = values.at(0).toElement();
                     QDomElement newValue = doc.createElement("value");
-                    QDomText text =
-                            doc.createTextNode(QString::number(tableToUpdate->item(i,j+inputEntries.count())->data(Qt::DisplayRole).toDouble()));
+                    QDomText text = doc.createTextNode(QString::number(tableToUpdate
+                        ->item(i,j+inputEntries.count())->data(Qt::DisplayRole).toDouble()));
                     newValue.appendChild(text);
                     currentOutput.appendChild(newValue);
                     currentOutput.replaceChild(newValue,oldValue);
@@ -728,11 +722,8 @@ bool tableDialog::updateXml()
     }
 }
 
-bool tableDialog::calc(unit *dummy, globalparameter globalpara, QString fileName, int run)
+bool tableDialog::calc(globalparameter globalpara, QString fileName, int run)
 {
-    myDummy = dummy;
-
-
     tInputs.title = globalpara.title;
     tInputs.tmax = convert(globalpara.tmax,temperature[globalpara.unitindex_temperature],temperature[3]);
     tInputs.tmin = convert(globalpara.tmin,temperature[globalpara.unitindex_temperature],temperature[3]);
@@ -757,7 +748,7 @@ bool tableDialog::calc(unit *dummy, globalparameter globalpara, QString fileName
         conv = 1.8;
     }
 
-    myHead = myDummy->next;
+    unit * myHead = myDummy->next;
     for(int count = 1; count-1 < globalcount;count++)
     {
         tInputs.idunit[count] = myHead->idunit;
@@ -896,8 +887,8 @@ bool tableDialog::calc(unit *dummy, globalparameter globalpara, QString fileName
 
     else if(outputs.IER > 3)
     {
-        QMessageBox * errorBox = new QMessageBox;
-        errorBox->setWindowTitle("Warnging!");
+        QMessageBox errorBox(this);
+        errorBox.setWindowTitle("Warnging!");
         QString msg;
         switch (outputs.IER)
         {
@@ -922,9 +913,9 @@ bool tableDialog::calc(unit *dummy, globalparameter globalpara, QString fileName
             break;
         }
         }
-        errorBox->setText("Failed to converge at run #"
+        errorBox.setText("Failed to converge at run #"
                           +QString::number(run+1)+"\nAnd the error is:\n"+msg);
-        errorBox->exec();
+        errorBox.exec();
         return false;
     }
     else if(outputs.stopped)
@@ -967,8 +958,10 @@ void tableDialog::calcTable()
 
     }
     QDomElement tableData = doc.elementsByTagName("TableData").at(0).toElement();
-    QDomElement currentTable =
-            tableData.elementsByTagName(ui->tabWidget->tabText(ui->tabWidget->currentIndex())).at(0).toElement();
+    QString tableTitle = ui->tabWidget->tabText(ui->tabWidget->currentIndex());
+    auto tablesByTitle = Sorputils::mapElementsByAttribute(tableData.childNodes(), "title");
+    QDomElement currentTable = tablesByTitle[tableTitle];
+    // ...        tableData.elementsByTagName(ui->tabWidget->tabText(ui->tabWidget->currentIndex())).at(0).toElement();
     int tUnit = currentTable.attribute("tUnit").toInt(),
             pUnit = currentTable.attribute("pUnit").toInt(),
             fUnit = currentTable.attribute("fUnit").toInt(),
@@ -1091,7 +1084,7 @@ void tableDialog::calcTable()
 
 
         //calculation
-        if(!calc(dummy,globalpara,"tableCalc",i))
+        if(!calc(globalpara,"tableCalc",i))
         {
             for(int p = 0; p < (inputEntries.count());p++)
             {
@@ -1308,7 +1301,6 @@ void tableDialog::on_calculateButton_clicked()
 
 void tableDialog::updatesystem()
 {
-    myDummy = dummy;
     qDebug()<<outputs.t[1]<<outputs.t[2]<<outputs.t[3]<<outputs.t[4]<<outputs.t[5]<<outputs.t[6];
 
     //    sp para
@@ -1378,99 +1370,120 @@ void tableDialog::updatesystem()
 
 void tableDialog::on_alterRunButton_clicked()
 {
+    adRowDialog adrDialog(this);
+    adrDialog.setTableName(ui->tabWidget->tabText(ui->tabWidget->currentIndex()));
+    adrDialog.setWindowTitle("Add/Delete Runs");
+    adrDialog.exec();
+    if (adrDialog.adrAccepted)
+        add_or_delete_runs(adrDialog.adrIsInsert,
+                           adrDialog.adrPosition,
+                           adrDialog.adrIar,
+                           adrDialog.adrNr);
+}
+
+/**
+ * @brief tableDialog::add_or_delete_runs
+ * @param adrIsInsert whether to insert runs; otherwise deletes runs.
+ * @param adrPosition 1 = top, 2 = bottom, 3 = after adrIar
+ * @param adrIar
+ * @param adrNr number of runs
+ * @return Whether the operation was well defined and thus performed.
+ */
+bool tableDialog::add_or_delete_runs(
+        bool adrIsInsert,
+        int adrPosition,
+        int adrIar,
+        int adrNr)
+{
     QTableWidget * currentTable = dynamic_cast<QTableWidget *>(ui->tabWidget->currentWidget());
-    adRowDialog * adrDialog = new adRowDialog(this);
-    adrDialog->setTableName(ui->tabWidget->tabText(ui->tabWidget->currentIndex()));
-    adrDialog->setWindowTitle("Add/Delete Runs");
-    adrDialog->exec();
-    currentDialog = adrDialog;
-    if(adrAccepted)
+    if(adrIsInsert)
     {
-        if(adrIsInsert)
+        switch(adrPosition)
+        {
+        case(1):
+        {
+            for(int i = 0;i < adrNr;i++)
+            {
+                currentTable->insertRow(0);
+                for(int j = 0; j<currentTable->columnCount();j++)
+                {
+                    QTableWidgetItem * zeroItem = new QTableWidgetItem;
+                    zeroItem->setData(Qt::DisplayRole,QString::number(0));
+                    zeroItem->setTextAlignment(Qt::AlignCenter);
+                    currentTable->setItem(0,j,zeroItem);
+                }
+            }
+            break;
+        }
+        case(2):
+        {
+            for(int i = 0; i< adrNr;i++)
+            {
+                currentTable->insertRow(currentTable->rowCount());
+                for(int j = 0; j<currentTable->columnCount();j++)
+                {
+                    QTableWidgetItem * zeroItem = new QTableWidgetItem;
+                    zeroItem->setData(Qt::DisplayRole,QString::number(0));
+                    zeroItem->setTextAlignment(Qt::AlignCenter);
+                    currentTable->setItem(currentTable->rowCount()-1,j,zeroItem);
+                }
+            }
+            break;
+        }
+        case(3):
+        {
+            for(int i = 0;i<adrNr;i++)
+            {
+                currentTable->insertRow(adrIar);
+                for(int j = 0; j<currentTable->columnCount();j++)
+                {
+                    QTableWidgetItem * zeroItem = new QTableWidgetItem;
+                    zeroItem->setData(Qt::DisplayRole,QString::number(0));
+                    zeroItem->setTextAlignment(Qt::AlignCenter);
+                    currentTable->setItem(adrIar,j,zeroItem);
+                }
+            }
+            break;
+        }
+        }
+    }
+    else
+    {
+        if(adrNr<currentTable->rowCount())
         {
             switch(adrPosition)
             {
             case(1):
             {
                 for(int i = 0;i < adrNr;i++)
-                {
-                    currentTable->insertRow(0);
-                    for(int j = 0; j<currentTable->columnCount();j++)
-                    {
-                        QTableWidgetItem * zeroItem = new QTableWidgetItem;
-                        zeroItem->setData(Qt::DisplayRole,QString::number(0));
-                        zeroItem->setTextAlignment(Qt::AlignCenter);
-                        currentTable->setItem(0,j,zeroItem);
-                    }
-                }
+                    currentTable->removeRow(0);
                 break;
             }
             case(2):
             {
                 for(int i = 0; i< adrNr;i++)
-                {
-                    currentTable->insertRow(currentTable->rowCount());
-                    for(int j = 0; j<currentTable->columnCount();j++)
-                    {
-                        QTableWidgetItem * zeroItem = new QTableWidgetItem;
-                        zeroItem->setData(Qt::DisplayRole,QString::number(0));
-                        zeroItem->setTextAlignment(Qt::AlignCenter);
-                        currentTable->setItem(currentTable->rowCount()-1,j,zeroItem);
-                    }
-                }
+                    currentTable->removeRow(currentTable->rowCount()-1);
                 break;
             }
             case(3):
             {
                 for(int i = 0;i<adrNr;i++)
-                {
-                    currentTable->insertRow(adrIar);
-                    for(int j = 0; j<currentTable->columnCount();j++)
-                    {
-                        QTableWidgetItem * zeroItem = new QTableWidgetItem;
-                        zeroItem->setData(Qt::DisplayRole,QString::number(0));
-                        zeroItem->setTextAlignment(Qt::AlignCenter);
-                        currentTable->setItem(adrIar,j,zeroItem);
-                    }
-                }
+                    currentTable->removeRow(adrIar);
                 break;
             }
             }
         }
         else
         {
-            if(adrNr<currentTable->rowCount())
-            {
-                switch(adrPosition)
-                {
-                case(1):
-                {
-                    for(int i = 0;i < adrNr;i++)
-                        currentTable->removeRow(0);
-                    break;
-                }
-                case(2):
-                {
-                    for(int i = 0; i< adrNr;i++)
-                        currentTable->removeRow(currentTable->rowCount()-1);
-                    break;
-                }
-                case(3):
-                {
-                    for(int i = 0;i<adrNr;i++)
-                        currentTable->removeRow(adrIar);
-                    break;
-                }
-                }
-            }
-            else
-                globalpara.reportError("The number of runs to delete can not exceed the existing run number.",this);
+            globalpara.reportError("The number of runs to delete can not exceed the existing run number.",this);
+            return false;
         }
     }
 
-    if(!reshapeXml())
+    if(!reshapeXml(adrPosition, adrIar))
         globalpara.reportError("Reshape xml file failed",this);
-    currentDialog = NULL;
+
+    return true;
 }
 
 void tableDialog::on_alterVarButton_clicked()
@@ -1489,8 +1502,8 @@ void tableDialog::on_alterVarButton_clicked()
     QFile file(bundleDir+"/tableTemp.xml");
 #endif
     QDomDocument doc;
-    altervDialog * alvDialog = new altervDialog(this);
-    alvDialog->setTableName(ui->tabWidget->tabText(ui->tabWidget->currentIndex()));
+    altervDialog alvDialog(this);
+    alvDialog.setTableName(ui->tabWidget->tabText(ui->tabWidget->currentIndex()));
 
 
     int inputCount;
@@ -1510,8 +1523,10 @@ void tableDialog::on_alterVarButton_clicked()
         else
         {
             QDomElement tableData = doc.elementsByTagName("TableData").at(0).toElement();
-            QDomElement thisTable =
-                    tableData.elementsByTagName(ui->tabWidget->tabText(ui->tabWidget->currentIndex())).at(0).toElement();
+            auto tablesByTitle = Sorputils::mapElementsByAttribute(tableData.childNodes(), "title");
+            QString tableTitle = ui->tabWidget->tabText(ui->tabWidget->currentIndex());
+            QDomElement thisTable = tablesByTitle.value(tableTitle);
+            // ...        tableData.elementsByTagName(ui->tabWidget->tabText(ui->tabWidget->currentIndex())).at(0).toElement();
             QStringList list = thisTable.elementsByTagName("inputEntries").at(0).toElement().text().split(";");
             inputCount = list.count();
             int rowCount = currentTable->rowCount();
@@ -1521,23 +1536,22 @@ void tableDialog::on_alterVarButton_clicked()
                 string.append(currentTable->item(0,i)->data(Qt::DisplayRole).toString());
                 string.append(",");
                 string.append(currentTable->item(rowCount-1,i)->data(Qt::DisplayRole).toString());
-                alvDialog->ranges.append(string);
+                alvDialog.ranges.append(string);
             }
             for(int i = 0;i < list.count();i++)
             {
                 list[i] = list[i].split(",")[0]+list[i].split(",")[1];
             }
-            alvDialog->setInputs(list);
+            alvDialog.setInputs(list);
             file.close();
         }
 
     }
 
 
-    alvDialog->setWindowTitle("Alter Values");
-    alvDialog->exec();
+    alvDialog.setWindowTitle("Alter Values");
+    alvDialog.exec();
 
-    currentDialog = alvDialog;
     if(alvAccepted)
     {
 
@@ -1626,9 +1640,8 @@ void tableDialog::on_alterVarButton_clicked()
             }
         }
     }
-    if(!reshapeXml())
+    if(!reshapeXml(1, 1))
         qDebug()<<"reshape failed";
-    currentDialog = NULL;
 }
 
 void tableDialog::on_deleteTButton_clicked()
@@ -1673,7 +1686,10 @@ void tableDialog::on_deleteTButton_clicked()
             {
 
                 QDomElement tableData = doc.elementsByTagName("TableData").at(0).toElement();
-                tableData.removeChild(tableData.elementsByTagName(ui->tabWidget->tabText(ui->tabWidget->currentIndex())).at(0));
+                QString tableTitle = ui->tabWidget->tabText(ui->tabWidget->currentIndex());
+                auto tablesByTitle = Sorputils::mapElementsByAttribute(tableData.childNodes(), "title");
+                //tableData.removeChild(tableData.elementsByTagName(ui->tabWidget->tabText(ui->tabWidget->currentIndex())).at(0));
+                tableData.removeChild(tablesByTitle[tableTitle]);
             }
             file.resize(0);
             doc.save(stream,4);
@@ -1838,9 +1854,8 @@ void tableDialog::on_exportBox_activated(const QString &arg1)
     else if(arg1 == "Export to text file")
     {
         QRect oldGeo = geometry();
-        QFileDialog * fDialog = new QFileDialog;
         QString fileName = "setTheNameForExport";
-        fileName = fDialog->getSaveFileName(this,"Export table as..","./","Text File(*.txt)");
+        fileName = QFileDialog::getSaveFileName(this,"Export table as..","./","Text File(*.txt)");
         if(fileName!="")
         {
             selected.clear();
@@ -1995,27 +2010,6 @@ void tableDialog::showEvent(QShowEvent *e)
     adjustTableSize();
 }
 
-bool tableDialog::event(QEvent *e)
-{
-    if(e->type()==QEvent::ActivationChange)
-    {
-        if(qApp->activeWindow()==this)
-        {
-            theMainwindow->show();
-            theMainwindow->raise();
-            this->raise();
-            if(currentDialog!=NULL)
-            {
-                currentDialog->raise();
-                currentDialog->setFocus();
-            }
-            else
-                this->setFocus();
-        }
-    }
-    return QDialog::event(e);
-}
-
 void tableDialog::paste()
 {
     QTableWidget * currentTable = dynamic_cast<QTableWidget *>(ui->tabWidget->currentWidget());
@@ -2035,6 +2029,14 @@ void tableDialog::paste()
 
 }
 
+/*
+bool tableDialog::event(QEvent *e)
+{
+    qDebug() << e;
+    return QDialog::event(e);
+}
+*/
+
 void tableDialog::on_tabWidget_currentChanged(int index)
 {
 //    if(index>=0)
@@ -2043,8 +2045,13 @@ void tableDialog::on_tabWidget_currentChanged(int index)
 
 void tableDialog::closeEvent(QCloseEvent *)
 {
+    // 2017-01-06: Added, because skipping this, changes are not
+    // saved if user edited input column entries but did not calculate.
+    // Note, make sure that "edit columns" operations updates this GUI,
+    // otherwise this will overwrite the tableTemp.xml.
+    updateXml();
+
     saveChanges();
-    theScene->tableWindow=NULL;
     theMainwindow->setTPMenu();
 }
 
@@ -2100,7 +2107,20 @@ bool tableDialog::saveChanges()
 
 void tableDialog::on_editColumnButton_clicked()
 {
+    // Get ready to pass off control to the next dialog
+    this->hide();
     QString tableName = ui->tabWidget->tabText(ui->tabWidget->currentIndex());
-    theScene->etDialog = new editTableDialog(tableName,theMainwindow);
-    theScene->etDialog->exec();
+    theScene->etDialog = new editTableDialog(tableName,this);
+    connect(theScene->etDialog, SIGNAL(finished(int)), this, SLOT(on_editColumnButton_finished(int)));
+    theScene->etDialog->show();
+}
+
+void tableDialog::on_editColumnButton_finished(int result)
+{
+    this->show();
+    qDebug() << "editTableDialog finished with result" << result;
+    if (result == QDialog::Accepted)
+    {
+        setupTables(false);
+    }
 }

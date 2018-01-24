@@ -1,13 +1,16 @@
-/*coils.cpp
- * [SorpSim v1.0 source code]
- * [developed by Zhiyao Yang and Dr. Ming Qu for ORNL]
- * [last updated: 10/12/15]
- *
- * custom drawing to indicate coils in internally heated/cooled liquid desiccant components
- * arrows (arrow.cpp) are added to indicate the direction of the thermal fluid flow within the coils
- * called by unit.cpp
- */
+/*! \file coils.cpp
+    \brief Provides the class coils.
 
+    This file is part of SorpSim and is distributed under terms in the file LICENSE.
+
+    Developed by Zhiyao Yang and Dr. Ming Qu for ORNL.
+
+    \author Zhiyao Yang (zhiyaoYang)
+    \author Dr. Ming Qu
+
+    \copyright 2015, UT-Battelle, LLC
+
+*/
 
 
 #include "coils.h"

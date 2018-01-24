@@ -1,14 +1,16 @@
-/*helpdialog.cpp
- * [SorpSim v1.0 source code]
- * [developed by Zhiyao Yang and Dr. Ming Qu for ORNL]
- * [last updated: 10/12/15]
- *
- * dialog to display help information about functions and features of SorpSim
- * based on XML file "systemSettings.xml" placed in "/platforms"
- * can be edited using the "helpEditor" included in the software package
- * called by mainwindow.cpp
- */
+/*! \file helpdialog.cpp
+    \brief Provides the class helpDialog.
 
+    This file is part of SorpSim and is distributed under terms in the file LICENSE.
+
+    Developed by Zhiyao Yang and Dr. Ming Qu for ORNL.
+
+    \author Zhiyao Yang (zhiyaoYang)
+    \author Dr. Ming Qu
+
+    \copyright 2015, UT-Battelle, LLC
+
+*/
 
 
 #include "helpdialog.h"

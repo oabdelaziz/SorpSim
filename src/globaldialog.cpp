@@ -1,11 +1,17 @@
-/*globaldialog.cpp
- * [SorpSim v1.0 source code]
- * [developed by Zhiyao Yang and Dr. Ming Qu for ORNL]
- * [last updated: 10/12/15]
- *
- * dialog to setup simulation control (tolerance/converging criteria) before initiation the simulation engine
- * called by mainwindow.cpp
- */
+/*! \file globaldialog.cpp
+
+    This file is part of SorpSim and is distributed under terms in the file LICENSE.
+
+    Developed by Zhiyao Yang and Dr. Ming Qu for ORNL.
+
+    \author Zhiyao Yang (zhiyaoYang)
+    \author Dr. Ming Qu
+    \author Nicholas Fette (nfette)
+
+    \copyright 2015, UT-Battelle, LLC
+    \copyright 2017-2018, Nicholas Fette
+
+*/
 
 
 #include "globaldialog.h"
@@ -17,7 +23,6 @@
 #include <QValidator>
 #include <QDoubleValidator>
 
-extern bool gocalc;
 extern globalparameter globalpara;
 extern MainWindow*theMainwindow;
 
@@ -32,7 +37,7 @@ GlobalDialog::GlobalDialog(QWidget *parent) :
     ui->convtolerancev->setText(QString::number(globalpara.xtol));
 
     setWindowTitle("Set Calculation Control");
-    setWindowFlags(Qt::Tool);
+    setWindowFlags(Qt::Dialog);
     setWindowModality(Qt::ApplicationModal);
 
     QLayout *mainLayout = layout();
@@ -56,14 +61,12 @@ void GlobalDialog::on_buttonBox_accepted()
    globalpara.msglvl = globalpara.maxfev;
    globalpara.ftol = ui->convtolerancef->text().toDouble();
    globalpara.xtol = ui->convtolerancev->text().toDouble();
-   gocalc = true;
    accept();
 
 }
 
 void GlobalDialog::on_buttonBox_rejected()
 {
-    gocalc = false;
     reject();
 }
 

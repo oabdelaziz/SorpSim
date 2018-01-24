@@ -1,16 +1,18 @@
-/*dehumeffdialog.cpp
- * [SorpSim v1.0 source code]
- * [developed by Zhiyao Yang and Dr. Ming Qu for ORNL]
- * [last updated: 05/24/16]
- *
- * extend effectiveness value precision to 7 digits after decimal point
- *
- * dialog to edit the properties of an adiabatic liquid desiccant component
- * either effectiveness or NTU value is given
- * called by myscene.cpp
- */
+/*! \file dehumeffdialog.cpp
+    \brief Dialog used to specify liquid desiccant component heat/mass transfer
 
+    This file is part of SorpSim and is distributed under terms in the file LICENSE.
 
+    Developed by Zhiyao Yang and Dr. Ming Qu for ORNL.
+
+    \author Zhiyao Yang (zhiyaoYang)
+    \author Dr. Ming Qu
+    \author Nicholas Fette (nfette)
+
+    \copyright 2015, UT-Battelle, LLC
+    \copyright 2017-2018, Nicholas Fette
+
+*/
 
 
 #include "dehumeffdialog.h"
@@ -22,7 +24,6 @@
 #include "estntueffdialog.h"
 #include "mainwindow.h"
 
-double estimatedNTU;
 extern MainWindow*theMainwindow;
 dehumEffDialog*dhefDialog;
 
@@ -34,7 +35,7 @@ dehumEffDialog::dehumEffDialog(unit*unit, QWidget *parent) :
     myUnit = unit;
     setWindowTitle("Effectiveness Model Setup");
     dhefDialog = this;
-    setWindowFlags(Qt::Tool);
+    setWindowFlags(Qt::Dialog);
     setWindowModality(Qt::ApplicationModal);
     if(myUnit->iht ==2)//NTU
     {
@@ -73,6 +74,7 @@ dehumEffDialog::dehumEffDialog(unit*unit, QWidget *parent) :
 
 dehumEffDialog::~dehumEffDialog()
 {
+    dhefDialog = NULL;
     delete ui;
 }
 
@@ -101,21 +103,16 @@ void dehumEffDialog::on_cancelButton_clicked()
 
 void dehumEffDialog::on_estNTUButton_clicked()
 {
-    estNtuEffDialog*eDialog = new estNtuEffDialog(myUnit->myNodes[3],this);
-    eDialog->setModal(true);
-    if(eDialog->exec()==QDialog::Accepted)
-        ui->NTULine->setText(QString::number(estimatedNTU,'g',4));
+    estNtuEffDialog eDialog(myUnit->myNodes[3],this);
+    if(eDialog.exec()==QDialog::Accepted)
+        ui->NTULine->setText(QString::number(eDialog.getNTUestimate(),'g',4));
 }
 
 void dehumEffDialog::on_effLine_textEdited(const QString &arg1)
 {
     if(arg1.toDouble()>1)
     {
-        QMessageBox * mBox = new QMessageBox;
-        mBox->setWindowTitle("Warning");
-        mBox->setText("Effectiveness can not be larger than 1!");
-        mBox->setModal(true);
-        mBox->exec();
+        QMessageBox::warning(this, "Warning", "Effectiveness can not be larger than 1. Please revise.");
         ui->effLine->clear();
     }
 }

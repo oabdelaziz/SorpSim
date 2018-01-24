@@ -1,12 +1,16 @@
-/*arrow.cpp
- * [SorpSim v1.0 source code]
- * [developed by Zhiyao Yang and Dr. Ming Qu for ORNL]
- * [last updated: 10/12/15]
- *
- * custom drawing of an arrow indicating the direction of fluid flow in links
- * called by coils.cpp, link.cpp, unit.cpp
- */
+/*! \file arrow.cpp
+    \brief Provides the class Link.
 
+    This file is part of SorpSim and is distributed under terms in the file LICENSE.
+
+    Developed by Zhiyao Yang and Dr. Ming Qu for ORNL.
+
+    \author Zhiyao Yang (zhiyaoYang)
+    \author Dr. Ming Qu
+
+    \copyright 2015, UT-Battelle, LLC
+
+*/
 
 #include "arrow.h"
 #include <QPen>

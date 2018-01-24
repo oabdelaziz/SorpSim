@@ -1,12 +1,17 @@
-/*guessdialog.cpp
- * [SorpSim v1.0 source code]
- * [developed by Zhiyao Yang and Dr. Ming Qu for ORNL]
- * [last updated: 10/12/15]
- *
- * dialog to review and edit the guess value for un-fixed variables in the current case
- * called by mainwindow.cpp, masterdialog.cpp
- */
+/*! \file guessdialog.cpp
 
+    This file is part of SorpSim and is distributed under terms in the file LICENSE.
+
+    Developed by Zhiyao Yang and Dr. Ming Qu for ORNL.
+
+    \author Zhiyao Yang (zhiyaoYang)
+    \author Dr. Ming Qu
+    \author Nicholas Fette (nfette)
+
+    \copyright 2015, UT-Battelle, LLC
+    \copyright 2017-2018, Nicholas Fette
+
+*/
 
 
 #include "guessdialog.h"
@@ -32,8 +37,8 @@ extern int globalcount;
 extern int spnumber;
 extern QRect mainwindowSize;
 extern MainWindow*theMainwindow;
-extern masterDialog * theMasterDialog;
 
+// Maybe for debugging? Only counts the numbers of non-zero fixity variables.
 int nv,nt,nf,np,nc,nw;
 
 guessDialog::guessDialog(bool fromMasterDialog, QWidget *parent) :
@@ -49,7 +54,7 @@ guessDialog::guessDialog(bool fromMasterDialog, QWidget *parent) :
     nc = 0;
     nw = 0;
     ui->setupUi(this);
-    setWindowFlags(Qt::Tool);
+    setWindowFlags(Qt::Dialog);
     setWindowModality(Qt::WindowModal);
     setWindowTitle("Guess Value");
     QStringList sHeader;
@@ -258,23 +263,7 @@ void guessDialog::showEvent(QShowEvent *e)
     adjustTableSize();
 }
 
-bool guessDialog::event(QEvent *e)
-{
-    if(e->type()==QEvent::ActivationChange)
-    {
-        if(qApp->activeWindow()==this)
-        {
-            theMainwindow->show();
-            theMainwindow->raise();
-            if(fromMDialog){
-                theMasterDialog->raise();
-            }
-            this->raise();
-            this->setFocus();
-        }
-    }
-    return QDialog::event(e);
-}
+
 
 void guessDialog::on_exportBox_currentTextChanged(const QString &arg1)
 {
@@ -333,9 +322,7 @@ void guessDialog::on_exportBox_currentTextChanged(const QString &arg1)
     }
     else if(arg1 == "Export to text file")
     {
-        QFileDialog * fDialog = new QFileDialog;
-        QString fileName = "setTheNameForExport";
-        fileName = fDialog->getSaveFileName(this,"Export table as..","./","Text File(*.txt)");
+        QString fileName = QFileDialog::getSaveFileName(this,"Export table as..","./","Text File(*.txt)");
         if(fileName!="")
         {
             selected.clear();

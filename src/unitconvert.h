@@ -1,3 +1,17 @@
+/*! \file unitconvert.h
+    \brief Provides the overloaded function convert().
+
+    This file is part of SorpSim and is distributed under terms in the file LICENSE.
+
+    Developed by Zhiyao Yang and Dr. Ming Qu for ORNL.
+
+    \author Zhiyao Yang (zhiyaoYang)
+    \author Dr. Ming Qu
+
+    \copyright 2015, UT-Battelle, LLC
+
+*/
+
 #ifndef UNITCONVERT_H
 #define UNITCONVERT_H
 
@@ -19,7 +33,10 @@ const double heat_trans_rate[11]={1,1,0.001,0.001341,3.41214,0.73756,0.00094783,
 const double pressure[11]={1,1,0.001,0.000001,0.00000986923,0.00001,0.007500617,0.00001019719,0.00014504,0.020886,0.000295287};
 const double specific_heat[5]={1,1,1,0.23885,0.23885};
 const double specific_volume[4]={1,1000,1000,16.02};
+
+/// The char code used to indicate temperature units
 const char temperature[4]={'K','C','R','F'};
+
 const double thermal_cond[3]={1,1,0.57782};
 const double velocity[4]={1,3.6,3.2808,2.237};
 const double volume[7]={1,1000,1000000,61024,35.315,264.17,33813.76};
@@ -28,8 +45,14 @@ const double mytime[3]={1,60,3600};
 const double mass_flow_rate[2]={mass[0]/mytime[2],mass[3]/mytime[1]};
 const double UA[2]={1,1895.6/60};
 
+/// \name Unit conversion functions
+///
+/// \{
+/// custom function to carry out conversion of parameters given the value and current/target unit system
+/// - called by various classes in thie project
 double convert(double value, double current_unit , double convert_unit );
 double convert(double value, char current_unit, char convert_unit);
+/// \}
 
 
 

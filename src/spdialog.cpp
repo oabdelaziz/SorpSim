@@ -1,12 +1,17 @@
-/*spdialog.cpp
- * [SorpSim v1.0 source code]
- * [developed by Zhiyao Yang and Dr. Ming Qu for ORNL]
- * [last updated: 10/12/15]
- *
- * dialog to edit the settings and values of parameters of the currently selected state point
- * each parameter is either fixed as input with a user-defined value, or marked as unknown
- * called by myScene.cpp
- */
+/*! \file spdialog.cpp
+
+    This file is part of SorpSim and is distributed under terms in the file LICENSE.
+
+    Developed by Zhiyao Yang and Dr. Ming Qu for ORNL.
+
+    \author Zhiyao Yang (zhiyaoYang)
+    \author Dr. Ming Qu
+    \author Nicholas Fette (nfette)
+
+    \copyright 2015, UT-Battelle, LLC
+    \copyright 2017-2018, Nicholas Fette
+
+*/
 
 
 #include "spdialog.h"
@@ -38,9 +43,8 @@ spDialog::spDialog(Node* sp, QWidget *parent) :
     ui->setupUi(this);
     initializing = true;
 
-    setWindowFlags(Qt::Tool);
+    setWindowFlags(Qt::Dialog);
     setWindowModality(Qt::ApplicationModal);
-    reSet = reset;
     myNode = sp;
     ui->TGB->setStyleSheet("QGroupBox{ background-color:rgb(144, 202, 119); border: 1px solid black; }");
     ui->PGB->setStyleSheet("QGroupBox{ background-color:rgb(129, 198, 221); border: 1px solid black; }");
@@ -173,11 +177,7 @@ void spDialog::on_OkButton_clicked()
 {
     if(ui->fluidCB->currentText()=="Not Assigned")
     {
-        QMessageBox * flBox = new QMessageBox;
-        flBox->setWindowTitle("Warning");
-        flBox->setText("Please assign working fluid for the state point!");
-        flBox->exec();
-
+        QMessageBox::warning(this, "Warning", "Please assign working fluid for the state point.");
     }
     else
     {
@@ -196,10 +196,7 @@ void spDialog::on_OkButton_clicked()
 
         if(!completed)
         {
-            QMessageBox * incompleteBox = new QMessageBox;
-            incompleteBox->setWindowTitle("Warning");
-            incompleteBox->setText("Please enter value for input parameter(s)");
-            incompleteBox->exec();
+            QMessageBox::warning(this, "Warning", "Please enter value for input parameter(s)");
         }
         else
         {
@@ -618,12 +615,15 @@ void spDialog::on_TFButton_clicked()
         }
         if(warn)
         {
-            this->hide();
-            QMessageBox *mBox = new QMessageBox;
-            mBox->setWindowTitle("Warning");
-            mBox->setText("This will set temperature of sp"+QString::number(myNode->ndum)+list.join("")+" as fixed input.");
-            mBox->exec();
-            this->show();
+            // We used to hide this, open the warning, then show this.
+            // Is it necessary to hide and show this?
+            // No, in fact it shouldn't even work because hide() closes a modal dialog. See:
+            // https://forum.qt.io/topic/20594/solved-qdialog-hide-exec-40-41-and-show-resulting-in-unexpected-behavior
+            // Although there is a certain asthetic value to limiting the number of dialogs, it's too late for that option.
+            // Maybe we should implement a pop-up over the current dialog.
+            // Or if you're satisfied, delete this comment.
+            QMessageBox::warning(this, "Warning",
+                                 "This will set temperature of sp"+QString::number(myNode->ndum)+list.join("")+" as fixed input.");
         }
 
     }
@@ -669,13 +669,8 @@ void spDialog::on_TUButton_clicked()
         }
 
         if(warn)
-        {
-            this->hide();
-            QMessageBox *mBox = new QMessageBox;
-            mBox->setWindowTitle("Warning");mBox->setText("This will set temperature of sp"+QString::number(myNode->ndum)+list.join("")+" as unknown variables.");
-            mBox->exec();
-            this->show();
-        }
+            QMessageBox::warning(this, "Warning",
+                                 "This will set temperature of sp"+QString::number(myNode->ndum)+list.join("")+" as unknown variables.");
 
     }
     ui->TLE->setText("Unknown");
@@ -720,13 +715,8 @@ void spDialog::on_TLE_editingFinished()
         }
 
         if(!list.isEmpty()&&oItfix==0&&text.toDouble()-oT>0.01)
-        {
-            this->hide();
-            QMessageBox *mBox = new QMessageBox;
-            mBox->setWindowTitle("Warning");mBox->setText("This will set temperature of sp"+QString::number(myNode->ndum)+list.join("")+" to "+text+globalpara.unitname_temperature);
-            mBox->exec();
-            this->show();
-        }
+            QMessageBox::warning(this, "Warning",
+                                 "This will set temperature of sp"+QString::number(myNode->ndum)+list.join("")+" to "+text+globalpara.unitname_temperature);
     }
 }
 
@@ -769,12 +759,8 @@ void spDialog::on_PFButton_clicked()
         }
         if(warn)
         {
-            this->hide();
-            QMessageBox *mBox = new QMessageBox;
-            mBox->setWindowTitle("Warning");
-            mBox->setText("This will set pressure of sp"+QString::number(myNode->ndum)+list.join("")+" as fixed input.");
-            mBox->exec();
-            this->show();
+            QMessageBox::warning(this, "Warning",
+                                 "This will set pressure of sp"+QString::number(myNode->ndum)+list.join("")+" as fixed input.");
         }
 
     }
@@ -821,11 +807,8 @@ void spDialog::on_PUButton_clicked()
 
         if(warn)
         {
-            this->hide();
-            QMessageBox *mBox = new QMessageBox;
-            mBox->setWindowTitle("Warning");mBox->setText("This will set pressure of sp"+QString::number(myNode->ndum)+list.join("")+" as unknown variables.");
-            mBox->exec();
-            this->show();
+            QMessageBox::warning(this, "Warning",
+                                 "This will set pressure of sp"+QString::number(myNode->ndum)+list.join("")+" as unknown variables.");
         }
 
     }
@@ -872,11 +855,8 @@ void spDialog::on_PLE_editingFinished()
 
         if(!list.isEmpty()&&oIpfix==0&&text.toDouble()-oP>0.01)
         {
-            this->hide();
-            QMessageBox *mBox = new QMessageBox;
-            mBox->setWindowTitle("Warning");mBox->setText("This will set pressure of sp"+QString::number(myNode->ndum)+list.join("")+" to "+text+globalpara.unitname_pressure);
-            mBox->exec();
-            this->show();
+            QMessageBox::warning(this, "Warning",
+                                 "This will set pressure of sp"+QString::number(myNode->ndum)+list.join("")+" to "+text+globalpara.unitname_pressure);
         }
     }
 
@@ -921,12 +901,8 @@ void spDialog::on_FFButton_clicked()
         }
         if(warn)
         {
-            this->hide();
-            QMessageBox *mBox = new QMessageBox;
-            mBox->setWindowTitle("Warning");
-            mBox->setText("This will set mass flow rate of sp"+QString::number(myNode->ndum)+list.join("")+" as fixed input.");
-            mBox->exec();
-            this->show();
+            QMessageBox::warning(this, "Warning",
+                                 "This will set mass flow rate of sp"+QString::number(myNode->ndum)+list.join("")+" as fixed input.");
         }
 
     }
@@ -973,11 +949,8 @@ void spDialog::on_FUButton_clicked()
 
         if(warn)
         {
-            this->hide();
-            QMessageBox *mBox = new QMessageBox;
-            mBox->setWindowTitle("Warning");mBox->setText("This will set mass flow rate of sp"+QString::number(myNode->ndum)+list.join("")+" as unknown variables.");
-            mBox->exec();
-            this->show();
+            QMessageBox::warning(this, "Warning",
+                                 "This will set mass flow rate of sp"+QString::number(myNode->ndum)+list.join("")+" as unknown variables.");
         }
 
     }
@@ -1024,11 +997,8 @@ void spDialog::on_FLE_editingFinished()
 
         if(!list.isEmpty()&&oIffix==0&&text.toDouble()-oF>0.01)
         {
-            this->hide();
-            QMessageBox *mBox = new QMessageBox;
-            mBox->setWindowTitle("Warning");mBox->setText("This will set mass flow rate of sp"+QString::number(myNode->ndum)+list.join("")+" to "+text+globalpara.unitname_massflow);
-            mBox->exec();
-            this->show();
+            QMessageBox::warning(this, "Warning",
+                                 "This will set mass flow rate of sp"+QString::number(myNode->ndum)+list.join("")+" to "+text+globalpara.unitname_massflow);
         }
     }
 
@@ -1073,12 +1043,8 @@ void spDialog::on_CFButton_clicked()
         }
         if(warn)
         {
-            this->hide();
-            QMessageBox *mBox = new QMessageBox;
-            mBox->setWindowTitle("Warning");
-            mBox->setText("This will set concentration of sp"+QString::number(myNode->ndum)+list.join("")+" as fixed input.");
-            mBox->exec();
-            this->show();
+            QMessageBox::warning(this, "Warning",
+                                 "This will set concentration of sp"+QString::number(myNode->ndum)+list.join("")+" as fixed input.");
         }
 
     }
@@ -1125,11 +1091,8 @@ void spDialog::on_CUButton_clicked()
 
         if(warn)
         {
-            this->hide();
-            QMessageBox *mBox = new QMessageBox;
-            mBox->setWindowTitle("Warning");mBox->setText("This will set concentration of sp"+QString::number(myNode->ndum)+list.join("")+" as unknown variables.");
-            mBox->exec();
-            this->show();
+            QMessageBox::warning(this, "Warning",
+                                 "This will set concentration of sp"+QString::number(myNode->ndum)+list.join("")+" as unknown variables.");
         }
 
     }
@@ -1176,11 +1139,8 @@ void spDialog::on_CLE_editingFinished()
 
         if(!list.isEmpty()&&oIcfix==0&&text.toDouble()-oC>0.01)
         {
-            this->hide();
-            QMessageBox *mBox = new QMessageBox;
-            mBox->setWindowTitle("Warning");mBox->setText("This will set concentration of sp"+QString::number(myNode->ndum)+list.join("")+" to "+text+"%");
-            mBox->exec();
-            this->show();
+            QMessageBox::warning(this, "Warning",
+                                 "This will set concentration of sp"+QString::number(myNode->ndum)+list.join("")+" to "+text+"%");
         }
     }
 }
@@ -1224,12 +1184,8 @@ void spDialog::on_WFButton_clicked()
         }
         if(warn)
         {
-            this->hide();
-            QMessageBox *mBox = new QMessageBox;
-            mBox->setWindowTitle("Warning");
-            mBox->setText("This will set vapor fraction of sp"+QString::number(myNode->ndum)+list.join("")+" as fixed input.");
-            mBox->exec();
-            this->show();
+            QMessageBox::warning(this, "Warning",
+                                 "This will set vapor fraction of sp"+QString::number(myNode->ndum)+list.join("")+" as fixed input.");
         }
 
     }
@@ -1276,12 +1232,8 @@ void spDialog::on_WUButton_clicked()
 
         if(warn)
         {
-            this->hide();
-            QMessageBox *mBox = new QMessageBox;
-            mBox->setWindowTitle("Warning");
-            mBox->setText("This will set vapor fraction of sp"+QString::number(myNode->ndum)+list.join("")+" as unknown variables.");
-            mBox->exec();
-            this->show();
+            QMessageBox::warning(this, "Warning",
+                                 "This will set vapor fraction of sp"+QString::number(myNode->ndum)+list.join("")+" as unknown variables.");
         }
 
     }
@@ -1328,11 +1280,8 @@ void spDialog::on_WLE_editingFinished()
 
         if(!list.isEmpty()&&oIwfix==0&&text.toDouble()-oW>0.01)
         {
-            this->hide();
-            QMessageBox *mBox = new QMessageBox;
-            mBox->setWindowTitle("Warning");mBox->setText("This will set vapor fraction of sp"+QString::number(myNode->ndum)+list.join("")+" to "+text);
-            mBox->exec();
-            this->show();
+            QMessageBox::warning(this, "Warning",
+                                 "This will set vapor fraction of sp"+QString::number(myNode->ndum)+list.join("")+" to "+text);
         }
     }
 }
@@ -1426,12 +1375,8 @@ void spDialog::on_fluidCB_currentTextChanged(const QString &arg1)
             }
             if(warn)
             {
-                this->hide();
-                QMessageBox *mBox = new QMessageBox;
-                mBox->setWindowTitle("Warning");
-                mBox->setText("This will set fluid type of sp"+QString::number(myNode->ndum)+list.join("")+" as "+newKsub);
-                mBox->exec();
-                this->show();
+                QMessageBox::warning(this, "Warning",
+                                     "This will set fluid type of sp"+QString::number(myNode->ndum)+list.join("")+" as "+newKsub);
             }
         }
 
