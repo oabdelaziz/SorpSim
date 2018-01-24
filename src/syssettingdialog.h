@@ -1,3 +1,17 @@
+/*! \file syssettingdialog.h
+
+    This file is part of SorpSim and is distributed under terms in the file LICENSE.
+
+    Developed by Zhiyao Yang and Dr. Ming Qu for ORNL.
+
+    \author Zhiyao Yang (zhiyaoYang)
+    \author Dr. Ming Qu
+
+    \copyright 2015, UT-Battelle, LLC
+
+*/
+
+
 #ifndef SYSSETTINGDIALOG_H
 #define SYSSETTINGDIALOG_H
 
@@ -8,6 +22,9 @@ namespace Ui {
 class sysSettingDialog;
 }
 
+/// Dialog to edit the available working fluid and unit system of current case
+/// - the fluid/unit system tab operates similar to fluiddialg and editunitdialog
+/// - called by mainwindow.cpp
 class sysSettingDialog : public QDialog
 {
     Q_OBJECT

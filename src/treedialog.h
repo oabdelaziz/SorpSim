@@ -1,3 +1,19 @@
+/*! \file treedialog.h
+
+    This file is part of SorpSim and is distributed under terms in the file LICENSE.
+
+    Developed by Zhiyao Yang and Dr. Ming Qu for ORNL.
+
+    \author Zhiyao Yang (zhiyaoYang)
+    \author Dr. Ming Qu
+    \author Nicholas Fette (nfette)
+
+    \copyright 2015, UT-Battelle, LLC
+    \copyright 2017-2018, Nicholas Fette
+
+*/
+
+
 #ifndef TREEDIALOG_H
 #define TREEDIALOG_H
 
@@ -11,6 +27,11 @@ namespace Ui {
 class TreeDialog;
 }
 
+/// Dialog to select a new component to add into the current case
+/// - a tree structure is used to list all available components in SorpSim
+/// - preview of the component
+/// - brief description of the component
+/// - called by mainwindow.cpp
 class TreeDialog : public QDialog
 {
     Q_OBJECT

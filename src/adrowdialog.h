@@ -1,5 +1,5 @@
 /*! \file adrowdialog.h
-    \brief Alter runs dialog for SorpSim
+    \brief Provides the class adRowDialog.
 
     This file is part of SorpSim and is distributed under terms in the file LICENSE.
 
@@ -27,6 +27,11 @@ class adRowDialog;
 /**
  * @brief The adRowDialog class provides a dialog box that shows when
  * the user selects "alter runs" in a parametric table.
+ *
+ * Dialog to edit the number of rows in an existing parametric table
+ *  - collects the user input at the dialog, change the global boolean variable accordingly
+ *  - the change in table and XML file is enforced in the tableDialog.cpp
+ *  - called by tabledialog.cpp
  */
 class adRowDialog : public QDialog
 {

@@ -1,10 +1,5 @@
 /*! \file adrowdialog.cpp
-    \brief describe me!
-
-    dialog to edit the number of rows in an existing parametric table
-    - collects the user input at the dialog, change the global boolean variable accordingly
-    - the change in table and XML file is enforced in the tableDialog.cpp
-    - called by tabledialog.cpp
+    \brief Provides the class adRowDialog.
 
     This file is part of SorpSim and is distributed under terms in the file LICENSE.
 

@@ -1,3 +1,19 @@
+/*! \file iwfixdialog.h
+    \brief Provides the class iwfixDialog.
+
+    This file is part of SorpSim and is distributed under terms in the file LICENSE.
+
+    Developed by Zhiyao Yang and Dr. Ming Qu for ORNL.
+
+    \author Zhiyao Yang (zhiyaoYang)
+    \author Dr. Ming Qu
+    \author Nicholas Fette (nfette)
+
+    \copyright 2015, UT-Battelle, LLC
+    \copyright 2017-2018, Nicholas Fette
+
+*/
+
 #ifndef IWFIXDIALOG_H
 #define IWFIXDIALOG_H
 
@@ -10,6 +26,8 @@ namespace Ui {
 class iwfixDialog;
 }
 
+/// Dialog to edit vapor fraction variable groups
+/// - called by vicheckdialog.cpp
 class iwfixDialog : public QDialog
 {
     Q_OBJECT

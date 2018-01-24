@@ -1,12 +1,17 @@
-/*spdialog.cpp
- * [SorpSim v1.0 source code]
- * [developed by Zhiyao Yang and Dr. Ming Qu for ORNL]
- * [last updated: 10/12/15]
- *
- * dialog to edit the settings and values of parameters of the currently selected state point
- * each parameter is either fixed as input with a user-defined value, or marked as unknown
- * called by myScene.cpp
- */
+/*! \file spdialog.cpp
+
+    This file is part of SorpSim and is distributed under terms in the file LICENSE.
+
+    Developed by Zhiyao Yang and Dr. Ming Qu for ORNL.
+
+    \author Zhiyao Yang (zhiyaoYang)
+    \author Dr. Ming Qu
+    \author Nicholas Fette (nfette)
+
+    \copyright 2015, UT-Battelle, LLC
+    \copyright 2017-2018, Nicholas Fette
+
+*/
 
 
 #include "spdialog.h"

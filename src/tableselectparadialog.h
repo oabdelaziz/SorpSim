@@ -1,3 +1,16 @@
+/*! \file tableselectparadialog.h
+
+    This file is part of SorpSim and is distributed under terms in the file LICENSE.
+
+    Developed by Zhiyao Yang and Dr. Ming Qu for ORNL.
+
+    \author Zhiyao Yang (zhiyaoYang)
+    \author Dr. Ming Qu
+
+    \copyright 2015, UT-Battelle, LLC
+
+*/
+
 #ifndef TABLESELECTPARADIALOG_H
 #define TABLESELECTPARADIALOG_H
 
@@ -8,6 +21,18 @@ namespace Ui {
 class tableSelectParaDialog;
 }
 
+/*!
+ * Dialog to select (add/remove) column variables in a parametric table
+ * - called by myScene.cpp
+ *
+ * Naming pattern:
+ * - for input,
+ *     - unit parameter, "U"+unit index+UA/NT/EF/CA/LM/HT//WT/NM/NW/NA
+ *     - state point parameter, "P"+sp uindex+lindex+T/P/W/F/C
+ * - for output,
+ *     - unit parameter, "U"+unit index+HM/HV/TP/CC
+ *     - state point parameter, "P"+sp index+H/T/P/W/F/C
+ */
 class tableSelectParaDialog : public QDialog
 {
     Q_OBJECT

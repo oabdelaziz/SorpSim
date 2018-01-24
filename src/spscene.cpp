@@ -1,12 +1,17 @@
-/*spscene.cpp
- * [SorpSim v1.0 source code]
- * [developed by Zhiyao Yang and Dr. Ming Qu for ORNL]
- * [last updated: 10/12/15]
- *
- * custom QGraphicsScene (similar to myscene) that is used in the treedialog to
- * preview the selected component before adding it to the operating panel
- * called by treedialog.cpp
- */
+/*! \file spscene.cpp
+
+    This file is part of SorpSim and is distributed under terms in the file LICENSE.
+
+    Developed by Zhiyao Yang and Dr. Ming Qu for ORNL.
+
+    \author Zhiyao Yang (zhiyaoYang)
+    \author Dr. Ming Qu
+    \author Nicholas Fette (nfette)
+
+    \copyright 2015, UT-Battelle, LLC
+    \copyright 2017-2018, Nicholas Fette
+
+*/
 
 
 

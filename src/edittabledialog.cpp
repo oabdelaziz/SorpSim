@@ -1,4 +1,4 @@
-/*! \file edittabledialog.h
+/*! \file edittabledialog.cpp
     \brief dialog to edit the column variables of an existing table
 
     This file is part of SorpSim and is distributed under terms in the file LICENSE.

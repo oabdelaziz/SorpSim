@@ -1,24 +1,17 @@
-/*tableselectparadialog.cpp
- * [SorpSim v1.0 source code]
- * [developed by Zhiyao Yang and Dr. Ming Qu for ORNL]
- * [last updated: 10/12/15]
- *
- * dialog to select (add/remove) column variables in a parametric table
- * called by myScene.cpp
- */
+/*! \file tableselectparadialog.cpp
 
+    This file is part of SorpSim and is distributed under terms in the file LICENSE.
 
+    Developed by Zhiyao Yang and Dr. Ming Qu for ORNL.
 
+    \author Zhiyao Yang (zhiyaoYang)
+    \author Dr. Ming Qu
+    \author Nicholas Fette (nfette)
 
+    \copyright 2015, UT-Battelle, LLC
+    \copyright 2017-2018, Nicholas Fette
 
-/*naming pattern:
- *for input,
- *  unit parameter, "U"+unit index+UA/NT/EF/CA/LM/HT//WT/NM/NW/NA
- *  state point parameter, "P"+sp uindex+lindex+T/P/W/F/C
- *for output,
- *  unit parameter, "U"+unit index+HM/HV/TP/CC
- *  state point parameter, "P"+sp index+H/T/P/W/F/C
- */
+*/
 
 
 #include "tableselectparadialog.h"
@@ -40,8 +33,6 @@
 
 extern int sceneActionIndex;
 extern bool istableinput;
-// extern unit * tableunit;
-// extern Node * tablesp;
 extern QStringList inputEntries;
 extern QStringList outputEntries;
 extern globalparameter globalpara;

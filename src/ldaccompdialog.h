@@ -1,4 +1,4 @@
-/*! \file ldaccompdialog.cpp
+/*! \file ldaccompdialog.h
 
     This file is part of SorpSim and is distributed under terms in the file LICENSE.
 

@@ -1,5 +1,5 @@
-/*! \file ~
-    \brief describe me!
+/*! \file globaldialg.h
+    \brief Provides the class GlobalDialog.
 
     This file is part of SorpSim and is distributed under terms in the file LICENSE.
 

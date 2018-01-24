@@ -1,13 +1,16 @@
-/*valvedialog.cpp
- * [SorpSim v1.0 source code]
- * [developed by Zhiyao Yang and Dr. Ming Qu for ORNL]
- * [last updated: 10/12/15]
- *
- * dialog to edit the operating parameters of a valve component that brings pressure difference to a stream (no setting for generic valve)
- * called by myScene.cpp
- */
+/*! \file valvedialog.cpp
+    \brief Provides the overloaded function convert().
 
+    This file is part of SorpSim and is distributed under terms in the file LICENSE.
 
+    Developed by Zhiyao Yang and Dr. Ming Qu for ORNL.
+
+    \author Zhiyao Yang (zhiyaoYang)
+    \author Dr. Ming Qu
+
+    \copyright 2015, UT-Battelle, LLC
+
+*/
 
 #include "valvedialog.h"
 #include "ui_valvedialog.h"

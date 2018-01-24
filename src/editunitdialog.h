@@ -1,4 +1,4 @@
-/*! \file editunitdialog.cpp
+/*! \file editunitdialog.h
     \brief dialog to edit the properties of an absorption heat exchange component
 
     This file is part of SorpSim and is distributed under terms in the file LICENSE.

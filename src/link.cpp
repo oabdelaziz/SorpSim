@@ -1,17 +1,16 @@
-/*link.cpp
- * [SorpSim v1.0 source code]
- * [developed by Zhiyao Yang and Dr. Ming Qu for ORNL]
- * [last updated: 10/12/15]
- *
- * custom graphic item to indicate stream of working fluid between two state points on two different components (inlet-outlet)
- * draw (and update) the line displayed on the operating panel
- * add an arrow (arrow.cpp) in the middle of the line to indicate the flow direction
- * the object stores pointers towards the two linked state points for searching
- * called by variaous classes in the project
- */
+/*! \file link.cpp
+    \brief Provides the class Link.
 
+    This file is part of SorpSim and is distributed under terms in the file LICENSE.
 
+    Developed by Zhiyao Yang and Dr. Ming Qu for ORNL.
 
+    \author Zhiyao Yang (zhiyaoYang)
+    \author Dr. Ming Qu
+
+    \copyright 2015, UT-Battelle, LLC
+
+*/
 
 
 #include "link.h"

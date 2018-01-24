@@ -1,21 +1,17 @@
 /*! \file unit.cpp
-    \brief draw/transform the components and store component data
 
-    [SorpSim v1.0 source code]
-    [developed by Zhiyao Yang and Dr. Ming Qu for ORNL]
+    This file is part of SorpSim and is distributed under terms in the file LICENSE.
 
-    Provides a class to draw/transform the components and store component data.
-    New components are drawn using more elementary graphics features such as lines and nodes.
-    Each component holds its state points as members.
-    Relationships of state points within the same components are also defined in the drawing code.
-    Component also holds the simple text items to display its own results as well as all its state points' result parameters.
-    In SorpSim, units are stored in a linked list in cases, using pointers to link.
+    Developed by Zhiyao Yang and Dr. Ming Qu for ORNL.
 
     \author Zhiyao Yang (zhiyaoYang)
     \author Dr. Ming Qu
     \author Nicholas Fette (nfette)
-*/
 
+    \copyright 2015, UT-Battelle, LLC
+    \copyright 2017-2018, Nicholas Fette
+
+*/
 
 
 #include "unit.h"

@@ -22,7 +22,7 @@
 /// \copyright 1991-2001, possibly prior and later, Gommed, Zaltash, Grossman, et al.
 /// \copyright 2015, UT-Battelle, LLC
 /// \copyright 2017-2018, Nicholas Fette
-
+///
 
 #include "sorpsimEngine.h"
 #include "mainwindow.h"

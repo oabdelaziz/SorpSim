@@ -1,3 +1,10 @@
+//! \file sorputils.cpp
+//! \brief Utility functions for common tasks required by SorpSim
+//!
+//! Copyright (2018) Nicholas Fette
+//!
+//! \author Nicholas Fette (nfette)
+
 #include "sorputils.h"
 
 QMap<QString, QDomElement> Sorputils::mapElementsByAttribute(const QDomNodeList &nodes, QString attr)

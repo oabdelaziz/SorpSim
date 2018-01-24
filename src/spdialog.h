@@ -1,12 +1,32 @@
+/*! \file spdialog.h
+
+    This file is part of SorpSim and is distributed under terms in the file LICENSE.
+
+    Developed by Zhiyao Yang and Dr. Ming Qu for ORNL.
+
+    \author Zhiyao Yang (zhiyaoYang)
+    \author Dr. Ming Qu
+    \author Nicholas Fette (nfette)
+
+    \copyright 2015, UT-Battelle, LLC
+    \copyright 2017-2018, Nicholas Fette
+
+*/
+
+
 #ifndef SPDIALOG_H
 #define SPDIALOG_H
 
 #include <QDialog>
 #include "node.h"
+
 namespace Ui {
 class spDialog;
 }
 
+/// Dialog to edit the settings and values of parameters of the currently selected state point
+/// - each parameter is either fixed as input with a user-defined value, or marked as unknown
+/// - called by myScene.cpp
 class spDialog : public QDialog
 {
     Q_OBJECT

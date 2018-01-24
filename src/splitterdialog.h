@@ -1,3 +1,17 @@
+/*! \file splitterdialog.h
+
+    This file is part of SorpSim and is distributed under terms in the file LICENSE.
+
+    Developed by Zhiyao Yang and Dr. Ming Qu for ORNL.
+
+    \author Zhiyao Yang (zhiyaoYang)
+    \author Dr. Ming Qu
+
+    \copyright 2015, UT-Battelle, LLC
+
+*/
+
+
 #ifndef SPLITTERDIALOG_H
 #define SPLITTERDIALOG_H
 
@@ -9,6 +23,9 @@ namespace Ui {
 class splitterDialog;
 }
 
+/// Dialog to edit the operating parameters of a splitter to determine the
+/// relationship of flow rates between the 3 streams.
+/// - called by myScene.cpp
 class splitterDialog : public QDialog
 {
     Q_OBJECT

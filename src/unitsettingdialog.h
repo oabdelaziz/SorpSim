@@ -1,3 +1,17 @@
+/*! \file unitsettingdialog.h
+
+    This file is part of SorpSim and is distributed under terms in the file LICENSE.
+
+    Developed by Zhiyao Yang and Dr. Ming Qu for ORNL.
+
+    \author Zhiyao Yang (zhiyaoYang)
+    \author Dr. Ming Qu
+
+    \copyright 2015, UT-Battelle, LLC
+
+*/
+
+
 #ifndef UNITSETTING_H
 #define UNITSETTING_H
 
@@ -11,6 +25,8 @@ namespace Ui {
 class unitsetting;
 }
 
+/// Dialog to edit unit system of current case upon opening a new case or loading an existing case
+/// - called by mainwindow.cpp
 class unitsetting : public QDialog
 {
     Q_OBJECT
@@ -37,10 +53,6 @@ private:
     Ui::unitsetting *ui;
     bool event(QEvent *e);
 };
-
-
-
-
 
 
 #endif // UNITSETTING_H

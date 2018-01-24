@@ -1,4 +1,4 @@
-/*! \file fluiddialog.cpp
+/*! \file fluiddialog.h
     \brief dialog to edit the working fluid available in the current case
 
     This file is part of SorpSim and is distributed under terms in the file LICENSE.

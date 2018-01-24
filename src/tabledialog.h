@@ -1,3 +1,18 @@
+/*! \file tabledialog.h
+
+    This file is part of SorpSim and is distributed under terms in the file LICENSE.
+
+    Developed by Zhiyao Yang and Dr. Ming Qu for ORNL.
+
+    \author Zhiyao Yang (zhiyaoYang)
+    \author Dr. Ming Qu
+    \author Nicholas Fette (nfette)
+
+    \copyright 2015, UT-Battelle, LLC
+    \copyright 2017-2018, Nicholas Fette
+
+*/
+
 #ifndef TABLEDIALOG_H
 #define TABLEDIALOG_H
 
@@ -13,9 +28,23 @@ namespace Ui {
 class tableDialog;
 }
 
-/**
- * @brief The tableDialog class shows a parametric table with input and output columns.
+/*! @brief The tableDialog class shows a parametric table with input and output columns.
  *
+ * Dialog to edit all existing tables in current case and display calculated table outputs
+ * - table can be edited (change row, column variables, copy, delete)
+ * - each row of table is one run of simulation using the input values given in the cell
+ * - if calculation is not successful in one row, it is stopped and the problematic row is highlighted
+ * - if the table inputs are changing gradualy, it is recommended to check the "update guess values" to update the guess value
+ * - after each successful row so that it's more likely to achieve a successful calculation for next row
+ * - called by mainwindow.cpp
+ *
+ * Naming pattern:
+ * - for input,
+ *     - unit parameter, "U"+unit index+UA/NT/EF/CA/LM/HT//WT/NM/NW/NA
+ *     - state point parameter, "P"+sp uindex+lindex+T/P/W/F/C
+ * - for output,
+ *     - unit parameter, "U"+unit index+HM/HV/TP/CC
+ *     - state point parameter, "P"+sp index+H/T/P/W/F/C
  */
 class tableDialog : public QDialog
 {

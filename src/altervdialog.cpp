@@ -1,11 +1,6 @@
 /*! \file altervdialog.cpp
     \brief Alter variable dialog for SorpSim
 
-    dialog to edit the values of cells in an existing parametric table
-    - collects the user input at the dialog, change the global boolean and numeric variables accordingly
-    - the change in table and XML file is enforced in the tableDialog.cpp
-    - called by tabledialog.cpp
-
     This file is part of SorpSim and is distributed under terms in the file LICENSE.
 
     Developed by Zhiyao Yang and Dr. Ming Qu for ORNL.
@@ -42,7 +37,7 @@ extern int alvRowCount;
 
 extern MainWindow*theMainwindow;
 
-//THE LASTVALUE LAYOUT IS: LINEAR, INCREMENTAL, MULTIPLIER, LOG
+
 
 altervDialog::altervDialog(QWidget *parent) :
     QDialog(parent),
@@ -82,6 +77,8 @@ void altervDialog::setInputs(QStringList inputs)
     ui->inputCB->insertItems(0,inputs);
 }
 
+
+/// \todo CAN ADD DETAILED DIRECTION TO WHERE THE PROBLEM IS
 void altervDialog::on_okButton_clicked()
 {
     if((ui->firstRowSB->value()<ui->lastRowSB->value()&&ui->firstRowSB->value()>0)&&(ui->clearValueCB->isChecked()||ui->enterValueCB->isChecked())
@@ -125,7 +122,7 @@ void altervDialog::on_okButton_clicked()
             accept();
             alvAccepted = true;
         }
-        else// CAN ADD DETAILED DIRECTION TO WHERE THE PROBLEM IS
+        else // CAN ADD DETAILED DIRECTION TO WHERE THE PROBLEM IS
         {
             QMessageBox::warning(this, "Warning", "Invalid input. Please try again.");
         }

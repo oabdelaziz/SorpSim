@@ -27,6 +27,13 @@ class altervDialog;
 /**
  * @brief The altervDialog class provides a dialog box that shows when
  * the user selects the "alter variable" button on the parametric table.
+ *
+ * Dialog to edit the values of cells in an existing parametric table
+ *   - collects the user input at the dialog, change the global boolean and numeric variables accordingly
+ *   - the change in table and XML file is enforced in the tableDialog.cpp
+ *   - called by tabledialog.cpp
+ *
+ * THE LASTVALUE LAYOUT IS: LINEAR, INCREMENTAL, MULTIPLIER, LOG
  */
 class altervDialog : public QDialog
 {
