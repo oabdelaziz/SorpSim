@@ -1,3 +1,19 @@
+/*! \file plotproperty.h
+
+    This file is part of SorpSim and is distributed under terms in the file LICENSE.
+
+    Developed by Zhiyao Yang and Dr. Ming Qu for ORNL.
+
+    \author Zhiyao Yang (zhiyaoYang)
+    \author Dr. Ming Qu
+    \author Nicholas Fette (nfette)
+
+    \copyright 2015, UT-Battelle, LLC
+    \copyright 2017-2018, Nicholas Fette
+
+*/
+
+
 #ifndef PLOTPROPERTY_H
 #define PLOTPROPERTY_H
 
@@ -23,6 +39,8 @@
 #include <unitconvert.h>
 #include <QMultiMap>
 
+
+/// Used to represent a state point for drawing an overlay curve
 struct addvalue
 {
     int index;
@@ -31,6 +49,8 @@ struct addvalue
     double add_concentration;
     double add_enthalpy;
 };
+
+
 class DistancePicker: public QwtPlotPicker
 {
 public:
@@ -102,12 +122,17 @@ public:
     }
 };
 
-// Note that QwtPlot inherits QFrame (which inherits QWidget) and so on.
-// So should pass a parent?
+/// Major class for plotting in SorpSim
+/// - two reload constructor subroutines to initiate a parametric/property plot
+/// - calculates status parameters of LiBr according to known variables for plotting
+/// - the property plot background lines are plotted using Tsol and Tref calculated over a range of temperature each given fixed concentration
+/// - the parameric plot points are passed to the class using QMultiMap, a data structure similar to dictionary with keys vs. values
+/// - called by plotsdialog.cpp
+///
+/// \todo pass in parent for constructors?
 class Plot : public QwtPlot
 {
 public:
-    // TODO: pass in parent?
     Plot(QString fluid, QString subType, QString unitSystem);
     Plot(QMultiMap<double,double> data, QStringList xValues, int curveCount, int*axis_info, QStringList axis_name);
     ~Plot();
@@ -135,7 +160,7 @@ private Q_SLOTS:
     void print();
 #endif
 
-    // TODO: implement this method
+    /// \todo implement this method
     void exportDocument();
     void enableZoomMode( bool );
 

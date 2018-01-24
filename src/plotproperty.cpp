@@ -1,15 +1,17 @@
-/*plotproperty.cpp
- * [SorpSim v1.0 source code]
- * [developed by Zhiyao Yang and Dr. Ming Qu for ORNL]
- * [last updated: 10/12/15]
- *
- * a major class for plotting in SorpSim
- * two reload constructor subroutines to initiate a parametric/property plot
- * calculate status parameters of LiBr according to known variables for plotting
- * the property plot background lines are plotted using Tsol and Tref calculated over a range of temperature each given fixed concentration
- * the parameric plot points are passed to the class using QMultiMap, a data structure similar to dictionary with keys vs. values
- * called by plotsdialog.cpp
- */
+/*! \file plotproperty.cpp
+
+    This file is part of SorpSim and is distributed under terms in the file LICENSE.
+
+    Developed by Zhiyao Yang and Dr. Ming Qu for ORNL.
+
+    \author Zhiyao Yang (zhiyaoYang)
+    \author Dr. Ming Qu
+    \author Nicholas Fette (nfette)
+
+    \copyright 2015, UT-Battelle, LLC
+    \copyright 2017-2018, Nicholas Fette
+
+*/
 
 
 

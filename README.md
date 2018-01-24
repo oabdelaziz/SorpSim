@@ -12,7 +12,8 @@ files, but may continue working in a new repository. So please see the fork
 
 # Installing and Running
 
-Look on the [releases](./releases) tab to download the latest released binaries.
+Look on the [releases](https://github.com/nfette/SorpSim/releases)
+tab to download the latest released binaries.
 You can use the self-extracting installer or the archive file appropriate for
 your system. Run the installer or extract the files to the folder of your
 choice, then run the executable (SorpSim).
@@ -44,6 +45,10 @@ make. Enter "install" (no quotes) in the extra arguments tab.
 
 ## Building with qmake
 
+* qmake SorpSim.pro
+* make
+* make install
+
 ## Deployment
 
 To build the installer or a binary distribution, you can use the tool provided
@@ -62,6 +67,7 @@ parameters at the start of build session. More info to follow.
 replacement for nmake. In QtCreator, it is already bundled, and you configure
 its usage in the Projects view. On the command line, simply add it to your path.
 Refer to advice in the Qwt install directions.
+* If you build on command line, substitute nmake (or jom) for make
 
 # Contributing
 

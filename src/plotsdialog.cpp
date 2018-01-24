@@ -1,14 +1,17 @@
-/*plotsdialog.cpp
- * [SorpSim v1.0 source code]
- * [developed by Zhiyao Yang and Dr. Ming Qu for ORNL]
- * [last updated: 10/12/15]
- *
- * dialog to display and edit all available plots (parametric and property) in the current case
- * create a copy of the case XML file and operates on the plot part of the copy
- * upon close, the plot part in the copy XML file with all the changes are merged into the original case file and overwrite the previous ones
- * called by myScene.cpp, mainwindow.cpp
- */
+/*! \file plotsdialog.cpp
 
+    This file is part of SorpSim and is distributed under terms in the file LICENSE.
+
+    Developed by Zhiyao Yang and Dr. Ming Qu for ORNL.
+
+    \author Zhiyao Yang (zhiyaoYang)
+    \author Dr. Ming Qu
+    \author Nicholas Fette (nfette)
+
+    \copyright 2015, UT-Battelle, LLC
+    \copyright 2017-2018, Nicholas Fette
+
+*/
 
 
 #include "plotsdialog.h"
@@ -51,9 +54,8 @@
 
 extern myScene * theScene;
 extern MainWindow * theMainwindow;
-
-
 extern globalparameter globalpara;
+
 
 class Zoomer: public QwtPlotZoomer
 {

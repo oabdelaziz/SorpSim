@@ -12,7 +12,7 @@ You may want to start with these topics:
 * Data structures: [unit](\ref unit), Node, Link
 * Solver engine (progressively deeper): dataComm.h, [calculate](\ref calculate), [absdCal](\ref absdCal),
 [program_sorpsimEngine](\ref program_sorpsimEngine), [hybrd1](\ref hybrd1), [hybridm](\ref hybrdm)
-* Features: tableDialog, plotsDialog
+* Features: tableDialog, plotsDialog, Plot
 * Serialization: see blank_v1.1.xml in the src directory, Sorputils, ...
 
 Good luck!

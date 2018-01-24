@@ -1,15 +1,17 @@
-/*pumpdialog.cpp
- * [SorpSim v1.0 source code]
- * [developed by Zhiyao Yang and Dr. Ming Qu for ORNL]
- * [last updated: 10/12/15]
- *
- * dialog to edit the operating parameters of a pump/compressor component that brings pressure difference to a liquid/gas stream
- * the pump component allows pressure difference between both ends
- * if work is going to be calculated, either isentropic or non-isentropic mode can be selected
- * isentropic efficiency is calculated between the inside point (ideal point) and the outlet
- * called by myScene.cpp
- */
+/*! \file pumpdialog.cpp
 
+    This file is part of SorpSim and is distributed under terms in the file LICENSE.
+
+    Developed by Zhiyao Yang and Dr. Ming Qu for ORNL.
+
+    \author Zhiyao Yang (zhiyaoYang)
+    \author Dr. Ming Qu
+    \author Nicholas Fette (nfette)
+
+    \copyright 2015, UT-Battelle, LLC
+    \copyright 2017-2018, Nicholas Fette
+
+*/
 
 
 #include "pumpdialog.h"
