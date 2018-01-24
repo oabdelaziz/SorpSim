@@ -8,7 +8,7 @@ activated cooling and heating technologies.
 * Please switch to the new repository [sorpsim-opt](https://github.com/nfette/sorpsim-opt).
   Explanation below.
 * To download installer see the Releases link on Github
-* Documentation [read the documentation](http://www.public.asu.edu/~nfette/SorpSim/latest/)
+* Developers: [documentation](http://www.public.asu.edu/~nfette/SorpSim/latest/)
 
 Note from nfette: After the release of v1.1, I am planning to discontinue 
 pushing to this particular repository in order to remove some large binary
@@ -29,12 +29,14 @@ choice, then run the executable (SorpSim).
 To compile this yourself you need to install these prerequisites:
 
 * Any modern C++ compiler
-* Qt version 5 (tested with 5.9.3)
+* Qt version >5 (tested with 5.9.3)
 * Qwt http://qwt.sourceforge.net/ (follow instructions to build and install)
 
 Configure the project file, SorpSim.pro.
 
 * Set the paths to find Qwt library and (optional) sources
+* Note that there is a target called 'install' that just copies the extra files
+  (examples, settings, etc) into the build directory. It doesn't install the program.
 
 QtCreator is a convenient IDE for working on code that uses Qt, but it is not
 required to build the code. You can also just build on the command line.

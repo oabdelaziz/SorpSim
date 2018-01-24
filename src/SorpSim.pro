@@ -10,10 +10,11 @@ QT       += printsupport
 
 CONFIG   += qwt console
 
+# Uncomment if you want to set this in here, otherwise set an environment variable
+#QWTPATH=C:\qwt-6.1.0
 INCLUDEPATH += $$(QWTPATH)/src
 DEPENDPATH += $$(QWTPATH)/src
 
-#LIBS += C:\qwt-6.1.0\lib\qwt.dll
 win32:CONFIG(release, debug|release): LIBS += -L$$(QWTPATH)/lib/ -lqwt
 else:win32:CONFIG(debug, debug|release): LIBS += -L$$(QWTPATH)/lib/ -lqwtd
 else:unix: LIBS += -L$$(QWTPATH)/lib/ -lqwt
@@ -24,9 +25,37 @@ else:unix: LIBS += -L$$(QWTPATH)/lib/ -lqwt
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
+# Usage: make
+# Then you get SorpSim.exe
 TARGET = SorpSim
 TEMPLATE = app
 
+#----------------------------------------------
+# Conveniences for building to debug and deploy
+#----------------------------------------------
+
+# https://stackoverflow.com/questions/3984104/qmake-how-to-copy-a-file-to-the-output
+# Copies the given files to the destination directory
+defineReplace(copySafe){
+    files = $$1
+    DEST = $$2
+
+    for(FILE, files) {
+
+        # Replace slashes in paths with backslashes for Windows
+        win32:FILE ~= s,/,\\,g
+        win32:DEST ~= s,/,\\,g
+
+        CMD += $$QMAKE_COPY $$quote($$FILE) $$quote($$DEST) $$escape_expand(\\n\\t)
+    }
+
+    return($$CMD)
+}
+
+# Usage: make install
+# This copies the extra resource files (eg *.xml) to the build directory
+# but does not really install the program anywhere.
+# There is probably another way, to avoid the confusion.
 CONFIG(debug, debug|release) {TARGET_PATH = $$OUT_PWD/debug}
 CONFIG(release, debug|release) {TARGET_PATH = $$OUT_PWD/release}
 mythinga.path = $$TARGET_PATH/platforms
@@ -34,6 +63,20 @@ mythinga.files = platforms/*
 mythingb.path = $$TARGET_PATH/templates
 mythingb.files = templates/*
 INSTALLS += mythinga mythingb
+
+# Usage(Windows only): make deploy
+# Drops needed Qt libraries into the build directory so you can run without IDE.
+deployall.target = deploy
+deployall.depends = deployqwt deployqt
+WINDEPLOY = windeployqt.exe
+deployqt.commands = $$WINDEPLOY $$TARGET_PATH -opengl
+# If something goes wrong, probably you need these:
+#-printsupport -svg -xml -opengl -widgets -gui --angle -concurrent -core
+CONFIG(debug, debug|release){ qwtdll = $$(QWTPATH)/lib/qwtd.dll }
+CONFIG(release, debug|release){ qwtdll = $$(QWTPATH)/lib/qwt.dll }
+deployqwt.commands = $$copySafe($$qwtdll, $$TARGET_PATH)
+
+QMAKE_EXTRA_TARGETS += deployall deployqt deployqwt
 
 SOURCES += main.cpp \
     unitconvert.cpp \
