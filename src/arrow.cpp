@@ -11,6 +11,7 @@
 #include "arrow.h"
 #include <QPen>
 #include <QPainter>
+#include <QDebug>
 
 arrow::arrow()
 {

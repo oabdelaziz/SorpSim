@@ -11,6 +11,7 @@
 #include "airarrow.h"
 #include <QPen>
 #include <QPainter>
+#include <QDebug>
 
 airArrow::airArrow()
 {
