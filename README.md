@@ -6,4 +6,7 @@ this is a Sorption system simulation tool to evaluate different thermally activa
 ## Major Contributors
 * Zhiyao Yang, https://github.com/zhiyaoyang, yang573@purdue.edu
 * Dr. Ming Qu, mqu@purdue.edu
+* Dr. Omar Abdelaziz
+* Dr. Kyle R. Gluesenkamp
+* Xin Tang
 * Nicolas Fette, https://github.com/nfette
