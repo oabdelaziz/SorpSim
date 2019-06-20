@@ -1,3 +1,17 @@
+/*! \file linkdialog.h
+
+    This file is part of SorpSim and is distributed under terms in the file LICENSE.
+
+    Developed by Zhiyao Yang and Dr. Ming Qu for ORNL.
+
+    \author Zhiyao Yang (zhiyaoYang)
+    \author Dr. Ming Qu
+
+    \copyright 2015, UT-Battelle, LLC
+
+*/
+
+
 #ifndef LINKDIALOG_H
 #define LINKDIALOG_H
 
@@ -8,6 +22,10 @@ namespace Ui {
 class linkDialog;
 }
 
+/// dialog to select the common parameter settings/values once two points of the new link is selected
+/// - the user can either choose one point's all parameters to overwrite the other one's
+///   or re-define the parameters in a subsequent spdialog
+/// - called by myscene.cpp
 class linkDialog : public QDialog
 {
     Q_OBJECT

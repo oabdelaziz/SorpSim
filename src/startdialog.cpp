@@ -1,13 +1,17 @@
-/*startdialog.cpp
- * [SorpSim v1.0 source code]
- * [developed by Zhiyao Yang and Dr. Ming Qu for ORNL]
- * [last updated: 10/12/15]
- *
- * first dialog to show at SorpSim's launch with new/load tabs
- * user can either start a new case (with/without templates), or load a recent case/locate a case file himself
- * the name and location of templates (example cases) should match the case files
- * called by mainwindow.cpp
- */
+/*! \file startdialog.cpp
+
+    This file is part of SorpSim and is distributed under terms in the file LICENSE.
+
+    Developed by Zhiyao Yang and Dr. Ming Qu for ORNL.
+
+    \author Zhiyao Yang (zhiyaoYang)
+    \author Dr. Ming Qu
+    \author Nicholas Fette (nfette)
+
+    \copyright 2015, UT-Battelle, LLC
+    \copyright 2017-2018, Nicholas Fette
+
+*/
 
 
 #include "startdialog.h"
@@ -16,6 +20,7 @@
 #include <QLayout>
 #include "dataComm.h"
 #include "mainwindow.h"
+#include "sorputils.h"
 
 extern globalparameter globalpara;
 extern MainWindow*theMainwindow;
@@ -26,7 +31,7 @@ startDialog::startDialog(QWidget *parent) :
 {
     ui->setupUi(this);
 
-    setWindowFlags(Qt::Tool);
+    setWindowFlags(Qt::Dialog);
     setWindowModality(Qt::WindowModal);
     setWindowTitle(" ");
     ui->label->setText("Welcome to SorpSim!");
@@ -125,14 +130,7 @@ bool startDialog::event(QEvent *e)
 
 bool startDialog::loadRecentFiles()
 {
-#ifdef Q_OS_WIN32
-    QString fileName(QDir(qApp->applicationDirPath()).absolutePath()+"/platforms/systemSetting.xml");
-#endif
-#ifdef Q_OS_MAC
-    QDir dir = qApp->applicationDirPath();
-    QString fileName(dir.absolutePath()+"/templates/systemSetting.xml");
-#endif
-    QFile ofile(fileName);
+    QFile ofile(Sorputils::sorpSettings());
     QDomDocument doc;
     if(!ofile.open(QIODevice::ReadOnly|QIODevice::Text))
         return false;

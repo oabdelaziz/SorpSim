@@ -1,0 +1,10 @@
+<RCC>
+    <qresource prefix="/examples">
+        <file>templates/DCCAP.xml</file>
+        <file>templates/DECP.xml</file>
+        <file>templates/GAX.xml</file>
+        <file>templates/LDAC.xml</file>
+        <file>templates/LDAC2.xml</file>
+        <file>templates/SEC.xml</file>
+    </qresource>
+</RCC>

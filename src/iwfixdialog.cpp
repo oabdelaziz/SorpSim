@@ -1,14 +1,18 @@
-/*iwfixdialog.cpp
- * [SorpSim v1.0 source code]
- * [developed by Zhiyao Yang and Dr. Ming Qu for ORNL]
- * [last updated: 10/12/15]
- *
- * dialog to edit vapor fraction variable groups
- * called by vicheckdialog.cpp
- */
+/*! \file iwfixdialog.cpp
+    \brief Provides the class iwfixDialog.
 
+    This file is part of SorpSim and is distributed under terms in the file LICENSE.
 
+    Developed by Zhiyao Yang and Dr. Ming Qu for ORNL.
 
+    \author Zhiyao Yang (zhiyaoYang)
+    \author Dr. Ming Qu
+    \author Nicholas Fette (nfette)
+
+    \copyright 2015, UT-Battelle, LLC
+    \copyright 2017-2018, Nicholas Fette
+
+*/
 
 
 #include "iwfixdialog.h"
@@ -44,7 +48,7 @@ iwfixDialog::iwfixDialog(QWidget *parent) :
     ui(new Ui::iwfixDialog)
 {
     ui->setupUi(this);
-    setWindowFlags(Qt::Tool);
+    setWindowFlags(Qt::Dialog);
     setWindowModality(Qt::ApplicationModal);
     setWindowTitle("Vapor Fraction");
     ui->label->setText("Please define state points that have same vapor fraction.");
@@ -344,10 +348,9 @@ void iwfixDialog::on_addButton_clicked()
 
 void iwfixDialog::on_removeButton_clicked()
 {
-    QMessageBox * removeBox = new QMessageBox;
     QMessageBox::StandardButton reply;
     bool confirmed;
-    reply = QMessageBox::question(removeBox,"Warning",
+    reply = QMessageBox::question(this,"Warning",
                                   "Are you sure to remove this group?",
                                   QMessageBox::Yes|QMessageBox::No);
     confirmed = (reply == QMessageBox::Yes);

@@ -1,3 +1,17 @@
+/*! \file startdialog.h
+
+    This file is part of SorpSim and is distributed under terms in the file LICENSE.
+
+    Developed by Zhiyao Yang and Dr. Ming Qu for ORNL.
+
+    \author Zhiyao Yang (zhiyaoYang)
+    \author Dr. Ming Qu
+
+    \copyright 2015, UT-Battelle, LLC
+
+*/
+
+
 #ifndef STARTDIALOG_H
 #define STARTDIALOG_H
 
@@ -7,6 +21,10 @@ namespace Ui {
 class startDialog;
 }
 
+/// First dialog to show at SorpSim's launch with new/load tabs
+/// - user can either start a new case (with/without templates), or load a recent case/locate a case file himself
+/// - the name and location of templates (example cases) should match the case files
+/// - called by mainwindow.cpp
 class startDialog : public QDialog
 {
     Q_OBJECT

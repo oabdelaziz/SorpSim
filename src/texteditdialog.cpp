@@ -1,12 +1,17 @@
-/*texteditdialog.cpp
- * [SorpSim v1.0 source code]
- * [developed by Zhiyao Yang and Dr. Ming Qu for ORNL]
- * [last updated: 10/12/15]
- *
- * dialog to add or edit custom text item on the operating panel
- * called by myScene.cpp
- */
+/*! \file texteditdialog.cpp
 
+    This file is part of SorpSim and is distributed under terms in the file LICENSE.
+
+    Developed by Zhiyao Yang and Dr. Ming Qu for ORNL.
+
+    \author Zhiyao Yang (zhiyaoYang)
+    \author Dr. Ming Qu
+    \author Nicholas Fette (nfette)
+
+    \copyright 2015, UT-Battelle, LLC
+    \copyright 2017-2018, Nicholas Fette
+
+*/
 
 
 #include "texteditdialog.h"
@@ -44,7 +49,7 @@ textedit::textedit(QWidget *parent, SimpleTextItem * textitem):
 
     }
     ui->comboBox_color->setCurrentIndex(ui->comboBox_color->findData(textitem->brush().color(), Qt::DecorationRole));
-    setWindowFlags(Qt::Tool);
+    setWindowFlags(Qt::Dialog);
     setWindowModality(Qt::ApplicationModal);
     QLayout *mainLayout = layout();
     mainLayout->setSizeConstraint(QLayout::SetFixedSize);

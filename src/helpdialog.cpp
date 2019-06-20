@@ -1,14 +1,16 @@
-/*helpdialog.cpp
- * [SorpSim v1.0 source code]
- * [developed by Zhiyao Yang and Dr. Ming Qu for ORNL]
- * [last updated: 10/12/15]
- *
- * dialog to display help information about functions and features of SorpSim
- * based on XML file "systemSettings.xml" placed in "/platforms"
- * can be edited using the "helpEditor" included in the software package
- * called by mainwindow.cpp
- */
+/*! \file helpdialog.cpp
+    \brief Provides the class helpDialog.
 
+    This file is part of SorpSim and is distributed under terms in the file LICENSE.
+
+    Developed by Zhiyao Yang and Dr. Ming Qu for ORNL.
+
+    \author Zhiyao Yang (zhiyaoYang)
+    \author Dr. Ming Qu
+
+    \copyright 2015, UT-Battelle, LLC
+
+*/
 
 
 #include "helpdialog.h"
@@ -16,6 +18,7 @@
 #include <QDebug>
 #include "dataComm.h"
 #include "mainwindow.h"
+#include "sorputils.h"
 
 extern globalparameter globalpara;
 
@@ -47,17 +50,9 @@ void helpDialog::on_itemList_itemActivated(QTreeWidgetItem *item, int column)
 
 
     QString itemName = item->text(0);
-    itemName.replace(" ","_");
+    itemName.replace(" ","_");    
 
-#ifdef Q_OS_WIN32
-    QString fileName(QDir(qApp->applicationDirPath()).absolutePath()+"/platforms/systemSetting.xml");
-#endif
-#ifdef Q_OS_MAC
-    QDir dir = qApp->applicationDirPath();
-    QString fileName(dir.absolutePath()+"/templates/systemSetting.xml");
-#endif
-
-    QFile ofile(fileName);
+    QFile ofile(Sorputils::sorpSettings());
     QDomDocument doc;
     if(!ofile.open((QIODevice::ReadOnly|QIODevice::Text))){
         qDebug()<<"no file";
@@ -101,15 +96,7 @@ bool helpDialog::loadList()
 {
     list->clear();
 
-#ifdef Q_OS_WIN32
-    QString fileName(QDir(qApp->applicationDirPath()).absolutePath()+"/platforms/systemSetting.xml");
-#endif
-#ifdef Q_OS_MAC
-    QDir dir = qApp->applicationDirPath();
-    QString fileName(dir.absolutePath()+"/templates/systemSetting.xml");
-#endif
-
-    QFile ofile(fileName);
+    QFile ofile(Sorputils::sorpSettings());
     QDomDocument doc;
     if(!ofile.open((QIODevice::ReadOnly|QIODevice::Text))){
         qDebug()<<"no file";

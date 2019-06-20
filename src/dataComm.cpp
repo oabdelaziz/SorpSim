@@ -1,16 +1,18 @@
-/*dataComm.cpp
- * [SorpSim v1.0 source code]
- * [developed by Zhiyao Yang and Dr. Ming Qu for ORNL]
- * [last updated: 10/12/15]
- *
- * custom class to store variables and subroutines to edit those variables
- * consisted of 3 structs:
- * globalparameter that store globally accessible variables and subroutines
- * esp. (1)number of components to assist search through the component linked-list in the case data structure
- * (2) variable groups and related subroutines
- * inputs/outputs that store case configuration and parameter values during calculation procedure
- * called by most other classes in the project
- */
+/*! \file dataComm.cpp
+    \brief Interface classes between SorpSim and ABSIM
+
+    This file is part of SorpSim and is distributed under terms in the file LICENSE.
+
+    Developed by Zhiyao Yang and Dr. Ming Qu for ORNL.
+
+    \author Zhiyao Yang (zhiyaoYang)
+    \author Dr. Ming Qu
+    \author Nicholas Fette (nfette)
+
+    \copyright 2015, UT-Battelle, LLC
+    \copyright 2017-2018, Nicholas Fette
+
+*/
 
 #include "dataComm.h"
 #include <QString>
@@ -22,6 +24,7 @@
 #include "unit.h"
 #include "node.h"
 #include "sorpsimEngine.h"
+#include "sorputils.h"
 
 extern globalparameter globalpara;
 extern int globalcount;
@@ -242,11 +245,7 @@ void globalparameter::resetIfixes(const char parameter)
 
 void globalparameter::reportError(QString errorMessage, QWidget *parent)
 {
-    QMessageBox *mBox = new QMessageBox(parent);
-    mBox->setWindowTitle("Warning");
-    mBox->setText(errorMessage);
-    mBox->setModal(true);
-    mBox->exec();
+    QMessageBox::warning(parent, "Warning", errorMessage);
 }
 
 void globalparameter::addGroup(const char parameter, QSet<Node *> spSet)
@@ -401,17 +400,8 @@ bool globalparameter::findNextPtxPoint(Node *thisNode, Node *StartingNode)
 
 void globalparameter::removeRecentFile(QString delFileName)
 {
-#ifdef Q_OS_WIN32
-    QString fileName(QDir(qApp->applicationDirPath()).absolutePath()+"/platforms/systemSetting.xml");
-#endif
 
-#ifdef Q_OS_MAC
-    QDir dir = qApp->applicationDirPath();
-    QString fileName(dir.absolutePath()+"/templates/systemSetting.xml");
-#endif
-
-
-    QFile ofile(fileName);
+    QFile ofile(Sorputils::sorpSettings());
     QTextStream stream;
     QDomDocument doc;
     if(!ofile.open(QIODevice::ReadWrite|QIODevice::Text))
