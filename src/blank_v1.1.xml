@@ -1,0 +1,35 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<root version="v1.1">
+    <CaseData>
+        <globalData>
+            <textitem></textitem>
+        </globalData>
+        <Unit></Unit>
+        <Unit></Unit>
+        <Unit></Unit>
+    </CaseData>
+    <TableData>
+        <table>
+            <headers></headers>
+            <inputEntries></inputEntries>
+            <outputEntries></outputEntries>
+            <Run></Run>
+            <Run></Run>
+            <Run></Run>
+        </table>
+    </TableData>
+    <plotData>
+        <plot title="plot_1" plotType="property">
+            <general></general>
+            <legend></legend>
+            <grid></grid>
+            <Run></Run>
+            <Run></Run>
+            <Run></Run>
+            <curveList>
+                <curve class="overlay" title="curve_1"/>
+                <curve class="overlay" title="curve_2"/>
+            </curveList>
+        </plot>
+    </plotData>
+</root>

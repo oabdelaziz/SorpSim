@@ -10,6 +10,12 @@ namespace Ui {
 class dehumEffDialog;
 }
 
+/*!
+    Dialog to edit the properties of an adiabatic liquid desiccant component
+    - either effectiveness or NTU value is given
+    - called by myscene.cpp
+    - extend effectiveness value precision to 7 digits after decimal point
+*/
 class dehumEffDialog : public QDialog
 {
     Q_OBJECT

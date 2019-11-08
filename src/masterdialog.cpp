@@ -1,13 +1,17 @@
-/*masterdialog.cpp
- * [SorpSim v1.0 source code]
- * [developed by Zhiyao Yang and Dr. Ming Qu for ORNL]
- * [last updated: 10/12/15]
- *
- * dialog to edit the properties of an adiabatic liquid desiccant component
- * either effectiveness or NTU value is given
- * called by myscene.cpp
- */
+/*! \file masterdialog.cpp
 
+    This file is part of SorpSim and is distributed under terms in the file LICENSE.
+
+    Developed by Zhiyao Yang and Dr. Ming Qu for ORNL.
+
+    \author Zhiyao Yang (zhiyaoYang)
+    \author Dr. Ming Qu
+    \author Nicholas Fette (nfette)
+
+    \copyright 2015, UT-Battelle, LLC
+    \copyright 2017-2018, Nicholas Fette
+
+*/
 
 
 #include "masterdialog.h"
@@ -38,7 +42,6 @@ extern int spnumber;
 extern QRect mainwindowSize;
 extern MainWindow*theMainwindow;
 
-masterDialog*theMasterDialog;
 
 bool initializing;
 masterDialog::masterDialog(QWidget *parent) :
@@ -47,8 +50,7 @@ masterDialog::masterDialog(QWidget *parent) :
 {
     ui->setupUi(this);
 
-    theMasterDialog = this;
-    setWindowFlags(Qt::Tool);
+    setWindowFlags(Qt::Dialog);
     setWindowModality(Qt::WindowModal);
     setWindowTitle("Master Panel");
     initializing = true;
@@ -586,14 +588,12 @@ void masterDialog::enforceValueChanges(Node *node, QString paraName, double valu
 
             if(warn)
             {
-                QMessageBox *mBox = new QMessageBox;
-                mBox->addButton("OK",QMessageBox::YesRole);
-                mBox->addButton("Cancel",QMessageBox::NoRole);
-                mBox->setWindowTitle("Warning");
-                mBox->setText("This will set "+parameterName+" of sp"+QString::number(node->ndum)+list.join("")+" to "+QString::number(value)+" "+unitString);
-                mBox->exec();
+                QMessageBox::StandardButton result = QMessageBox::question(
+                            this,
+                            "Warning",
+                            "This will set "+parameterName+" of sp"+QString::number(node->ndum)+list.join("")+" to "+QString::number(value)+" "+unitString);
                 masterPanelCell*cell;
-                if(mBox->buttonRole(mBox->clickedButton())==QMessageBox::YesRole)
+                if(result == QMessageBox::Yes)
                 {
                     foreach(QString row,listIndex)
                     {
@@ -601,12 +601,12 @@ void masterDialog::enforceValueChanges(Node *node, QString paraName, double valu
                         cell->setValue(value);
                     }
                 }
-                else if(mBox->buttonRole(mBox->clickedButton())==QMessageBox::NoRole)
+                else
                 {
                     foreach(QString row,listIndex)
                     {
                         cell = dynamic_cast<masterPanelCell*>(spTable->cellWidget(row.toInt()-1,column));
-                           if(cell->isFocused)
+                        if(cell->isFocused)
                             cell->setValue(oldValue);
                     }
                 }
@@ -692,17 +692,16 @@ void masterDialog::enforceIndexChanges(Node *node, QString paraName, int index)
 
         if(warn)
         {
-            QMessageBox *mBox = new QMessageBox;
-            mBox->addButton("OK",QMessageBox::YesRole);
-            mBox->addButton("Cancel",QMessageBox::NoRole);
-            mBox->setWindowTitle("Warning");
             QString fvstring;
             if(index==0) fvstring = " as fixed inputs.";
             else if(index ==1) fvstring = " as unknown variables.";
-            mBox->setText("This will set "+parameterName+" of sp"+QString::number(node->ndum)+list.join("")+fvstring);
-            mBox->exec();
+            QMessageBox::StandardButton result = QMessageBox::question(
+                        this,
+                        "Warning",
+                        "This will set "+parameterName+" of sp"+QString::number(node->ndum)+list.join("")+fvstring);
+
             QComboBox*Combo;
-            if(mBox->buttonRole(mBox->clickedButton())==QMessageBox::YesRole)
+            if(result == QMessageBox::Yes)
             {
                 initializing = true;
                 foreach(QString row,listIndex)
@@ -712,7 +711,7 @@ void masterDialog::enforceIndexChanges(Node *node, QString paraName, int index)
                 }
                 initializing = false;
             }
-            else if(mBox->buttonRole(mBox->clickedButton())==QMessageBox::NoRole)
+            else
             {
                 initializing = true;
                 foreach(QString row,listIndex)
@@ -997,8 +996,6 @@ void masterDialog::on_exportBox_currentTextChanged(const QString &arg1)
 
 void masterDialog::on_guessButton_clicked()
 {
-    theMasterDialog=this;
-    guessDialog * gDialog = new guessDialog(true,theMainwindow);
-    gDialog->setModal(false);
-    gDialog->exec();
+    guessDialog gDialog(true,this);
+    gDialog.exec();
 }

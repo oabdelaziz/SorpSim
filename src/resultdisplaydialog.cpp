@@ -1,12 +1,17 @@
-/*resultdisplaydialog.cpp
- * [SorpSim v1.0 source code]
- * [developed by Zhiyao Yang and Dr. Ming Qu for ORNL]
- * [last updated: 10/12/15]
- *
- * dialog to edit which result parameters to superimpose on the operating panel
- * called by mainwindow.cpp
- */
+/*! \file resultdisplaydialog.cpp
 
+    This file is part of SorpSim and is distributed under terms in the file LICENSE.
+
+    Developed by Zhiyao Yang and Dr. Ming Qu for ORNL.
+
+    \author Zhiyao Yang (zhiyaoYang)
+    \author Dr. Ming Qu
+    \author Nicholas Fette (nfette)
+
+    \copyright 2015, UT-Battelle, LLC
+    \copyright 2017-2018, Nicholas Fette
+
+*/
 
 
 #include "resultdisplaydialog.h"
@@ -18,7 +23,6 @@
 #include <QDebug>
 #include "dataComm.h"
 
-extern QString fname;
 extern int globalcount;
 extern int spnumber;
 unit * iterator;
@@ -33,7 +37,7 @@ resultDisplayDialog::resultDisplayDialog(QWidget *parent) :
 
     ui->setupUi(this);
 
-    setWindowFlags(Qt::Tool);
+    setWindowFlags(Qt::Dialog);
     setWindowModality(Qt::ApplicationModal);
     setWindowTitle("Results");
 

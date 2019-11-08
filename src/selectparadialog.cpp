@@ -1,24 +1,17 @@
-/*selectparadialog.cpp
- * [SorpSim v1.0 source code]
- * [developed by Zhiyao Yang and Dr. Ming Qu for ORNL]
- * [last updated: 10/12/15]
- *
- * dialog to select parameter(s) from the currently selected component/state point as the input/output of a parametric table
- * called by myScene.cpp
- */
+/*! \file selectparadialog.cpp
 
+    This file is part of SorpSim and is distributed under terms in the file LICENSE.
 
+    Developed by Zhiyao Yang and Dr. Ming Qu for ORNL.
 
+    \author Zhiyao Yang (zhiyaoYang)
+    \author Dr. Ming Qu
+    \author Nicholas Fette (nfette)
 
+    \copyright 2015, UT-Battelle, LLC
+    \copyright 2017-2018, Nicholas Fette
 
-/*naming pattern:
- *for input,
- *  unit parameter, "U"+unit index+UA/NT/EF/CA/LM/HT//WT/NM/NW/NA
- *  state point parameter, "P"+sp uindex+lindex+T/P/W/F/C
- *for output,
- *  unit parameter, "U"+unit index+HM/HV/TP/CC
- *  state point parameter, "P"+sp index+H/T/P/W/F/C
- */
+*/
 
 
 #include "selectparadialog.h"
@@ -30,8 +23,6 @@
 
 extern globalparameter globalpara;
 extern MainWindow*theMainwindow;
-extern unit* tableunit;
-extern Node* tablesp;
 extern QStringList inputEntries;
 extern QStringList outputEntries;
 extern bool istableinput;
@@ -42,7 +33,7 @@ selectParaDialog::selectParaDialog(QWidget *parent) :
 {
     ui->setupUi(this);
     setWindowTitle("Select parameter(s)");
-    setWindowFlags(Qt::Tool);
+    setWindowFlags(Qt::Dialog);
     setWindowModality(Qt::ApplicationModal);
 
     QLayout *mainLayout = layout();
@@ -56,8 +47,9 @@ selectParaDialog::~selectParaDialog()
 
 }
 
-void selectParaDialog::setUnit(unit *)
+void selectParaDialog::setUnit(unit * const tableunit)
 {
+    this->tableunit = tableunit;
 
     if(istableinput)
     {
@@ -200,8 +192,10 @@ void selectParaDialog::setUnit(unit *)
     }
 }
 
-void selectParaDialog::setStatePoint(Node *)
+void selectParaDialog::setStatePoint(Node * const tablesp)
 {
+    this->tablesp = tablesp;
+
     ui->locationlb->setText("You have selected State Point#"+QString::number(tablesp->ndum));
 
     if(istableinput)

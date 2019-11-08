@@ -1,3 +1,17 @@
+/*! \file calcdetaildialog.h
+    \brief Provides the class calcDetailDialog.
+
+    This file is part of SorpSim and is distributed under terms in the file LICENSE.
+
+    Developed by Zhiyao Yang and Dr. Ming Qu for ORNL.
+
+    \author Zhiyao Yang (zhiyaoYang)
+    \author Dr. Ming Qu
+
+    \copyright 2015, UT-Battelle, LLC
+
+*/
+
 #ifndef CALCDETAILDIALOG_H
 #define CALCDETAILDIALOG_H
 
@@ -8,6 +22,10 @@ namespace Ui {
 class calcDetailDialog;
 }
 
+/// Dialog to display the detail of the last calculation
+/// - shows the function residuals and
+/// - the change in table and XML file is enforced in the tableDialog.cpp
+/// - called by calculate.cpp, mainwindow.cpp
 class calcDetailDialog : public QDialog
 {
     Q_OBJECT

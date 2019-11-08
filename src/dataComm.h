@@ -1,3 +1,37 @@
+/*!
+\file dataComm.h
+\brief Interface classes between SorpSim and ABSIM
+
+Common data structures
+
+Custom classes to store variables and subroutines to edit those variables.
+These are mostly used to communicate between SorpSim GUI and ABSIM engine.
+This module consists of 3 structs.
+    - globalparameter that store globally accessible variables and subroutines, esp.
+        1. number of components to assist search through the component linked-list in the case data structure
+        2. variable groups and related subroutines
+    - inputs that store case configuration and parameter values during calculation procedure
+    - outputs from calculation
+
+These classes are used extensively throughout SorpSim.
+
+\todo convert most floats to double to avoid loss of precision
+since sorpsimEngine is mostly using doubles anyway.
+
+This file is part of SorpSim and is distributed under terms in the file LICENSE.
+
+Developed by Zhiyao Yang and Dr. Ming Qu for ORNL.
+
+\author Zhiyao Yang (zhiyaoYang)
+\author Dr. Ming Qu
+\author Nicholas Fette (nfette)
+
+\copyright 2015, UT-Battelle, LLC
+\copyright 2017-2018, Nicholas Fette
+
+*/
+
+
 #ifndef DATACOMM_H
 #define DATACOMM_H
 #include <QString>
@@ -8,6 +42,8 @@
 #include "node.h"
 #include <QMessageBox>
 #include <QMultiMap>
+
+/// \{
 
 struct calInputs
 {
@@ -22,8 +58,8 @@ struct calInputs
     int nunits;
     int maxfev;
     int msglvl;
-    float ftol;
-    float xtol;
+    double ftol;
+    double xtol;
 
 //    unit para
     int idunit[50];
@@ -129,6 +165,7 @@ struct calOutputs
     double distributionH[50][101];
 
 
+    // TODO: this is used as write-only and never read out.
     QStringList equations;
     QStringList singularIndex;
 
@@ -148,8 +185,8 @@ struct globalparameter
     int maxfev;
     int msglvl;
     int iuflag;
-    float ftol;
-    float xtol;
+    double ftol;
+    double xtol;
     bool updateGuessValues;
 
     float cop;
@@ -184,7 +221,7 @@ struct globalparameter
     QStringList recentFileList;
     QStringList fluidInventory = (QStringList()<<"LiBr-H2O,1"<<"H2O-NH3,2"<<"H2O,3"<<"LiBr-H2O-NH3,4"<<"LiBr/ZnBr2-CH3OH,5"<<"CH3OH,6"<<
                                   "LiNO3/KNO3/NaNO3-H2O,7"<<"NaOH-H2O,8"<<"LiCl-H2O,9"<<"Moist Air,10"<<"Flue Gas,11"<<
-                                  "R12,12"<<"[C2mim][OAc],14"<<"R134a,134"<<"R152a,152"<<"R22,22"<<"R290,290"<<"R32,32"<<"R410A,411");
+                                  "R12,12"<<"[C2mim][OAc],14"<<"Ionic Liquid,15"<<"R134a,134"<<"R152a,152"<<"R22,22"<<"R290,290"<<"R32,32"<<"R410A,411");
 
     bool resUA,resNTU,resEFF,resCAT,resLMTD,resHT;
     bool resT,resF,resC,resW,resP,resH;
@@ -221,5 +258,7 @@ struct globalparameter
 
 
 };
+
+/// \}
 
 #endif // DATACOMM_H

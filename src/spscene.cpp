@@ -1,12 +1,17 @@
-/*spscene.cpp
- * [SorpSim v1.0 source code]
- * [developed by Zhiyao Yang and Dr. Ming Qu for ORNL]
- * [last updated: 10/12/15]
- *
- * custom QGraphicsScene (similar to myscene) that is used in the treedialog to
- * preview the selected component before adding it to the operating panel
- * called by treedialog.cpp
- */
+/*! \file spscene.cpp
+
+    This file is part of SorpSim and is distributed under terms in the file LICENSE.
+
+    Developed by Zhiyao Yang and Dr. Ming Qu for ORNL.
+
+    \author Zhiyao Yang (zhiyaoYang)
+    \author Dr. Ming Qu
+    \author Nicholas Fette (nfette)
+
+    \copyright 2015, UT-Battelle, LLC
+    \copyright 2017-2018, Nicholas Fette
+
+*/
 
 
 
@@ -16,7 +21,8 @@
 #include "mainwindow.h"
 
 
-spScene::spScene()
+spScene::spScene(QObject *parent)
+    : QGraphicsScene(parent)
 {
     this->setSceneRect(-65,-65,130,130);
 }
@@ -32,9 +38,11 @@ void spScene::drawUnit(unit *unit)
     }
 
     QPen pen(Qt::white);
+    // Creates a rectangled owned by this (deleted upon destruction, unless removed).
     rect = this->addRect(-60,-60,+120,+120);
     rect->setPen(pen);
     rect->setZValue(2);
 
+    // Passes ownership of unit to rect.
     unit->setParentItem(rect);
 }

@@ -1,3 +1,17 @@
+/*! \file helpdialog.h
+    \brief Provides the class helpDialog.
+
+    This file is part of SorpSim and is distributed under terms in the file LICENSE.
+
+    Developed by Zhiyao Yang and Dr. Ming Qu for ORNL.
+
+    \author Zhiyao Yang (zhiyaoYang)
+    \author Dr. Ming Qu
+
+    \copyright 2015, UT-Battelle, LLC
+
+*/
+
 #ifndef HELPDIALOG_H
 #define HELPDIALOG_H
 
@@ -13,6 +27,10 @@ namespace Ui {
 class helpDialog;
 }
 
+/// Dialog to display help information about functions and features of SorpSim
+/// - based on XML file "systemSettings.xml" placed in "/platforms"
+/// - can be edited using the "helpEditor" included in the software package
+/// - called by mainwindow.cpp
 class helpDialog : public QDialog
 {
     Q_OBJECT

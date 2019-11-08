@@ -1,15 +1,17 @@
-/*calculate.cpp
- * [SorpSim v1.0 source code]
- * [developed by Zhiyao Yang and Dr. Ming Qu for ORNL]
- * [last updated: 10/12/15]
- *
- * class to control simulation procedure
- * collects the case configuration and parameter values from current system data structure and insert into [inputs]
- * initiate the simulation engine [sorpsimengine.cpp] and pass the inputs to the engine
- * once simulation engine finished, determine the status of the simulation by reading the massage [outputs.msgs]
- * if calculation is not terminated unexpectly (e.g. due to NaN), extract results from [outputs] and insert them into the case data structure
- * called by mainwindow.cpp,
- */
+/*! \file calculate.cpp
+    \brief Class to control simulation procedure
+
+    This file is part of SorpSim and is distributed under terms in the file LICENSE.
+
+    Developed by Zhiyao Yang and Dr. Ming Qu for ORNL.
+
+    \author Zhiyao Yang (zhiyaoYang)
+    \author Dr. Ming Qu
+    \author Nicholas Fette (nfette)
+
+    \copyright 2015, UT-Battelle, LLC
+    \copyright 2017-2018, Nicholas Fette
+*/
 
 
 #include "calculate.h"
@@ -31,25 +33,24 @@ extern unit* dummy;
 extern MainWindow*theMainwindow;
 
 extern globalparameter globalpara;
-calInputs myInputs;
 extern calOutputs outputs;
 
-calculate::calculate()
+calculate::calculate(unit * dummy) :
+    myDummy(dummy)
 {
 
 }
 
-void calculate::calc(unit*mdummy,globalparameter globalpara, QString fileName)
+void calculate::calc(globalparameter globalpara, QString fileName)
 
 {
-    myDummy = mdummy;
-    QMessageBox * inputError;
     bool error = false;
 
 
     globalparameter *theGlobal = &globalpara;
     globalpara.checkMinMax(theGlobal);
 
+    calInputs myInputs;
     myInputs.title = globalpara.title;
     myInputs.tmax = convert(globalpara.tmax,temperature[globalpara.unitindex_temperature],temperature[3]);
     myInputs.tmin = convert(globalpara.tmin,temperature[globalpara.unitindex_temperature],temperature[3]);
@@ -74,7 +75,7 @@ void calculate::calc(unit*mdummy,globalparameter globalpara, QString fileName)
         conv = 1.8;
     }
 
-    myHead = myDummy->next;
+    unit * myHead = myDummy->next;
     int count = 1;
     while (myHead!= NULL)
     {
@@ -108,10 +109,7 @@ void calculate::calc(unit*mdummy,globalparameter globalpara, QString fileName)
             {
                 if(myHead->sensor==NULL)
                 {
-                    QMessageBox *mBox = new QMessageBox;
-                    mBox->setWindowTitle("Warning");
-                    mBox->setText("Please reset temperature sensor of the thermostatic valve!");
-                    mBox->exec();
+                    QMessageBox::warning(theMainwindow, "Warning", "Please reset temperature sensor of the thermostatic valve.");
                     return;
                 }
                 myInputs.devl[count] = myHead->devl;
@@ -159,10 +157,7 @@ void calculate::calc(unit*mdummy,globalparameter globalpara, QString fileName)
                         {
                             if(myInputs.t[i]>705)
                             {
-                                inputError = new QMessageBox;
-                                inputError->setText("Temperature setting of state point "+QString::number(i)+" is over H2O critical point, calculation cancelled.");
-                                inputError->setWindowTitle("Warning");
-                                inputError->exec();
+                                QMessageBox::warning(theMainwindow,"Warning","Temperature setting of state point "+QString::number(i)+" is over H2O critical point, calculation cancelled.");
                                 error = true;
                             }
                         }
@@ -175,10 +170,7 @@ void calculate::calc(unit*mdummy,globalparameter globalpara, QString fileName)
                         {
                             if(myInputs.p[i]>3200)
                             {
-                                inputError = new QMessageBox;
-                                inputError->setText("Pressure setting of state point "+QString::number(i)+" is over H2O critical point, calculation cancelled.");
-                                inputError->setWindowTitle("Warning");
-                                inputError->exec();
+                                QMessageBox::warning(theMainwindow,"Warning","Pressure setting of state point "+QString::number(i)+" is over H2O critical point, calculation cancelled.");
                                 error = true;
                             }
                         }
@@ -212,7 +204,7 @@ void calculate::calc(unit*mdummy,globalparameter globalpara, QString fileName)
 //        qDebug()<<"checking";
 //        checkEV();
 
-        QMessageBox * calcMsg = new QMessageBox(theMainwindow);
+        QMessageBox calcMsg(theMainwindow);
         QString title = "Warning",msg = "not defined";
 
         QString nvneq = /*"";//*/ "There are "+QString::number(outputs.noEqn)+" equations and "+QString::number(outputs.noVar)+" variables.\n";
@@ -285,32 +277,32 @@ void calculate::calc(unit*mdummy,globalparameter globalpara, QString fileName)
         }
 
         if(outputs.stopped){
-            calcMsg->addButton("Close",QMessageBox::YesRole);
-            calcMsg->setIcon(QMessageBox::Critical);
+            calcMsg.addButton("Close",QMessageBox::YesRole);
+            calcMsg.setIcon(QMessageBox::Critical);
         }
         else{
             QString showRes = "Show Last Iteration";
-            calcMsg->setIcon(QMessageBox::Warning);
+            calcMsg.setIcon(QMessageBox::Warning);
             if(converged){
                 showRes = "Show Results";
                 updateSystem();
-                calcMsg->setIcon(QMessageBox::Information);
+                calcMsg.setIcon(QMessageBox::Information);
             }
-            calcMsg->addButton(showRes,QMessageBox::AcceptRole);
-            calcMsg->addButton("Details",QMessageBox::NoRole);
-            calcMsg->addButton("OK",QMessageBox::YesRole);
+            calcMsg.addButton(showRes,QMessageBox::AcceptRole);
+            calcMsg.addButton("Details",QMessageBox::NoRole);
+            calcMsg.addButton("OK",QMessageBox::YesRole);
         }
-        calcMsg->setWindowTitle(title);
-        calcMsg->setText(msg);
-        calcMsg->exec();
+        calcMsg.setWindowTitle(title);
+        calcMsg.setText(msg);
+        calcMsg.exec();
 
 
-        if(calcMsg->buttonRole(calcMsg->clickedButton())==QMessageBox::NoRole)
+        if(calcMsg.buttonRole(calcMsg.clickedButton())==QMessageBox::NoRole)
         {
-            calcDetailDialog*dDialog = new calcDetailDialog(theMainwindow);
-            dDialog->exec();
+            calcDetailDialog dDialog(theMainwindow);
+            dDialog.exec();
         }
-        else if(calcMsg->buttonRole(calcMsg->clickedButton())==QMessageBox::AcceptRole)
+        else if(calcMsg.buttonRole(calcMsg.clickedButton())==QMessageBox::AcceptRole)
         {
             if(!converged){
                 updateSystem();
@@ -325,8 +317,6 @@ void calculate::calc(unit*mdummy,globalparameter globalpara, QString fileName)
 bool calculate::updateSystem()
 
 {
-    myDummy = dummy;
-
 //    sp para
     unit * iterator;
     Node* node;
@@ -410,7 +400,7 @@ bool calculate::updateSystem()
     return true;
 }
 
-bool calculate::checkEV()
+void calculate::checkEV()
 {
     int nv=0, ne=0;
     nv = spnumber*5;

@@ -1,13 +1,17 @@
-/*unitsettingdialog.cpp
- * [SorpSim v1.0 source code]
- * [developed by Zhiyao Yang and Dr. Ming Qu for ORNL]
- * [last updated: 10/12/15]
- *
- * dialog to edit unit system of current case upon opening a new case or loading an existing case
- * called by mainwindow.cpp
- */
+/*! \file unitsettingdialog.cpp
 
+    This file is part of SorpSim and is distributed under terms in the file LICENSE.
 
+    Developed by Zhiyao Yang and Dr. Ming Qu for ORNL.
+
+    \author Zhiyao Yang (zhiyaoYang)
+    \author Dr. Ming Qu
+    \author Nicholas Fette (nfette)
+
+    \copyright 2015, UT-Battelle, LLC
+    \copyright 2017-2018, Nicholas Fette
+
+*/
 
 
 #include "unitsettingdialog.h"
@@ -18,7 +22,6 @@
 
 
 extern globalparameter globalpara;
-extern bool setupNew;
 extern MainWindow*theMainwindow;
 
 unitsetting::unitsetting(QWidget *parent) :
@@ -34,7 +37,7 @@ unitsetting::unitsetting(QWidget *parent) :
 
 
     setWindowTitle("Unit system");
-    setWindowFlags(Qt::Tool);
+    setWindowFlags(Qt::Dialog);
     setWindowModality(Qt::ApplicationModal);
     QLayout *mainLayout = layout();
     mainLayout->setSizeConstraint(QLayout::SetFixedSize);
@@ -185,7 +188,6 @@ void unitsetting::on_okButton_clicked()
     }
 
     accept();
-    setupNew = true;
 }
 
 void unitsetting::closeEvent(QCloseEvent *event)

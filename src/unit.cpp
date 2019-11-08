@@ -1,18 +1,17 @@
-/*unit.cpp
- * [SorpSim v1.0 source code]
- * [developed by Zhiyao Yang and Dr. Ming Qu for ORNL]
- * [last updated: 10/12/15]
- *
- * class to draw/transform the components and store component data
- * new components are drawn using more elementary graphics features such as lines and nodes
- * each component holds its state points as members
- * relationships of state points within the same components are also defined in the drawing code
- * component also holds the simple text items to display its own results as well as all its state points' result parameters
- * stored in a linked list in cases, using pointers to link
- * called by various classes in this project
- */
+/*! \file unit.cpp
 
+    This file is part of SorpSim and is distributed under terms in the file LICENSE.
 
+    Developed by Zhiyao Yang and Dr. Ming Qu for ORNL.
+
+    \author Zhiyao Yang (zhiyaoYang)
+    \author Dr. Ming Qu
+    \author Nicholas Fette (nfette)
+
+    \copyright 2015, UT-Battelle, LLC
+    \copyright 2017-2018, Nicholas Fette
+
+*/
 
 
 #include "unit.h"
@@ -38,8 +37,16 @@ unit::unit()
 
 }
 
+// TODO: determine if we need to delete inside links
 unit::~unit()
 {
+    for(int i = 0; i < usp; i++)
+    {
+        delete myNodes[i];
+    }
+    for(int i = 0; i< 6; i++)
+        delete myArrow[i];
+
 }
 
 
@@ -247,6 +254,12 @@ void unit::initialize()
         mergedOutPoint = 0;
         break;
     }
+    case(151):
+    {
+        usp = 3;
+        mergedOutPoint = 0;
+        break;
+    }
     case(161):
     {
         usp = 4;
@@ -268,6 +281,12 @@ void unit::initialize()
     case(164):
     {
         usp = 4;
+        mergedOutPoint = 0;
+        break;
+    }
+    case(170):
+    {
+        usp = 6;
         mergedOutPoint = 0;
         break;
     }
@@ -409,6 +428,7 @@ void unit::initialize()
         /// inside point
     }
 
+    // Note: these get deleted in destructor
     for(int i = 0; i < usp; i++)
     {
         myNodes[i] = new Node;
@@ -5237,73 +5257,62 @@ void unit::drawUnit()
         spParameter[4]->moveBy(-65,-30);
 
         myNodes[0]->addToSet(myNodes[1],"fc");
+        myNodes[0]->addToSet(myNodes[2],"fc");
+        myNodes[0]->addToSet(myNodes[3],"fc");
         myNodes[0]->addToSet(myNodes[4],"fc");
-        myNodes[0]->addToSet(myNodes[5],"fc");
-        myNodes[0]->addToSet(myNodes[6],"fc");
-        myNodes[0]->addToSet(myNodes[4],"fluid");
+        myNodes[0]->addToSet(myNodes[2],"fluid");
         myNodes[0]->addToSet(myNodes[1],"fluid");
-        myNodes[0]->addToSet(myNodes[5],"fluid");
-        myNodes[0]->addToSet(myNodes[6],"fluid");
+        myNodes[0]->addToSet(myNodes[3],"fluid");
+        myNodes[0]->addToSet(myNodes[4],"fluid");
 
         myNodes[1]->addToSet(myNodes[0],"fc");
+        myNodes[1]->addToSet(myNodes[2],"fc");
+        myNodes[1]->addToSet(myNodes[3],"fc");
         myNodes[1]->addToSet(myNodes[4],"fc");
-        myNodes[1]->addToSet(myNodes[5],"fc");
-        myNodes[1]->addToSet(myNodes[6],"fc");
+        myNodes[1]->addToSet(myNodes[2],"p");
+        myNodes[1]->addToSet(myNodes[3],"p");
         myNodes[1]->addToSet(myNodes[4],"p");
-        myNodes[1]->addToSet(myNodes[5],"p");
-        myNodes[1]->addToSet(myNodes[6],"p");
-        myNodes[1]->addToSet(myNodes[4],"fluid");
+        myNodes[1]->addToSet(myNodes[2],"fluid");
         myNodes[1]->addToSet(myNodes[0],"fluid");
-        myNodes[1]->addToSet(myNodes[5],"fluid");
-        myNodes[1]->addToSet(myNodes[6],"fluid");
+        myNodes[1]->addToSet(myNodes[3],"fluid");
+        myNodes[1]->addToSet(myNodes[4],"fluid");
 
+        myNodes[2]->addToSet(myNodes[1],"fc");
+        myNodes[2]->addToSet(myNodes[0],"fc");
         myNodes[2]->addToSet(myNodes[3],"fc");
+        myNodes[2]->addToSet(myNodes[4],"fc");
+        myNodes[2]->addToSet(myNodes[1],"p");
+        myNodes[2]->addToSet(myNodes[4],"p");
         myNodes[2]->addToSet(myNodes[3],"p");
-        myNodes[2]->addToSet(myNodes[3],"f");
-        myNodes[2]->addToSet(myNodes[3],"c");
+        myNodes[2]->addToSet(myNodes[0],"fluid");
+        myNodes[2]->addToSet(myNodes[1],"fluid");
         myNodes[2]->addToSet(myNodes[3],"fluid");
+        myNodes[2]->addToSet(myNodes[4],"fluid");
 
+        // FIXED: adiabatic analyzer has only 5 nodes!
+        myNodes[3]->addToSet(myNodes[1],"fc");
+        myNodes[3]->addToSet(myNodes[0],"fc");
         myNodes[3]->addToSet(myNodes[2],"fc");
+        myNodes[3]->addToSet(myNodes[4],"fc");
+        myNodes[3]->addToSet(myNodes[1],"p");
+        myNodes[3]->addToSet(myNodes[4],"p");
         myNodes[3]->addToSet(myNodes[2],"p");
-        myNodes[3]->addToSet(myNodes[2],"f");
-        myNodes[3]->addToSet(myNodes[2],"c");
+        myNodes[3]->addToSet(myNodes[0],"fluid");
+        myNodes[3]->addToSet(myNodes[1],"fluid");
         myNodes[3]->addToSet(myNodes[2],"fluid");
+        myNodes[3]->addToSet(myNodes[4],"fluid");
 
-        myNodes[4]->addToSet(myNodes[1],"fc");
-        myNodes[4]->addToSet(myNodes[0],"fc");
-        myNodes[4]->addToSet(myNodes[5],"fc");
-        myNodes[4]->addToSet(myNodes[6],"fc");
         myNodes[4]->addToSet(myNodes[1],"p");
-        myNodes[4]->addToSet(myNodes[6],"p");
-        myNodes[4]->addToSet(myNodes[5],"p");
+        myNodes[4]->addToSet(myNodes[3],"p");
+        myNodes[4]->addToSet(myNodes[2],"p");
         myNodes[4]->addToSet(myNodes[0],"fluid");
         myNodes[4]->addToSet(myNodes[1],"fluid");
-        myNodes[4]->addToSet(myNodes[5],"fluid");
-        myNodes[4]->addToSet(myNodes[6],"fluid");
-
-        myNodes[5]->addToSet(myNodes[1],"fc");
-        myNodes[5]->addToSet(myNodes[0],"fc");
-        myNodes[5]->addToSet(myNodes[4],"fc");
-        myNodes[5]->addToSet(myNodes[6],"fc");
-        myNodes[5]->addToSet(myNodes[1],"p");
-        myNodes[5]->addToSet(myNodes[6],"p");
-        myNodes[5]->addToSet(myNodes[4],"p");
-        myNodes[5]->addToSet(myNodes[0],"fluid");
-        myNodes[5]->addToSet(myNodes[1],"fluid");
-        myNodes[5]->addToSet(myNodes[4],"fluid");
-        myNodes[5]->addToSet(myNodes[6],"fluid");
-
-        myNodes[6]->addToSet(myNodes[1],"p");
-        myNodes[6]->addToSet(myNodes[5],"p");
-        myNodes[6]->addToSet(myNodes[4],"p");
-        myNodes[6]->addToSet(myNodes[0],"fluid");
-        myNodes[6]->addToSet(myNodes[1],"fluid");
-        myNodes[6]->addToSet(myNodes[4],"fluid");
-        myNodes[6]->addToSet(myNodes[5],"fluid");
-        myNodes[6]->addToSet(myNodes[0],"fc");
-        myNodes[6]->addToSet(myNodes[1],"fc");
-        myNodes[6]->addToSet(myNodes[4],"fc");
-        myNodes[6]->addToSet(myNodes[5],"fc");
+        myNodes[4]->addToSet(myNodes[2],"fluid");
+        myNodes[4]->addToSet(myNodes[3],"fluid");
+        myNodes[4]->addToSet(myNodes[0],"fc");
+        myNodes[4]->addToSet(myNodes[1],"fc");
+        myNodes[4]->addToSet(myNodes[2],"fc");
+        myNodes[4]->addToSet(myNodes[3],"fc");
 
 
         utext->moveBy(-20,18);
@@ -5713,6 +5722,99 @@ void unit::drawUnit()
                 "The processed air contacts  the wheel surface (sp #3) and lost moisture to the wheel while temperature rises. "\
                 "The hot regeneration air enters the wheel from sp #4, contacts the wheel surface at sp #3 to take away moisture from "\
                 "the wheel before leaving at sp #5 with a higher humidity ratio and lower temperature.";
+
+        unitParameter = new QGraphicsSimpleTextItem(this);
+        unitParameter->moveBy(80,-50);
+        break;
+    }
+
+    case(151):
+    {
+        QPointF p3 = QPointF(-40,-0);
+        QPointF p4 = QPointF(-20,-0);
+        QLineF linef;
+        linef.setP1(p3);
+        linef.setP2(p4);
+        line1 = new QGraphicsLineItem(this);
+        line1->setPen(bluepen);
+        line1->setLine(linef);
+
+        p3.setX(+0);
+        p3.setY(-40);
+        p4.setX(+0);
+        p4.setY(-20);
+        linef.setP1(p3);
+        linef.setP2(p4);
+        line2 = new QGraphicsLineItem(this);
+        line2->setPen(bluepen);
+        line2->setLine(linef);
+
+        p3.setX(-0);
+        p3.setY(+40);
+        p4.setX(+0);
+        p4.setY(+20);
+        linef.setP1(p3);
+        linef.setP2(p4);
+        line3 = new QGraphicsLineItem(this);
+        line3->setPen(bluepen);
+        line3->setLine(linef);
+
+
+        circle = new QGraphicsEllipseItem(this);
+        circle->setRect(-20,-20,40,40);
+        circle->setPen(blackpen);
+
+
+        myNodes[0]->setParentItem(this);
+        myNodes[0]->setFlags(QGraphicsItem::ItemIsSelectable|QGraphicsItem::ItemSendsScenePositionChanges);
+        myNodes[0]->moveBy(-40,-0);
+        myNodes[0]->text->moveBy(5,5);
+        myNodes[0]->isOutlet = false;
+        myNodes[0] -> isinside = false;
+        spParameter[0] = new QGraphicsSimpleTextItem(this);
+        spParameter[0]->moveBy(-55,20);
+        myArrow[0]->setParentItem(this);
+        myArrow[0]->moveBy(-25,0);
+        myArrow[0]->setRotation(-90);
+
+        myNodes[1]->setParentItem(this);
+        myNodes[1]->setFlags(QGraphicsItem::ItemIsSelectable|QGraphicsItem::ItemSendsScenePositionChanges);
+        myNodes[1]->moveBy(-0,-40);
+        myNodes[1]->text->moveBy(5,5);
+        myNodes[1]->isOutlet = false;
+        myNodes[1] -> isinside = false;
+        spParameter[1] = new QGraphicsSimpleTextItem(this);
+        spParameter[1]->moveBy(20,-80);
+        myArrow[1]->setParentItem(this);
+        myArrow[1]->moveBy(0,-25);
+        myArrow[1]->setRotation(0);
+
+        myNodes[2]->setParentItem(this);
+        myNodes[2]->setFlags(QGraphicsItem::ItemIsSelectable|QGraphicsItem::ItemSendsScenePositionChanges);
+        myNodes[2]->moveBy(+0,+40);
+        myNodes[2]->text->moveBy(5,5);
+        myNodes[2]->isOutlet = true;
+        myNodes[2] -> isinside = false;
+        spParameter[2] = new QGraphicsSimpleTextItem(this);
+        spParameter[2]->moveBy(20,25);
+        myArrow[2]->setParentItem(this);
+        myArrow[2]->moveBy(0,35);
+        myArrow[2]->setRotation(0);
+
+        myNodes[1]->addToSet(myNodes[2],"fluid");
+        myNodes[1]->addToSet(myNodes[2],"p");
+        myNodes[1]->addToSet(myNodes[2],"f");
+
+
+        myNodes[2]->addToSet(myNodes[1],"fluid");
+        myNodes[2]->addToSet(myNodes[1],"p");
+        myNodes[2]->addToSet(myNodes[1],"f");
+
+        utext->moveBy(40,-0);
+        unitName = "AD-EC";
+        utext->setParentItem(this);
+
+        description = "adiabatic evaporative cooler brings inlet air (sp#2) adiabatically towards saturation";
 
         unitParameter = new QGraphicsSimpleTextItem(this);
         unitParameter->moveBy(80,-50);
@@ -7483,6 +7585,176 @@ void unit::drawUnit()
                 "the dehumidifier from sp #6 and directly contacts the desiccant solution. After losing moisture to the solution the dry air exits "\
                 "from sp #2. The condensation heat released during dehumidification is taken away by the cooling flow between sp #3 and sp#4. The "\
                 "air and desiccant solution are in cross-flow, while cooling fluid flows counter-current to the processed air.";
+
+        unitParameter = new QGraphicsSimpleTextItem(this);
+        unitParameter->moveBy(80,-50);
+        break;
+    }
+    case(170):
+    {
+        QPointF p3 = QPointF(+15,-60);
+        QPointF p4 = QPointF(+15,-30);
+        QLineF linef;
+        linef.setP1(p3);
+        linef.setP2(p4);
+        line1 = new QGraphicsLineItem(this);
+        line1->setPen(bluepen);
+        line1->setLine(linef);
+
+
+        airArrow* arrow1 = new airArrow;
+        arrow1->setParentItem(this);
+        arrow1->moveBy(-30,+15);
+        arrow1->setRotation(90);
+
+        p3.setX(-60);
+        p3.setY(-15);
+        p4.setX(-15);
+        p4.setY(-15);
+        linef.setP1(p3);
+        linef.setP2(p4);
+        line3 = new QGraphicsLineItem(this);
+        line3->setPen(greenpen);
+        line3->setLine(linef);
+
+        p3.setX(+60);
+        p3.setY(+15);
+        p4.setX(+15);
+        p4.setY(+15);
+        linef.setP1(p3);
+        linef.setP2(p4);
+        line4 = new QGraphicsLineItem(this);
+        line4->setPen(greenpen);
+        line4->setLine(linef);
+
+        p3.setX(+15);
+        p3.setY(+30);
+        p4.setX(+15);
+        p4.setY(+60);
+        linef.setP1(p3);
+        linef.setP2(p4);
+        line5 = new QGraphicsLineItem(this);
+        line5->setPen(bluepen);
+        line5->setLine(linef);
+
+        airArrow* arrow2 = new airArrow;
+        arrow2->setParentItem(this);
+        arrow2->moveBy(60,-15);
+        arrow2->setRotation(90);
+
+
+        coils* mycoil = new coils;
+        mycoil->setParentItem(this);
+        mycoil->setRotation(180);
+
+        qreal x1 = -30, x2 = -30, x3 = +30 ,x4= +30;
+        QPointF p1 = QPointF(x1,x2);
+        QPointF p2 = QPointF(x3,x4);
+        QRectF rect;
+        rect.setTopLeft(p1);
+        rect.setBottomRight(p2);
+        rectangle = new QGraphicsRectItem(this);
+        rectangle->setRect(rect);
+        rectangle->setPen(blackpen);
+
+
+        myNodes[0]->setParentItem(this);
+        myNodes[0]->setFlags(QGraphicsItem::ItemIsSelectable|QGraphicsItem::ItemSendsScenePositionChanges);
+        myNodes[0]->moveBy(+15,-60);
+        myNodes[0]->text->moveBy(5,5);
+        myNodes[0]->isOutlet = false;
+        myNodes[0] -> isinside = false;
+        spParameter[0] = new QGraphicsSimpleTextItem(this);
+        spParameter[0]->moveBy(0,-150);
+        myArrow[0]->setParentItem(this);
+        myArrow[0]->moveBy(15,-45);
+        myArrow[0]->setRotation(0);
+
+
+        myNodes[1]->setParentItem(this);
+        myNodes[1]->setFlags(QGraphicsItem::ItemIsSelectable|QGraphicsItem::ItemSendsScenePositionChanges);
+        myNodes[1]->moveBy(-60,15);
+        myNodes[1]->text->moveBy(5,5);
+        myNodes[1]->isOutlet = true;
+        myNodes[1] -> isinside = false;
+        spParameter[1] = new QGraphicsSimpleTextItem(this);
+        spParameter[1]->moveBy(-70,-110);
+
+        myNodes[2]->setParentItem(this);
+        myNodes[2]->setFlags(QGraphicsItem::ItemIsSelectable|QGraphicsItem::ItemSendsScenePositionChanges);
+        myNodes[2]->moveBy(60,15);
+        myNodes[2]->text->moveBy(5,5);
+        myNodes[2]->isOutlet = false;
+        myNodes[2] -> isinside = false;
+        spParameter[2] = new QGraphicsSimpleTextItem(this);
+        spParameter[2]->moveBy(80,30);
+        myArrow[2]->setParentItem(this);
+        myArrow[2]->moveBy(-45,-15);
+        myArrow[2]->setRotation(90);
+
+        myNodes[3]->setParentItem(this);
+        myNodes[3]->setFlags(QGraphicsItem::ItemIsSelectable|QGraphicsItem::ItemSendsScenePositionChanges);
+        myNodes[3]->moveBy(-60,-15);
+        myNodes[3]->text->moveBy(5,5);
+        myNodes[3]->isOutlet = true;
+        myNodes[3] -> isinside = false;
+        spParameter[3] = new QGraphicsSimpleTextItem(this);
+        spParameter[3]->moveBy(55,-85);
+        myArrow[3]->setParentItem(this);
+        myArrow[3]->moveBy(45,+15);
+        myArrow[3]->setRotation(90);
+
+        myNodes[4]->setParentItem(this);
+        myNodes[4]->setFlags(QGraphicsItem::ItemIsSelectable|QGraphicsItem::ItemSendsScenePositionChanges);
+        myNodes[4]->moveBy(+15,+60);
+        myNodes[4]->text->moveBy(5,5);
+        myNodes[4]->isOutlet = true;
+        myNodes[4] -> isinside = false;
+        spParameter[4] = new QGraphicsSimpleTextItem(this);
+        spParameter[4]->moveBy(35,50);
+        myArrow[4]->setParentItem(this);
+        myArrow[4]->moveBy(15,45);
+        myArrow[4]->setRotation(0);
+
+        myNodes[5]->setParentItem(this);
+        myNodes[5]->setFlags(QGraphicsItem::ItemIsSelectable|QGraphicsItem::ItemSendsScenePositionChanges);
+        myNodes[5]->moveBy(+60,-15);
+        myNodes[5]->text->moveBy(5,5);
+        myNodes[5]->isOutlet = false;
+        myNodes[5] -> isinside = false;
+        spParameter[5] = new QGraphicsSimpleTextItem(this);
+        spParameter[5]->moveBy(-60,60);
+
+
+        myNodes[0]->addToSet(myNodes[4],"fluid");
+        myNodes[4]->addToSet(myNodes[0],"fluid");
+        myNodes[1]->addToSet(myNodes[5],"fluid");
+        myNodes[5]->addToSet(myNodes[1],"fluid");
+        myNodes[1]->addToSet(myNodes[5],"f");
+        myNodes[5]->addToSet(myNodes[1],"f");
+        myNodes[2]->addToSet(myNodes[3],"w");
+        myNodes[3]->addToSet(myNodes[2],"w");
+        myNodes[2]->addToSet(myNodes[3],"p");
+        myNodes[3]->addToSet(myNodes[2],"p");
+        myNodes[2]->addToSet(myNodes[3],"fluid");
+        myNodes[3]->addToSet(myNodes[2],"fluid");
+        myNodes[2]->addToSet(myNodes[3],"f");
+        myNodes[3]->addToSet(myNodes[2],"f");
+        myNodes[2]->addToSet(myNodes[3],"c");
+        myNodes[3]->addToSet(myNodes[2],"c");
+        myNodes[2]->addToSet(myNodes[3],"p");
+        myNodes[3]->addToSet(myNodes[2],"p");
+
+
+        utext->moveBy(-20,18);
+        unitName = "HMX";
+        utext->setParentItem(this);
+
+        description = "The internally cooled dehumidifier has 6 state points. A typically cool and strong desccant solution enters the dehumidifier "\
+                "from sp #1 and is ditributed along the contacting surface in the device before flowing out at sp #5. The processed air enters "\
+                "the dehumidifier from sp #6 and directly contacts the desiccant solution. After losing moisture to the solution the dry air exits "\
+                "from sp #2. The condensation heat released during dehumidification is taken away by the cooling flow between sp #3 and sp#4. The "\
+                "air and desiccant solution are in cross-flow, while cooling fluid flows counter-current to the desiccant solution.";
 
         unitParameter = new QGraphicsSimpleTextItem(this);
         unitParameter->moveBy(80,-50);

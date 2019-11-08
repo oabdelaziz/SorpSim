@@ -1,16 +1,19 @@
-/*unitconvert.cpp
- * [SorpSim v1.0 source code]
- * [developed by Zhiyao Yang and Dr. Ming Qu for ORNL]
- * [last updated: 10/12/15]
- *
- * custom class to carry out conversion of parameters given the value and current/target unit system
- * called by various classes in thie project
- */
+/*! \file unitconvert.cpp
+    \brief Provides the overloaded function convert().
+
+    This file is part of SorpSim and is distributed under terms in the file LICENSE.
+
+    Developed by Zhiyao Yang and Dr. Ming Qu for ORNL.
+
+    \author Zhiyao Yang (zhiyaoYang)
+    \author Dr. Ming Qu
+
+    \copyright 2015, UT-Battelle, LLC
+
+*/
 
 #include "unitconvert.h"
 #include <QDebug>
-
-
 
 double convert(double value, char current_unit, char convert_unit)
 {

@@ -1,14 +1,16 @@
-/*myview.cpp
- * [SorpSim v1.0 source code]
- * [developed by Zhiyao Yang and Dr. Ming Qu for ORNL]
- * [last updated: 10/12/15]
- *
- * custom class based on QGraphicsView to control the viewing of the operating panel
- * mainly handles zoom (scaling) actions and panning actions
- * called by masterdialog.cpp
- */
+/*! \file myview.cpp
+    \brief Provides the class myView.
 
+    This file is part of SorpSim and is distributed under terms in the file LICENSE.
 
+    Developed by Zhiyao Yang and Dr. Ming Qu for ORNL.
+
+    \author Zhiyao Yang (zhiyaoYang)
+    \author Dr. Ming Qu
+
+    \copyright 2015, UT-Battelle, LLC
+
+*/
 
 
 #include "myview.h"

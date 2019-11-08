@@ -1,3 +1,18 @@
+/*! \file ntuestimatedialog.h
+
+    This file is part of SorpSim and is distributed under terms in the file LICENSE.
+
+    Developed by Zhiyao Yang and Dr. Ming Qu for ORNL.
+
+    \author Zhiyao Yang (zhiyaoYang)
+    \author Dr. Ming Qu
+    \author Nicholas Fette (nfette)
+
+    \copyright 2015, UT-Battelle, LLC
+    \copyright 2017-2018, Nicholas Fette
+
+*/
+
 #ifndef NTUESTIMATEDIALOG_H
 #define NTUESTIMATEDIALOG_H
 
@@ -10,6 +25,15 @@ namespace Ui {
 class NTUestimateDialog;
 }
 
+
+/// Dialog to estimate NTU value of a liquid desiccannt component that uses finite difference model
+/// - the operating parameters and performance need to be provided either from current setting of the component
+///   or user define the expected values
+/// - this dialog uses
+///   1. the finite difference model for adiabatic dehumidifier/regenerator to reverse calculate the
+///      NTU value that satisfies the user-expected performance
+///   2. the definition of NTU value and inlet/outlet condition to calculate the NTU value
+/// - called by ldaccompdialog.cpp
 class NTUestimateDialog : public QDialog
 {
     Q_OBJECT
@@ -17,6 +41,7 @@ class NTUestimateDialog : public QDialog
 public:
     explicit NTUestimateDialog(unit*estUnit, QWidget *parent = 0);
     ~NTUestimateDialog();
+    double getNTUEstimation();
     
 private slots:
     void on_estimateButton_clicked();
@@ -40,6 +65,7 @@ private slots:
 private:
     Ui::NTUestimateDialog *ui;
 
+    double NTUEstimation;
     unit* myUnit;
     spScene * myScene;
     double wsi,wso,wai,wao,tsi,tso,xsi,xso,NTUest,tai,ma,ms,mrr;
